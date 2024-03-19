@@ -1,0 +1,13 @@
+body {
+    margin: 0;
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    color: #000000;
+    background: #C393670D;
+}
+.main-content{
+    width: 1440px;
+    margin: 0 auto;
+}
