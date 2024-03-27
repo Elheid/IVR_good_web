@@ -1,1 +1,3 @@
-import {slidersOnClick} from './sliders.js';
+import {initializeResults} from './renderIcons.js';
+
+initializeResults(5);
