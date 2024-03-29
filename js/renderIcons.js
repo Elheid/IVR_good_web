@@ -1,11 +1,13 @@
 const cardTemplate = document.querySelector('#card-template').content.querySelector('li');
 const list = document.querySelector('.list-of-cards');
 
-const emptyGifURL = "img/empty.jpg";
-
+const emptyGifURL = "img/ratherGIF.jpg";
+const emptyForClear = "img/clear.jpg";
 const createCard = (newTitle)=>{
+    const img = document.querySelector(".services").classList.contains("clear-language") 
+    ? emptyForClear : emptyGifURL;
     const cardElement = document.importNode(cardTemplate, true);
-    cardElement.querySelector('.service-gif').setAttribute('src', emptyGifURL);
+    cardElement.querySelector('.service-gif').setAttribute('src', img);
     cardElement.querySelector('.card-description').textContent = newTitle;
     return cardElement;
 };
