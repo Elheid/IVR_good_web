@@ -1,28 +1,61 @@
-const cardTemplate = document.querySelector('#card-template').content.querySelector('li');
-const list = document.querySelector('.list-of-cards');
+import { createCatalog } from "./util.js";
 
-const emptyGifURL = "img/ratherGIF.jpg";
-const emptyForClear = "img/clear.jpg";
-const createCard = (newTitle)=>{
-    const img = document.querySelector(".services").classList.contains("clear-language") 
-    ? emptyForClear : emptyGifURL;
-    const cardElement = document.importNode(cardTemplate, true);
-    cardElement.querySelector('.service-gif').setAttribute('src', img);
-    cardElement.querySelector('.card-description').textContent = newTitle;
-    return cardElement;
+const serviceTemplate = document.querySelector('#service-template').content.querySelector('li');
+const catalogTemplate = document.querySelector('#catalog-template').content.querySelector('li');
+
+const list = document.querySelector('.catalogs-list');
+
+const services = document.querySelector('.services-list');
+
+
+const createCatalogCard = (catalog)=>{
+    const cardCatalog = document.importNode(catalogTemplate, true);
+    const cardTitle = cardCatalog.querySelector('.card-title');
+    const imgOrGif = cardCatalog.querySelector('.catalog-gif');
+
+    imgOrGif.src = catalog.img;
+    cardTitle.textContent = catalog.title;
+    cardCatalog.setAttribute("catalog-id", catalog.id);
+    return cardCatalog;
+};
+
+
+const createServiceCard = ({id, title, img})=>{
+    const cardCatalog = document.importNode(serviceTemplate, true);
+    const cardTitle = cardCatalog.querySelector('.card-description');
+    const imgOrGif = cardCatalog.querySelector('.service-gif');
+
+    imgOrGif.src = img;
+    cardTitle.textContent = title;
+    cardCatalog.setAttribute("catalog-id", id);
+    
+    return cardCatalog;
 };
 
 
 const fillList = (creator, num)=>{
     for (let i = 0; i < num; i++){
-        const newElement = creator('NewHeader ' + i);
+        const catalog = createCatalog();
+        const newElement = creator(catalog);
         list.appendChild(newElement);
     }
 }
 
 const initializeResults = (num)=>{
-    fillList(createCard, num);
+    fillList(createCatalogCard, num);
+}
+
+const hideCatalogs = ()=>{
+  list.classList.add("hidden");
+}
+const openCatalogs = ()=>{
+    list.classList.remove("hidden");
+}
+
+const clearServices = ()=>{
+    services.innerHTML = "";
 }
 
 
-export {initializeResults};
+
+export {initializeResults, createServiceCard , hideCatalogs, openCatalogs, clearServices};
