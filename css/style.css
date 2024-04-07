@@ -44,3 +44,7 @@ ul{
     display: none;
   }
   
+  button{
+    border: none;
+    background: none;
+  }

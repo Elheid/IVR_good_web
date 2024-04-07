@@ -43,13 +43,18 @@ const idCreater = () =>{
 const createIdForCatalog = idCreater();
 const createIdForService = idCreater();
 
+const titleCreator = idCreater();
+
 const emptyGifURL = "img/ratherGIF.jpg";
 const emptyForClear = "img/clear.jpg";
 
-
+const getTitles = ()=>{
+    const id = titleCreator() - 1;
+    return ARR_OF_TITLES[id];
+}
 const createCatalog = () => ({
     id: createIdForCatalog(), //любое число
-    title:getRandomArrayElement(ARR_OF_TITLES),
+    title:getTitles(),//getRandomArrayElement(ARR_OF_TITLES),
     img:document.querySelector(".catalogs").classList.contains("clear-language") 
     ? emptyForClear : emptyGifURL
 });

@@ -7,5 +7,5 @@ createBackButton();
 var flag = loadSavedData();
 var catalogs = document.querySelector(".catalogs").classList.add(flag);
 var services = document.querySelector(".services").classList.add(flag);
-initializeResults(5);
+initializeResults(4);
 addCatalogButton();
