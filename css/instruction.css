@@ -1,0 +1,56 @@
+body{
+    margin-top: 0;
+}
+
+.instruct-content{
+    max-width: 562px;
+    margin: 0 auto;
+    padding: 0 55px;
+    margin-top: 27px;
+}
+.instruct-footer{
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 55px;
+}
+
+.instruct{
+    width: 100%;
+    height: auto;
+}
+.instruction-container img{
+    width: 100%;
+    height: auto;
+}
+.more, .less {
+    padding: 0;
+    font-family: inherit;
+    font-size: 16px;
+    line-height: 24px;
+    color: inherit;
+    text-decoration-line: underline;
+    background-color: transparent;
+    border: none;
+  
+    /* Элемент скрыт в развернутой статье */
+    display: none;
+  }
+
+.instruction {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+  
+.more, .less{
+    /* Показываем элемент в свернутой статье */
+    display: inline-block;
+}
+
+.go-button{
+    padding: 0;
+}
+.go-buttons{
+    display: flex;
+    justify-content: space-between;
+}

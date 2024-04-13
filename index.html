@@ -2,8 +2,15 @@
 <html lang="ru">
   <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jomolhari&family=Montserrat+Alternates:wght@400;500;600&display=swap" rel="stylesheet">
 
     <link href="css/style.css" rel="stylesheet">
+    <link href="css/index.css" rel="stylesheet">
     <title>IVR</title>
   </head>
   <body>
@@ -11,10 +18,11 @@
     </header>
     <main class="main-content">
       <section class="view-choose">
-        <ul class="list-of-cards">
+        <h1 class="index-title">Выберите удобный способ общения</h1>
+        <ul class="view-cards">
         <li class="view-card gestural-language">
             <button class="transition-icon">
-              <img src="img/gestural.jpg"  alt="Ясный язык">
+              <img class="gestural-gif" src="img/gestural.jpg" class="img-fluid"  alt="Жестовый язык">
               <h3 class="card-title">РЖЯ</h3>
             </button>
             
@@ -26,13 +34,11 @@
               <h3 class="card-title">Ясный язык</h3>
             </button>
         </li>
+        </ul>
       </section>
-      <script src="js/main.js" type="module"></script>
+      <script src="js/main/main.js" type="module"></script>
     </main>
     <footer class="main-footer">
-      <button class="help-button">
-        <img src="img/help.png" alt="Кнопка помощи">
-      </button>
     </footer>
   </body>
 </html>

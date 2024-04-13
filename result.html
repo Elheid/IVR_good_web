@@ -2,6 +2,12 @@
 <html lang="ru">
   <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jomolhari&family=Montserrat+Alternates:wght@400;500;600&display=swap" rel="stylesheet">
 
     <link href="css/style.css" rel="stylesheet">
     <title>IVR</title>
@@ -14,32 +20,33 @@
         <button class="return-button">
           <img src="img/arrow-left.svg" height="60px" width="25px" alt="Кнопка назад">
       </button>
-        <ul class="list-of-manual">
-          <li class="manual-strp">
-                <h3 class="card-title">Название услуги(Как получить загран паспорт)</h3>
-                <img src="img/gastrual2.jpg"  alt="Gif-с объяснениями">
-                <div class="manual">
-                  <p>
-                    Manual на ясном языке
-                    Чтобы получить загран паспорт, нужно ...
-                  </p>
-                  <img src="img/pass.jpg" width="530px" height="280px" alt="картинка ясного языка">
-                </div>
-          </li>
+          <div class="manual-strp">
+
+              </div>
       </section>
-      <a href="services.html" class="return-button">
-        <img src="img/arrow-left.svg" height="60px" width="25px" alt="Кнопка назад">
-      </a>
       <a href="index.html" class="return-button">
         Готово!/Всё сделано/Всё понял
         <img src="img/empty.jpg" height="60px" width="25px" alt="Кнопка Готово">
       </a>
-      <script src="js/mainResult.js" type="module"></script>
+      <script src="js/main/mainResult.js" type="module"></script>
     </main>
     <footer class="main-footer">
       <button class="help-button">
         <img src="img/help.png" alt="Кнопка помощи">
       </button>
     </footer>
+    <template id="result">
+      <h3 class="card-title"></h3>
+      <img src=""  alt="Gif-с объяснениями">
+      <button class="modal extend-info" type="button">
+        <img src="img/info.svg">
+      </button>
+      <div class="manual">
+        <p class="manual-text">
+
+        </p>
+
+      </div>
+    </template>
   </body>
 </html>
