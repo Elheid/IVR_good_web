@@ -8,6 +8,9 @@ body {
     color: #000000;
     background: #C393670D;
 }
+body{
+    margin-top: 0;
+}
 
 .hidden {
     display: none;
