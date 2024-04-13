@@ -12,6 +12,10 @@ body{
     margin-top: 0;
 }
 
+h1, h2, h3{
+    color:#623B2A
+}
+
 .hidden {
     display: none;
 }
