@@ -48,8 +48,24 @@ const fillList = (creator, num)=>{
     }
 }
 
+const createGoButtons = ()=>{
+    const listOfCards = document.querySelectorAll(".list-of-cards");
+
+    const twoInRow = document.querySelector(".two-in-row");
+    const oneInRow = document.querySelector(".one-in-row");
+    
+    oneInRow.addEventListener("click", ()=>{
+        listOfCards.forEach((card)=> card.classList.add("list"));
+    })
+    twoInRow.addEventListener("click", ()=>{
+        listOfCards.forEach((card)=> card.classList.remove("list"));
+    })
+}
+
+
 const initializeResults = (num)=>{
     fillList(createCatalogCard, num);
+    createGoButtons();
 }
 
 const hideCatalogs = ()=>{
