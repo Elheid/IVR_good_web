@@ -1,0 +1,63 @@
+.services, .catalogs{
+    margin: 60px 120px;
+}
+.list-of-cards{
+    display:grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-row-gap: 9px; 
+    grid-column-gap: 50px; 
+}
+
+.list-of-cards.list {
+    grid-template-columns: repeat(1, 1fr);
+}
+.service-card, .catalog-card{
+    
+    width: 100%;
+    height: 100%;
+}
+
+.help-button-container{
+    position: relative;
+    width: 100%;
+    height: auto;
+}
+.help-button{
+    position: fixed; /* Позиционируем кнопку фиксированно */
+    top: 80%; /* Отступ от верхнего края */
+    left: 5%; /* Отступ от левого края */
+    z-index: 999;
+}
+.card-description{
+    margin: 0;
+}
+
+.card-button{
+    width: 100%;
+    height: auto;
+}
+.card-button img{
+    width: 100%;
+    height: auto;
+}
+
+.service-button{
+    width: 100%;
+}
+.header-list{
+    display: flex;   
+}
+
+.breadcrumb-item::after {
+    content: '>';
+    margin-left: 5px;
+    margin-right: 5px;
+    color: #6c757d;
+}
+  
+  .breadcrumb-item:last-child::after {
+    content: none; /* Удаляем стрелку после последнего элемента */
+}
+.buttons-area{
+    display: flex;
+}

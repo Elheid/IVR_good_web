@@ -2,21 +2,44 @@
 <html lang="ru">
   <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jomolhari&family=Montserrat+Alternates:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <link href="css/services.css" rel="stylesheet">    
     <link href="css/style.css" rel="stylesheet">
     <title>IVR</title>
   </head>
   <body>
     <header class="main-header">
+      <ul class="header-list">
+        <li class="breadcrumb-item prev-page">
+        <a href="index.html">Главное меню</a>
+        </li>
+        <li class="breadcrumb-item current-page">
+          <a href="services.html">Выбор категорий</a>
+        </li>
+      </ul>
     </header>
     <main class="main-content">
-        <section>
+        <section class="buttons-area">
+          <button class="return-button">
+            <img src="img/arrow-left.svg" height="60px" width="25px" alt="Кнопка назад">
+          </button>
             <input type="text" name="query" placeholder="Поиск на жестовом языке">
             <button type="submit">
                 <img src="img/search.svg" height="60px" width="25px" alt="Кнопка поиска">
             </button>
-            <button class="return-button">
-                <img src="img/arrow-left.svg" height="60px" width="25px" alt="Кнопка назад">
-            </button>
+            <div class="view-buttons">
+              <button class="two-in-row" type="button">
+                <img src="img/twoInRow.svg" height="60px" width="25px" alt="Кнопка 2 в ряд">
+              </button>
+              <button class="one-in-row" type="button">
+                <img src="img/oneInRow.svg" height="60px" width="25px" alt="Кнопка 1 в ряд">
+              </button>
+            </div>
         </section>
       <section class="view-choose">
         <div class="catalogs">
@@ -30,31 +53,36 @@
         </div>
 
       </section>
-      <script src="js/mainServices.js" type="module"></script>
+      <script src="js/main/mainServices.js" type="module"></script>
     </main>
     <footer class="main-footer">
-      <button class="help-button">
-        <img src="img/help.png" alt="Кнопка помощи">
-      </button>
+      <div class="help-button-container">
+        <button class="help-button">
+          <img src="img/help.png" alt="Кнопка помощи">
+        </button>
+      </div>
+
     </footer>
     <template id="service-template">
       <li class="service-card">
-        <a href="result.html">
+        <button class="service-button card-button">
           <img class="service-gif" src="img/empty.jpg" alt="Гифка или картинка">
           <h3 class="card-description">Зашлушка</h3>
-          <img src="img/empty.jpg"  width='21px' height='22px' alt="Кнопка перехода">
-        </a>
+        </button>
       </li>
     </template>
     <template id="catalog-template">
       <li class="catalog-card">
-        <button>
+        <button class="card-button">
           <img class="catalog-gif" src="img/empty.jpg" alt="Гифка или картинка">
-          <h3 class="card-title">Зашлушка</h3>
-          <img src="img/empty.jpg"  width='21px' height='22px' alt="Кнопка перехода">
+          <h3 class="card-title card-description">Зашлушка</h3>
         </button>
       </li>
       </template>
-
+      <template id="header">
+        <li class="breadcrumb-item current-page">
+          <a href=""></a>
+        </li>
+      </template>
   </body>
 </html>
