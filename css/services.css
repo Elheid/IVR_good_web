@@ -1,21 +1,7 @@
 .services, .catalogs{
     margin: 60px 120px;
 }
-.list-of-cards{
-    display:grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-row-gap: 9px; 
-    grid-column-gap: 50px; 
-}
 
-.list-of-cards.list {
-    grid-template-columns: repeat(1, 1fr);
-}
-.service-card, .catalog-card{
-    
-    width: 100%;
-    height: 100%;
-}
 
 .help-button-container{
     position: relative;
@@ -60,4 +46,57 @@
 }
 .buttons-area{
     display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.view-buttons{
+    display: flex;
+    align-items: center;
+}
+
+.search-input{
+    max-width: 273px;
+    width: 100%;
+    height: 35px;
+}
+
+video{
+    margin-top: 10px;
+    max-height: 281px;
+}
+
+#closePopup {
+    margin-top: 10px;
+    padding: 8px 16px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.popup #closePopup {
+    top: 10px; 
+    right: 10px; 
+    margin-right: 36px;
+    margin-top: 30px;
+
+    background-color: transparent;
+    border: none;
+    padding: 0;
+}
+
+.popup-table{
+    display: flex;
+    flex-direction: column;
+}
+.popup-header{
+    margin-left: auto;
+    margin-bottom: 0px;
+}
+.popup-footer{
+    margin-top: 20px;
+}
+.popup-footer .back-button{
+    margin-right: 10em;
+}
+.search-popup{
+    padding-left: 10em;
 }

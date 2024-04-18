@@ -1,20 +1,23 @@
 var flag = "";
-const destination = "instruction.html";
+const destinationGestural = "instruction.html";
+const destinationClear = "services.html";
+
 const createButtons = ()=>{
     const gesturalButton = document.querySelector(".gestural-language .transition-icon");
     const clearButton = document.querySelector(".clear-language .transition-icon");
     gesturalButton.addEventListener("click", function() {
         flag = "gestural-language";
-        window.location.href = destination;
+        window.location.href = destinationGestural;
         saveData();
     });
 
     clearButton.addEventListener("click", function() {
         flag = "clear-language";
-        window.location.href = destination;
+        window.location.href = destinationClear;
         saveData();
     });
 }
+
 const saveData = ()=>{
     localStorage.setItem("language", flag);
 }

@@ -26,18 +26,21 @@
     <main class="main-content">
         <section class="buttons-area">
           <button class="return-button">
-            <img src="img/arrow-left.svg" height="60px" width="25px" alt="Кнопка назад">
+            <img src="img/back.png" alt="Кнопка назад">
           </button>
-            <input type="text" name="query" placeholder="Поиск на жестовом языке">
+            <input class="search-input" type="text" name="query" placeholder="Поиск на жестовом языке">
             <button type="submit">
-                <img src="img/search.svg" height="60px" width="25px" alt="Кнопка поиска">
+                <img src="img/search.png" alt="Кнопка поиска">
+            </button>
+            <button id="showPopup" type="button">
+              <img src="img/record.png" alt="Кнопка поиска жестами">
             </button>
             <div class="view-buttons">
               <button class="two-in-row" type="button">
-                <img src="img/twoInRow.svg" height="60px" width="25px" alt="Кнопка 2 в ряд">
+                <img src="img/twoInRow.svg" height="40px" width="35px" alt="Кнопка 2 в ряд">
               </button>
               <button class="one-in-row" type="button">
-                <img src="img/oneInRow.svg" height="60px" width="25px" alt="Кнопка 1 в ряд">
+                <img src="img/oneInRow.svg" height="40px" width="35px" alt="Кнопка 1 в ряд">
               </button>
             </div>
         </section>
@@ -58,6 +61,38 @@
           </button>
         </div>
       </section>
+      <div class="popup-container">
+        <div class="overlay" id="overlay"></div>
+            <div class="popup cases-table-popup" id="popup">
+                <div class="popup-content">
+                  <div class="popup-table">
+                    <div class="popup-header">
+                      <button class="closePopup">
+                        <img src="img/close.jpg" width="32px" height="30px">
+                      </button>
+                    </div>
+                    <video id="videoElement" autoplay></video>
+                
+                    <div class="popup-footer">
+                      <button class="closePopup  back-button">
+                        <img src="img/back.png">
+                      </button>
+
+  
+                      <button >
+                        <img src="img/record-button.png" width="32px" height="30px">
+                      </button>
+                      <button >
+                        <img src="img/record-button-2.png" width="32px" height="30px">
+                      </button>
+
+                      <button class="closePopup search-popup">
+                        <img src="img/search.png" >
+                      </button>
+                    </div>
+                </div>
+         </div>
+        </div>
       <script src="js/main/mainServices.js" type="module"></script>
     </main>
     <footer class="main-footer">
