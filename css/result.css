@@ -2,3 +2,16 @@
     width: 100%;
     height: auto;
 }
+.info-gif img{
+    width: 100%;
+    height: auto;
+}
+.popup{
+    width: 100%;
+    max-width: 680px;
+    height: auto;
+}
+.additional-info-res img{
+    width: 100%;
+    height: auto;
+}
