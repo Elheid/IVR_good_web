@@ -42,6 +42,9 @@ const idCreater = () =>{
 
 const createIdForCatalog = idCreater();
 const createIdForService = idCreater();
+const createIdForInfo = idCreater();
+
+
 
 const titleCreator = idCreater();
 
@@ -52,6 +55,7 @@ const getTitles = ()=>{
     const id = titleCreator() - 1;
     return ARR_OF_TITLES[id];
 }
+
 const createCatalog = () => ({
     id: createIdForCatalog(), //любое число
     title:getTitles(),//getRandomArrayElement(ARR_OF_TITLES),
@@ -66,6 +70,14 @@ const createService = (title) => ({
     title:title,
     img:document.querySelector(".services").classList.contains("clear-language") 
     ? emptyForClear : emptyGifURL
-  });
+});
 
-  export {createCatalog, createService, getAllServices};
+const createInfo = (title) => ({
+    id: createIdForInfo(), //любое число
+    title:title,
+    img:"img/ratherGIF.jpg",
+    additionalInfo:"сделай то, не знаю, что"
+});
+
+
+  export {createCatalog, createService, getAllServices, createInfo};

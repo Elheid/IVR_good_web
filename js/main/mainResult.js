@@ -1,5 +1,7 @@
 import { createBackButton } from '../backButton.js';
 import { showRes } from '../createResult.js';
+import { addInfoPopupShow, addInfoPopupClose } from '../popup.js';
+
 
 const text = "Manual на ясном языке \nЧтобы получить загран паспорт, нужно ..."
 const gif = "img/gastrual2.jpg";
@@ -14,3 +16,5 @@ const obj = {
 showRes(obj);
 
 createBackButton();
+addInfoPopupShow();
+addInfoPopupClose();

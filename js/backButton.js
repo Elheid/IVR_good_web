@@ -1,4 +1,3 @@
-//пока тупо работает, нужно переделать
 import { openCatalogs, clearServices } from "./renderIcons.js";
 import { removeLastHeader } from "./catalog.js";
 const backButton = document.querySelector(".return-button");

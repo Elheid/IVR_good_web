@@ -1,7 +1,9 @@
 
 import { getAllServices, createService } from "./util.js";
-import { createServiceCard , hideCatalogs} from "./renderIcons.js";
+import { hideCatalogs} from "./renderIcons.js";
+import { createServiceCard } from "./main/createrObj.js";
 
+//это бы в util убрать мб
 const getCellById = (id)=>{
   const catalogCells = document.querySelectorAll('.catalog-card');
   for (const cell of catalogCells){
@@ -19,7 +21,7 @@ const getCatalogId = ()=>{
   const href = window.location.search;
   return href[urlParams.length-1];
 }
-
+//
 const displayServices = (cell)=> {
 
   const servicesContainer = document.querySelector('.services-list');
@@ -37,7 +39,7 @@ function getServicesByCatalog(cell) {
   const title = cell.innerText;
   return getAllServices(title);
 }
-
+//это вообще в отдельный файл
 const addHeader = ()=>{
   const curURL = window.location.href;
   const list = document.querySelector(".header-list");
@@ -55,7 +57,7 @@ const removeLastHeader = ()=>{
   list.removeChild(list.lastChild);
   list.children[list.children.length - 1].classList.replace("prev-page", "current-page");
 }
-
+//
 
 const showServices = (cell)=>{
   addHeader();

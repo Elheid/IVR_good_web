@@ -20,10 +20,28 @@
       <section class="view-choose">
         <button class="return-button">
           <img src="img/arrow-left.svg" height="60px" width="25px" alt="Кнопка назад">
-      </button>
+          </button>
           <div class="manual-strp">
-
-              </div>
+          </div>
+          <div class="popup-container">
+            <div class="overlay" id="overlay"></div>
+                <div class="popup cases-table-popup" id="popup">
+                    <div class="popup-content">
+                      <div>
+                        <h2 class="popup-header">
+                          Дополнительная информация
+                        </h2>
+                        <button id="closePopup">
+                          <img src="img/close.jpg" width="32px" height="30px">
+                        </button>
+                      </div>
+                        <ul class="info-cards list-of-cards">
+                        </ul>
+                        <div class="additional-info-res">
+                        </div>
+                    </div>
+                </div>
+            </div>
       </section>
       <a href="index.html" class="return-button">
         Готово!/Всё сделано/Всё понял
@@ -39,7 +57,7 @@
     <template id="result">
       <h3 class="card-title"></h3>
       <img src=""  alt="Gif-с объяснениями">
-      <button class="modal extend-info" type="button">
+      <button class="modal additional-info" id="showPopup" type="button">
         <img src="img/info.svg">
       </button>
       <div class="manual">
@@ -48,6 +66,14 @@
         </p>
 
       </div>
+    </template>
+    <template id="additional-info">
+      <li class="info-card">
+          <button class="card-button">
+          <img class="info-gif" src="img/empty.jpg" alt="Гифка или картинка">
+          <h3 class="card-title card-description">Зашлушка</h3>
+        </button>
+      </li>
     </template>
   </body>
 </html>
