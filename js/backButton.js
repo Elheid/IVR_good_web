@@ -10,7 +10,14 @@ const createBackButton = ()=>{
         }
         else{
             if (!window.location.href.includes("?catalog=")) {
-                window.location.href = "instruction.html";
+                const catalogs = document.querySelector(".catalogs");
+                if (catalogs.classList.contains("clear-language"))
+                    {
+                        window.location.href = "index.html";
+                    }
+                else{
+                    window.location.href = "instruction.html";
+                }
             } else {
                 openCatalogs();
                 clearServices();
