@@ -71,11 +71,23 @@ body{
     max-width: 800px;
     width: 100%;
     position: fixed; 
-    top: 58%;
+    top: 65%;
     z-index: 999;
     display: flex;
     justify-content: space-between;
 }
+
+@media screen and (max-width: 748px) {
+    .go-buttons{
+        top: 75%;
+    }
+}
+@media screen and (max-width: 640px) {
+    .go-buttons{
+        top: 70%;
+    }
+}
+
 
 @media screen and (max-width: 600px) {
     .prev-button img,
@@ -83,7 +95,64 @@ body{
         max-width: 60%; /* Уменьшаем максимальную ширину изображения */
     }
 }
+@media screen and (max-width: 542px) {
+    .go-buttons{
+        top: 65%;
+    }
+}
+
+
+@media screen and (max-width: 430px) {
+    .go-buttons{
+        top: 60%;
+    }
+}
+
+@media screen and (max-width: 320px) {
+    .go-buttons{
+        top: 65%;
+    }
+}
+
+@media screen and (min-height: 606px) {
+    .go-buttons{
+        top: 64%;
+    }
+}
+@media screen and (min-height: 650px) {
+    .go-buttons{
+        top: 60%;
+    }
+}
+@media screen and (min-height: 690px) {
+    .go-buttons{
+        top: 55%;
+    }
+}
+@media screen and (min-height: 732px) {
+    .go-buttons{
+        top: 55%;
+    }
+}
+@media screen and (min-height: 732px) {
+    .go-buttons{
+        top: 52%;
+    }
+}
+@media screen and (min-height: 732px) {
+    .go-buttons{
+        top: 50%;
+    }
+}
+@media screen and (min-height: 846px) {
+    .go-buttons{
+        top: 48%;
+    }
+}
+
+
 
 .go-buttons img{
     width: 100%;
 }
+
