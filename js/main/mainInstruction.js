@@ -26,7 +26,7 @@ prevButton.addEventListener("click", ()=>{
     window.location.href = prevWindow;
 })
 
-giveMoreButton.addEventListener('click', ()=>{
+/*giveMoreButton.addEventListener('click', ()=>{
     showText(description);
     giveMoreButton.style.display = 'none';
     giveLessButton.style.display = '';
@@ -36,4 +36,4 @@ giveLessButton.addEventListener("click", ()=>{
     hideText(description);
     giveLessButton.style.display = 'none';
     giveMoreButton.style.display = '';
-})
+})*/

@@ -5,14 +5,33 @@ import { releaseWebcam, requestWebcam } from "./webcam.js";
 
 const showAdditionalInfo = ()=>{
     const temp = {
-        title:"Какой-то титкл",
+        title:"Какой-то титул",
         url:"img/gastrual2.jpg",
         manualText:"Бла-бла-бла"
     }
     const info= infoRes(temp);
     const container = document.querySelector(".additional-info-res")
     removeInfoCards();
+
+    var div = document.createElement("div");
+    div.className = "close-container";
+
+    var button = document.createElement("button");
+    button.className = "close-button";
+    
+    var img = document.createElement("img");
+    img.src = "img/next.png";
+    img.alt = "Кнопка назад";
+    button.appendChild(img);
+    button.addEventListener("click", ()=>{
+        closeInfoPopup();
+    } );
+
+    div.appendChild(button);
+
     container.appendChild(info);
+
+    container.appendChild(div);
 }
 
 const removeAdditionalInfo = ()=>{
@@ -142,6 +161,12 @@ const addInfoPopupClose = ()=>{
 }
 
 const addWebcamPopupShow = ()=>{
+    const catalog= document.querySelector(".catalogs");
+    if (catalog.classList.contains("clear-language"))
+    {
+        document.getElementById('showPopup').querySelector("img").classList.add("hidden")
+    }
+    
     document.getElementById('showPopup').addEventListener('click', showWebcamPopup);
 };
 const addWebcamPopupClose = ()=>{

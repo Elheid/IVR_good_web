@@ -7,11 +7,25 @@
     height: auto;
 }
 .popup{
-    width: 100%;
+    width: 80%;
     max-width: 680px;
     height: auto;
 }
 .additional-info-res img{
     width: 100%;
     height: auto;
+}
+.list-of-cards{
+    width: 100%;
+}
+.list-of-cards img{
+    width: 100%;
+}
+
+.close-button{
+    margin-left: auto;
+}
+.close-container{
+    width: 100%;
+    text-align: right;
 }

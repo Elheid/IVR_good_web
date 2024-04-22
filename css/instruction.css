@@ -1,4 +1,8 @@
-
+body{
+    margin: auto;
+    max-width: 800px;
+    position: relative;
+}
 
 .instruct-content{
     max-width: 562px;
@@ -33,12 +37,14 @@
     /* Элемент скрыт в развернутой статье */
     display: none;
   }
-
-.instruction {
+  .instruction{
+    margin-top: 30px;
+  }
+/*.instruction {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-}
+}*/
   
 .more, .less{
     /* Показываем элемент в свернутой статье */
@@ -48,7 +54,36 @@
 .go-button{
     padding: 0;
 }
+
+/*.next-button, .prev-button{
+    position: fixed; /* Позиционируем кнопку фиксированно 
+    top: 60%; /* Отступ от верхнего края 
+    z-index: 999;
+}
+.prev-button{
+    left: 30%;
+}
+.next-button{
+   right: 30%;
+}*/
+
 .go-buttons{
+    max-width: 800px;
+    width: 100%;
+    position: fixed; 
+    top: 58%;
+    z-index: 999;
     display: flex;
     justify-content: space-between;
+}
+
+@media screen and (max-width: 600px) {
+    .prev-button img,
+    .next-button img {
+        max-width: 60%; /* Уменьшаем максимальную ширину изображения */
+    }
+}
+
+.go-buttons img{
+    width: 100%;
 }
