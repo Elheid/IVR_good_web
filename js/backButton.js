@@ -1,5 +1,8 @@
 import { openCatalogs, clearServices } from "./renderIcons.js";
 import { removeLastHeader } from "./catalog.js";
+
+import { showServices } from "./catalog.js";
+
 const backButton = document.querySelector(".return-button");
 
 
@@ -7,6 +10,7 @@ const createBackButton = ()=>{
     backButton.addEventListener('click', ()=> {
         if (!window.location.href.includes("services")){
             history.back();
+            //showServices();
         }
         else{
             if (!window.location.href.includes("?catalog=")) {

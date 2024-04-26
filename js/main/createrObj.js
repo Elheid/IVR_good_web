@@ -33,22 +33,24 @@ const createCatalogCard = (catalog)=>{
     const cardTitle = cardCatalog.querySelector('.card-title');
     const imgOrGif = cardCatalog.querySelector('.catalog-gif');
 
-    imgOrGif.src = catalog.img;
+    imgOrGif.src = catalog.gifLink;
     cardTitle.textContent = catalog.title;
     cardCatalog.setAttribute("catalog-id", catalog.id);
     return cardCatalog;
 };
 
 
-const createServiceCard = ({id, title, img})=>{
+const createServiceCard = (service)=>{
     const serviceTemplate = document.querySelector('#service-template').content.querySelector('li');
     const cardCatalog = document.importNode(serviceTemplate, true);
     const cardTitle = cardCatalog.querySelector('.card-description');
     const imgOrGif = cardCatalog.querySelector('.service-gif');
 
-    imgOrGif.src = img;
-    cardTitle.textContent = title;
-    cardCatalog.setAttribute("service-id", id);
+    imgOrGif.src = service.gifLink;
+    cardTitle.textContent = service.title;
+    cardCatalog.setAttribute("service-id", service.id);
+    cardCatalog.setAttribute("addition-info-ids", service.additionIds);
+
 
     const nextButton = cardCatalog.querySelector(".service-button");
 

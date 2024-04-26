@@ -2,6 +2,7 @@
 import { getAllServices, createService } from "./util.js";
 import { hideCatalogs} from "./renderIcons.js";
 import { createServiceCard } from "./main/createrObj.js";
+import { getService } from "./api.js";
 
 //это бы в util убрать мб
 const getCellById = (id)=>{
@@ -19,18 +20,19 @@ const getCellNameById = (id)=>{
 }
 const getCatalogId = ()=>{
   const href = window.location.search;
-  return href[urlParams.length-1];
+  return href[href.length-1];
 }
 //
-const displayServices = (cell)=> {
+
+const displayServices = (services)=> {
 
   const servicesContainer = document.querySelector('.services-list');
   servicesContainer.innerHTML = ''; // Очищаем контейнер перед добавлением новых данных
 
-  const services = getServicesByCatalog(cell); // Функция, которая возвращает список услуг по ID каталога
-  services.forEach((service)=> {
-    const serviceElement = createService(service);
-    const card = createServiceCard(serviceElement);
+  //const services = getServicesByCatalog(cell); // Функция, которая возвращает список услуг по ID каталога
+  services.content.forEach((service)=> {
+    //const serviceElement = createService(service);
+    const card = createServiceCard(service);
     servicesContainer.appendChild(card);
   });
 }
@@ -39,6 +41,7 @@ function getServicesByCatalog(cell) {
   const title = cell.innerText;
   return getAllServices(title);
 }
+
 //это вообще в отдельный файл
 const addHeader = ()=>{
   const curURL = window.location.href;
@@ -61,7 +64,15 @@ const removeLastHeader = ()=>{
 
 const showServices = (cell)=>{
   addHeader();
-  displayServices(cell);
+  const loadServices = (catalogId)=>
+  getService(catalogId)
+      .then((data) => {
+        displayServices(data);
+      })
+      .catch((err)=> console.log(err));
+  const id = getCatalogId();
+  loadServices(id);
+  //displayServices(cell);
   hideCatalogs();
 }
 
@@ -87,4 +98,4 @@ const addCatalogButton = ()=>{
   document.addEventListener('DOMContentLoaded', renderCatalogs());
 };
 
-export {addCatalogButton, renderCatalogs, removeLastHeader};
+export {addCatalogButton, removeLastHeader, showServices};

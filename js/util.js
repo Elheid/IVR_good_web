@@ -10,7 +10,7 @@ const ARR_OF_SERVICES= {
     "Опечатка в паспорте",
     "Паспорт украден/утерян",
     "Смена пола"],
-    "Снилс":["Круг заявителей",
+    "СНИЛС":["Круг заявителей",
         "Перечень документов",
         "Срок предоставления",
         "Госпошлина"],
@@ -19,7 +19,8 @@ const ARR_OF_SERVICES= {
     "ИНН":["Круг заявителей",
         "Перечень документов",
         "Срок предоставления",
-        "Госпошлина"]
+        "Госпошлина",
+        "Смена ИНН"]
 };
 const ARR_OF_TITLES = Object.keys(ARR_OF_SERVICES);
 const getRandomArrayElement = (elements) => elements[getRandomInteger(0, elements.length - 1)];

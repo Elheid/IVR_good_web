@@ -17,8 +17,12 @@ const fillList = (creator, num)=>{
 }
 
 
-const initializeResults = (num)=>{
-    fillList(createCatalogCard, num);
+const initializeResults = (cards)=>{
+    const categoties = cards.content;
+    for(var i = 0; i < categoties.length; i++){
+        const catalog = createCatalogCard(categoties[i]);
+        list.appendChild(catalog);
+    }
     createGoButtons();
 }
 

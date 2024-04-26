@@ -9,6 +9,7 @@ const showAdditionalInfo = ()=>{
         url:"img/gastrual2.jpg",
         manualText:"Бла-бла-бла"
     }
+    
     const info= infoRes(temp);
     const container = document.querySelector(".additional-info-res")
     removeInfoCards();
