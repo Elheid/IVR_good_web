@@ -80,5 +80,30 @@ const createInfo = (title) => ({
     additionalInfo:"сделай то, не знаю, что"
 });
 
+const getCellById = (id)=>{
+    const catalogCells = document.querySelectorAll('.catalog-card');
+    for (const cell of catalogCells){
+      const catalogId = cell.getAttribute('catalog-id');
+      if (catalogId == id){
+        return cell;
+      }
+    }
+}
 
-  export {createCatalog, createService, getAllServices, createInfo};
+const getCellNameById = (id)=>{
+const cell = getCellById(id);
+return cell.innerText;
+}
+const getCatalogId = ()=>{
+const href = window.location.search;
+return href[href.length-1];
+}
+
+const getServicesByCatalog = (cell)=>{
+const title = cell.innerText;
+return getAllServices(title);
+}
+
+
+
+  export {createCatalog, createService, getAllServices, createInfo, getCellById, getCatalogId, getCellNameById};

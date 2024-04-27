@@ -2,8 +2,9 @@ const BASE_URL = 'http://localhost:8080/';
 
 const Route = {
   GET_CATEGORY: 'categories',
-  GET_SERVICE: 'items/search/byCategory?categoryId=',
-  GET_INFO: 'additions/search/item/',
+  GET_SERVICES: 'items/search/byCategory?categoryId=',
+  GET_SERVICE_BY_ID:"items/",
+  GET_INFO: 'additions/',
   SEND_DATA: '/',
 };
 const Method = {
@@ -40,12 +41,13 @@ const loadById = (route, id, errorText, method = Method.GET, body = null) =>
 });
 
 const getCategories= () => load(Route.GET_CATEGORY, ErrorText.GET_DATA);
-const getService= (id) => loadById(Route.GET_SERVICE, id, ErrorText.GET_DATA);
-const getInfo= (id) => loadById(Route.GET_SERVICE, id, ErrorText.GET_DATA);
+const getService= (id) => loadById(Route.GET_SERVICES, id, ErrorText.GET_DATA);
+const getServiceById= (id) => loadById(Route.GET_SERVICE_BY_ID, id, ErrorText.GET_DATA);
+const getInfoById= (id) => loadById(Route.GET_INFO, id, ErrorText.GET_DATA);
 
 const sendData = (body) => load(Route.SEND_DATA, ErrorText.SEND_DATA, Method.POST, body);
 
-export { getCategories, getService, getInfo, sendData};
+export { getCategories, getService, getInfoById, getServiceById, sendData};
 /*
 const BASE_URL = 'https://cors-anywhere.herokuapp.com/http://localhost:8080/';
 

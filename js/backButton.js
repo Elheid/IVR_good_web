@@ -1,7 +1,7 @@
-import { openCatalogs, clearServices } from "./renderIcons.js";
-import { removeLastHeader } from "./catalog.js";
+import { goBackToCatalogs} from "./renderIcons.js";
 
-import { showServices } from "./catalog.js";
+//import { removeLastHeader } from "./catalog.js";
+
 
 const backButton = document.querySelector(".return-button");
 
@@ -23,9 +23,7 @@ const createBackButton = ()=>{
                     window.location.href = "instruction.html";
                 }
             } else {
-                openCatalogs();
-                clearServices();
-                removeLastHeader();
+                goBackToCatalogs();
                 history.replaceState({}, '', window.location.pathname);
             }
         }

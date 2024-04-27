@@ -12,9 +12,6 @@ var catalogs = document.querySelector(".catalogs").classList.add(flag);
 var services = document.querySelector(".services").classList.add(flag);
 
 
-
-console.log(getCategories());
-
 const loadCategories = async () => {
     await getCategories()
       .then((data) => {
