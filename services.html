@@ -29,7 +29,7 @@
             <img src="img/back.png" alt="Кнопка назад">
           </button>
             <input class="search-input" type="text" name="query" placeholder="Поиск на жестовом языке">
-            <button type="submit">
+            <button class="search-button" type="submit">
                 <img src="img/search.png" alt="Кнопка поиска">
             </button>
             <button id="showPopup" type="button">
@@ -37,14 +37,18 @@
             </button>
             <div class="view-buttons">
               <button class="two-in-row" type="button">
-                <img src="img/twoInRow.svg" height="40px" width="35px" alt="Кнопка 2 в ряд">
+                <img src="img/twoInRow.svg" = alt="Кнопка 2 в ряд">
               </button>
               <button class="one-in-row" type="button">
-                <img src="img/oneInRow.svg" height="40px" width="35px" alt="Кнопка 1 в ряд">
+                <img src="img/oneInRow.svg" alt="Кнопка 1 в ряд">
               </button>
             </div>
         </section>
       <section class="view-choose">
+        <div>
+          <p class="bad-search hidden">Извините, мы не нашли ничего по вашему запросу <br>
+          Но вот результаты похожие на те, что вы ищите</p>
+        </div>
         <div class="catalogs">
           <ul class="list-of-cards catalogs-list">
           </ul>

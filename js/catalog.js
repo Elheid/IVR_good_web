@@ -3,7 +3,7 @@ import { getAllServices, createService } from "./util.js";
 import { hideCatalogs} from "./renderIcons.js";
 import { createServiceCard } from "./main/createrObj.js";
 import { getService } from "./api.js";
-import { addHeader } from "./headers.js";
+import { addHeader, addHeaderForSearch, removeSearchHeader} from "./headers.js";
 import { getCellById, getCatalogId } from "./util.js";
 
 
@@ -23,7 +23,7 @@ const displayServices = (services)=> {
 
 
 
-const showServices = (cell)=>{
+const showServices = ()=>{
   addHeader();
   const loadServices = (catalogId)=>
   getService(catalogId)
@@ -37,26 +37,40 @@ const showServices = (cell)=>{
   hideCatalogs();
 }
 
+const showSearchedServices = (services, query)=>{
+  removeSearchHeader();
+  addHeaderForSearch();
+  displayServices(services);
+  hideCatalogs();
+  history.pushState({ query: query }, '', `?query=${query}`);
+}
+
+
 const renderCatalogs = ()=>{
   const catalogCells = document.querySelectorAll('.catalog-card');
   catalogCells.forEach((cell) =>{
     cell.addEventListener('click', () =>{
       const catalogId = cell.getAttribute('catalog-id');
       history.pushState({ catalogId: catalogId }, '', `?catalog=${catalogId}`);
-      showServices(cell);
+      showServices();
     });
   });
 }
 
-const addCatalogButton = ()=>{
+const addCatalogButton = (searchResult)=>{
   window.onload = function(){
     var urlParams = window.location.search;
     if (urlParams.match('catalog')) {
-        var stateString = urlParams[urlParams.length-1];
-        showServices(getCellById(stateString));
+      var stateString = urlParams[urlParams.length-1];
+      showServices(getCellById(stateString));
+    }
+    if (urlParams.match('query')) {
+      var stateString = urlParams.split("=");
+      var state = new URLSearchParams(urlParams).get('query');
+      searchResult(state);
     }
   }
   document.addEventListener('DOMContentLoaded', renderCatalogs());
 };
 
-export {addCatalogButton, showServices};
+export {addCatalogButton, showServices, showSearchedServices};

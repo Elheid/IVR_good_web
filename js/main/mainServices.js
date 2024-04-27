@@ -6,6 +6,8 @@ import { addWebcamPopupClose, addWebcamPopupShow } from '../popup.js';
 
 import { getCategories } from '../api.js';
 
+import { addSearchButton, searchResult } from '../search.js';
+
 createBackButton();
 var flag = loadSavedData();
 var catalogs = document.querySelector(".catalogs").classList.add(flag);
@@ -16,14 +18,14 @@ const loadCategories = async () => {
     await getCategories()
       .then((data) => {
         initializeResults(data);
-        addCatalogButton();
+        addCatalogButton(searchResult);
       })
       .catch((err)=> console.log(err));
 };
 loadCategories();
 
 
-
+addSearchButton();
 
 addWebcamPopupClose();
 addWebcamPopupShow();
