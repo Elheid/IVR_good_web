@@ -47,10 +47,11 @@ const createVidContainer = ()=>{
     // Создаем video элемент
     var videoElement = document.createElement('video');
     videoElement.classList.add('gif');
-    videoElement.src = ''; // Добавьте ссылку на видео
+    videoElement.src = ''; 
 
     // Добавляем атрибут playsinline
-    videoElement.setAttribute('playsinline', '');
+    videoElement.setAttribute('playsinline', true);
+    videoElement.muted = true
     videoOverlay.appendChild(playButton);
     videoOverlay.appendChild(videoElement);
     return videoOverlay;

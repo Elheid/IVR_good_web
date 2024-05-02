@@ -25,7 +25,7 @@ const addAutoPlayVid = ()=>{
                 var button = video.parentElement.querySelector('.play-button');
                 var overlay = video.parentElement;
                 overlay.addEventListener('click', function() {
-                  if (video.paused || video.ended) {
+                  if (video.paused ) {
                     video.play();
                     button.classList.add("opacity");
                   } else {
@@ -34,7 +34,7 @@ const addAutoPlayVid = ()=>{
                   }
                 });
             
-                overlay.addEventListener('ended', function() {
+                video.addEventListener('ended', function() {
                   button.classList.remove("opacity");
                 });
                     

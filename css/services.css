@@ -121,8 +121,9 @@
     transform: translate(340%, 350%);
     max-width: 50px;
     max-height: 50px;*/
+    position: relative;
     width: 100%;
-    height: 100%;
+    height: 88%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -142,39 +143,38 @@
 
 
 .play-button{
-    position: relative;
-    left: 12vw;
-    width: 10%;
+    position: absolute;
+    width: 80%;
     height: auto;
 }
-
+/*
 @media screen and (min-width: 1901px) {
     .play-button {
-        left: 10vw; /* Ваш стиль для экрана меньше 1900px */
+        left: 10vw; 
     }
 }
 
 @media screen and (max-width: 1900px) {
     .play-button {
-        left: 11vw; /* Ваш стиль для экрана меньше 1900px */
+        left: 11vw; 
     }
 }
 @media screen and (max-width: 1441px) {
     .play-button {
-        left: 15vw; /* Ваш стиль для экрана меньше 1900px */
+        left: 15vw; 
     }
 }
 
 @media screen and (max-width: 1025px) {
     .play-button {
-        left: 20vw; /* Ваш стиль для экрана меньше 1900px */
+        left: 20vw; 
     }
 }
 
 @media screen and (max-width: 768px) {
     .play-button {
-        left: 25vw; /* Ваш стиль для экрана меньше 1900px */
+        left: 25vw;
     }
 }
-
+*/
 
