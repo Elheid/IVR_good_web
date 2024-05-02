@@ -93,7 +93,7 @@ const showInfoCard = (infoTmp)=>{
     list.appendChild(card);
 
     const additionalInfo = {
-        gifLink: "img/gastrual2.jpg",
+        gifLink: infoTmp.gifLink,
         description:infoTmp.description,
         title:infoTmp.title
     };

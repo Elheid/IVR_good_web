@@ -32,7 +32,7 @@ const showAlert = (message = NETWORK_MESSAGE) => {
 
 
 
-const toggleBadSearch = ()=>{
+/*const toggleBadSearch = ()=>{
     const badSearch = document.querySelector(".bad-search");
     if (badSearch.classList.contains("hidden")) {
         badSearch.classList.remove("hidden");
@@ -47,13 +47,20 @@ const hideAlerts = ()=>{
         badSearch.classList.add("hidden");
     }
 }
-
+*/
 const handleSearch = async (event) => {
     event.preventDefault(); // Отменяем стандартное поведение формы
     const query = document.querySelector('.search-input').value; // Получаем значение из поля ввода
     // Здесь вы можете использовать значение запроса (query) для выполнения поискового запроса к вашему API
     // Например, отправляем запрос к вашему API с поисковым запросом
-    searchResult(query); 
+    //searchResult(query); 
+    try {
+        await searchResult(query);
+    } catch (error) {
+        console.log(error);
+        await searchSimilarResult(query);
+    }
+
 
     document.querySelector('.search-input').value = ''; 
   };
@@ -61,17 +68,17 @@ const handleSearch = async (event) => {
 const searchResult = (query)=>
     getServiceByTitle(query)
         .then((data) => {
-            hideAlerts();
+            //hideAlerts();
             showSearchedServices(data, query)
         })
         .catch((err)=> {
-            searchSimilarResult(query)
+            throw new Error(err);
         });
 
 const searchSimilarResult = (query)=>
     getSimilarService(query)
         .then((data) => {
-            toggleBadSearch();
+            //toggleBadSearch();
             showSearchedServices(data, query)
         })
         .catch((err)=> {
@@ -81,5 +88,5 @@ const searchSimilarResult = (query)=>
 
   // Находим форму поиска и добавляем обработчик события для отправки запроса поиска
   const addSearchButton = ()=> document.querySelector('.search-button').addEventListener('click', handleSearch);
-  export {addSearchButton, searchResult, hideAlerts}
+  export {addSearchButton, searchResult, /*hideAlerts*/}
 

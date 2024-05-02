@@ -8,6 +8,8 @@ import { getCategories } from '../api.js';
 
 import { addSearchButton, searchResult } from '../search.js';
 
+import { addAutoPlayVid } from '../video.js';
+
 createBackButton();
 var flag = loadSavedData();
 var catalogs = document.querySelector(".catalogs").classList.add(flag);
@@ -19,6 +21,7 @@ const loadCategories = async () => {
       .then((data) => {
         initializeResults(data);
         addCatalogButton(searchResult);
+        addAutoPlayVid();
       })
       .catch((err)=> console.log(err));
 };

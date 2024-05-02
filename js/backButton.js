@@ -1,5 +1,5 @@
 import { goBackToCatalogs} from "./renderIcons.js";
-import { hideAlerts } from "./search.js";
+//import { hideAlerts } from "./search.js";
 //import { removeLastHeader } from "./catalog.js";
 
 
@@ -10,7 +10,7 @@ const createBackButton = ()=>{
     backButton.addEventListener('click', ()=> {
         if (!window.location.href.includes("services")){
             history.back();
-            hideAlerts();
+            //hideAlerts();
             //showServices();
         }
         else{
@@ -26,7 +26,7 @@ const createBackButton = ()=>{
             } else {
                 goBackToCatalogs();
                 history.replaceState({}, '', window.location.pathname);
-                hideAlerts();
+                //hideAlerts();
             }
         }
 

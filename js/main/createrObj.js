@@ -7,7 +7,7 @@ const createRes = (result)=>{
     const text = res.querySelector(".manual-text");
     const cardTitle = res.querySelector(".card-title");
     cardTitle.textContent = result.title; 
-    gif.src = "img/gastrual2.jpg";
+    gif.src = result.gifLink;//"img/gastrual2.jpg";
     text.textContent = result.description;
 
     const popup = document.getElementById("popup");
@@ -35,15 +35,38 @@ const infoRes = (info)=>{
     return res;
 }
 
+const createVidContainer = ()=>{
+    var videoOverlay = document.createElement('div');
+    videoOverlay.classList.add('video-overlay');
+
+    // Создаем img элемент для кнопки воспроизведения
+    var playButton = document.createElement('img');
+    playButton.classList.add('play-button');
+    playButton.src = 'img/play.png';
+
+    // Создаем video элемент
+    var videoElement = document.createElement('video');
+    videoElement.classList.add('gif');
+    videoElement.src = ''; // Добавьте ссылку на видео
+
+    // Добавляем атрибут playsinline
+    videoElement.setAttribute('playsinline', '');
+    videoOverlay.appendChild(playButton);
+    videoOverlay.appendChild(videoElement);
+    return videoOverlay;
+}
 
 const createCatalogCard = (catalog, clearLanguage)=>{
     const catalogTemplate = document.querySelector('#catalog-template').content.querySelector('li');
     const cardCatalog = document.importNode(catalogTemplate, true);
     const cardTitle = cardCatalog.querySelector('.card-title');
-    const imgOrGif = cardCatalog.querySelector('.catalog-gif');
+    const imgOrGif = cardCatalog.querySelector('img.catalog-gif');
 
     if (!(clearLanguage)){
-        imgOrGif.src = catalog.gifLink;
+        imgOrGif.classList.add("hidden");
+        cardCatalog.appendChild(createVidContainer());
+        const vidOrGif = cardCatalog.querySelector('video.gif');
+        vidOrGif.src = catalog.gifPreview;
     }
     else{
         imgOrGif.src = "img/clear.jpg";
@@ -57,29 +80,32 @@ const createCatalogCard = (catalog, clearLanguage)=>{
 
 const createServiceCard = (service, clearLanguage)=>{
     const serviceTemplate = document.querySelector('#service-template').content.querySelector('li');
-    const cardCatalog = document.importNode(serviceTemplate, true);
-    const cardTitle = cardCatalog.querySelector('.card-description');
-    const imgOrGif = cardCatalog.querySelector('.service-gif');
+    const cardService = document.importNode(serviceTemplate, true);
+    const cardTitle = cardService.querySelector('.card-description');
+    const imgOrGif = cardService.querySelector('img.service-gif');
 
     if (!(clearLanguage)){
-        imgOrGif.src = service.gifLink;
+        imgOrGif.classList.add("hidden");
+        cardService.appendChild(createVidContainer());
+        const vidOrGif = cardService.querySelector('video.gif');
+        vidOrGif.src = service.gifPreview;
     }
     else{
         imgOrGif.src = "img/clear.jpg";
     }
 
     cardTitle.textContent = service.title;
-    cardCatalog.setAttribute("service-id", service.id);
+    cardService.setAttribute("service-id", service.id);
 
 
-    const nextButton = cardCatalog.querySelector(".service-button");
+    const nextButton = cardService.querySelector(".service-button");
 
     nextButton.addEventListener("click", (evt)=>{
     //const serviceName = evt.target.parentNode.querySelector(".card-description").textContent;
     const serviceId = evt.target.parentNode.parentNode.getAttribute("service-id");
     window.location.href = `result.html?serviceId=${encodeURIComponent(serviceId)}`;
     })
-    return cardCatalog;
+    return cardService;
 };
 
 const createInfoCard = (info)=>{
@@ -90,7 +116,7 @@ const createInfoCard = (info)=>{
     const imgOrGif = infoCard.querySelector('.info-gif');
 
 
-    imgOrGif.src = info.gifLink;
+    imgOrGif.src = info.gifPreview;
     cardTitle.textContent = info.title;
     infoCard.setAttribute("info-id", info.id);
     return infoCard;

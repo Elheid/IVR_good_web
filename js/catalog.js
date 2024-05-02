@@ -4,7 +4,8 @@ import { hideCatalogs} from "./renderIcons.js";
 import { createServiceCard } from "./main/createrObj.js";
 import { getService } from "./api.js";
 import { addHeader, addHeaderForSearch, removeSearchHeader} from "./headers.js";
-import { getCellById, getCatalogId } from "./util.js";
+import { getCellById, getCatalogId, getCellNameById } from "./util.js";
+import { addAutoPlayVid } from "./video.js";
 
 
 const displayServices = (services)=> {
@@ -12,9 +13,22 @@ const displayServices = (services)=> {
   const servicesContainer = document.querySelector('.services-list');
   servicesContainer.innerHTML = ''; // Очищаем контейнер перед добавлением новых данных
 
+  const titleCounts = {};
+
+  services.content.forEach(function(card) {
+    if (!titleCounts[card.title]) {
+        titleCounts[card.title] = 1;
+    } else {
+        titleCounts[card.title]++;
+    }
+});
   //const services = getServicesByCatalog(cell); // Функция, которая возвращает список услуг по ID каталога
   services.content.forEach((service)=> {
     //const serviceElement = createService(service);
+    if (titleCounts[service.title] > 1) {
+      service.title = getCellNameById(service.categoryId) + " " + service.title;
+    }
+
     const services = document.querySelector(".services");
     const card = createServiceCard(service, services.classList.contains("clear-language"));
     servicesContainer.appendChild(card);
@@ -29,6 +43,7 @@ const showServices = ()=>{
   getService(catalogId)
       .then((data) => {
         displayServices(data);
+        addAutoPlayVid();
       })
       .catch((err)=> console.log(err));
   const id = getCatalogId();
@@ -42,6 +57,7 @@ const showSearchedServices = (services, query)=>{
   addHeaderForSearch();
   displayServices(services);
   hideCatalogs();
+  addAutoPlayVid(); 
   history.pushState({ query: query }, '', `?query=${query}`);
 }
 
@@ -49,7 +65,8 @@ const showSearchedServices = (services, query)=>{
 const renderCatalogs = ()=>{
   const catalogCells = document.querySelectorAll('.catalog-card');
   catalogCells.forEach((cell) =>{
-    cell.addEventListener('click', () =>{
+    const button = cell.querySelector(".card-button");
+    button.addEventListener('click', () =>{
       const catalogId = cell.getAttribute('catalog-id');
       history.pushState({ catalogId: catalogId }, '', `?catalog=${catalogId}`);
       showServices();
@@ -57,9 +74,8 @@ const renderCatalogs = ()=>{
   });
 }
 
-const addCatalogButton = (searchResult)=>{
-  window.onload = function(){
-    var urlParams = window.location.search;
+function returnState (searchResult){
+  var urlParams = window.location.search;
     if (urlParams.match('catalog')) {
       var stateString = urlParams[urlParams.length-1];
       showServices(getCellById(stateString));
@@ -69,8 +85,14 @@ const addCatalogButton = (searchResult)=>{
       var state = new URLSearchParams(urlParams).get('query');
       searchResult(state);
     }
-  }
+};
+
+
+
+const addCatalogButton = (searchResult)=>{
+  window.onload = returnState(searchResult);
   document.addEventListener('DOMContentLoaded', renderCatalogs());
+
 };
 
 export {addCatalogButton, showServices, showSearchedServices};
