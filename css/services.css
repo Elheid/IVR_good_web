@@ -13,6 +13,7 @@
     width: 100%;
 }
 .buttons-area{
+    margin-top: 25px;
     width: 100%;
 }
 
@@ -46,18 +47,55 @@
 }
 .header-list{
     display: flex;   
+    flex-wrap: wrap;
+    height: 100%;
 }
 
-.breadcrumb-item::after {
-    content: '>';
-    margin-left: 5px;
-    margin-right: 5px;
-    color: #6c757d;
-}
-  
-  .breadcrumb-item:last-child::after {
-    content: none; /* Удаляем стрелку после последнего элемента */
-}
+.breadcrumb-item {
+    background-color: #E04E39;
+    height: 100%;
+    width: 80%;
+    display: inline-block;
+    position: relative;
+    margin-right: 10px;
+  }
+
+
+
+  .breadcrumb-item a {
+    width: 80%;
+    height: 100%;
+    text-decoration: none;
+    color: white;
+    display: block;
+    padding: 5px 10px;
+  }
+
+  .prev-page{
+    flex: 0 0 auto;
+    width: 100%;
+    max-width: 155px;
+    text-align: center;
+    margin-top: auto;
+    margin-bottom: auto;
+  }
+
+  .current-page{
+    flex: 1;
+    margin-top: auto;
+    margin-bottom: auto;
+    width: 100%;
+  }
+  .current-page a {
+    /*font-size: 32px; /* Пример размера шрифта */
+    padding-right: 30px; /* Для размещения стрелки */
+    text-align: center;
+    width: 100%;
+  }
+
+
+
+
 .buttons-area{
     display: flex;
     justify-content: center;
@@ -66,6 +104,7 @@
 .view-buttons{
     display: flex;
     align-items: center;
+    margin-left: 22px;
 }
 
 .search-input{
@@ -77,6 +116,28 @@
 #video-element{
     margin-top: 10px;
     max-height: 281px;
+}
+#videoElement{
+    width:70%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.popup-footer{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    height: auto;
+}
+
+.popup-footer img{
+    width: 100%
+}
+
+.popup-footer  img{
+    min-width: 20px;
+    width: 100%;
+    height: auto;
 }
 
 #closePopup {
@@ -108,13 +169,14 @@
 .popup-footer{
     margin-top: 20px;
 }
+/*
 .popup-footer .back-button{
     margin-right: 10em;
 }
 .search-popup{
     padding-left: 10em;
 }
-
+*/
 
 .video-overlay {
    /* position: relative;
@@ -134,8 +196,31 @@
 .gif{
     width: 100%;
     height: auto;
+    border-radius: 20px;
+    border-color: rgba(89, 60, 47, 1);
 }
 
+.clear-card{
+    border: 1px solid #623B2AE5;
+    border-radius: 20px;
+    background: linear-gradient(180deg, #E04E39 0%, #FF5840 100%);
+}
+.clear-card .card-title{
+    margin-top: 20px;
+    color: #FFFFFF;
+}
+.clear-card .count-services{
+    color: #FFFFFF;
+    margin-bottom: 0;
+}
+
+.clear-card img{
+    max-width: 22px;
+    margin-left: auto;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    display: block;
+}
 
 .play-button{
     z-index: 100;
@@ -147,6 +232,14 @@
     width: 80%;
     height: auto;
 }
+
+@media screen and (min-width: 320px) {
+    .breadcrumb-item a {
+        font-size: 12px;
+    }
+}
+
+
 /*
 @media screen and (min-width: 1901px) {
     .play-button {

@@ -6,6 +6,8 @@ const createRes = (result)=>{
     const gif = res.querySelector("img");
     const text = res.querySelector(".manual-text");
     const cardTitle = res.querySelector(".card-title");
+    cardTitle.classList.remove("card-title");
+    cardTitle.classList.add("res-title");
     cardTitle.textContent = result.title; 
     gif.src = result.gifLink;//"img/gastrual2.jpg";
     text.textContent = result.description;
@@ -26,6 +28,10 @@ const infoRes = (info)=>{
     const res = document.importNode(template, true);
     const gif = res.querySelector("img");
     const text = res.querySelector(".manual-text");
+    //text.classList.remove("manual-text");
+    //text.classList.add("info-text");
+    text.parentNode.classList.remove("manual");
+    text.parentNode.classList.add("info-manual");
     const cardTitle = res.querySelector(".card-title");
     const button = res.querySelector("button");
     button.innerHTML = "";
@@ -57,23 +63,59 @@ const createVidContainer = ()=>{
     return videoOverlay;
 }
 
+const createClarLangCard = (cardParent, title, count)=>{
+
+    cardParent.children[0].classList.add("clear-card");
+    const card = cardParent.querySelector("button");
+    /*var cardTitle = document.createElement('p');
+    cardTitle.classList.add('title');
+    cardTitle.trxtContent = title;*/
+    const cardTitle = card.querySelector('.card-title');
+    cardTitle.textContent = title;
+
+
+
+    var arrow = document.createElement('img');
+    arrow.classList.add('arrow-img');
+    arrow.src = "/img/arrow.svg"; 
+
+    card.appendChild(cardTitle);
+
+    if(cardParent.classList.contains("catalog-card")){
+        var countServices = document.createElement('p');
+        countServices.classList.add('count-services');
+        countServices.textContent = count + " услуг";
+        card.appendChild(countServices);
+    }
+
+    card.appendChild(arrow);
+    return cardParent;
+}
+
+
 const createCatalogCard = (catalog, clearLanguage)=>{
     const catalogTemplate = document.querySelector('#catalog-template').content.querySelector('li');
-    const cardCatalog = document.importNode(catalogTemplate, true);
-    const cardTitle = cardCatalog.querySelector('.card-title');
-    const imgOrGif = cardCatalog.querySelector('img.catalog-gif');
+    var cardCatalog = document.importNode(catalogTemplate, true);
 
+    const cardTitle = cardCatalog.querySelector('.card-title');
+    //const imgOrGif = cardCatalog.querySelector('img.catalog-gif');
+
+   
     if (!(clearLanguage)){
-        imgOrGif.classList.add("hidden");
+        //imgOrGif.classList.add("hidden");
         cardCatalog.appendChild(createVidContainer());
         const vidOrGif = cardCatalog.querySelector('video.gif');
         vidOrGif.src = catalog.gifPreview;
+        cardTitle.textContent = catalog.title;
     }
     else{
-        imgOrGif.src = "img/clear.jpg";
+        var clearCard = createClarLangCard(cardCatalog, catalog.title, catalog.itemsInCategoryIds.length);
+        //cardTitle.textContent = catalog.title + " " + catalog.itemsInCategoryIds.length + " услуг";
+        //imgOrGif.src = "img/clear.jpg";
+        cardCatalog = (clearCard);
     }
 
-    cardTitle.textContent = catalog.title;
+    
     cardCatalog.setAttribute("catalog-id", catalog.id);
     return cardCatalog;
 };
@@ -81,18 +123,22 @@ const createCatalogCard = (catalog, clearLanguage)=>{
 
 const createServiceCard = (service, clearLanguage)=>{
     const serviceTemplate = document.querySelector('#service-template').content.querySelector('li');
-    const cardService = document.importNode(serviceTemplate, true);
+    var cardService = document.importNode(serviceTemplate, true);
     const cardTitle = cardService.querySelector('.card-description');
-    const imgOrGif = cardService.querySelector('img.service-gif');
+    //const imgOrGif = cardService.querySelector('img.service-gif');
 
     if (!(clearLanguage)){
-        imgOrGif.classList.add("hidden");
         cardService.appendChild(createVidContainer());
         const vidOrGif = cardService.querySelector('video.gif');
         vidOrGif.src = service.gifPreview;
     }
     else{
-        imgOrGif.src = "img/clear.jpg";
+        //imgOrGif.src = "img/clear.jpg";
+        var clearCard = createClarLangCard(cardService, service.title, 
+            service.itemsInCategoryIds ? service.itemsInCategoryIds.length : 0);
+        //cardTitle.textContent = catalog.title + " " + catalog.itemsInCategoryIds.length + " услуг";
+        //imgOrGif.src = "img/clear.jpg";
+        cardService = (clearCard);
     }
 
     cardTitle.textContent = service.title;

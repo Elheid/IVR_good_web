@@ -92,7 +92,8 @@ const getCellById = (id)=>{
 
 const getCellNameById = (id)=>{
 const cell = getCellById(id);
-return cell.innerText;
+const title = cell.querySelector(".card-title");
+return title.innerText;
 }
 const getCatalogId = ()=>{
 const href = window.location.search;

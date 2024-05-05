@@ -39,14 +39,14 @@ const showPopup = ()=>{
 
     document.getElementById('overlay').style.display = 'block';
     popup.style.display = 'block';
-    enablePopupScroll();
+    //enablePopupScroll();
 }
 const closePopup = ()=>{
     const popup = document.getElementById('popup');
     popup.classList.remove("popup-opened");
     document.getElementById('overlay').style.display = 'none';
     popup.style.display = 'none';
-    disablePopupScroll(popup);
+    //disablePopupScroll(popup);
 }
 
 
