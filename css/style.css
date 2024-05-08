@@ -88,7 +88,6 @@ button{
 }
 
 .popup {
-    width: 80%;
     height: auto;
     max-height: 530px;
     display: none;

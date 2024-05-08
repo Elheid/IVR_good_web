@@ -87,12 +87,17 @@ function returnState (searchResult){
     }
 };
 
-
+const hideArrows = ()=>{
+  const screenWidth = window.innerWidth;
+  if (screenWidth < 768){
+      const arrows = document.querySelectorAll(".arrow");
+      arrows.forEach((arrow)=>{ arrow.classList.add("opacity")});
+  }
+}
 
 const addCatalogButton = (searchResult)=>{
   window.onload = returnState(searchResult);
   document.addEventListener('DOMContentLoaded', renderCatalogs());
-
 };
 
 export {addCatalogButton, showServices, showSearchedServices};

@@ -2,7 +2,7 @@
 import { getServiceByTitle, getSimilarService } from "./api.js";
 import { showSearchedServices } from "./catalog.js";
 
-const ALERT_SHOW_TIME = 3500;
+const ALERT_SHOW_TIME = 10000000;
 const NETWORK_MESSAGE = 'Не удалось получить данные c сервера';
 
 const createNetworkAlert = ()=>{
@@ -15,13 +15,16 @@ const createNetworkAlert = ()=>{
     alertContainer.style.padding = '10px 0';
     alertContainer.style.fontSize = '20px';
     alertContainer.style.textAlign = 'center';
-    alertContainer.style.backgroundColor = 'red';
+    alertContainer.style.backgroundColor = '#E04E39';
+    alertContainer.style.display = 'flex';
+    alertContainer.style.alignItems = 'center';
+    alertContainer.style.justifyContent = "center";
     return alertContainer;
 };
 
 const showAlert = (message = NETWORK_MESSAGE) => {
     const alertContainer = createNetworkAlert();
-    alertContainer.textContent = message;
+    alertContainer.innerHTML = message + "<img style='width:1.5vw; height:1.5vw;' src='/img/nothSearch.png'>";
   
     document.body.append(alertContainer);
   
@@ -82,7 +85,7 @@ const searchSimilarResult = (query)=>
             showSearchedServices(data, query)
         })
         .catch((err)=> {
-            showAlert(err)
+            showAlert("По запросу ничего не найдено")
   });
 
 

@@ -11,12 +11,15 @@ const addHeader = ()=>{
     const newHeader = document.importNode(newHeaderTemp, true);
     newHeader.querySelector("a").href = curURL;
 
-
+    const prevHeader = listChildren[listChildren.length-1];
+    const hiddenEl = prevHeader.querySelector(".hidden");
+    hiddenEl.classList.remove("hidden");
 
     newHeader.querySelector("a").textContent = getCellNameById(curURL[curURL.length-1]);
-    listChildren[listChildren.length-1].classList.replace("current-page", "prev-page");
+    prevHeader.classList.replace("current-page", "prev-page");
     list.appendChild(newHeader);
 }
+
 
 
 const addHeaderForSearch = ()=>{
@@ -48,8 +51,12 @@ const removeSearchHeader = ()=>{
     }
 }
 const removeLastHeader = ()=>{
+
     const list = document.querySelector(".header-list");
     list.removeChild(getLastHeader());
+    const prevHeader = list.children[list.children.length-1];
+    const hiddenEl = prevHeader.querySelector(".arrow");
+    hiddenEl.classList.add("hidden");
     list.children[list.children.length - 1].classList.replace("prev-page", "current-page");
 }
   export {addHeader, removeLastHeader, addHeaderForSearch, removeSearchHeader}

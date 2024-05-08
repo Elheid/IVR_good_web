@@ -27,6 +27,14 @@ const loadCategories = async () => {
 };
 loadCategories();
 
+const hideArrows = ()=>{
+  const screenWidth = window.innerWidth;
+  if (screenWidth < 768){
+      const arrows = document.querySelectorAll(".arrow");
+      arrows.forEach((arrow)=>{ arrow.classList.add("opacity")});
+  }
+}
+hideArrows();
 
 addSearchButton();
 
