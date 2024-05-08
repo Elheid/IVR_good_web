@@ -70,6 +70,7 @@
 }
 
 .res-title{
+    margin-top: 0;
     font-size:32px;
     text-align: center;
     color:#FFFFFF;
@@ -99,4 +100,10 @@
 
 .popup-header{
     margin-bottom: 80px;
+}
+
+.popup-content{
+    display: grid;
+    justify-content: center;
+    text-align: center;
 }

@@ -117,7 +117,7 @@ const showInfoCards = ()=>{
     else{
         const list = document.querySelector(".info-cards");
         const div = document.createElement("div");
-        div.innerText = "Нет доп инфы";
+        div.innerText = "Дополнительной информации нет";
         list.appendChild(div);
     }
 }
