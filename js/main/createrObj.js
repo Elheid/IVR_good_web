@@ -99,20 +99,43 @@ const createClarLangCard = (cardParent, title, count)=>{
     return cardParent;
 }
 
+const createSubstrate = ()=>{
+   /* <div class="substrate">
+    <h3 class="card-title card-description">Зашлушка</h3>
+    <img src="/img/arrow-right.svg">
+  </div>*/
+
+    var container = document.createElement('div');
+    container.classList.add('substrate');
+
+    var title = document.createElement('h3');
+    title.classList.add('card-title');
+    title.classList.add('card-description');
+
+    var arrow = document.createElement('img');
+    arrow.src = "/img/arrow-right.svg"; 
+
+    container.appendChild(title);
+    container.appendChild(arrow);
+    return container;
+}
 
 const createCatalogCard = (catalog, clearLanguage)=>{
     const catalogTemplate = document.querySelector('#catalog-template').content.querySelector('li');
     var cardCatalog = document.importNode(catalogTemplate, true);
-
-    const cardTitle = cardCatalog.querySelector('.card-title');
+    const cardButton = cardCatalog.querySelector(".card-button");
+    
     //const imgOrGif = cardCatalog.querySelector('img.catalog-gif');
 
    
     if (!(clearLanguage)){
         //imgOrGif.classList.add("hidden");
+        cardButton.appendChild(createSubstrate());
         cardCatalog.appendChild(createVidContainer());
         const vidOrGif = cardCatalog.querySelector('video.gif');
+        const cardTitle = cardCatalog.querySelector('.card-title');
         vidOrGif.src = catalog.gifPreview;
+        
         cardTitle.textContent = catalog.title;
     }
     else{
@@ -131,10 +154,12 @@ const createCatalogCard = (catalog, clearLanguage)=>{
 const createServiceCard = (service, clearLanguage)=>{
     const serviceTemplate = document.querySelector('#service-template').content.querySelector('li');
     var cardService = document.importNode(serviceTemplate, true);
-    const cardTitle = cardService.querySelector('.card-description');
+    
+    const cardButton = cardService.querySelector(".card-button");
     //const imgOrGif = cardService.querySelector('img.service-gif');
 
     if (!(clearLanguage)){
+        cardButton.appendChild(createSubstrate());
         cardService.appendChild(createVidContainer());
         const vidOrGif = cardService.querySelector('video.gif');
         vidOrGif.src = service.gifPreview;
@@ -147,7 +172,7 @@ const createServiceCard = (service, clearLanguage)=>{
         //imgOrGif.src = "img/clear.jpg";
         cardService = (clearCard);
     }
-
+    const cardTitle = cardService.querySelector('.card-description');
     cardTitle.textContent = service.title;
     cardService.setAttribute("service-id", service.id);
 

@@ -30,7 +30,7 @@
 }
 .card-description{
     margin: 0;
-    margin-bottom: 15px;
+    /*margin-bottom: 15px;*/
 }
 
 .card-button{
@@ -222,6 +222,8 @@ button.exit-popup {
 */
 
 .video-overlay {
+    
+    grid-row: 1;
    /* position: relative;
     transform: translate(340%, 350%);
     max-width: 50px;
@@ -242,7 +244,47 @@ button.exit-popup {
     border-radius: 20px;
     border-color: rgba(89, 60, 47, 1);
     margin-bottom: 10px;
+
+    border: 1px solid #623B2A;
+    border-radius: 20px;
 }
+.gestural-language .card-content {
+    margin-top: -8%;
+}
+
+.gestural-language .list-of-cards{
+    grid-row-gap: 50px;
+}
+
+.substrate{
+    grid-row: 2;
+
+    align-items: center;
+    display: flex;
+
+}
+.substrate img{
+    width: 15%;
+}
+.substrate .card-title{
+    color:#FFFFFF;
+    font-size: 16px;
+    margin: 15px 5px;
+}
+
+.gestural-language .card.catalog-card,
+.gestural-language .card.service-card {
+    width: -webkit-fit-content;
+    width: -moz-fit-content;
+    width: fit-content;
+
+    border: 1px solid #623B2A;
+    border-radius: 20px;
+    background-color: #E04E39;
+    display: grid;
+    gap: 0;
+}
+
 
 .clear-card{
     border: 1px solid #623B2AE5;
