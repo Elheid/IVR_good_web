@@ -8,13 +8,13 @@ const services = document.querySelector('.services-list');
 
 
 
-const fillList = (creator, num)=>{
+/*const fillList = (creator, num)=>{
     for (let i = 0; i < num; i++){
         const catalog = createCatalog();
         const newElement = creator(catalog);
         list.appendChild(newElement);
     }
-}
+}*/
 
 
 const initializeResults = (cards)=>{

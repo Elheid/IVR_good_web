@@ -5,7 +5,7 @@ import { createServiceCard } from "./main/createrObj.js";
 import { getService } from "./api.js";
 import { addHeader, addHeaderForSearch, removeSearchHeader} from "./headers.js";
 import { getCellById, getCatalogId, getCellNameById } from "./util.js";
-import { addAutoPlayVid } from "./video.js";
+import { addPlayVidButton } from "./video.js";
 
 
 const displayServices = (services)=> {
@@ -43,7 +43,7 @@ const showServices = ()=>{
   getService(catalogId)
       .then((data) => {
         displayServices(data);
-        addAutoPlayVid();
+        addPlayVidButton();
       })
       .catch((err)=> console.log(err));
   const id = getCatalogId();
@@ -57,7 +57,7 @@ const showSearchedServices = (services, query)=>{
   addHeaderForSearch();
   displayServices(services);
   hideCatalogs();
-  addAutoPlayVid(); 
+  addPlayVidButton(); 
   history.pushState({ query: query }, '', `?query=${query}`);
 }
 
@@ -87,13 +87,6 @@ function returnState (searchResult){
     }
 };
 
-const hideArrows = ()=>{
-  const screenWidth = window.innerWidth;
-  if (screenWidth < 768){
-      const arrows = document.querySelectorAll(".arrow");
-      arrows.forEach((arrow)=>{ arrow.classList.add("opacity")});
-  }
-}
 
 const addCatalogButton = (searchResult)=>{
   window.onload = returnState(searchResult);

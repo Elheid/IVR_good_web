@@ -24,6 +24,13 @@ body{
     width: 100%;
     height: auto;
 }
+
+.instruction-title{
+    font-size: 20px;
+    text-align: center;
+    color:#623B2A;
+}
+
 .more, .less {
     padding: 0;
     font-family: inherit;

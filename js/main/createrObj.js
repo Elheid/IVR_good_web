@@ -41,14 +41,19 @@ const infoRes = (info)=>{
     return res;
 }
 
+const createPlayButton = ()=>{
+    var playButton = document.createElement('img');
+    playButton.classList.add('play-button');
+    playButton.src = 'img/play2.png';
+    return playButton;
+}
+
 const createVidContainer = ()=>{
     var videoOverlay = document.createElement('div');
     videoOverlay.classList.add('video-overlay');
 
     // Создаем img элемент для кнопки воспроизведения
-    var playButton = document.createElement('img');
-    playButton.classList.add('play-button');
-    playButton.src = 'img/play.png';
+
 
     // Создаем video элемент
     var videoElement = document.createElement('video');
@@ -58,7 +63,9 @@ const createVidContainer = ()=>{
     // Добавляем атрибут playsinline
     videoElement.setAttribute('playsinline', true);
     videoElement.muted = true
-    videoOverlay.appendChild(playButton);
+
+    videoOverlay.appendChild(createPlayButton());
+
     videoOverlay.appendChild(videoElement);
     return videoOverlay;
 }
@@ -171,17 +178,23 @@ const createInfoCard = (info)=>{
 
 
 const createGoButtons = ()=>{
-    const listOfCards = document.querySelectorAll(".list-of-cards");
 
+
+    const listOfCards = document.querySelectorAll(".list-of-cards");
+    const catalog = document.querySelector(".catalogs");
     const twoInRow = document.querySelector(".two-in-row");
     const oneInRow = document.querySelector(".one-in-row");
-    
-    oneInRow.addEventListener("click", ()=>{
-        listOfCards.forEach((card)=> card.classList.add("list"));
-    })
-    twoInRow.addEventListener("click", ()=>{
-        listOfCards.forEach((card)=> card.classList.remove("list"));
-    })
+    if (!catalog.classList.contains("clear-language")){
+        oneInRow.addEventListener("click", ()=>{
+            listOfCards.forEach((card)=> card.classList.add("list"));
+        })
+        twoInRow.addEventListener("click", ()=>{
+            listOfCards.forEach((card)=> card.classList.remove("list"));
+        })
+    }else{
+        twoInRow.classList.add("hidden");
+        oneInRow.classList.add("hidden");
+    }
 }
 
 

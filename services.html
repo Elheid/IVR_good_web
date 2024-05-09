@@ -70,22 +70,27 @@
                 <div class="popup-content">
                   <div class="popup-table">
                     <div class="popup-header">
-                      <button class="closePopup">
+                      <img class="indicator red" src="img/redDot.svg">
+                      <button class="closePopup exit-popup">
                         <img src="img/close.jpg" width="32px" height="30px">
                       </button>
                     </div>
                     <video id="videoElement" autoplay></video>
-                
+                    <div class="key-words tag-container">
+                      <ul class="tag-list">
+
+                      </ul>
+                    </div>
                     <div class="popup-footer">
                       <button class="closePopup  back-button">
                         <img src="img/back.png">
                       </button>
 
   
-                      <button >
+                      <button class="stop-record">
                         <img src="img/record-button.png" width="32px" height="30px">
                       </button>
-                      <button >
+                      <button class="start-record">
                         <img src="img/record-button-2.png" width="32px" height="30px">
                       </button>
 
@@ -120,6 +125,13 @@
       <template id="header">
         <li class="breadcrumb-item current-page">
           <a href=""></a>
+        </li>
+      </template>
+      <template id="tag">
+        <li class="tag key-word">
+          <p class="tag-name">Слово</p>
+          <button class="delete-tag">
+          </button>
         </li>
       </template>
   </body>

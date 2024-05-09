@@ -2,7 +2,7 @@
 import { getServiceByTitle, getSimilarService } from "./api.js";
 import { showSearchedServices } from "./catalog.js";
 
-const ALERT_SHOW_TIME = 10000000;
+const ALERT_SHOW_TIME = 3500;
 const NETWORK_MESSAGE = 'Не удалось получить данные c сервера';
 
 const createNetworkAlert = ()=>{
@@ -90,6 +90,6 @@ const searchSimilarResult = (query)=>
 
 
   // Находим форму поиска и добавляем обработчик события для отправки запроса поиска
-  const addSearchButton = ()=> document.querySelector('.search-button').addEventListener('click', handleSearch);
+  const addSearchButton = (searchButton)=> searchButton.addEventListener('click', handleSearch);
   export {addSearchButton, searchResult, /*hideAlerts*/}
 

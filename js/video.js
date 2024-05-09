@@ -1,4 +1,4 @@
-const playVisibleVideos = ()=> {
+/*const playVisibleVideos = ()=> {
     var cards = document.querySelectorAll('.card');
     cards.forEach((card, index)=> {
       var rect = card.getBoundingClientRect();
@@ -11,10 +11,10 @@ const playVisibleVideos = ()=> {
       }
     });
 }
+*/
 
 
-
-const addAutoPlayVid = ()=>{
+const addPlayVidButton = ()=>{
     //window.addEventListener('scroll', playVisibleVideos);
     //window.addEventListener('resize', playVisibleVideos);
     //playVisibleVideos();
@@ -24,7 +24,7 @@ const addAutoPlayVid = ()=>{
             videos.forEach(function(video) {
                 var button = video.parentElement.querySelector('.play-button');
                 var overlay = video.parentElement;
-                overlay.addEventListener('click', function() {
+                overlay.addEventListener('click', ()=> {
                   if (video.paused ) {
                     video.play();
                     button.classList.add("opacity");
@@ -34,11 +34,11 @@ const addAutoPlayVid = ()=>{
                   }
                 });
             
-                video.addEventListener('ended', function() {
+                video.addEventListener('ended', ()=> {
                   button.classList.remove("opacity");
                 });
                     
               });
         }
 };
-export {addAutoPlayVid}
+export {addPlayVidButton}

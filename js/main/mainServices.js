@@ -3,17 +3,16 @@ import { loadSavedData } from './main.js';
 import { addCatalogButton } from '../catalog.js';
 import { createBackButton } from '../backButton.js';
 import { addWebcamPopupClose, addWebcamPopupShow } from '../popup.js';
-
 import { getCategories } from '../api.js';
-
 import { addSearchButton, searchResult } from '../search.js';
+import { addPlayVidButton } from '../video.js';
 
-import { addAutoPlayVid } from '../video.js';
 
 createBackButton();
+
 var flag = loadSavedData();
-var catalogs = document.querySelector(".catalogs").classList.add(flag);
-var services = document.querySelector(".services").classList.add(flag);
+document.querySelector(".catalogs").classList.add(flag);
+document.querySelector(".services").classList.add(flag);
 
 
 const loadCategories = async () => {
@@ -21,11 +20,13 @@ const loadCategories = async () => {
       .then((data) => {
         initializeResults(data);
         addCatalogButton(searchResult);
-        addAutoPlayVid();
+        addPlayVidButton();
       })
       .catch((err)=> console.log(err));
 };
 loadCategories();
+
+
 
 const hideArrows = ()=>{
   const screenWidth = window.innerWidth;
@@ -36,7 +37,7 @@ const hideArrows = ()=>{
 }
 hideArrows();
 
-addSearchButton();
+addSearchButton(document.querySelector('.search-button'));
 
 addWebcamPopupClose();
 addWebcamPopupShow();

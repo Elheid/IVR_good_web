@@ -89,7 +89,7 @@ button{
 
 .popup {
     height: auto;
-    max-height: 530px;
+    
     display: none;
     position: fixed;
     top: 50%;

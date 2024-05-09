@@ -1,6 +1,6 @@
 
 import { releaseWebcam, requestWebcam } from "./webcam.js";
-
+import { removeGastrualSearch, addGastrualSearch, removeAllTags } from "./gastrualSearch.js";
 
 
 const enablePopupScroll = ()=>{
@@ -55,10 +55,13 @@ const showWebcamPopup = ()=>{
     document.addEventListener('keydown', closePopupOnKeyWeb); 
     showPopup();
     requestWebcam();
+    addGastrualSearch();
 }
 const closeWebcamPopup = ()=>{
     closePopup();
     releaseWebcam();
+    removeGastrualSearch();
+    removeAllTags();
 }
 
 
