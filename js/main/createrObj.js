@@ -64,13 +64,13 @@ const createVidContainer = ()=>{
     videoElement.setAttribute('playsinline', true);
     videoElement.muted = true
 
-    videoOverlay.appendChild(createPlayButton());
+    //videoOverlay.appendChild(createPlayButton());
 
     videoOverlay.appendChild(videoElement);
     return videoOverlay;
 }
 
-const createClarLangCard = (cardParent, title, count)=>{
+const createClearLangCard = (cardParent, title, count)=>{
 
     cardParent.children[0].classList.add("clear-card");
     const card = cardParent.querySelector("button");
@@ -110,13 +110,15 @@ const createCatalogCard = (catalog, clearLanguage)=>{
    
     if (!(clearLanguage)){
         //imgOrGif.classList.add("hidden");
-        cardCatalog.appendChild(createVidContainer());
+        //cardCatalog.appendChild(createVidContainer());
+        const cardButton = cardCatalog.querySelector(".card-button");
+        cardButton.appendChild(createVidContainer());
         const vidOrGif = cardCatalog.querySelector('video.gif');
         vidOrGif.src = catalog.gifPreview;
         cardTitle.textContent = catalog.title;
     }
     else{
-        var clearCard = createClarLangCard(cardCatalog, catalog.title, catalog.itemsInCategoryIds.length);
+        var clearCard = createClearLangCard(cardCatalog, catalog.title, catalog.itemsInCategoryIds.length);
         //cardTitle.textContent = catalog.title + " " + catalog.itemsInCategoryIds.length + " услуг";
         //imgOrGif.src = "img/clear.jpg";
         cardCatalog = (clearCard);
@@ -135,13 +137,15 @@ const createServiceCard = (service, clearLanguage)=>{
     //const imgOrGif = cardService.querySelector('img.service-gif');
 
     if (!(clearLanguage)){
-        cardService.appendChild(createVidContainer());
+        //cardService.appendChild(createVidContainer());
+        const cardButton = cardService.querySelector(".card-button");
+        cardButton.appendChild(createVidContainer());
         const vidOrGif = cardService.querySelector('video.gif');
         vidOrGif.src = service.gifPreview;
     }
     else{
         //imgOrGif.src = "img/clear.jpg";
-        var clearCard = createClarLangCard(cardService, service.title, 
+        var clearCard = createClearLangCard(cardService, service.title, 
             service.itemsInCategoryIds ? service.itemsInCategoryIds.length : 0);
         //cardTitle.textContent = catalog.title + " " + catalog.itemsInCategoryIds.length + " услуг";
         //imgOrGif.src = "img/clear.jpg";

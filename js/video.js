@@ -18,8 +18,12 @@ const addPlayVidButton = ()=>{
     //window.addEventListener('scroll', playVisibleVideos);
     //window.addEventListener('resize', playVisibleVideos);
     //playVisibleVideos();
-
         var videos = document.querySelectorAll('.gif');
+        videos.forEach((video)=>{
+          video.setAttribute("autoplay", true);
+          video.setAttribute("loop", true)
+        })
+        /*var videos = document.querySelectorAll('.gif');
         if (videos.length > 0 && !videos[0].classList.contains("hidden")){
             videos.forEach(function(video) {
                 var button = video.parentElement.querySelector('.play-button');
@@ -39,6 +43,6 @@ const addPlayVidButton = ()=>{
                 });
                     
               });
-        }
+        }*/
 };
 export {addPlayVidButton}

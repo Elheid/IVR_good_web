@@ -34,8 +34,10 @@ const changeIndicator = (buttonName)=>{
         indicator.classList.replace("red", "green")
         indicator.src = "/img/greenDot.svg";
     }else{
-        indicator.classList.replace("green", "red")
-        indicator.src = "/img/redDot.svg";
+        if(buttonName == "stop"){
+            indicator.classList.replace("green", "red")
+            indicator.src = "/img/redDot.svg";
+        }
     }
 }
 
