@@ -77,7 +77,9 @@ const createClarLangCard = (cardParent, title, count)=>{
     /*var cardTitle = document.createElement('p');
     cardTitle.classList.add('title');
     cardTitle.trxtContent = title;*/
-    const cardTitle = card.querySelector('.card-title');
+    const cardTitle = document.createElement('h3');
+    cardTitle.classList.add("card-title");
+    cardTitle.classList.add("card-description");
     cardTitle.textContent = title;
 
 
@@ -133,7 +135,7 @@ const createCatalogCard = (catalog, clearLanguage)=>{
         cardButton.appendChild(createSubstrate());
         cardCatalog.appendChild(createVidContainer());
         const vidOrGif = cardCatalog.querySelector('video.gif');
-        const cardTitle = cardCatalog.querySelector('.card-title');
+        const cardTitle = cardCatalog.querySelector('.card-description');
         vidOrGif.src = catalog.gifPreview;
         
         cardTitle.textContent = catalog.title;
