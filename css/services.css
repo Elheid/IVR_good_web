@@ -150,6 +150,8 @@ input[type="text"] {
     max-height: 281px;
 }
 #videoElement{
+    width: 224px;
+    height: 224px;
     width:70%;
     margin-left: auto;
     margin-right: auto;

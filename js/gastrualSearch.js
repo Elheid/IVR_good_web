@@ -1,4 +1,5 @@
 import { addSearchButton } from "./search.js";
+//import { startWebcam } from "./gastrualApi.js";
 
 const stopRecordButton = document.querySelector(".stop-record");
 const startRecordButton = document.querySelector(".start-record");
@@ -47,7 +48,7 @@ const stopButton = ()=>{
 
 const startButton = ()=>{
     const button ="start";
-
+    //startWebcam();
     changeIndicator(button);
 }
 
