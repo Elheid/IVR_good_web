@@ -183,7 +183,7 @@ const createServiceCard = (service, clearLanguage)=>{
 
     nextButton.addEventListener("click", (evt)=>{
     //const serviceName = evt.target.parentNode.querySelector(".card-description").textContent;
-    const serviceId = evt.target.parentNode.parentNode.getAttribute("service-id");
+    const serviceId = evt.target.parentNode.parentNode.parentNode.parentNode.getAttribute("service-id");
     window.location.href = `result.html?serviceId=${encodeURIComponent(serviceId)}`;
     })
     return cardService;
@@ -204,24 +204,49 @@ const createInfoCard = (info)=>{
 };
 
 
-const createGoButtons = ()=>{
+const rowButtonEvent = (listOfCards, remove ,marginTop)=>{
+    if(listOfCards[1].children.length === 0){
+        listOfCards = listOfCards[0];
+    }
+    else{
+        listOfCards = listOfCards[1];
+    }
+    if (remove){
+        listOfCards.classList.remove("list");
+    }
+    else{
+        listOfCards.classList.add("list");
+    }
+    
+    const list = listOfCards.children;
+    for (var i = 0; i < list.length; i++){
+        const card = list[i];
+        card.querySelector(".card-button").style.marginTop = marginTop;
+    };
+}
 
-
-    const listOfCards = document.querySelectorAll(".list-of-cards");
+const createEventsButtons = (listOfCards)=>{
     const catalog = document.querySelector(".catalogs");
     const twoInRow = document.querySelector(".two-in-row");
     const oneInRow = document.querySelector(".one-in-row");
+
     if (!catalog.classList.contains("clear-language")){
         oneInRow.addEventListener("click", ()=>{
-            listOfCards.forEach((card)=> card.classList.add("list"));
+            rowButtonEvent(listOfCards, false,"25px");
         })
         twoInRow.addEventListener("click", ()=>{
-            listOfCards.forEach((card)=> card.classList.remove("list"));
+            rowButtonEvent(listOfCards, true, "0");
         })
+
     }else{
         twoInRow.classList.add("hidden");
         oneInRow.classList.add("hidden");
     }
+}
+
+const createGoButtons = ()=>{
+    const lists = document.querySelectorAll(".list-of-cards");
+    createEventsButtons(lists);
 }
 
 

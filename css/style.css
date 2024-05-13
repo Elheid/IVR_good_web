@@ -114,11 +114,6 @@ button{
     padding: 0;
 
     color: #EF3124;
-
-    font-family: Montserrat Alternates;
-    font-size: 20px;
-    font-style: normal;
-    font-weight: 600;
 }
 
 #closePopup {
@@ -139,10 +134,7 @@ button{
 }
 
 
-.buttons-area img{
-    width: 100%;
-    height: auto;
-}
+
 
 
 .hidden {
