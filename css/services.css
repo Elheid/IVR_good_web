@@ -152,7 +152,7 @@ input[type="text"] {
 #videoElement{
     width: 224px;
     height: 224px;
-    width:70%;
+    /*width:70%;*/
     margin-left: auto;
     margin-right: auto;
 }
@@ -314,7 +314,7 @@ button.exit-popup {
     margin-top: 10px;
     margin-bottom: 10px;
     margin-left: 14px;
-
+    margin-right: 14px;
     width: min-content;
     display:flex;
     flex-direction: row;
@@ -324,6 +324,7 @@ button.exit-popup {
     background: #C3936799;
     border: 1px solid #623B2A;
     border-radius: 12px;
+
 }
 
 .tag-name{

@@ -43,20 +43,3 @@ addSearchButton(document.querySelector('.search-button'));
 
 addWebcamPopupClose();
 addWebcamPopupShow();
-
-
-
-const socket = new WebSocket("ws://localhost:5000/");
-
-socket.onopen = function(event) {
-  console.log('WebSocket connection opened.');
-};
-
-
-socket.onerror = function(error) {
-  console.error('WebSocket error:', error);
-};
-
-socket.onclose = function(event) {
-  console.log('WebSocket connection closed.');
-};

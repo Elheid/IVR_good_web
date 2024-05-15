@@ -1,84 +1,109 @@
-// Создаем WebSocket соединение
-const socket = new WebSocket("http://localhost:5000");
 
+const interval = 30 ;
+let intervalId;
+let keyWords = [];
 
-
-
-// Функция для отправки данных на сервер через WebSocket
-function sendData(imageData) {
-    if (socket.readyState === WebSocket.OPEN) {
-        socket.send(imageData);
-    } else {
-        console.error('WebSocket connection is not open.');
-        socket.close();
+const socket = io('wss://pincode-dev.ru', {
+    autoConnect: false,
+    'reconnection': true,
+    'reconnectionDelay': 500,
+    'reconnectionAttempts': 10,
+    extraHeaders: {
+        "ngrok-skip-browser-warning": "true"
     }
+});
+
+const onConnectToModal = ()=>{
+    console.log("connect");
+    keyWords = [];
 }
 
-// Функция для получения доступа к видеопотоку с веб-камеры
-function startWebcam() {
+const onDisconnectToModal = ()=>{
+    console.log("disconnect");
+}
+
+const onReceiveText = (text)=>{
+    console.log(text);
+    const results = Object.values(JSON.parse(text))
+    console.log(results)
+    keyWords.push(results[0]);
+}
+
+const getKeyWords = ()=>{
+    return keyWords;
+}
+
+
+const startSendingData =(videoElement)=>{
+    intervalId = setInterval(function() {
+        addFrameSender(videoElement);
+    }, interval);
+}
+
+const stopSendingData = () => {
+    clearInterval(intervalId);
+};
+
+const startWebcam = ()=> {
     navigator.mediaDevices.getUserMedia({ video: true })
-        .then(function(stream) {
+        .then(((stream) =>{
+            connectToSocket();
             const videoElement = document.getElementById("videoElement");
             videoElement.srcObject = stream;
-            videoElement.onloadedmetadata = function(e) {
+            videoElement.onloadedmetadata = (e)=> {
                 videoElement.play();
-                // Отправляем изображения с веб-камеры на сервер каждые 30 миллисекунд
-                setInterval(function() {
-                    sendFrame(videoElement);
-                }, 30);
+                startSendingData(videoElement);
             };
-            document.querySelector(".video-container").appendChild(videoElement);
-        })
-        .catch(function(err) {
+            document.querySelector(".videoContainer").appendChild(videoElement);
+        }))
+        .catch((err)=> {
             console.error('Error accessing webcam:', err);
         });
 }
 
-// Функция для отправки кадра с видеопотока на сервер
-function sendFrame(videoElement) {
-    const canvas = document.createElement('canvas');
-    const context = canvas.getContext('2d');
-    const newWidth = 224;
-    const newHeight = 224;
+const addFrameSender=(videoElement)=> {
+        console.log("Send frame");
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
 
+        let newWidth = 224;
 
-    context.drawImage(videoElement, 0, 0, newWidth, newHeight);
+        canvas.width = 224;
+        canvas.height = 224;
 
-    // Преобразовываем изображение в base64 строку
-    const imageData = canvas.toDataURL('image/jpeg');
-    
-    // Отправляем изображение на сервер
-    sendData(imageData);
+        if (context) {
+        context.drawImage(videoElement, 0, (0), newWidth, 160);
+        context.fillStyle = '#727272';
+        context.fillRect(0, 160, newWidth, 224-160); // Нижняя часть
+        const image = canvas.toDataURL('image/jpeg');
+        socket.emit("data", image);
+    }
 }
 
-// Обработчик события при открытии WebSocket соединения
-socket.onopen = function(event) {
-    console.log('WebSocket connection opened.');
-};
 
-// Обработчик события при получении сообщения от сервера
-socket.onmessage = function(event) {
-    console.log('Received message from server:', event.data);
-    // Обновляем интерфейс на основе ответа от сервера
-    updateInterface(event.data);
-};
 
-// Обработчик события при возникновении ошибки
-socket.onerror = function(error) {
-    console.error('WebSocket error:', error);
-};
-
-// Обработчик события при закрытии WebSocket соединения
-socket.onclose = function(event) {
-    console.log('WebSocket connection closed.');
-};
-
-// Функция для обновления интерфейса на основе ответа от сервера
-function updateInterface(responseData) {
-    // Реализация логики обновления интерфейса на основе данных от сервера
-    // Пример:
-    // document.getElementById('result').innerText = responseData;
+const connectToSocket= ()=> {
+    socket.on("send_not_normalize_text", onReceiveText);
+    socket.on("message", onReceiveText);
+    socket.on("connect", onConnectToModal);
+    socket.on("disconnect", onDisconnectToModal);
+    socket.connect()
 }
 
-// Начинаем работу с веб-камерой
-//export {startWebcam}
+
+
+const disconnectFromSocket= ()=> {
+    socket.disconnect();
+
+    socket.off("connect", onConnectToModal);
+    socket.off("disconnect", onDisconnectToModal);
+    socket.off("message", onReceiveText);
+    socket.removeAllListeners();
+
+    const videoElement = document.getElementById("videoElement");
+    videoElement.srcObject = null;
+    stopSendingData();
+}
+
+
+export {startWebcam, disconnectFromSocket, getKeyWords}
