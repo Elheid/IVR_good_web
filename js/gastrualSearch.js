@@ -1,4 +1,5 @@
 import { addSearchButton } from "./search.js";
+import { startWebcam, disconnectFromSocket, getKeyWords } from "./gastrualApi.js";
 
 const stopRecordButton = document.querySelector(".stop-record");
 const startRecordButton = document.querySelector(".start-record");
@@ -11,10 +12,10 @@ const createTag = (name)=>{
     return newTag;
 }
 
-const getKeyWords = ()=>{
+/*const getKeyWords = ()=>{
     const listTags = ["потеря", "паспорт"];
     return listTags;
-}
+}*/
 
 const addNewTags =  ()=>{
     const input = document.querySelector('.search-input');
@@ -43,11 +44,12 @@ const stopButton = ()=>{
     const button ="stop";
     addNewTags();
     changeIndicator(button);
+    disconnectFromSocket();
 }
 
 const startButton = ()=>{
     const button ="start";
-
+    startWebcam();
     changeIndicator(button);
 }
 

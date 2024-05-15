@@ -176,7 +176,9 @@ input[type="text"] {
     max-height: 281px;
 }
 #videoElement{
-    width:70%;
+    width: 224px;
+    height: 224px;
+    /*width:70%;*/
     margin-left: auto;
     margin-right: auto;
 }
@@ -345,7 +347,7 @@ button#showPopup img{
     margin-top: 10px;
     margin-bottom: 10px;
     margin-left: 14px;
-
+    margin-right: 14px;
     width: min-content;
     display:flex;
     flex-direction: row;
@@ -355,6 +357,7 @@ button#showPopup img{
     background: #C3936799;
     border: 1px solid #623B2A;
     border-radius: 12px;
+
 }
 
 .tag-name{

@@ -54,12 +54,12 @@ const showWebcamPopup = ()=>{
     document.addEventListener('click', closeSectionWeb);
     document.addEventListener('keydown', closePopupOnKeyWeb); 
     showPopup();
-    requestWebcam();
+    //requestWebcam();
     addGastrualSearch();
 }
 const closeWebcamPopup = ()=>{
     closePopup();
-    releaseWebcam();
+    //releaseWebcam();
     removeGastrualSearch();
     removeAllTags();
 }
