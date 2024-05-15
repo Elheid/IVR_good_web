@@ -30,7 +30,7 @@ const addHeader = ()=>{
     const arrow = document.createElement("img");
     arrow.classList.add("arrow");
     arrow.classList.add("hidden");
-    arrow.src = "/img/breadMini.jpg"
+    arrow.src = "/img/breadMini.svg"
 
     const prevHeader = listChildren[listChildren.length-1];
     showArrows();
