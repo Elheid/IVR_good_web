@@ -1,4 +1,4 @@
-
+import { addNewTags} from "./keyWords.js";
 const interval = 30 ;
 let intervalId;
 let keyWords = [];
@@ -27,6 +27,7 @@ const onReceiveText = (text)=>{
     const results = Object.values(JSON.parse(text))
     console.log(results)
     keyWords.push(results[0]);
+    addNewTags(keyWords);
 }
 
 const getKeyWords = ()=>{
@@ -50,6 +51,7 @@ const startWebcam = ()=> {
             connectToSocket();
             const videoElement = document.getElementById("videoElement");
             videoElement.srcObject = stream;
+            videoElement.classList.remove("hidden")
             videoElement.onloadedmetadata = (e)=> {
                 videoElement.play();
                 startSendingData(videoElement);
@@ -102,6 +104,7 @@ const disconnectFromSocket= ()=> {
 
     const videoElement = document.getElementById("videoElement");
     videoElement.srcObject = null;
+    videoElement.classList.add("hidden");
     stopSendingData();
 }
 
