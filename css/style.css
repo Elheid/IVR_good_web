@@ -18,7 +18,7 @@ h1, h2, h3{
 }
 
 .main-header{
-    max-width: 1200px;/*было 800px*/
+    max-width: 1500px;/*было 800px*/
     margin: 0 auto;
     padding: 0 55px;
 }
@@ -27,7 +27,7 @@ h1, h2, h3{
     padding: 0 55px;
 }
 .main-content{
-    max-width: 1000px;/*было 800px*/
+    max-width: 1200px;/*было 800px*/
     margin: 0 auto;
 }
 .main-footer{
