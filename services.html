@@ -28,14 +28,14 @@
     <main class="main-content">
         <section class="buttons-area">
           <button class="return-button">
-            <img src="img/back.png" alt="Кнопка назад">
+            <img src="img/arrow-left-white.svg" alt="Кнопка назад">
           </button>
             <input class="search-input" type="text" name="query" placeholder="Поиск на жестовом языке">
             <button class="search-button" type="submit">
-                <img src="img/search.svg" alt="Кнопка поиска">
+              <img src="img/search.svg" alt="Кнопка поиска">
             </button>
             <button id="showPopup" type="button">
-              <img src="img/record.png" alt="Кнопка поиска жестами">
+              <img src="img/record.svg" alt="Кнопка поиска жестами">
             </button>
             <div class="view-buttons">
               <button class="two-in-row" type="button">
@@ -75,7 +75,10 @@
                         <img src="img/close.jpg" width="32px" height="30px">
                       </button>
                     </div>
-                    <video id="videoElement" autoplay></video>
+                    <video id="videoInst" src="img/long.mp4"  muted autoplay loop></video>
+                    <div class="videoContainer">
+                      <video id="videoElement" class="hidden" autoplay></video>
+                    </div>
                     <div class="key-words tag-container">
                       <ul class="tag-list">
 
@@ -83,7 +86,7 @@
                     </div>
                     <div class="popup-footer">
                       <button class="closePopup  back-button">
-                        <img src="img/back.png">
+                        <img src="img/arrow-left-white.svg">
                       </button>
 
   
@@ -94,14 +97,16 @@
                         <img src="img/record-button-2.png" width="32px" height="30px">
                       </button>
 
-                      <button class="closePopup search-popup">
-                        <img src="img/search.png" >
+                      <button class="closePopup search-popup search-button">
+                        <img src="img/search.svg" >
                       </button>
                     </div>
                 </div>
          </div>
         </div>
       <script src="js/main/mainServices.js" type="module"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.js"></script>
+
     </main>
     <footer class="main-footer">
     </footer>

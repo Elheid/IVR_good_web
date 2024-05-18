@@ -8,6 +8,8 @@ import { addSearchButton, searchResult } from '../search.js';
 import { addPlayVidButton } from '../video.js';
 
 
+
+
 createBackButton();
 
 var flag = loadSavedData();
@@ -41,5 +43,3 @@ addSearchButton(document.querySelector('.search-button'));
 
 addWebcamPopupClose();
 addWebcamPopupShow();
-
-

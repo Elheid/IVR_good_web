@@ -128,6 +128,22 @@ img.arrow{
     margin-left: 22px;
 }
 
+
+
+button.return-button, button.back-button {
+    background-color: #E04E39;
+    border-radius: 10px;
+    margin: 0 10px;
+}
+.return-button img, .back-button img {
+    margin: 6px 25px;
+    width: 30px;
+    height: 20px;
+}
+
+
+
+
 button.search-button{
     background-color: #E04E39;
     border-radius: 10px;
@@ -139,6 +155,7 @@ button.search-button{
     width: 20px;
     height: 20px;
 }
+
 .search-input{
     max-width: 273px;
     width: 100%;
@@ -155,13 +172,20 @@ input[type="text"] {
     font-size: 14px; 
  }
 
+ video#videoInst {
+    margin-top: 2vw;
+    width: 60%;
+    height: auto;
+}
 
 #video-element{
     margin-top: 10px;
     max-height: 281px;
 }
 #videoElement{
-    width:70%;
+    width: 224px;
+    height: 224px;
+    /*width:70%;*/
     margin-left: auto;
     margin-right: auto;
 }
@@ -173,11 +197,11 @@ input[type="text"] {
     height: auto;
 }
 
-.popup-footer img{
+.stop-record img, .start-record img{
     width: 100%
 }
 
-.popup-footer  img{
+.stop-record img, .start-record img{
     min-width: 20px;
     width: 100%;
     height: auto;
@@ -205,6 +229,7 @@ input[type="text"] {
     height: 80%;
     display: flex;
     flex-direction: column;
+    align-items: center;
 }
 .popup-header{
     display: flex;
@@ -217,7 +242,9 @@ img.indicator{
     margin-left: auto;
 }
 button.exit-popup {
-    margin-left: auto;
+    position: absolute;
+    top: 8px;
+    right: 8px;
 }
 
 .popup-footer{
@@ -306,6 +333,13 @@ button.exit-popup {
 
 }
 
+button#showPopup{
+    max-height:37px
+}
+button#showPopup img{
+    max-height:37px
+}
+
 .service-button.clear-card .card-title{
     margin-top: 30px;
     margin-bottom: 20px;
@@ -341,7 +375,8 @@ button.exit-popup {
 
 
 .tag-list{
-
+    min-width: 25vw;
+    min-height: 5vw;
     display: flex;
     flex-wrap: wrap;
     margin-top: 20px;
@@ -361,11 +396,12 @@ button.exit-popup {
 }
 
 .key-word{
+    max-height: 30px;
     flex: 1 0 20%;
     margin-top: 10px;
     margin-bottom: 10px;
     margin-left: 14px;
-
+    margin-right: 14px;
     width: min-content;
     display:flex;
     flex-direction: row;
@@ -375,12 +411,18 @@ button.exit-popup {
     background: #C3936799;
     border: 1px solid #623B2A;
     border-radius: 12px;
+
 }
 
 .tag-name{
     margin: 2px 18px;
     color: #000000;
     font-size: 15px;
+}
+
+
+header.main-header{
+    padding: 0 0;
 }
 
 
