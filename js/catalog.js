@@ -1,7 +1,7 @@
 
 import { getAllServices, createService } from "./util.js";
 import { hideCatalogs} from "./renderIcons.js";
-import { createServiceCard } from "./main/createrObj.js";
+import { createServiceCard, createGoButtons } from "./main/createrObj.js";
 import { getService } from "./api.js";
 import { addHeader, addHeaderForSearch, removeSearchHeader} from "./headers.js";
 import { getCellById, getCatalogId, getCellNameById } from "./util.js";
