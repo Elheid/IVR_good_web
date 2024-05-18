@@ -77,7 +77,9 @@ const createClarLangCard = (cardParent, title, count)=>{
     /*var cardTitle = document.createElement('p');
     cardTitle.classList.add('title');
     cardTitle.trxtContent = title;*/
-    const cardTitle = card.querySelector('.card-title');
+    const cardTitle = document.createElement('h3');
+    cardTitle.classList.add("card-title");
+    cardTitle.classList.add("card-description");
     cardTitle.textContent = title;
 
 
@@ -99,20 +101,43 @@ const createClarLangCard = (cardParent, title, count)=>{
     return cardParent;
 }
 
+const createSubstrate = ()=>{
+   /* <div class="substrate">
+    <h3 class="card-title card-description">Зашлушка</h3>
+    <img src="/img/arrow-right.svg">
+  </div>*/
+
+    var container = document.createElement('div');
+    container.classList.add('substrate');
+
+    var title = document.createElement('h3');
+    title.classList.add('card-title');
+    title.classList.add('card-description');
+
+    var arrow = document.createElement('img');
+    arrow.src = "/img/arrow-right.svg"; 
+
+    container.appendChild(title);
+    container.appendChild(arrow);
+    return container;
+}
 
 const createCatalogCard = (catalog, clearLanguage)=>{
     const catalogTemplate = document.querySelector('#catalog-template').content.querySelector('li');
     var cardCatalog = document.importNode(catalogTemplate, true);
-
-    const cardTitle = cardCatalog.querySelector('.card-title');
+    const cardButton = cardCatalog.querySelector(".card-button");
+    
     //const imgOrGif = cardCatalog.querySelector('img.catalog-gif');
 
    
     if (!(clearLanguage)){
         //imgOrGif.classList.add("hidden");
+        cardButton.appendChild(createSubstrate());
         cardCatalog.appendChild(createVidContainer());
         const vidOrGif = cardCatalog.querySelector('video.gif');
+        const cardTitle = cardCatalog.querySelector('.card-description');
         vidOrGif.src = catalog.gifPreview;
+        
         cardTitle.textContent = catalog.title;
     }
     else{
@@ -131,10 +156,12 @@ const createCatalogCard = (catalog, clearLanguage)=>{
 const createServiceCard = (service, clearLanguage)=>{
     const serviceTemplate = document.querySelector('#service-template').content.querySelector('li');
     var cardService = document.importNode(serviceTemplate, true);
-    const cardTitle = cardService.querySelector('.card-description');
+    
+    const cardButton = cardService.querySelector(".card-button");
     //const imgOrGif = cardService.querySelector('img.service-gif');
 
     if (!(clearLanguage)){
+        cardButton.appendChild(createSubstrate());
         cardService.appendChild(createVidContainer());
         const vidOrGif = cardService.querySelector('video.gif');
         vidOrGif.src = service.gifPreview;
@@ -147,7 +174,7 @@ const createServiceCard = (service, clearLanguage)=>{
         //imgOrGif.src = "img/clear.jpg";
         cardService = (clearCard);
     }
-
+    const cardTitle = cardService.querySelector('.card-description');
     cardTitle.textContent = service.title;
     cardService.setAttribute("service-id", service.id);
 
@@ -156,7 +183,7 @@ const createServiceCard = (service, clearLanguage)=>{
 
     nextButton.addEventListener("click", (evt)=>{
     //const serviceName = evt.target.parentNode.querySelector(".card-description").textContent;
-    const serviceId = evt.target.parentNode.parentNode.getAttribute("service-id");
+    const serviceId = evt.target.parentNode.parentNode.parentNode.parentNode.getAttribute("service-id");
     window.location.href = `result.html?serviceId=${encodeURIComponent(serviceId)}`;
     })
     return cardService;
@@ -177,24 +204,49 @@ const createInfoCard = (info)=>{
 };
 
 
-const createGoButtons = ()=>{
+const rowButtonEvent = (listOfCards, remove ,marginTop)=>{
+    if(listOfCards[1].children.length === 0){
+        listOfCards = listOfCards[0];
+    }
+    else{
+        listOfCards = listOfCards[1];
+    }
+    if (remove){
+        listOfCards.classList.remove("list");
+    }
+    else{
+        listOfCards.classList.add("list");
+    }
+    
+    const list = listOfCards.children;
+    for (var i = 0; i < list.length; i++){
+        const card = list[i];
+        card.querySelector(".card-button").style.marginTop = marginTop;
+    };
+}
 
-
-    const listOfCards = document.querySelectorAll(".list-of-cards");
+const createEventsButtons = (listOfCards)=>{
     const catalog = document.querySelector(".catalogs");
     const twoInRow = document.querySelector(".two-in-row");
     const oneInRow = document.querySelector(".one-in-row");
+
     if (!catalog.classList.contains("clear-language")){
         oneInRow.addEventListener("click", ()=>{
-            listOfCards.forEach((card)=> card.classList.add("list"));
+            rowButtonEvent(listOfCards, false,"25px");
         })
         twoInRow.addEventListener("click", ()=>{
-            listOfCards.forEach((card)=> card.classList.remove("list"));
+            rowButtonEvent(listOfCards, true, "0");
         })
+
     }else{
         twoInRow.classList.add("hidden");
         oneInRow.classList.add("hidden");
     }
+}
+
+const createGoButtons = ()=>{
+    const lists = document.querySelectorAll(".list-of-cards");
+    createEventsButtons(lists);
 }
 
 
