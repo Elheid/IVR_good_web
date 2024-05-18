@@ -66,7 +66,7 @@ const renderCatalogs = ()=>{
   const catalogCells = document.querySelectorAll('.catalog-card');
   catalogCells.forEach((cell) =>{
     const button = cell.querySelector(".card-button");
-    button.addEventListener('click', () =>{
+    button.parentNode.parentNode.addEventListener('click', () =>{
       const catalogId = cell.getAttribute('catalog-id');
       history.pushState({ catalogId: catalogId }, '', `?catalog=${catalogId}`);
       showServices();

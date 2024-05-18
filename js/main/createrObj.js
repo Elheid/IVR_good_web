@@ -64,7 +64,7 @@ const createVidContainer = ()=>{
     videoElement.setAttribute('playsinline', true);
     videoElement.muted = true
 
-    videoOverlay.appendChild(createPlayButton());
+    //videoOverlay.appendChild(createPlayButton());
 
     videoOverlay.appendChild(videoElement);
     return videoOverlay;
@@ -181,9 +181,10 @@ const createServiceCard = (service, clearLanguage)=>{
 
     const nextButton = cardService.querySelector(".service-button");
 
-    nextButton.addEventListener("click", (evt)=>{
+    nextButton.parentNode.parentNode.addEventListener("click", (evt)=>{
     //const serviceName = evt.target.parentNode.querySelector(".card-description").textContent;
-    const serviceId = evt.target.parentNode.parentNode.parentNode.parentNode.getAttribute("service-id");
+    const liEl = evt.target.closest('li');
+    const serviceId = liEl.getAttribute("service-id");
     window.location.href = `result.html?serviceId=${encodeURIComponent(serviceId)}`;
     })
     return cardService;
