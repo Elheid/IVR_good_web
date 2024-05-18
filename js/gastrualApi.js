@@ -45,10 +45,11 @@ const stopSendingData = () => {
     clearInterval(intervalId);
 };
 
+
 const startWebcam = ()=> {
     navigator.mediaDevices.getUserMedia({ video: true })
         .then(((stream) =>{
-            connectToSocket();
+           // connectToSocket();
             const videoElement = document.getElementById("videoElement");
             videoElement.srcObject = stream;
             videoElement.classList.remove("hidden")
@@ -91,7 +92,7 @@ const connectToSocket= ()=> {
     socket.on("disconnect", onDisconnectToModal);
     socket.connect()
 }
-
+connectToSocket();
 
 
 const disconnectFromSocket= ()=> {

@@ -1,6 +1,6 @@
 
 import { releaseWebcam, requestWebcam } from "./webcam.js";
-import { addGastrualSearch, removeAllTags } from "./gastrualSearch.js";
+import { addGastrualSearch, removeGastrualSearch, removeAllTags } from "./gastrualSearch.js";
 
 
 const enablePopupScroll = ()=>{

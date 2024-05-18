@@ -8,6 +8,7 @@
 
 .view-choose{
     width: 100%;
+    max-width: 950px;
 }
 .list-of-cards{
     width: 100%;
@@ -36,6 +37,9 @@
 .card-button{
     width: 100%;
     height: auto;
+}
+.clear-card .card-button{
+    min-height: 6vw;
 }
 .card-button img{
     width: 100%;
@@ -95,7 +99,7 @@ img.arrow{
   .prev-page{
     /*flex: 0 0 auto;*/
     width: 100%;
-    max-width: 155px;
+    max-width: 250px;/*было 155px*/
     text-align: center;
     /*margin-top: auto;
     margin-bottom: auto;*/
@@ -126,6 +130,10 @@ img.arrow{
     display: flex;
     align-items: center;
     margin-left: 22px;
+}
+
+.view-buttons img{
+
 }
 
 
@@ -295,6 +303,16 @@ button#showPopup{
 button#showPopup img{
     max-height:37px
 }
+
+button#showPopup {
+background-color: #E04E39;
+    border-radius: 10px;
+    margin: 0 10px;
+} 
+button#showPopup img {
+    margin: 6px 25px;
+} 
+    
 
 .service-button.clear-card .card-title{
     margin-top: 30px;
