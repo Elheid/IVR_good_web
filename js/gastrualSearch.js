@@ -45,6 +45,7 @@ const startButton = ()=>{
 
 
 const removeGastrualSearch = ()=>{
+    stopButton();
     document.removeEventListener('click', addNewTags);
     startRecordButton.removeEventListener("click", startButton)
     stopRecordButton.removeEventListener("click",stopButton)
