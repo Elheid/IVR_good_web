@@ -99,10 +99,22 @@
     background: #555;
 }
 
+
+
 .popup-header{
-    margin-bottom: 80px;
+    position: sticky;
+    top:-5%;
+    background: white;
 }
 
+.popup-title{
+    text-align: center;
+    margin-top: 0;
+}
+
+.popup #closePopup.close-info {
+    margin-top: 0;
+}
 .popup-content{
     display: grid;
     justify-content: center;
