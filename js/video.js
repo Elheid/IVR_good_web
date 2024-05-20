@@ -20,7 +20,11 @@ const addPlayVidButton = ()=>{
     //playVisibleVideos();
 
         var videos = document.querySelectorAll('.gif');
-        if (videos.length > 0 && !videos[0].classList.contains("hidden")){
+        videos.forEach((video)=>{
+          video.setAttribute("autoplay", true);
+          video.setAttribute("loop", true)
+        })
+        /*if (videos.length > 0 && !videos[0].classList.contains("hidden")){
             videos.forEach(function(video) {
                 var button = video.parentElement.querySelector('.play-button');
                 var overlay = video.parentElement;
@@ -39,6 +43,6 @@ const addPlayVidButton = ()=>{
                 });
                     
               });
-        }
+        }*/
 };
 export {addPlayVidButton}

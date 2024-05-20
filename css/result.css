@@ -120,3 +120,10 @@ button.return-button{
     width: 30px;
     height: 20px;
 }
+
+button#showPopup {
+    color: red;
+    background: #E04E39;
+    border-radius: 100px;
+    display: grid;
+}
