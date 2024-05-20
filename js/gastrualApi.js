@@ -26,7 +26,7 @@ const onReceiveText = (text)=>{
     console.log(text);
     const results = Object.values(JSON.parse(text))
     console.log(results)
-    keyWords.push(results[0]);
+    keyWords.push(results[1]);
     addNewTags(keyWords);
 }
 
@@ -49,10 +49,12 @@ const stopSendingData = () => {
 const startWebcam = ()=> {
     navigator.mediaDevices.getUserMedia({ video: true })
         .then(((stream) =>{
-           // connectToSocket();
+            connectToSocket();
             const videoElement = document.getElementById("videoElement");
+            const videoInst = document.getElementById("videoInst");
             videoElement.srcObject = stream;
             videoElement.classList.remove("hidden")
+            videoInst.classList.add("hidden")
             videoElement.onloadedmetadata = (e)=> {
                 videoElement.play();
                 startSendingData(videoElement);
@@ -92,7 +94,7 @@ const connectToSocket= ()=> {
     socket.on("disconnect", onDisconnectToModal);
     socket.connect()
 }
-connectToSocket();
+
 
 
 const disconnectFromSocket= ()=> {
@@ -104,8 +106,11 @@ const disconnectFromSocket= ()=> {
     socket.removeAllListeners();
 
     const videoElement = document.getElementById("videoElement");
+    const videoInst = document.getElementById("videoInst");
     videoElement.srcObject = null;
     videoElement.classList.add("hidden");
+    videoInst.classList.remove("hidden");
+
     stopSendingData();
 }
 

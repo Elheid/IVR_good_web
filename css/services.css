@@ -8,8 +8,9 @@
 
 .view-choose{
     width: 100%;
-    max-width: 950px;
 }
+
+
 .list-of-cards{
     width: 100%;
 }
@@ -315,7 +316,7 @@ button.exit-popup {
 .substrate .card-title{
     color:#FFFFFF;
     font-size: 16px;
-    margin: 15px 5px;
+    margin: 25px 5px;
 }
 
 .gestural-language .card.catalog-card,
@@ -411,6 +412,7 @@ button#showPopup img {
     background-repeat: no-repeat;
     width: 30px;
     height: 28px;
+    margin-left: auto;
 }
 
 .key-word{

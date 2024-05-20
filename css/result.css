@@ -120,3 +120,16 @@ button.return-button{
     width: 30px;
     height: 20px;
 }
+
+.close-button{
+        background-color: #E04E39;
+        border-radius: 10px;
+        margin: 0 10px;
+        max-height: 37px;
+}
+
+.close-button img {
+    margin: 6px 25px;
+    width: 30px;
+    height: 20px;
+}

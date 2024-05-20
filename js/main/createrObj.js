@@ -183,7 +183,8 @@ const createServiceCard = (service, clearLanguage)=>{
 
     nextButton.addEventListener("click", (evt)=>{
     //const serviceName = evt.target.parentNode.querySelector(".card-description").textContent;
-    const serviceId = evt.target.parentNode.parentNode.parentNode.parentNode.getAttribute("service-id");
+    const liEl = evt.target.closest('li');
+    const serviceId = liEl.getAttribute("service-id");
     window.location.href = `result.html?serviceId=${encodeURIComponent(serviceId)}`;
     })
     return cardService;
@@ -232,7 +233,7 @@ const createEventsButtons = (listOfCards)=>{
 
     if (!catalog.classList.contains("clear-language")){
         oneInRow.addEventListener("click", ()=>{
-            rowButtonEvent(listOfCards, false,"25px");
+            rowButtonEvent(listOfCards, false,"40px");
         })
         twoInRow.addEventListener("click", ()=>{
             rowButtonEvent(listOfCards, true, "0");
