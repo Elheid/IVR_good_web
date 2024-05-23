@@ -3,7 +3,7 @@ import { releaseWebcam, requestWebcam } from "./webcam.js";
 import { addGastrualSearch, removeGastrualSearch, removeAllTags } from "./gastrualSearch.js";
 
 
-const enablePopupScroll = ()=>{
+const enablePopupScroll = ()=>{ 
     const popup = document.querySelector('.popup');
     document.body.style.overflow = 'hidden';
     popup.style.overflow ='auto';
@@ -76,7 +76,11 @@ const addWebcamPopupShow = ()=>{
     const catalog= document.querySelector(".catalogs");
     if (catalog.classList.contains("clear-language"))
     {
+        document.querySelector(".search-button").style = "margin-right: 0";
         document.getElementById('showPopup').querySelector("img").classList.add("hidden")
+    }
+    else{
+        document.querySelector(".search-button").style = "margin-right: 2vw";
     }
     
     document.getElementById('showPopup').addEventListener('click', showWebcamPopup);

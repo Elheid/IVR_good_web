@@ -1,5 +1,5 @@
-const BASE_URL = 'http://localhost:8080/';
-
+//const BASE_URL = 'http://localhost:8080/';
+const BASE_URL = 'https://pincode-dev.ru/ivr-good/';
 const Route = {
   GET_CATEGORY: 'categories',
   GET_SERVICES: 'items/search/byCategory?categoryId=',
@@ -18,11 +18,11 @@ const ErrorText = {
   SEND_DATA: 'Не удалось отправить форму. Попробуйте ещё раз',
 };
 
-const load = (route, errorText, method = Method.GET, body = null) =>
+const load = (route, errorText, method = Method.GET, body = null, ) =>
   fetch(`${BASE_URL}${route}`, {method, body})
     .then((response) => {
       if (!response.ok) {
-        throw new Error();
+        throw new Error();  
       }
       return response.json();
     })

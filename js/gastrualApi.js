@@ -1,5 +1,5 @@
 import { addNewTags} from "./keyWords.js";
-const interval = 30 ;
+const interval = 30;
 let intervalId;
 let keyWords = [];
 
@@ -21,13 +21,28 @@ const onConnectToModal = ()=>{
 const onDisconnectToModal = ()=>{
     console.log("disconnect");
 }
-
-const onReceiveText = (text)=>{
+let prevWords = [];
+let prevResults = [];
+const processMessage = (text)=>{
+    keyWords = [];
     console.log(text);
     const results = Object.values(JSON.parse(text))
     console.log(results)
-    keyWords.push(results[1]);
+    if(!(prevResults.indexOf(text) >= 0))
+    {
+        prevResults.push(text);
+        for (var i=0; i < results.length; i++){
+            if (!(prevWords.indexOf(results[i]) >= 0)){
+                keyWords.push(results[i]);
+                prevWords.push(results[i]);
+            }
+        }
+    }
     addNewTags(keyWords);
+}
+
+const onReceiveText = (text)=>{
+        processMessage(text);
 }
 
 const getKeyWords = ()=>{
@@ -50,16 +65,14 @@ const startWebcam = ()=> {
     navigator.mediaDevices.getUserMedia({ video: true })
         .then(((stream) =>{
             connectToSocket();
-            const videoElement = document.getElementById("videoElement");
+            //const videoElement = document.getElementById("videoElement");
             const videoInst = document.getElementById("videoInst");
-            videoElement.srcObject = stream;
-            videoElement.classList.remove("hidden")
-            videoInst.classList.add("hidden")
-            videoElement.onloadedmetadata = (e)=> {
-                videoElement.play();
-                startSendingData(videoElement);
-            };
-            document.querySelector(".videoContainer").appendChild(videoElement);
+            videoInst.srcObject = stream;
+            videoInst.style = "width:552px; height:345px;";
+            videoInst.classList.add("stream");
+            //videoInst.classList.add("hidden")
+            videoInst.play();
+            startSendingData(videoInst);
         }))
         .catch((err)=> {
             console.error('Error accessing webcam:', err);
@@ -67,7 +80,25 @@ const startWebcam = ()=> {
 }
 
 const addFrameSender=(videoElement)=> {
-        console.log("Send frame");
+    console.log("Send frame")
+    const canvas = document.createElement('canvas');
+    const context = canvas.getContext('2d');
+
+    const originalWidth = videoElement.videoWidth;
+    const originalHeight = videoElement.videoHeight;
+    const aspectRatio = originalWidth / originalHeight;
+    let newWidth = 224;
+    // let newHeight = newWidth / aspectRatio;
+    let newHeight = 224;
+
+    canvas.width = 224;
+    canvas.height = 224;
+
+    context?.drawImage(videoElement, 0, (224 - newHeight) / 2, newWidth, newHeight);
+    const image = canvas.toDataURL('image/jpeg');
+    socket.emit("data", image);
+
+        /*console.log("Send frame");
         const canvas = document.createElement('canvas');
         const context = canvas.getContext('2d');
 
@@ -82,7 +113,7 @@ const addFrameSender=(videoElement)=> {
         context.fillRect(0, 160, newWidth, 224-160); // Нижняя часть
         const image = canvas.toDataURL('image/jpeg');
         socket.emit("data", image);
-    }
+    }*/
 }
 
 
@@ -105,11 +136,15 @@ const disconnectFromSocket= ()=> {
     socket.off("message", onReceiveText);
     socket.removeAllListeners();
 
-    const videoElement = document.getElementById("videoElement");
+    //const videoElement = document.getElementById("videoElement");
     const videoInst = document.getElementById("videoInst");
-    videoElement.srcObject = null;
-    videoElement.classList.add("hidden");
-    videoInst.classList.remove("hidden");
+    videoInst.srcObject = null;
+    videoInst.src = "/img/long.mp4";
+    videoInst.classList.remove("stream")
+    prevWords = [];
+    prevResults = [];
+    //videoElement.classList.add("hidden");
+    //videoInst.classList.remove("hidden");
 
     stopSendingData();
 }

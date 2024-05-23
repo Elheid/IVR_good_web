@@ -1,19 +1,25 @@
 body {
     margin: 0;
     margin-top: 120px;
-    font-family: "Jomolhari", serif;
+    font-family: "Roboto", serif;
     font-weight: 400;
     font-style: normal;
     font-size: 20px;
     color: #000000;
-    background: #C393670D;
+    /*background: #C393670D;*/
+    /*background: radial-gradient(#eadac4, #C393670D);*/
+    /*background-color: rgba(195, 147, 103, 0.35);*/
+    background-color: rgb(200 186 173 / 35%);
 }
+
 body{
     margin-top: 0;
     overflow-x: hidden;
+    font-family: "Roboto", serif;
 }
 
 h1, h2, h3{
+    font-family: "Roboto", serif;
     color:#623B2A
 }
 
@@ -36,6 +42,15 @@ h1, h2, h3{
     padding: 0 55px;
 }
 
+.css-arrow{
+position: absolute;
+width: 38px;
+height: 60px;
+
+background: #FFFFFF;
+
+}
+
 ul{
     text-decoration: none;
 
@@ -53,7 +68,7 @@ button{
 .list-of-cards{
     display:grid;
     grid-template-columns: repeat(2, 1fr);
-    grid-row-gap: 9px; 
+    grid-row-gap: 20px; 
     grid-column-gap: 50px; 
 }
 
@@ -113,7 +128,7 @@ button{
     border: none;
     padding: 0;
 
-    color: #EF3124;
+    color: #a54a1ccf;
 }
 
 #closePopup {
