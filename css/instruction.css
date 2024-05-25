@@ -1,6 +1,6 @@
 body{
     margin: auto;
-    max-width: 1200px;
+    max-width: 1350px;
     position: relative;
 }
 
@@ -46,6 +46,7 @@ body{
   }
   .instruction{
     margin-top: 30px;
+    color: #35190d;
   }
 /*.instruction {
     overflow: hidden;
@@ -77,10 +78,12 @@ body{
 .instruction-container video {
     width: 100%;
     height: auto;
+    border:1px solid #623B2A;
+    border-radius: 20px;
 }
 
 .go-buttons{
-    max-width: 1200px;
+    max-width: 1350px;
     width: 100%;
     position: fixed; 
     top: 65%;
@@ -89,7 +92,24 @@ body{
     justify-content: space-between;
 }
 
-button.go-button{
+
+button.go-button {
+    background-color: #6f402a;
+    border-radius: 30px;
+   /* margin: 0 10px;*/
+}
+button.go-button img {
+    /*
+    margin: 6px 25px;
+    width: 30px;
+    height: 20px;*/
+    margin: 10px 30px;
+    width: 60px;
+    height: 40px;
+}   
+
+
+/*button.go-button{
     background-color: #E04E39;
     border-radius: 10px;
     margin: 0 10px;
@@ -98,7 +118,7 @@ button.go-button{
     margin: 6px 25px;
     width: 30px;
     height: 20px;
-}
+}*/
 
 @media screen and (max-width: 748px) {
     .go-buttons{

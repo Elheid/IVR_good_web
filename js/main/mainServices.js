@@ -6,7 +6,7 @@ import { addWebcamPopupClose, addWebcamPopupShow } from '../popup.js';
 import { getCategories } from '../api.js';
 import { addSearchButton, searchResult } from '../search.js';
 import { addPlayVidButton } from '../video.js';
-
+import { createGoButtons } from './createrObj.js';
 
 
 
@@ -43,3 +43,6 @@ addSearchButton(document.querySelector('.search-button'));
 
 addWebcamPopupClose();
 addWebcamPopupShow();
+
+
+createGoButtons();

@@ -12,7 +12,7 @@ const createNetworkAlert = ()=>{
     alertContainer.style.left = '0';
     alertContainer.style.top = '8%';
     alertContainer.style.right = '0';
-    alertContainer.style.padding = '24px 0';
+    alertContainer.style.padding = '2vw 0';
     alertContainer.style.fontSize = '20px';
     alertContainer.style.textAlign = 'center';
     alertContainer.style.backgroundColor = '#E04E39';

@@ -3,7 +3,8 @@
 const createRes = (result)=>{
     const template = document.querySelector('#result').content;
     const res = document.importNode(template, true);
-    const gif = res.querySelector("img");
+    const gif = res.querySelector("video");
+
     const text = res.querySelector(".manual-text");
     const cardTitle = res.querySelector(".card-title");
     cardTitle.classList.remove("card-title");
@@ -24,17 +25,19 @@ const createRes = (result)=>{
 }
 
 const infoRes = (info)=>{
-    const template = document.querySelector('#result').content;
+    const template = document.querySelector('#result-info').content;
     const res = document.importNode(template, true);
-    const gif = res.querySelector("img");
+    const gif = res.querySelector("video");
+
+
     const text = res.querySelector(".manual-text");
     //text.classList.remove("manual-text");
     //text.classList.add("info-text");
     text.parentNode.classList.remove("manual");
     text.parentNode.classList.add("info-manual");
     const cardTitle = res.querySelector(".card-title");
-    const button = res.querySelector("button");
-    button.innerHTML = "";
+    /*const button = res.querySelector("button");
+    button.innerHTML = "";*/
     cardTitle.textContent = info.title; 
     gif.src = info.gifLink;
     text.textContent = info.description;
@@ -205,7 +208,7 @@ const createInfoCard = (info)=>{
 };
 
 
-const rowButtonEvent = (listOfCards, remove ,marginTop)=>{
+const rowButtonEvent = (listOfCards, remove ,marginTop, marginTop2)=>{
     if(listOfCards[1].children.length === 0){
         listOfCards = listOfCards[0];
     }
@@ -223,6 +226,7 @@ const rowButtonEvent = (listOfCards, remove ,marginTop)=>{
     for (var i = 0; i < list.length; i++){
         const card = list[i];
         card.querySelector(".card-button").style.marginTop = marginTop;
+        document.querySelector(".view-choose").style.marginTop = marginTop2;
     };
 }
 
@@ -233,10 +237,10 @@ const createEventsButtons = (listOfCards)=>{
 
     if (!catalog.classList.contains("clear-language")){
         oneInRow.addEventListener("click", ()=>{
-            rowButtonEvent(listOfCards, false,"40px");
+            rowButtonEvent(listOfCards, false,"40px", "6vw");
         })
         twoInRow.addEventListener("click", ()=>{
-            rowButtonEvent(listOfCards, true, "0");
+            rowButtonEvent(listOfCards, true, "0", "4vw");
         })
 
     }else{

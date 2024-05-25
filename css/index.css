@@ -1,8 +1,8 @@
 
 .index-title{
     text-align: center;
-
-    font-size:32px;
+    text-shadow: 2px 3px #6f402a4d;
+    font-size:52px;
     margin-top: 50px;
 }
 .view-cards{
@@ -22,6 +22,7 @@
     object-fit: cover; 
     width: 100%;
     height: auto;
+    border-radius: 20px;
 }
 .clear-language img{
     /*width: 330px;
@@ -56,9 +57,13 @@
     padding: 0;
     width: 100%;
     height: 100%;
+    border: 2px solid #6f402A;
+    border-radius: 20px;
+    box-shadow: 3px 3px 3px 3px rgba(0, 0, 0, 0.25);
 }
 .card-title{
     margin: 0;
+    
 }
 .clear-language .transition-img{
     width: 100%;

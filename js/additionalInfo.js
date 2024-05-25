@@ -5,7 +5,7 @@ import { infoRes } from "./main/createrObj.js";
 import {showPopup, closePopup} from "./popup.js"
 import { getInfoById } from "./api.js";
 
-//info popup
+
 const closeSection = (event)=> {
     const popup = document.querySelector('.popup');
     const overlay = document.querySelector('.overlay');

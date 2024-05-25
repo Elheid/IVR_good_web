@@ -24,7 +24,6 @@ const initializeResults = (cards)=>{
         const catalog = createCatalogCard(categoties[i], catalogs.classList.contains("clear-language"));
         list.appendChild(catalog);
     }
-    createGoButtons();
 }
 
 const hideCatalogs = ()=>{
