@@ -11,10 +11,29 @@ const createRes = (result)=>{
     cardTitle.classList.add("res-title");
     cardTitle.textContent = result.title; 
     gif.src = result.gifLink;//"img/gastrual2.jpg";
-    let iconToInsert = `<img class="icon" src="img/empty.jpg">`;
-    const tagOfIcon = /\./g;
+
+    const textFromBd = result.description;
+    // Регулярное выражение для поиска \icon с цифрами
+    const iconRegex = /\\icon(\d+)/g;
+
+    // Массив для сохранения найденных значений
+    const foundIcons = [];
+
+    // Замена и сохранение найденных значений
+    const replacedText =  textFromBd.replace(iconRegex, (match, p1) => {
+    foundIcons.push(p1);
+    return `<img src="https://storage.yandexcloud.net/akhidov-ivr/icon${p1}.png" alt="icon${p1}">`;
+    });
+
+    // Вставка результата в <pre> элемент
+    text.innerHTML = replacedText;
+
+
+    /*let iconToInsert = `<img class="icon" src="img/empty.jpg">`;
+    const tagOfIcon = /\\icon(\d+)/g;
+
     const textToInsert = result.description.replace(tagOfIcon, iconToInsert);
-    text.innerHTML = textToInsert;
+    text.innerHTML = textToInsert;*/
 
     const popup = document.getElementById("popup");
     if (result.additionIds !== null)
