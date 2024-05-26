@@ -22,8 +22,12 @@ const createRes = (result)=>{
     // Замена и сохранение найденных значений
     const replacedText =  textFromBd.replace(iconRegex, (match, p1) => {
     foundIcons.push(p1);
-    return result.iconLinks[Number(p1)];
+    return `<img src="${result.iconLinks[Number(p1)]}" alt="icon${p1}">`;
     });
+    for(var i = 0; i < foundIcons.length; i++){
+        
+    }
+
     // Вставка результата в <pre> элемент
     text.innerHTML = replacedText;
 
