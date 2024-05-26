@@ -57,7 +57,7 @@ const showAdditionalInfo = (temp)=>{
     button.className = "close-button";
     
     var img = document.createElement("img");
-    img.src = "img/arrow-right.svg";
+    img.src = "img/arrow-left-white.svg";
     img.alt = "Кнопка назад";
     button.appendChild(img);
     button.addEventListener("click", ()=>{
