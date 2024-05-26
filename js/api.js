@@ -72,8 +72,8 @@ const getService= (id) => loadById(Route.GET_SERVICES, id, ErrorText.GET_DATA);
 const getServiceById= (id) => loadById(Route.GET_SERVICE_BY_ID, id, ErrorText.GET_DATA);
 const getInfoById= (id) => loadById(Route.GET_INFO, id, ErrorText.GET_DATA);
 
-const getServiceByTitle= (title) => loadById(Route.SEARCH_SERVICE_BY_TITTLE,title, ErrorText.GET_DATA);
-const getSimilarService= (title) => loadById(Route.SEARCH_SIMILAR_SERVICE,title, ErrorText.GET_DATA);
+const getServiceByTitle= (title) => loadById(Route.SEARCH_SERVICE_BY_TITTLE, title, ErrorText.GET_DATA);
+const getSimilarService= (title) => loadById(Route.SEARCH_SIMILAR_SERVICE, title, ErrorText.GET_DATA);
 
 
 const sendData = (body) => load(Route.SEND_DATA, ErrorText.SEND_DATA, Method.POST, body);

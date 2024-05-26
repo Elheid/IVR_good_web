@@ -24,6 +24,14 @@
     width: 100%;
     height: auto;
 }
+.info-card-gif{
+    border-radius: 30px;
+    border:1px solid #6f402a;
+}
+.card-title{
+    font-size: 1.5vw;
+    
+}
 .popup{
     width: 80%;
     max-width: 680px;

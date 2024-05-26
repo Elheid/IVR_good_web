@@ -244,8 +244,8 @@ const createEventsButtons = (listOfCards)=>{
         })
 
     }else{
-        twoInRow.classList.add("hidden");
-        oneInRow.classList.add("hidden");
+        twoInRow.classList.add("opacity");
+        oneInRow.classList.add("opacity");
     }
 }
 

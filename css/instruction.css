@@ -7,7 +7,6 @@ body{
 .instruct-content{
     max-width: 1000px;
     margin: 0 auto;
-    padding: 0 55px;
     margin-top: 27px;
 }
 .instruct-footer{
@@ -104,8 +103,8 @@ button.go-button img {
     width: 30px;
     height: 20px;*/
     margin: 10px 30px;
-    width: 60px;
-    height: 40px;
+    width: 3vw;
+    height: 2vw;
 }   
 
 
