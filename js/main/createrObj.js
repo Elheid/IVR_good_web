@@ -257,11 +257,20 @@ const createServiceCard = (service, clearLanguage)=>{
     }
     else{
         //imgOrGif.src = "img/clear.jpg";
-        var clearCard = createClarLangCard(cardService, service.title, 
-            service.itemsInCategoryIds ? service.itemsInCategoryIds.length : 0);
+        //var clearCard = createClarLangCard(cardService, service.title, 
+            //service.itemsInCategoryIds ? service.itemsInCategoryIds.length : 0);
+        if (service.mainIconLink.length != 0){
+                var clearCard = createClarLangCard(cardService, service.title, service.itemsInCategoryIds ? service.itemsInCategoryIds.length : 0, service.mainIconLink);
+                cardService = (clearCard);
+            }
+        else{
+                var clearCard = createClarLangCard(cardService, service.title, service.itemsInCategoryIds ? service.itemsInCategoryIds.length : 0);
+                cardService = (clearCard);
+        }
+
         //cardTitle.textContent = catalog.title + " " + catalog.itemsInCategoryIds.length + " услуг";
         //imgOrGif.src = "img/clear.jpg";
-        cardService = (clearCard);
+        //cardService = (clearCard);
     }
     const cardTitle = cardService.querySelector('.card-description');
     cardTitle.textContent = service.title;
