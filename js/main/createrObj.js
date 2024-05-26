@@ -12,7 +12,7 @@ const createRes = (result)=>{
     cardTitle.textContent = result.title; 
     gif.src = result.gifLink;//"img/gastrual2.jpg";
 
-    const textFromBd = result.description;
+    const textFromBd = result.description + `\\icon0` + `\\icon1`;
     // Регулярное выражение для поиска \icon с цифрами
     const iconRegex = /\\icon(\d+)/g;
 
@@ -22,9 +22,8 @@ const createRes = (result)=>{
     // Замена и сохранение найденных значений
     const replacedText =  textFromBd.replace(iconRegex, (match, p1) => {
     foundIcons.push(p1);
-    return `<img src="https://storage.yandexcloud.net/akhidov-ivr/icon${p1}.png" alt="icon${p1}">`;
+    return result.iconLinks[Number(p1)];
     });
-
     // Вставка результата в <pre> элемент
     text.innerHTML = replacedText;
 
