@@ -4,7 +4,7 @@ import { startWebcam, disconnectFromSocket, getKeyWords } from "./gastrualApi.js
 
 const stopRecordButton = document.querySelector(".stop-record");
 const startRecordButton = document.querySelector(".start-record");
-let tagNames = [];
+let tagNames = [];  
 
 
 
@@ -27,7 +27,9 @@ const changeIndicator = (buttonName)=>{
     }
 }
 
-const stopButton = ()=>{
+const stopButtonEvent = ()=>{
+    stopRecordButton.classList.add("hidden")
+    startRecordButton.classList.remove("hidden")
     const button ="stop";
     //addNewTags();
     tagNames = [];
@@ -35,7 +37,9 @@ const stopButton = ()=>{
     disconnectFromSocket();
 }
 
-const startButton = ()=>{
+const startButtonEvent = ()=>{
+    stopRecordButton.classList.remove("hidden")
+    startRecordButton.classList.add("hidden")
     tagNames = getKeyWords();
     const button ="start";
     startWebcam();
@@ -45,10 +49,10 @@ const startButton = ()=>{
 
 
 const removeGastrualSearch = ()=>{
-    stopButton();
+    stopButtonEvent();
     document.removeEventListener('click', addNewTags);
-    startRecordButton.removeEventListener("click", startButton)
-    stopRecordButton.removeEventListener("click",stopButton)
+    startRecordButton.removeEventListener("click", startButtonEvent)
+    stopRecordButton.removeEventListener("click",stopButtonEvent)
 }
 
 const removeAllTags = ()=>{
@@ -58,9 +62,10 @@ const removeAllTags = ()=>{
 
 
 const addGastrualSearch = ()=>{
+    stopRecordButton.classList.add("hidden")
     addSearchButton(document.querySelector(".search-popup"));
-    startRecordButton.addEventListener("click", startButton)
-    stopRecordButton.addEventListener("click",stopButton)
+    startRecordButton.addEventListener("click", startButtonEvent)
+    stopRecordButton.addEventListener("click",stopButtonEvent)
 }
 
 export {addGastrualSearch, removeGastrualSearch, removeAllTags}

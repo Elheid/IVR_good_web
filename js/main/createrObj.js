@@ -11,7 +11,25 @@ const createRes = (result)=>{
     cardTitle.classList.add("res-title");
     cardTitle.textContent = result.title; 
     gif.src = result.gifLink;//"img/gastrual2.jpg";
-    text.textContent = result.description;
+
+    const textFromBd = result.description;
+    // Регулярное выражение для поиска \icon с цифрами
+    const iconRegex = /\\icon(\d+)/g;
+
+    // Массив для сохранения найденных значений
+
+    const replacedText =  textFromBd.replace(iconRegex, (match, p1) => {
+    return `<img src="${result.iconLinks[Number(p1)]}" alt="icon${p1}">`;
+    });
+    // Вставка результата в <pre> элемент
+    text.innerHTML = replacedText;
+
+
+    /*let iconToInsert = `<img class="icon" src="img/empty.jpg">`;
+    const tagOfIcon = /\\icon(\d+)/g;
+
+    const textToInsert = result.description.replace(tagOfIcon, iconToInsert);
+    text.innerHTML = textToInsert;*/
 
     const popup = document.getElementById("popup");
     if (result.additionIds !== null)
@@ -28,6 +46,7 @@ const infoRes = (info)=>{
     const template = document.querySelector('#result-info').content;
     const res = document.importNode(template, true);
     const gif = res.querySelector("video");
+    gif.classList.add("result-info-gif");
 
 
     const text = res.querySelector(".manual-text");
@@ -73,34 +92,93 @@ const createVidContainer = ()=>{
     return videoOverlay;
 }
 
-const createClarLangCard = (cardParent, title, count)=>{
+const createClarLangCard = (cardParent, title, count, iconGif)=>{
 
     cardParent.children[0].classList.add("clear-card");
     const card = cardParent.querySelector("button");
     /*var cardTitle = document.createElement('p');
     cardTitle.classList.add('title');
     cardTitle.trxtContent = title;*/
+
+    //var iconContainer = document.createElement('div');
+    //iconContainer.classList.add("icon-container");
+
+    var icon = document.createElement('img');
+    icon.classList.add("icon");
+
+
+    /*const svgUrl = 'https://storage.yandexcloud.net/akhidov-ivr/icon2.svg';
+
+
+        async function loadAndModifySVG(url) {
+        try {
+        // Загружаем SVG содержимое
+        const response = await fetch(url);
+        const svgText = await response.text();
+
+        // Создаём временный элемент для парсинга SVG
+        const parser = new DOMParser();
+        const svgDoc = parser.parseFromString(svgText, 'image/svg+xml');
+
+        // Изменяем все элементы с атрибутом fill
+        const elements = svgDoc.querySelectorAll('[fill]');
+        elements.forEach(el => {
+        el.setAttribute('fill', '#ffffff');
+        });
+
+        // Получаем HTML контейнер и вставляем изменённый SVG
+        icon.innerHTML = '';
+        icon.appendChild(svgDoc.documentElement);
+        } catch (error) {
+        console.error('Ошибка при загрузке или изменении SVG:', error);
+        }
+    }
+    loadAndModifySVG(svgUrl);*/
+
+
+    icon.src = iconGif; 
+    //iconContainer.appendChild(icon);
+    //card.appendChild(iconContainer);
+
     const cardTitle = document.createElement('h3');
     cardTitle.classList.add("card-title");
     cardTitle.classList.add("card-description");
     cardTitle.textContent = title;
 
 
+    var cardHeader = document.createElement('div');
+    cardHeader.classList.add("card-header");
+
+    card.appendChild(icon);
+
+    var cardContent = document.createElement('div');
+    cardContent.classList.add("card-header");
+    cardContent.appendChild(cardTitle);
+
 
     var arrow = document.createElement('img');
     arrow.classList.add('arrow-img');
     arrow.src = "/img/arrow.svg"; 
 
-    card.appendChild(cardTitle);
+
+    //cardFooter.appendChild(icon);
+    //cardFooter.appendChild(arrow);
+
+    //card.appendChild(cardTitle);
+
+    var cardFooter = document.createElement('div');
+    cardFooter.classList.add("card-footer");
 
     if(cardParent.classList.contains("catalog-card")){
         var countServices = document.createElement('p');
         countServices.classList.add('count-services');
         countServices.textContent = count + " услуг";
-        card.appendChild(countServices);
+        cardFooter.appendChild(countServices);
     }
 
-    card.appendChild(arrow);
+    cardFooter.appendChild(arrow);
+    cardContent.appendChild(cardFooter)
+    card.appendChild(cardContent);
     return cardParent;
 }
 
@@ -144,10 +222,18 @@ const createCatalogCard = (catalog, clearLanguage)=>{
         cardTitle.textContent = catalog.title;
     }
     else{
-        var clearCard = createClarLangCard(cardCatalog, catalog.title, catalog.itemsInCategoryIds.length);
+        
+        if (catalog.iconLinks.length != 0){
+            var clearCard = createClarLangCard(cardCatalog, catalog.title, catalog.itemsInCategoryIds.length, catalog.iconLinks[0]);
+            cardCatalog = (clearCard);
+        }
+        else{
+            var clearCard = createClarLangCard(cardCatalog, catalog.title, catalog.itemsInCategoryIds.length);
+            cardCatalog = (clearCard);
+        }
         //cardTitle.textContent = catalog.title + " " + catalog.itemsInCategoryIds.length + " услуг";
         //imgOrGif.src = "img/clear.jpg";
-        cardCatalog = (clearCard);
+        
     }
 
     
@@ -200,7 +286,7 @@ const createInfoCard = (info)=>{
     const cardTitle = infoCard.querySelector('.card-description');
     //const imgOrGif = infoCard.querySelector('.info-gif');
     const vid = infoCard.querySelector("video");
-    vid.src = "/img/long.mp4";
+    vid.src = info.gifPreview;
     //imgOrGif.src = info.gifPreview;
     cardTitle.textContent = info.title;
     infoCard.setAttribute("info-id", info.id);
@@ -237,10 +323,10 @@ const createEventsButtons = (listOfCards)=>{
 
     if (!catalog.classList.contains("clear-language")){
         oneInRow.addEventListener("click", ()=>{
-            rowButtonEvent(listOfCards, false,"40px", "5.5vw");
+            rowButtonEvent(listOfCards, false,"40px", "7.5%");
         })
         twoInRow.addEventListener("click", ()=>{
-            rowButtonEvent(listOfCards, true, "0", "4vw");
+            rowButtonEvent(listOfCards, true, "0", "5%");
         })
 
     }else{
