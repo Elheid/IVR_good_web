@@ -76,7 +76,7 @@ const createVidContainer = ()=>{
     return videoOverlay;
 }
 
-const createClarLangCard = (cardParent, title, count)=>{
+const createClarLangCard = (cardParent, title, count, iconGif)=>{
 
     cardParent.children[0].classList.add("clear-card");
     const card = cardParent.querySelector("button");
@@ -87,8 +87,8 @@ const createClarLangCard = (cardParent, title, count)=>{
     
     var icon = document.createElement('img');
     icon.classList.add("icon");
-    icon.src = "https://storage.yandexcloud.net/akhidov-ivr/icon2.png"; 
-    card.appendChild(icon);
+    icon.src = iconGif; 
+    //card.appendChild(icon);
 
     const cardTitle = document.createElement('h3');
     cardTitle.classList.add("card-title");
@@ -97,11 +97,14 @@ const createClarLangCard = (cardParent, title, count)=>{
 
 
     var cardHeader = document.createElement('div');
-    cardHeader.classList.add("card-footer");
+    cardHeader.classList.add("card-header");
 
-    cardHeader.appendChild(icon);
-    cardHeader.appendChild(cardTitle);
-    card.appendChild(cardHeader);
+    card.appendChild(icon);
+
+    var cardContent = document.createElement('div');
+    cardContent.classList.add("card-header");
+    cardContent.appendChild(cardTitle);
+
 
     var arrow = document.createElement('img');
     arrow.classList.add('arrow-img');
@@ -113,14 +116,19 @@ const createClarLangCard = (cardParent, title, count)=>{
 
     //card.appendChild(cardTitle);
 
+    var cardFooter = document.createElement('div');
+    cardFooter.classList.add("card-footer");
+
     if(cardParent.classList.contains("catalog-card")){
         var countServices = document.createElement('p');
         countServices.classList.add('count-services');
         countServices.textContent = count + " услуг";
-        card.appendChild(countServices);
+        cardFooter.appendChild(countServices);
     }
 
-    card.appendChild(arrow);
+    cardFooter.appendChild(arrow);
+    cardContent.appendChild(cardFooter)
+    card.appendChild(cardContent);
     return cardParent;
 }
 
@@ -164,13 +172,18 @@ const createCatalogCard = (catalog, clearLanguage)=>{
         cardTitle.textContent = catalog.title;
     }
     else{
-        var clearCard = createClarLangCard(cardCatalog, catalog.title, catalog.itemsInCategoryIds.length);
+        
         if (catalog.iconLinks.length != 0){
-
+            var clearCard = createClarLangCard(cardCatalog, catalog.title, catalog.itemsInCategoryIds.length, catalog.iconLinks[0]);
+            cardCatalog = (clearCard);
+        }
+        else{
+            var clearCard = createClarLangCard(cardCatalog, catalog.title, catalog.itemsInCategoryIds.length);
+            cardCatalog = (clearCard);
         }
         //cardTitle.textContent = catalog.title + " " + catalog.itemsInCategoryIds.length + " услуг";
         //imgOrGif.src = "img/clear.jpg";
-        cardCatalog = (clearCard);
+        
     }
 
     
