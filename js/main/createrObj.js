@@ -12,22 +12,15 @@ const createRes = (result)=>{
     cardTitle.textContent = result.title; 
     gif.src = result.gifLink;//"img/gastrual2.jpg";
 
-    const textFromBd = result.description + `\\icon0` + `\\icon1`;
+    const textFromBd = result.description;
     // Регулярное выражение для поиска \icon с цифрами
     const iconRegex = /\\icon(\d+)/g;
 
     // Массив для сохранения найденных значений
-    const foundIcons = [];
 
-    // Замена и сохранение найденных значений
     const replacedText =  textFromBd.replace(iconRegex, (match, p1) => {
-    foundIcons.push(p1);
     return `<img src="${result.iconLinks[Number(p1)]}" alt="icon${p1}">`;
     });
-    for(var i = 0; i < foundIcons.length; i++){
-        
-    }
-
     // Вставка результата в <pre> элемент
     text.innerHTML = replacedText;
 
