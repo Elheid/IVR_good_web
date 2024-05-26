@@ -83,26 +83,35 @@ const createClarLangCard = (cardParent, title, count)=>{
     /*var cardTitle = document.createElement('p');
     cardTitle.classList.add('title');
     cardTitle.trxtContent = title;*/
+
+    
+    var icon = document.createElement('img');
+    icon.classList.add("icon");
+    icon.src = "https://storage.yandexcloud.net/akhidov-ivr/icon2.png"; 
+    card.appendChild(icon);
+
     const cardTitle = document.createElement('h3');
     cardTitle.classList.add("card-title");
     cardTitle.classList.add("card-description");
     cardTitle.textContent = title;
 
 
-    var cardFooter = document.createElement('div');
-    cardFooter.classList.add("card-footer");
+    var cardHeader = document.createElement('div');
+    cardHeader.classList.add("card-footer");
+
+    cardHeader.appendChild(icon);
+    cardHeader.appendChild(cardTitle);
+    card.appendChild(cardHeader);
+
     var arrow = document.createElement('img');
     arrow.classList.add('arrow-img');
     arrow.src = "/img/arrow.svg"; 
 
-    var icon = document.createElement('img');
-    icon.classList.add("icon");
-    icon.src = "/img/empty.jpg"; 
 
-    cardFooter.appendChild(icon);
-    cardFooter.appendChild(arrow);
+    //cardFooter.appendChild(icon);
+    //cardFooter.appendChild(arrow);
 
-    card.appendChild(cardTitle);
+    //card.appendChild(cardTitle);
 
     if(cardParent.classList.contains("catalog-card")){
         var countServices = document.createElement('p');
@@ -111,8 +120,7 @@ const createClarLangCard = (cardParent, title, count)=>{
         card.appendChild(countServices);
     }
 
-    //card.appendChild(arrow);
-    card.appendChild(cardFooter);
+    card.appendChild(arrow);
     return cardParent;
 }
 

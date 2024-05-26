@@ -145,7 +145,7 @@ img.arrow{
 
 .buttons-area{
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
 }
 section.search-and-buttons {
@@ -418,7 +418,7 @@ button.exit-popup {
 }
 
 .gestural-language .list-of-cards{
-    grid-row-gap: 3.5vw;
+    grid-row-gap: 5%;
 }
 
 .substrate{
@@ -529,6 +529,10 @@ button#showPopup img{
     max-width: 2vw;
     margin-bottom: 10px;
     display: block;
+}
+.arrow-img{
+    margin-left: auto;
+    margin-right: 1vw;
 }
 
 .play-button{
