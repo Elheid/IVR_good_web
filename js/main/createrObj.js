@@ -237,7 +237,7 @@ const createEventsButtons = (listOfCards)=>{
 
     if (!catalog.classList.contains("clear-language")){
         oneInRow.addEventListener("click", ()=>{
-            rowButtonEvent(listOfCards, false,"40px", "6vw");
+            rowButtonEvent(listOfCards, false,"40px", "5.5vw");
         })
         twoInRow.addEventListener("click", ()=>{
             rowButtonEvent(listOfCards, true, "0", "4vw");
