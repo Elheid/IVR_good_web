@@ -9,6 +9,7 @@ main.main-content{
 
 .view-choose{
     width: 100%;
+    margin-top: 5%;
 }
 
 
@@ -16,7 +17,7 @@ main.main-content{
     width: 100%;
 }
 .buttons-area{
-    margin-top: 25px;
+    margin-top: 2%;
     width: 100%;
     max-width: 1200px;
     margin-left: auto;
