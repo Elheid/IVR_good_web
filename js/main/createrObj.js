@@ -31,6 +31,7 @@ const infoRes = (info)=>{
     const template = document.querySelector('#result-info').content;
     const res = document.importNode(template, true);
     const gif = res.querySelector("video");
+    gif.classList.add("result-info-gif");
 
 
     const text = res.querySelector(".manual-text");
@@ -84,11 +85,45 @@ const createClarLangCard = (cardParent, title, count, iconGif)=>{
     cardTitle.classList.add('title');
     cardTitle.trxtContent = title;*/
 
-    
+    //var iconContainer = document.createElement('div');
+    //iconContainer.classList.add("icon-container");
+
     var icon = document.createElement('img');
     icon.classList.add("icon");
+
+
+    /*const svgUrl = 'https://storage.yandexcloud.net/akhidov-ivr/icon2.svg';
+
+
+        async function loadAndModifySVG(url) {
+        try {
+        // Загружаем SVG содержимое
+        const response = await fetch(url);
+        const svgText = await response.text();
+
+        // Создаём временный элемент для парсинга SVG
+        const parser = new DOMParser();
+        const svgDoc = parser.parseFromString(svgText, 'image/svg+xml');
+
+        // Изменяем все элементы с атрибутом fill
+        const elements = svgDoc.querySelectorAll('[fill]');
+        elements.forEach(el => {
+        el.setAttribute('fill', '#ffffff');
+        });
+
+        // Получаем HTML контейнер и вставляем изменённый SVG
+        icon.innerHTML = '';
+        icon.appendChild(svgDoc.documentElement);
+        } catch (error) {
+        console.error('Ошибка при загрузке или изменении SVG:', error);
+        }
+    }
+    loadAndModifySVG(svgUrl);*/
+
+
     icon.src = iconGif; 
-    //card.appendChild(icon);
+    //iconContainer.appendChild(icon);
+    //card.appendChild(iconContainer);
 
     const cardTitle = document.createElement('h3');
     cardTitle.classList.add("card-title");
@@ -236,7 +271,7 @@ const createInfoCard = (info)=>{
     const cardTitle = infoCard.querySelector('.card-description');
     //const imgOrGif = infoCard.querySelector('.info-gif');
     const vid = infoCard.querySelector("video");
-    vid.src = "/img/long.mp4";
+    vid.src = info.gifPreview;
     //imgOrGif.src = info.gifPreview;
     cardTitle.textContent = info.title;
     infoCard.setAttribute("info-id", info.id);
