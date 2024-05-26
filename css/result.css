@@ -35,7 +35,7 @@
 .popup{
     width: 80%;
     max-width: 680px;
-    max-height: 40vw;
+    max-height: 80%;
     
     overflow-x: hidden;
 }

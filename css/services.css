@@ -45,6 +45,12 @@ main.main-content{
 .clear-card .card-button{
     min-height: 6vw;
 }
+.card-footer{
+    width: 100%;
+    display: flex;
+}
+
+
 .card-button img{
     width: 100%;
     height: auto;
@@ -444,7 +450,7 @@ button.exit-popup {
     width: -moz-fit-content;
     width: fit-content;
 
-    /*border: 2px solid #623B2A;*/
+    border: 2px solid #623B2A;
     border-radius: 20px;
     /*background-color: #6f402a;*/
     background:linear-gradient(45deg,#6f402a, #c39367);
@@ -510,10 +516,17 @@ button#showPopup img{
     margin-right: auto;
 }
 
-.clear-card img{
-    max-width: 42px;
-    margin-left: auto;
+.clear-card .arrow{
     margin-right: 10px;
+}
+
+.clear-card .icon{
+    margin-right: auto ;
+    margin-left: auto;
+}
+
+.clear-card img{
+    max-width: 2vw;
     margin-bottom: 10px;
     display: block;
 }

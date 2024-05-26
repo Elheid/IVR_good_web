@@ -35,6 +35,7 @@ const processMessage = (text)=>{
             if (!(prevWords.indexOf(results[i]) >= 0)){
                 keyWords.push(results[i]);
                 prevWords.push(results[i]);
+                break;
             }
         }
     }

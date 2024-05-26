@@ -11,7 +11,10 @@ const createRes = (result)=>{
     cardTitle.classList.add("res-title");
     cardTitle.textContent = result.title; 
     gif.src = result.gifLink;//"img/gastrual2.jpg";
-    text.textContent = result.description;
+    let iconToInsert = `<img class="icon" src="img/empty.jpg">`;
+    const tagOfIcon = /\./g;
+    const textToInsert = result.description.replace(tagOfIcon, iconToInsert);
+    text.innerHTML = textToInsert;
 
     const popup = document.getElementById("popup");
     if (result.additionIds !== null)
@@ -86,10 +89,18 @@ const createClarLangCard = (cardParent, title, count)=>{
     cardTitle.textContent = title;
 
 
-
+    var cardFooter = document.createElement('div');
+    cardFooter.classList.add("card-footer");
     var arrow = document.createElement('img');
     arrow.classList.add('arrow-img');
     arrow.src = "/img/arrow.svg"; 
+
+    var icon = document.createElement('img');
+    icon.classList.add("icon");
+    icon.src = "/img/empty.jpg"; 
+
+    cardFooter.appendChild(icon);
+    cardFooter.appendChild(arrow);
 
     card.appendChild(cardTitle);
 
@@ -100,7 +111,8 @@ const createClarLangCard = (cardParent, title, count)=>{
         card.appendChild(countServices);
     }
 
-    card.appendChild(arrow);
+    //card.appendChild(arrow);
+    card.appendChild(cardFooter);
     return cardParent;
 }
 
@@ -145,6 +157,9 @@ const createCatalogCard = (catalog, clearLanguage)=>{
     }
     else{
         var clearCard = createClarLangCard(cardCatalog, catalog.title, catalog.itemsInCategoryIds.length);
+        if (catalog.iconLinks.length != 0){
+
+        }
         //cardTitle.textContent = catalog.title + " " + catalog.itemsInCategoryIds.length + " услуг";
         //imgOrGif.src = "img/clear.jpg";
         cardCatalog = (clearCard);
