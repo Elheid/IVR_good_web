@@ -223,8 +223,8 @@ const createCatalogCard = (catalog, clearLanguage)=>{
     }
     else{
         
-        if (catalog.iconLinks.length != 0){
-            var clearCard = createClarLangCard(cardCatalog, catalog.title, catalog.itemsInCategoryIds.length, catalog.iconLinks[0]);
+        if (catalog.mainIconLink.length != 0){
+            var clearCard = createClarLangCard(cardCatalog, catalog.title, catalog.itemsInCategoryIds.length, catalog.mainIconLink);
             cardCatalog = (clearCard);
         }
         else{
