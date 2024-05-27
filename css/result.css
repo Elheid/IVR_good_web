@@ -206,3 +206,7 @@ video{
 .result-info-gif{
     width: 90%;
 }
+
+img.icons {
+    max-width: 4vw;
+}

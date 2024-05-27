@@ -1,5 +1,18 @@
 // это должно быть временная штука ддля проверки идеи
 
+
+const iconInsertion = (textFromBd, iconLinks)=>{
+    const iconRegex = /\\icon(\d+)/g;
+
+    // Массив для сохранения найденных значений
+
+    const replacedText =  textFromBd.replace(iconRegex, (match, p1) => {
+    return `<img class="icons" src="${iconLinks[Number(p1)]}" alt="icon${p1}">`;
+    });
+    // Вставка результата в <pre> элемент
+    return replacedText;
+}
+
 const createRes = (result)=>{
     const template = document.querySelector('#result').content;
     const res = document.importNode(template, true);
@@ -14,22 +27,13 @@ const createRes = (result)=>{
 
     const textFromBd = result.description;
     // Регулярное выражение для поиска \icon с цифрами
-    const iconRegex = /\\icon(\d+)/g;
-
-    // Массив для сохранения найденных значений
-
-    const replacedText =  textFromBd.replace(iconRegex, (match, p1) => {
-    return `<img src="${result.iconLinks[Number(p1)]}" alt="icon${p1}">`;
-    });
-    // Вставка результата в <pre> элемент
-    text.innerHTML = replacedText;
-
+    
 
     /*let iconToInsert = `<img class="icon" src="img/empty.jpg">`;
     const tagOfIcon = /\\icon(\d+)/g;
 
-    const textToInsert = result.description.replace(tagOfIcon, iconToInsert);
-    text.innerHTML = textToInsert;*/
+    const textToInsert = result.description.replace(tagOfIcon, iconToInsert);*/
+    text.innerHTML = iconInsertion(textFromBd, result.iconLinks);
 
     const popup = document.getElementById("popup");
     if (result.additionIds !== null)
@@ -59,7 +63,8 @@ const infoRes = (info)=>{
     button.innerHTML = "";*/
     cardTitle.textContent = info.title; 
     gif.src = info.gifLink;
-    text.textContent = info.description;
+    
+    text.innerHTML = iconInsertion(info.description, info.iconLinks);;
     return res;
 }
 

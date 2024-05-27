@@ -95,7 +95,8 @@ const showInfoCard = (infoTmp)=>{
     const additionalInfo = {
         gifLink: infoTmp.gifLink,
         description:infoTmp.description,
-        title:infoTmp.title
+        title:infoTmp.title,
+        iconLinks:infoTmp.iconLinks
     };
 
     const nextButton = card.querySelector(".card-button");
