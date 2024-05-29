@@ -581,10 +581,9 @@ button#showPopup img{
 }
 
 .clear-card .icon{
-    margin-left: 20px;
-    width: 15%;
+    width: 20%;
     height: auto;
-    margin-right: 20px;
+    padding: 10px 20px;
 }
 
 .clear-card img{
