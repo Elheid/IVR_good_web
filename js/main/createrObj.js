@@ -60,7 +60,8 @@ const infoRes = (info)=>{
     //text.classList.add("info-text");
     text.parentNode.classList.remove("manual");
     text.parentNode.classList.add("info-manual");
-    const cardTitle = res.querySelector(".card-title");
+    //const cardTitle = res.querySelector(".card-title");
+    const cardTitle = document.querySelector(".popup-title");
     /*const button = res.querySelector("button");
     button.innerHTML = "";*/
     cardTitle.textContent = info.title; 

@@ -80,11 +80,23 @@ const removeLastHeader = ()=>{
     prevHeader.classList.replace("prev-page", "current-page");
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+const changeHeaderBorderRadius = ()=>{
     const body = document.querySelector("body");
     const header =  document.querySelector(".header-list");
     if (body.offsetWidth === header.offsetWidth){
         header.style = "border-radius:0px;";
+        if(document.querySelector(".catalogs").classList.contains("clear-language")){
+            //document.querySelector(".view-buttons").classList.add("hidden");
+            document.querySelector(".buttons-area").style = "justify-content: center;"
+        }
     }
-});
-  export {addHeader, removeLastHeader, addHeaderForSearch, removeSearchHeader}
+    else{
+        header.style = "border-radius:30px;";
+        //document.querySelector(".view-buttons").classList.remove("hidden");
+        document.querySelector(".buttons-area").style = "justify-content: space-between;"
+    }
+}
+
+window.addEventListener('resize', changeHeaderBorderRadius);
+document.addEventListener('DOMContentLoaded',changeHeaderBorderRadius);
+export {addHeader, removeLastHeader, addHeaderForSearch, removeSearchHeader}
