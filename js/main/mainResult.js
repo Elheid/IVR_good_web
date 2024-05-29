@@ -9,6 +9,17 @@ const gif = "img/gastrual2.jpg";
 const urlParams = new URLSearchParams(window.location.search);
 
 const stateData = urlParams.get('serviceId');
+const wind = window.location.href;
+let id;
+let isClear;
+const regex = /=(.*?)\?/g;
+let matches = wind.match(regex);
+const res = [];
+matches.forEach((match)=>{
+    res.push(match.replace("?", "").replace("=",""));
+});
+id = res[0];
+isClear = res[1];
 
 const obj = {
     title: stateData,
@@ -16,10 +27,11 @@ const obj = {
     manualText:text
 }
 
+
 const loadResult = ()=>
     getServiceById(urlParams.get('serviceId'))
         .then((data) => {
-            showRes(data);
+            showRes(data, isClear);
             addInfoPopupShow();
             addInfoPopupClose();
         })

@@ -21,12 +21,17 @@ const displayServices = (services)=> {
     } else {
         titleCounts[card.title]++;
     }
-});
+  });
   //const services = getServicesByCatalog(cell); // Функция, которая возвращает список услуг по ID каталога
   services.content.forEach((service)=> {
     //const serviceElement = createService(service);
     if (titleCounts[service.title] > 1) {
       service.title = getCellNameById(service.categoryId) + " " + service.title;
+    }
+    const query = window.location.href;
+    if (query.includes("query")){
+      const categoryName = getCellNameById(service.categoryId);
+      service.title = categoryName + " -> " + service.title;
     }
 
     const services = document.querySelector(".services");

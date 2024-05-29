@@ -13,26 +13,24 @@ const iconInsertion = (textFromBd, iconLinks)=>{
     return replacedText;
 }
 
-const createRes = (result)=>{
+const createRes = (result, clear)=>{
     const template = document.querySelector('#result').content;
     const res = document.importNode(template, true);
     const gif = res.querySelector("video");
-
+    if (clear !== "true"){
+        gif.src = result.gifLink;//"img/gastrual2.jpg";
+    }
+    else{
+        gif.classList.add("hidden");
+    }
     const text = res.querySelector(".manual-text");
     const cardTitle = res.querySelector(".card-title");
     cardTitle.classList.remove("card-title");
     cardTitle.classList.add("res-title");
     cardTitle.textContent = result.title; 
-    gif.src = result.gifLink;//"img/gastrual2.jpg";
 
     const textFromBd = result.description;
-    // Регулярное выражение для поиска \icon с цифрами
-    
 
-    /*let iconToInsert = `<img class="icon" src="img/empty.jpg">`;
-    const tagOfIcon = /\\icon(\d+)/g;
-
-    const textToInsert = result.description.replace(tagOfIcon, iconToInsert);*/
     text.innerHTML = iconInsertion(textFromBd, result.iconLinks);
 
     const popup = document.getElementById("popup");
@@ -41,8 +39,10 @@ const createRes = (result)=>{
         popup.setAttribute("addition-info-id", result.additionIds);
 
     }
-    else
+    else{
         popup.setAttribute("addition-info-id", null);
+    }
+
     return res;
 }
 
@@ -288,7 +288,9 @@ const createServiceCard = (service, clearLanguage)=>{
     //const serviceName = evt.target.parentNode.querySelector(".card-description").textContent;
     const liEl = evt.target.closest('li');
     const serviceId = liEl.getAttribute("service-id");
-    window.location.href = `result.html?serviceId=${encodeURIComponent(serviceId)}`;
+    const language = document.querySelector(".services");
+    window.location.href = `result.html?serviceId=${encodeURIComponent(serviceId)}?language=${encodeURIComponent(
+        language.classList.contains('clear-language'))}?`;
     })
     return cardService;
 };
