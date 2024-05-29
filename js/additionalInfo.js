@@ -2,8 +2,8 @@
 import { createInfoCard } from "./main/createrObj.js";
 import { createInfo } from "./util.js";
 import { infoRes } from "./main/createrObj.js";
-import {showPopup, closePopup} from "./popup.js"
-import { getInfoById } from "./api.js";
+import {showPopup, closePopup} from "./popup/popup.js"
+import { getInfoById } from "./api/api.js";
 
 
 const closeSection = (event)=> {

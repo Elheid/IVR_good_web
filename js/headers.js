@@ -30,7 +30,7 @@ const addHeader = ()=>{
     const arrow = document.createElement("img");
     arrow.classList.add("arrow");
     arrow.classList.add("hidden");
-    arrow.src = "/img/breadMini2.svg"
+    arrow.src = "/img/breadMini3.svg"
 
     const prevHeader = listChildren[listChildren.length-1];
     showArrows();
@@ -44,7 +44,6 @@ const addHeader = ()=>{
 
 
 const addHeaderForSearch = ()=>{
-
     const curURL = window.location.href;
     const list = document.querySelector(".header-list");
     const listChildren = list.children;
@@ -80,4 +79,12 @@ const removeLastHeader = ()=>{
     hideArrows();
     prevHeader.classList.replace("prev-page", "current-page");
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    const body = document.querySelector("body");
+    const header =  document.querySelector(".header-list");
+    if (body.offsetWidth === header.offsetWidth){
+        header.style = "border-radius:0px;";
+    }
+});
   export {addHeader, removeLastHeader, addHeaderForSearch, removeSearchHeader}

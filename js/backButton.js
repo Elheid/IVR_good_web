@@ -1,7 +1,12 @@
-import { goBackToCatalogs} from "./renderIcons.js";
-//import { hideAlerts } from "./search.js";
-//import { removeLastHeader } from "./catalog.js";
+import { removeLastHeader} from "./headers.js";
 
+const goBackToCatalogs = ()=>{
+    const list = document.querySelector('.catalogs-list');
+    const services = document.querySelector('.services-list');
+    list.classList.remove("hidden");
+    services.innerHTML = "";
+    removeLastHeader();
+}
 
 const backButton = document.querySelector(".return-button");
 
@@ -24,6 +29,7 @@ const createBackButton = ()=>{
                     window.location.href = "instruction.html";
                 }
             } else {
+                document.querySelector('.search-input').value = "";
                 goBackToCatalogs();
                 history.replaceState({}, '', window.location.pathname);
                 //hideAlerts();

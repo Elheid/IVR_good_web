@@ -1,7 +1,6 @@
-import { createCatalog } from "./util.js";
-import { createGoButtons, createCatalogCard } from "./main/createrObj.js";
-import { removeLastHeader } from "./headers.js";
 
+import {  createCatalogCard } from "./main/createrObj.js";
+import { hideSkeletonsAndReplace } from './skeletons/skeleton.js';
 const list = document.querySelector('.catalogs-list');
 
 const services = document.querySelector('.services-list');
@@ -19,11 +18,12 @@ const services = document.querySelector('.services-list');
 
 const initializeResults = (cards)=>{
     const categoties = cards.content;
+    const catalogs = document.querySelector(".catalogs");
     for(var i = 0; i < categoties.length; i++){
-        const catalogs = document.querySelector(".catalogs");
         const catalog = createCatalogCard(categoties[i], catalogs.classList.contains("clear-language"));
         list.appendChild(catalog);
     }
+    hideSkeletonsAndReplace("catalogs");
 }
 
 const hideCatalogs = ()=>{
@@ -37,11 +37,7 @@ const clearServices = ()=>{
     services.innerHTML = "";
 }
 
-const goBackToCatalogs = ()=>{
-    openCatalogs();
-    clearServices();
-    removeLastHeader();
-}
 
 
-export {initializeResults , hideCatalogs, openCatalogs, clearServices, goBackToCatalogs};
+
+export {initializeResults , hideCatalogs, openCatalogs, clearServices};

@@ -2,7 +2,10 @@ import { createBackButton } from '../backButton.js';
 import { showRes } from '../createResult.js';
 import { addInfoPopupShow, addInfoPopupClose } from '../additionalInfo.js';
 
-import { getServiceById } from '../api.js';
+import { getServiceById } from '../api/api.js';
+import { addSkeletonRes } from '../skeletons/skeletonResult.js';
+
+addSkeletonRes();
 
 const text = "Manual на ясном языке \nЧтобы получить загран паспорт, нужно ..."
 const gif = "img/gastrual2.jpg";

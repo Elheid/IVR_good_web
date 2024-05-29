@@ -1,20 +1,5 @@
-
-import { releaseWebcam, requestWebcam } from "./webcam.js";
-import { addGastrualSearch, removeGastrualSearch, removeAllTags } from "./gastrualSearch.js";
-
-
-const enablePopupScroll = ()=>{ 
-    const popup = document.querySelector('.popup');
-    document.body.style.overflow = 'hidden';
-    popup.style.overflow ='auto';
-}
-
-const disablePopupScroll = ()=>{
-    const popup = document.querySelector('.popup');
-    document.body.style.overflow = 'auto'; 
-    popup.style.overflow ='hidden';
-}
-
+import { addGastrualSearch, removeGastrualSearch, removeAllTags } from "../search/gastrualSearch.js";
+import { startWebcam, stopWebcam } from "../api/gastrualApi.js";
 
 const closeSectionWeb = (event)=> {
     const popup = document.querySelector('.popup');
@@ -46,11 +31,12 @@ const closePopup = ()=>{
     popup.classList.remove("popup-opened");
     document.getElementById('overlay').style.display = 'none';
     popup.style.display = 'none';
+    stopWebcam();
     //disablePopupScroll(popup);
 }
 
-
 const showWebcamPopup = ()=>{ 
+    startWebcam();
     document.addEventListener('click', closeSectionWeb);
     document.addEventListener('keydown', closePopupOnKeyWeb); 
     showPopup();
@@ -62,14 +48,6 @@ const closeWebcamPopup = ()=>{
     //releaseWebcam();
     removeGastrualSearch();
     removeAllTags();
-}
-
-
-const addPopupShow = ()=>{
-    document.getElementById('showPopup').addEventListener('click', showPopup);
-};
-const addPopupClose = ()=>{
-    document.getElementById('closePopup').addEventListener('click', closePopup);
 }
 
 const addWebcamPopupShow = ()=>{
@@ -91,4 +69,4 @@ const addWebcamPopupClose = ()=>{
     })
 }
 
-export {showPopup, closePopup ,addPopupShow, addPopupClose, addWebcamPopupShow, addWebcamPopupClose}
+export {addWebcamPopupShow, addWebcamPopupClose}

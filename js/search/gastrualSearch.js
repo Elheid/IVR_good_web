@@ -1,6 +1,6 @@
 import { addSearchButton } from "./search.js";
-import { addNewTags } from "./keyWords.js";
-import { startWebcam, disconnectFromSocket, getKeyWords } from "./gastrualApi.js";
+import { addNewTags } from "../keyWords.js";
+import { startRecord, disconnectFromSocket, getKeyWords } from "../api/gastrualApi.js";
 
 const stopRecordButton = document.querySelector(".stop-record");
 const startRecordButton = document.querySelector(".start-record");
@@ -42,7 +42,7 @@ const startButtonEvent = ()=>{
     startRecordButton.classList.add("hidden")
     tagNames = getKeyWords();
     const button ="start";
-    startWebcam();
+    startRecord();
     changeIndicator(button);
 }
 

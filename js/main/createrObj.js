@@ -13,6 +13,8 @@ const iconInsertion = (textFromBd, iconLinks)=>{
     return replacedText;
 }
 
+
+
 const createRes = (result, clear)=>{
     const template = document.querySelector('#result').content;
     const res = document.importNode(template, true);
@@ -339,7 +341,7 @@ const createEventsButtons = (listOfCards)=>{
 
     if (!catalog.classList.contains("clear-language")){
         oneInRow.addEventListener("click", ()=>{
-            rowButtonEvent(listOfCards, false,"40px", "7.5%");
+            rowButtonEvent(listOfCards, false,"20px", "7.5%");
         })
         twoInRow.addEventListener("click", ()=>{
             rowButtonEvent(listOfCards, true, "0", "5%");
@@ -352,10 +354,21 @@ const createEventsButtons = (listOfCards)=>{
 }
 
 const createGoButtons = ()=>{
-    const lists = document.querySelectorAll(".list-of-cards");
+    const lists = document.querySelectorAll(".list-of-cards:not(.sceleton-list)");
     createEventsButtons(lists);
+}
+
+const createGastrualSkeleton = (count)=>{
+    const template = document.querySelector('#gastrual-skeleton').content;
+    var fragment = document.createDocumentFragment();
+
+    for(var i = 0; i < count; i++){
+        const skeleton = document.importNode(template, true);
+        fragment.appendChild(skeleton);
+    }
+    return fragment;
 }
 
 
 
-export {createRes, createGoButtons, createServiceCard, createCatalogCard, createInfoCard, infoRes}
+export {createRes, createGoButtons, createServiceCard, createGastrualSkeleton, createCatalogCard, createInfoCard, infoRes}

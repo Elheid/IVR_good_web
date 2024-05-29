@@ -18,7 +18,15 @@
     </header>
     <main class="main-content main-result">
       <section class="view-choose">
-          <div class="manual-strp">
+        <div class="manual-strp skeleton">
+          <h3 class="res-title"></h3>
+          <img class="gif">
+          <div class="manual">
+            <pre class="manual-text"></pre>
+          </div>
+        </div>
+
+          <div class="manual-strp true-manual hidden">
           </div>
           <div class="popup-container">
             <div class="overlay" id="overlay"></div>
@@ -64,17 +72,15 @@
     </footer>
     <template id="result">
       <h3 class="card-title"></h3>
-      <video src=""  class="instr" alt="Gif-с объяснениями" autoplay loop muted></video>
-
       <button class="modal additional-info" id="showPopup" type="button">
         <img class="info-button" src="img/info1.svg">
       </button>
+      <video src=""  class="instr" alt="Gif-с объяснениями" autoplay loop muted></video>
       <div class="manual">
 
         <pre class="manual-text">
         </pre>
       </div>
-
     </template>
     <template id="result-info">
       <h3 class="card-title"></h3>

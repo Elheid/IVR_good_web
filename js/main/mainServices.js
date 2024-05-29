@@ -2,13 +2,15 @@ import {initializeResults} from '../renderIcons.js';
 import { loadSavedData } from './main.js';
 import { addCatalogButton } from '../catalog.js';
 import { createBackButton } from '../backButton.js';
-import { addWebcamPopupClose, addWebcamPopupShow } from '../popup.js';
-import { getCategories } from '../api.js';
-import { addSearchButton, searchResult } from '../search.js';
+import { addWebcamPopupClose, addWebcamPopupShow } from '../popup/popupWebcam.js';
+import { getCategories } from '../api/api.js';
+import { addSearchButton, searchResult } from '../search/search.js';
 import { addPlayVidButton } from '../video.js';
 import { createGoButtons } from './createrObj.js';
+import { addSkeletons } from '../skeletons/skeleton.js';
 
 
+addSkeletons("catalogs");
 
 createBackButton();
 
@@ -18,7 +20,6 @@ document.querySelector(".services").classList.add(flag);
 if (document.querySelector(".catalogs").classList.contains("gestural-language")){
   document.querySelector(".view-choose").style.marginTop = "5%";
 }
-
 
 const loadCategories = async () => {
     await getCategories()

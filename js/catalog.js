@@ -1,12 +1,11 @@
 
-import { getAllServices, createService } from "./util.js";
 import { hideCatalogs} from "./renderIcons.js";
 import { createServiceCard, createGoButtons } from "./main/createrObj.js";
-import { getService } from "./api.js";
+import { getService } from "./api/api.js";
 import { addHeader, addHeaderForSearch, removeSearchHeader} from "./headers.js";
 import { getCellById, getCatalogId, getCellNameById } from "./util.js";
 import { addPlayVidButton } from "./video.js";
-
+import { hideSkeletonsAndReplace, addSkeletons } from './skeletons/skeleton.js';
 
 const displayServices = (services)=> {
 
@@ -38,6 +37,7 @@ const displayServices = (services)=> {
     const card = createServiceCard(service, services.classList.contains("clear-language"));
     servicesContainer.appendChild(card);
   });
+  hideSkeletonsAndReplace("services")
 }
 
 
@@ -54,16 +54,18 @@ const showServices = ()=>{
   const id = getCatalogId();
   loadServices(id);
   //displayServices(cell);
+  addSkeletons();
   hideCatalogs();
 }
 
 const showSearchedServices = (services, query)=>{
   removeSearchHeader();
   addHeaderForSearch();
+  history.pushState({ query: query }, '', `?query=${query}`);
   displayServices(services);
   hideCatalogs();
-  addPlayVidButton(); 
-  history.pushState({ query: query }, '', `?query=${query}`);
+  addPlayVidButton();
+
 }
 
 
@@ -79,7 +81,7 @@ const renderCatalogs = ()=>{
   });
 }
 
-function returnState (searchResult){
+const returnState = (searchResult)=>{
   var urlParams = window.location.search;
     if (urlParams.match('catalog')) {
       var stateString = urlParams[urlParams.length-1];
