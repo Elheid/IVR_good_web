@@ -44,10 +44,13 @@ body{
     display: none;
   }
   .instruction{
+    font-family: "Roboto", serif;
     margin-top: 30px;
     color: #35190d;
     padding: 20px 20px;
     text-wrap: wrap;
+    font-size: 30px;
+    padding-top: 50px;
   }
 .text-container{
     margin-top: 30px;
@@ -73,7 +76,9 @@ body{
 .go-button{
     padding: 0;
 }
-
+.next-button img{
+    transform: rotate(-180deg);
+}
 /*.next-button, .prev-button{
     position: fixed; /* Позиционируем кнопку фиксированно 
     top: 60%; /* Отступ от верхнего края 
@@ -200,7 +205,7 @@ button.go-button img {
 }
 @media screen and (min-height: 846px) {
     .go-buttons{
-        top: 48%;
+        top: 45%;
     }
 }
 

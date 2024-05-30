@@ -168,7 +168,7 @@ section.search-and-buttons {
     /*position: absolute;*/
     display: flex;
     align-items: flex-end;
-    margin-left: 1.2vw;
+    margin-left: 0.7vw;
     /*margin-left: 22px;*/
     right: 10.8vw;
     top: 5.5vw;
@@ -178,6 +178,30 @@ section.search-and-buttons {
 
 }
 
+.clear-language h3.categoryName {
+    order:1;
+    margin-left: 0;
+}
+
+.clear-language .card-footer{
+    order:4;
+}
+.clear-language .card-title{
+    order:2;
+    margin-bottom: 10px;
+}
+
+h3.categoryName {
+    text-align: left;
+    margin-left: 15px;
+    /* font-family: 'Roboto'; */
+    font-family: "Roboto", serif;
+    font-weight: 400;
+    color: #FFFFFF;
+    font-size: 25px;
+    margin-bottom: 5px;
+    margin-top: 30px;
+}
 
 
 button.return-button, button.back-button {
@@ -482,6 +506,8 @@ button.search-popup{
     margin-top: 20px;
     align-items: center;
     display: flex;
+    margin-top: 0;
+    margin-top: 15px;
 
 }
 .substrate img{
@@ -532,7 +558,7 @@ button.search-popup{
     height: 100%;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+
     align-items: center;
 }
 

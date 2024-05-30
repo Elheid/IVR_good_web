@@ -1,6 +1,7 @@
 // Функция для обработки события отправки формы поиска
 import { getServiceByTitle, getSimilarService } from "../api/api.js";
-import { showSearchedServices } from "../catalog.js";
+import { showSearchedServices } from "../services.js";
+
 
 const ALERT_SHOW_TIME = 3500;
 const NETWORK_MESSAGE = 'Не удалось получить данные c сервера';

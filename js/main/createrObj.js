@@ -1,5 +1,5 @@
 // это должно быть временная штука ддля проверки идеи
-
+import { getCellNameById } from "../util.js";
 
 const iconInsertion = (textFromBd, iconLinks)=>{
     const iconRegex = /\\icon(\d+)/g;
@@ -164,6 +164,7 @@ const createClarLangCard = (cardParent, title, count, iconGif)=>{
     cardContent.appendChild(cardTitle);
 
 
+
     var arrow = document.createElement('img');
     arrow.classList.add('arrow-img');
     arrow.src = "/img/arrow.svg"; 
@@ -196,6 +197,7 @@ const createSubstrate = ()=>{
     <img src="/img/arrow-right.svg">
   </div>*/
 
+  
     var container = document.createElement('div');
     container.classList.add('substrate');
 
@@ -258,12 +260,24 @@ const createServiceCard = (service, clearLanguage)=>{
     //const imgOrGif = cardService.querySelector('img.service-gif');
 
     if (!(clearLanguage)){
+        const query = window.location.href;
+        if (query.includes("query")){
+          const categoryName = getCellNameById(service.categoryId);
+          var categoryNameSpan = document.createElement('h3');
+          categoryNameSpan.classList.add("categoryName")
+          categoryNameSpan.textContent = categoryName ;
+          cardButton.append(categoryNameSpan);
+          //service.title = categoryName + " -> " + service.title;
+        }
+
         cardButton.appendChild(createSubstrate());
         cardService.appendChild(createVidContainer());
         const vidOrGif = cardService.querySelector('video.gif');
         vidOrGif.src = service.gifPreview;
+
     }
     else{
+
         //imgOrGif.src = "img/clear.jpg";
         //var clearCard = createClarLangCard(cardService, service.title, 
             //service.itemsInCategoryIds ? service.itemsInCategoryIds.length : 0);
@@ -276,14 +290,27 @@ const createServiceCard = (service, clearLanguage)=>{
                 cardService = (clearCard);
         }
 
+        const query = window.location.href;
+        if (query.includes("query")){
+          const categoryName = getCellNameById(service.categoryId);
+          var categoryNameSpan = document.createElement('h3');
+          categoryNameSpan.classList.add("categoryName")
+          categoryNameSpan.textContent = categoryName;
+          cardService.querySelector(".card-header").append(categoryNameSpan);
+          //service.title = categoryName + " -> " + service.title;
+        }
+
+
         //cardTitle.textContent = catalog.title + " " + catalog.itemsInCategoryIds.length + " услуг";
         //imgOrGif.src = "img/clear.jpg";
         //cardService = (clearCard);
     }
     const cardTitle = cardService.querySelector('.card-description');
     cardTitle.textContent = service.title;
-    cardService.setAttribute("service-id", service.id);
 
+
+
+    cardService.setAttribute("service-id", service.id);
 
     const nextButton = cardService.querySelector(".service-button");
 
