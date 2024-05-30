@@ -81,7 +81,8 @@ const createInfo = (title) => ({
 });
 
 const getCellById = (id)=>{
-    const catalogCells = document.querySelectorAll('.catalog-card');
+    const catalogs = document.querySelector(".catalogs:not(.sceleton)")
+    const catalogCells = catalogs.querySelectorAll('.catalog-card');
     for (const cell of catalogCells){
       const catalogId = cell.getAttribute('catalog-id');
       if (catalogId == id){
@@ -106,5 +107,4 @@ return getAllServices(title);
 }
 
 
-
-  export {createCatalog, createService, getAllServices, createInfo, getCellById, getCatalogId, getCellNameById};
+export {createCatalog, createService, getAllServices, createInfo, getCellById, getCatalogId, getCellNameById};
