@@ -31,7 +31,8 @@ const createBackButton = ()=>{
             } else {
                 document.querySelector('.search-input').value = "";
                 goBackToCatalogs();
-                history.replaceState({}, '', window.location.pathname);
+                //history.replaceState({}, '', window.location.pathname);
+                history.back();
                 //hideAlerts();
             }
         }

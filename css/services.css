@@ -137,7 +137,10 @@ img.arrow{
     /*padding: 5px 10px;*/
     line-height: 1.2em;
     /* width: 100%; */
-    font-size: 30px /*1vw*/;
+    /*font-size: 30px /*1vw*/;
+    font-size: 1.2vw;
+    text-size-adjust: auto;
+    
     /* width: 80%; */
     height: 100%;
     text-decoration: none;
