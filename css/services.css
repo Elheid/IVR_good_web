@@ -173,7 +173,8 @@ img.arrow{
 
 .buttons-area{
     display: flex;
-    justify-content: space-between;
+    /*justify-content: space-between;*/
+    justify-content: center;
     align-items: center;
 }
 section.search-and-buttons {

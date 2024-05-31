@@ -93,7 +93,7 @@ const changeHeaderBorderRadius = ()=>{
     else{
         header.style = "border-radius:30px;";
         //document.querySelector(".view-buttons").classList.remove("hidden");
-        document.querySelector(".buttons-area").style = "justify-content: space-between;"
+        document.querySelector(".buttons-area").style = "justify-content: center;"
     }
 }
 
