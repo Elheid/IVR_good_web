@@ -94,7 +94,7 @@ const createVidContainer = ()=>{
     videoElement.setAttribute('playsinline', true);
     videoElement.muted = true
 
-    videoOverlay.appendChild(createPlayButton());
+    //videoOverlay.appendChild(createPlayButton());
 
     videoOverlay.appendChild(videoElement);
     return videoOverlay;
@@ -223,8 +223,9 @@ const createCatalogCard = (catalog, clearLanguage)=>{
    
     if (!(clearLanguage)){
         //imgOrGif.classList.add("hidden");
+        cardButton.appendChild(createVidContainer());
         cardButton.appendChild(createSubstrate());
-        cardCatalog.appendChild(createVidContainer());
+       // cardCatalog.appendChild(createVidContainer());
         const vidOrGif = cardCatalog.querySelector('video.gif');
         const cardTitle = cardCatalog.querySelector('.card-description');
         vidOrGif.src = catalog.gifPreview;
@@ -261,17 +262,19 @@ const createServiceCard = (service, clearLanguage)=>{
 
     if (!(clearLanguage)){
         const query = window.location.href;
-        if (query.includes("query")){
-          const categoryName = getCellNameById(service.categoryId);
-          var categoryNameSpan = document.createElement('h3');
-          categoryNameSpan.classList.add("categoryName")
-          categoryNameSpan.textContent = categoryName ;
-          cardButton.append(categoryNameSpan);
-          //service.title = categoryName + " -> " + service.title;
-        }
 
+        cardButton.appendChild(createVidContainer());
+        if (query.includes("query")){
+            const categoryName = getCellNameById(service.categoryId);
+            var categoryNameSpan = document.createElement('h3');
+            categoryNameSpan.classList.add("categoryName")
+            categoryNameSpan.textContent = categoryName ;
+            cardButton.append(categoryNameSpan);
+            //service.title = categoryName + " -> " + service.title;
+          }
+          
         cardButton.appendChild(createSubstrate());
-        cardService.appendChild(createVidContainer());
+        //cardService.appendChild(createVidContainer());
         const vidOrGif = cardService.querySelector('video.gif');
         vidOrGif.src = service.gifPreview;
 
