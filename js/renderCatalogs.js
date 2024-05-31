@@ -2,7 +2,7 @@
 import {  createCatalogCard } from "./main/createrObj.js";
 import { hideSkeletonsAndReplace } from './skeletons/skeleton.js';
 import { showServices } from "./services.js";
-import { getCellById } from "./util.js";
+import { getCellById, equalizeSubtitles } from "./util.js";
 const list = document.querySelector('.catalogs-list');
 
 const services = document.querySelector('.services-list');
@@ -54,6 +54,9 @@ const initializeResults = (cards)=>{
         list.appendChild(catalog);
     }
     hideSkeletonsAndReplace("catalogs");
+    equalizeSubtitles();
+    window.addEventListener('resize', equalizeSubtitles);
+    //equalizeSubtitles("catalogs")
 }
 
 const hideCatalogs = ()=>{

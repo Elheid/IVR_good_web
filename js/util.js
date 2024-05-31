@@ -107,4 +107,20 @@ return getAllServices(title);
 }
 
 
-export {createCatalog, createService, getAllServices, createInfo, getCellById, getCatalogId, getCellNameById};
+const equalizeSubtitles = ()=>{
+    //const container = document.querySelector(`.${list} .list-of-cards:not(.sceleton-list)`)
+    var cards = document.querySelectorAll('.substrate');
+    var maxHeight = 0;
+    
+    cards.forEach((card)=> {
+    if (card.offsetHeight > maxHeight) {
+    maxHeight = card.offsetHeight;
+    }
+    });
+    
+    cards.forEach(function(card) {
+    card.style.height = maxHeight + 'px';
+    });
+}
+
+export {createCatalog, createService, getAllServices, createInfo, getCellById, getCatalogId, getCellNameById, equalizeSubtitles};

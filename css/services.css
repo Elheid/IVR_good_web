@@ -741,13 +741,13 @@ div.gif {
 
     
 
-/*
-@media screen and (min-width: 1901px) {
-    .play-button {
-        left: 10vw; 
+
+@media screen and (max-width: 1200px) {
+    .breadcrumb-item a{
+        font-size:2vw;
     }
 }
-
+/*
 @media screen and (max-width: 1900px) {
     .play-button {
         left: 11vw; 

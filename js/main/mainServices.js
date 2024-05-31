@@ -13,12 +13,14 @@ addSkeletons("catalogs");
 
 createBackButton();
 
+
 var flag = loadSavedData();
 document.querySelector(".catalogs").classList.add(flag);
 document.querySelector(".services").classList.add(flag);
 if (document.querySelector(".catalogs").classList.contains("gestural-language")){
   document.querySelector(".view-choose").style.marginTop = "5%";
 }
+
 
 const loadCategories = async () => {
     await getCategories()
@@ -30,6 +32,7 @@ const loadCategories = async () => {
       .catch((err)=> console.log(err));
 };
 loadCategories();
+
 
 
 

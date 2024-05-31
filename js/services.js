@@ -3,7 +3,7 @@ import { hideCatalogs} from "./renderCatalogs.js";
 import { createServiceCard } from "./main/createrObj.js";
 import { getService } from "./api/api.js";
 import { addHeader, addHeaderForSearch, removeSearchHeader} from "./headers.js";
-import { getCellById, getCatalogId, getCellNameById } from "./util.js";
+import { getCellById, getCatalogId, getCellNameById, equalizeSubtitles } from "./util.js";
 import { addPlayVidButton } from "./vidPlayButton.js";
 import { hideSkeletonsAndReplace, addSkeletons } from './skeletons/skeleton.js';
 
@@ -32,7 +32,9 @@ const displayServices = (services)=> {
     const card = createServiceCard(service, services.classList.contains("clear-language"));
     servicesContainer.appendChild(card);
   });
-  hideSkeletonsAndReplace("services")
+  hideSkeletonsAndReplace("services");
+  equalizeSubtitles();
+  //equalizeSubtitles("services")
 }
 
 
