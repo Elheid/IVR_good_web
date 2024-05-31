@@ -166,7 +166,7 @@ button{
 
 
 .hovered-text{
-    position: absolute;
+    position: fixed;
     top:16%;
     background: #a77259;
     color: white;
