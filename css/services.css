@@ -528,7 +528,7 @@ button.search-popup{
     display: flex;
     margin-top: 0;
     /*width: min-content;*/
-    /*padding-bottom: 0.8vw;*/
+    padding-bottom: 0.8vw;
 }
 
 .substrate img{
