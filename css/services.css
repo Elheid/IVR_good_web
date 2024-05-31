@@ -5,8 +5,6 @@ main.main-content{
     width: 100%;
 }
 
-
-
 .view-choose{
     width: 100%;
 
@@ -44,11 +42,14 @@ main.main-content{
     /*width: 100%;*/
     padding: 0;
     height: auto;
-    border: 2px solid #623B2A;
+    /*border: 2px solid #623B2A;*/
+    border: 2px solid #895b3e;
     border-radius: 20px;
-    background-color: #6f402a;
+    /*background-color: #6f402a;*/
     /*background: linear-gradient(45deg, #6f402a, #c39367);*/
-    background:#c39367;
+    /*background:#c39367;*/
+    background: #a77259;
+    box-shadow: 6px 4px 0px #00000026;
 }
 
 .card-button{
@@ -89,8 +90,12 @@ main.main-content{
     /*height: 100%;*/
     min-height: 4vw;
     align-items: center;
-    background: linear-gradient(45deg,#6f402a, #c39367);
+    /*background: linear-gradient(45deg,#6f402a, #c39367);*/
+    /*background: #a77259;*/
     border-radius: 20px;
+    background: repeating-linear-gradient(10deg, #a77259, #91644f 70px);
+
+      
 }
 
 img.arrow{
@@ -217,7 +222,8 @@ h3.categoryName {
 
 
 button.return-button, button.back-button {
-    background-color: #6f402a;
+    /*background-color: #6f402a;*/
+    background-color: #a77259;
     border-radius: 30px;
    /* margin: 0 10px;*/
     margin-right: 2vw;
@@ -247,7 +253,8 @@ button.search-button{
     border-radius: 10px;
     margin: 0 10px;*/
     margin-right: 2vw;
-    background-color: #6f402a;
+    /*background-color: #6f402a;*/
+    background-color: #a77259;
     border-radius: 30px;
    /* margin: 0 10px;*/
 }
@@ -265,7 +272,8 @@ button.search-button{
 }
 
 button#showPopup {
-    background-color: #6f402a;
+    /*background-color: #6f402a;*/
+    background-color: #a77259;
     border-radius: 30px;
     /*margin: 0 10px;*/
 } 
@@ -520,8 +528,9 @@ button.search-popup{
     display: flex;
     margin-top: 0;
     /*width: min-content;*/
-    padding-bottom: 0.8vw;
+    /*padding-bottom: 0.8vw;*/
 }
+
 .substrate img{
     width: 4vw;
     margin-right: 1vw;
@@ -538,6 +547,7 @@ button.search-popup{
     text-wrap: balance;
     /*margin-bottom: 1.2vw;*/
     /*max-width: 22vw;*/
+    margin-top: 0;
 
 }
 
