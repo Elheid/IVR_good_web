@@ -112,9 +112,9 @@
     
 }
 .info-button{
-    background-color: #6f402a;
+    background-color: #a77259;
     border-radius: 50px;
-    border: 4px solid #6f402a
+    border: 4px solid #a77259
 }
 .info-button{
 
@@ -128,7 +128,7 @@
 }
 
 .house-button{
-    background-color: #6f402a;
+    background-color: #a77259;
     border-radius: 30px;
 }
 
@@ -147,7 +147,8 @@
     color:#FFFFFF;
     font-weight: 400;
     /*background-color: #E04E39;*/
-    background: linear-gradient(45deg, #6f402a, #c39367);
+    /*background: linear-gradient(45deg, #6f402a, #c39367);*/
+    background: repeating-linear-gradient(10deg, #a77259, #91644f 70px);
     border-radius: 20px;
 }
 
@@ -200,7 +201,7 @@ div#popup{
 }
 
 button.return-button, button.close-button {
-    background-color: #6f402a;
+    background-color: #a77259;
     border-radius: 50px;
    /* margin: 0 10px;*/
     margin-right: 2vw;
