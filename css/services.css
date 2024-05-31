@@ -39,7 +39,8 @@ main.main-content{
     /*margin-bottom: 15px;*/
 }
 .gestural-language .card-button{
-    width: fit-content;
+    width: 100%;
+
     /*width: 100%;*/
     padding: 0;
     height: auto;
@@ -518,6 +519,8 @@ button.search-popup{
     align-items: center;
     display: flex;
     margin-top: 0;
+    /*width: min-content;*/
+    padding-bottom: 0.8vw;
 }
 .substrate img{
     width: 4vw;
@@ -531,8 +534,11 @@ button.search-popup{
     margin: 15px 5px;
     font-weight: 400;
     margin-left: 15px;
-    margin-bottom: 1.2vw;
-    max-width: 22vw;
+    margin-bottom: 0;
+    text-wrap: balance;
+    /*margin-bottom: 1.2vw;*/
+    /*max-width: 22vw;*/
+
 }
 
 .gestural-language .card.catalog-card,
