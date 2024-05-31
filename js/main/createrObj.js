@@ -1,5 +1,5 @@
 // это должно быть временная штука ддля проверки идеи
-import { getCellNameById } from "../util.js";
+import { getCellNameById, getParamFromURL } from "../util.js";
 
 const iconInsertion = (textFromBd, iconLinks)=>{
     const iconRegex = /\\icon(\d+)/g;
@@ -70,6 +70,22 @@ const infoRes = (info)=>{
     text.innerHTML = iconInsertion(info.description, info.iconLinks);;
     return res;
 }
+
+const createInfoCard = (info)=>{
+    const infoTemplate = document.querySelector('#additional-info').content.querySelector('li');
+
+
+    const infoCard = document.importNode(infoTemplate, true);
+    const cardTitle = infoCard.querySelector('.card-description');
+
+    //const imgOrGif = infoCard.querySelector('.info-gif');
+
+    //imgOrGif.src = info.gifPreview;
+    cardTitle.textContent = info.title;
+    infoCard.setAttribute("info-id", info.id);
+    return infoCard;
+};
+
 
 const createPlayButton = ()=>{
     var playButton = document.createElement('img');
@@ -326,20 +342,6 @@ const createServiceCard = (service, clearLanguage)=>{
         language.classList.contains('clear-language'))}?`;
     })
     return cardService;
-};
-
-const createInfoCard = (info)=>{
-    const infoTemplate = document.querySelector('#additional-info').content.querySelector('li');
-
-    const infoCard = document.importNode(infoTemplate, true);
-    const cardTitle = infoCard.querySelector('.card-description');
-    //const imgOrGif = infoCard.querySelector('.info-gif');
-    const vid = infoCard.querySelector("video");
-    vid.src = info.gifPreview;
-    //imgOrGif.src = info.gifPreview;
-    cardTitle.textContent = info.title;
-    infoCard.setAttribute("info-id", info.id);
-    return infoCard;
 };
 
 

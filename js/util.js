@@ -123,4 +123,16 @@ const equalizeSubtitles = ()=>{
     });
 }
 
-export {createCatalog, createService, getAllServices, createInfo, getCellById, getCatalogId, getCellNameById, equalizeSubtitles};
+const getParamFromURL = ()=>{
+    //const stateData = urlParams.get('serviceId');
+    const href = window.location.href;
+    const regex = /=(.*?)\?/g;
+    let matches = href.match(regex);
+    const res = [];
+    matches.forEach((match)=>{
+        res.push(match.replace("?", "").replace("=",""));
+    });
+    return res;
+}
+
+export {createCatalog, createService, getAllServices, createInfo, getCellById, getCatalogId, getCellNameById, equalizeSubtitles, getParamFromURL};

@@ -59,13 +59,18 @@
     font-size: 1.5vw;
     margin-top: 0;
 }
-.popup{
+div.popup{
     width: 80%;
     max-width: 680px;
     max-height: 80%;
     
     overflow-x: hidden;
     border: 2px solid white;
+
+    padding: 0;
+}
+.popup-content{
+    padding: 20px;
 }
 .additional-info{
     margin-left: auto;
@@ -236,4 +241,18 @@ video{
 img.icons {
     max-width: 4vw;
     margin-bottom: 2vw;
+}
+img.icon-in-card{
+    /*border-radius: 30px;
+    border: 1px solid #6f402a;*/
+    width: 45%;
+    height: auto;
+}
+
+.clear-card{
+    height: 100%;
+    width: 100%;
+    border: 1px solid #623B2AE5;
+    border-radius: 20px;
+    box-shadow: 0px 4px 4px 0px #00000040;
 }

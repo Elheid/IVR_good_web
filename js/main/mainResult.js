@@ -1,7 +1,7 @@
 import { createBackButton } from '../backButton.js';
 import { showRes } from '../createResult.js';
-import { addInfoPopupShow, addInfoPopupClose } from '../additionalInfo.js';
-
+import { addInfoPopupShow, addInfoPopupClose, getIsClear } from '../additionalInfo.js';
+import { getParamFromURL } from '../util.js';
 import { getServiceById } from '../api/api.js';
 import { addSkeletonRes } from '../skeletons/skeletonResult.js';
 
@@ -11,28 +11,24 @@ const text = "Manual на ясном языке \nЧтобы получить з
 const gif = "img/gastrual2.jpg";
 const urlParams = new URLSearchParams(window.location.search);
 
-const stateData = urlParams.get('serviceId');
-const wind = window.location.href;
-let id;
-let isClear;
-const regex = /=(.*?)\?/g;
-let matches = wind.match(regex);
-const res = [];
-matches.forEach((match)=>{
-    res.push(match.replace("?", "").replace("=",""));
-});
-id = res[0];
-isClear = res[1];
 
-const obj = {
+
+const res = getParamFromURL();
+const id = res[0];
+const isClear = res[1];
+
+
+getIsClear(isClear)
+
+/*const obj = {
     title: stateData,
     url: gif,
     manualText:text
-}
+}*/
 
 
 const loadResult = ()=>
-    getServiceById(urlParams.get('serviceId'))
+    getServiceById(id)
         .then((data) => {
             showRes(data, isClear);
             addInfoPopupShow();

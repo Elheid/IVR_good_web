@@ -51,8 +51,8 @@ const showServices = ()=>{
   const id = getCatalogId();
   loadServices(id);
   //displayServices(cell);
-  addSkeletons();
   hideCatalogs();
+  addSkeletons();
 }
 
 const showSearchedServices = (services, query)=>{

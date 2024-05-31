@@ -1,10 +1,15 @@
 
 import { createInfoCard } from "./main/createrObj.js";
-//import { createInfo } from "./util.js";
+import { getParamFromURL } from "./util.js";
 import { infoRes } from "./main/createrObj.js";
 import {showPopup, closePopup} from "./popup/popup.js"
 import { getInfoById } from "./api/api.js";
 
+
+
+const getIsClear = (isClear)=>{
+    return isClear;
+}
 
 const closeSection = (event)=> {
     const popup = document.querySelector('.popup');
@@ -90,15 +95,27 @@ const showInfoCard = (infoTmp)=>{
     const list = document.querySelector(".info-cards");
     const card = createInfoCard(infoTmp);
 
-    list.appendChild(card);
+    const clear = getParamFromURL()[1];
+    if (clear === "true"){
+        card.classList.add("clear-card")
+        var img = document.createElement('img');
+        img.classList.add('icon-in-card');
+        img.src = infoTmp.mainIconLink;
+        card.querySelector(".card-button").appendChild(img);
+        const vid = card.querySelector("video");
+        vid.classList.add("hidden");
+    }
 
+
+    list.appendChild(card);
+    
     const additionalInfo = {
         gifLink: infoTmp.gifLink,
         description:infoTmp.description,
         title:infoTmp.title,
         iconLinks:infoTmp.iconLinks
-    };
-
+    }
+    
     const nextButton = card.querySelector(".card-button");
     nextButton.addEventListener("click", (evt)=>{
         showAdditionalInfo(additionalInfo);
@@ -128,4 +145,4 @@ const removeInfoCards =()=>{
     list.innerHTML = "";
 }
 
-export {addInfoPopupShow, addInfoPopupClose}
+export {addInfoPopupShow, addInfoPopupClose, getIsClear}
