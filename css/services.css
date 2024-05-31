@@ -749,21 +749,43 @@ div.gif {
     width: 28vw;
     height: 23vw;
     /*background-color: #c39367;*/
-    background-color: #c19873;
+    /*background-color: #c19873;*/
     animation: loading 1.5s infinite;
-   /* background: 
-    linear-gradient(0.25turn, transparent, #ffffffab, transparent),
-    linear-gradient(#eee, #eee),
-    radial-gradient(38px circle at 19px 19px, #eee 50%, transparent 51%),
-    linear-gradient(#eee, #eee);  */
+    background: 
+    linear-gradient(0.25turn, transparent, #e6d4cc , transparent),
+    linear-gradient(#fffcfa, #fff9f4),
+    radial-gradient(38px circle at 19px 19px, #ffffff  50%, transparent 51%),
+    linear-gradient(#e9dcd0, #eee);  
+}
+/*    linear-gradient(0.25turn, transparent, #91644f , transparent),
+    linear-gradient(#c19873, #c19873),
+    radial-gradient(38px circle at 19px 19px, #91644f  50%, transparent 51%),
+    linear-gradient(#b19b88, #eee);  */
+.skeleton-substrate.card-button{
+    background-color: transparent;
+    animation: loading 1.5s infinite;
+    background: 
+    linear-gradient(0.25turn, transparent, #91644f , transparent),
+    linear-gradient(#c19873, #c19873),
+    radial-gradient(38px circle at 19px 19px, #91644f  50%, transparent 51%),
+    linear-gradient(#b19b88, #eee);  
 }
 
+.skeleton-content{
 
-/*@keyframes loading {  
+    animation: loading 1.5s infinite;
+    background: 
+    linear-gradient(0.25turn, transparent, #91644f , transparent),
+    linear-gradient(#c19873, #c19873),
+    radial-gradient(38px circle at 19px 19px, #91644f  50%, transparent 51%),
+    linear-gradient(#eee, #eee);  
+}
+
+@keyframes loading {  
     to {
       background-position: 315px 0, 0 0, 0 190px, 50px 195px;
     }
-  }*/
+  }
 
     
 
