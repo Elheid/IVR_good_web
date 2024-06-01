@@ -5,7 +5,7 @@ import { getService } from "./api/api.js";
 import { addHeader, addHeaderForSearch, removeSearchHeader} from "./headers.js";
 import { getCellById, getCatalogId, getCellNameById, equalizeSubtitles } from "./util.js";
 import { addPlayVidButton } from "./vidPlayButton.js";
-import { hideSkeletonsAndReplace, addSkeletons } from './skeletons/skeleton.js';
+import { hideSkeletonsAndReplace, addSkeletons, updateSkeletonElementCount } from './skeletons/skeleton.js';
 
 const displayServices = (services)=> {
 
@@ -41,9 +41,11 @@ const displayServices = (services)=> {
 
 const showServices = ()=>{
   addHeader();
+  //addSkeletons();
   const loadServices = (catalogId)=>
   getService(catalogId)
       .then((data) => {
+        updateSkeletonElementCount(data.content.length);
         displayServices(data);
         addPlayVidButton();
       })
@@ -52,7 +54,6 @@ const showServices = ()=>{
   loadServices(id);
   //displayServices(cell);
   hideCatalogs();
-  addSkeletons();
 }
 
 const showSearchedServices = (services, query)=>{

@@ -391,8 +391,11 @@ const createGoButtons = ()=>{
     createEventsButtons(lists);
 }
 
-const createGastrualSkeleton = (count)=>{
-    const template = document.querySelector('#gastrual-skeleton').content;
+const createGastrualSkeleton = (count, isClear)=>{
+    let template = document.querySelector('#gastrual-skeleton').content;
+    if (isClear){
+        template = document.querySelector('#clear-skeleton').content;
+    }
     var fragment = document.createDocumentFragment();
 
     for(var i = 0; i < count; i++){

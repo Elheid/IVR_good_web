@@ -6,7 +6,7 @@ import { getCategories } from '../api/api.js';
 import { addSearchButton, searchResult } from '../search/search.js';
 import { addPlayVidButton } from '../vidPlayButton.js';
 import { createGoButtons } from './createrObj.js';
-import { addSkeletons } from '../skeletons/skeleton.js';
+import { addSkeletons, updateSkeletonElementCount } from '../skeletons/skeleton.js';
 
 
 addSkeletons("catalogs");
@@ -25,6 +25,7 @@ if (document.querySelector(".catalogs").classList.contains("gestural-language"))
 const loadCategories = async () => {
     await getCategories()
       .then((data) => {
+        updateSkeletonElementCount(data.content.length);
         initializeResults(data);
         addCatalogButton(searchResult);
         addPlayVidButton();

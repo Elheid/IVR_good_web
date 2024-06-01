@@ -1,4 +1,4 @@
-//import { createGastrualSkeleton } from "../createrObj.js";
+import { createGastrualSkeleton } from "../main/createrObj.js";
 
 const determineSkeleton = ()=>{
     const catalog = document.querySelector(".catalogs")
@@ -10,6 +10,21 @@ const determineSkeleton = ()=>{
         return skeletons[0];
     }
 }
+
+const updateSkeletonElementCount  =(count)=>{
+        const skeleton = determineSkeleton();
+        if(skeleton.classList.contains("hidden")){
+            skeleton.classList.remove("hidden")
+        }
+        const skeletonCount = skeleton.querySelector("ul").children.length;
+        const countOfReplace = count - skeletonCount;
+        const isClear = skeleton.classList.contains("clear-language");
+        const fragmentToAppend = createGastrualSkeleton(countOfReplace, isClear);
+        skeleton.querySelector("ul").appendChild(fragmentToAppend);
+        // Симулируем загрузку данных с помощью setTimeout
+        // Скрываем скелетон и показываем настоящий контент
+}
+
 const addSkeletons = ()=>{
 
     document.addEventListener('DOMContentLoaded', () => {
@@ -25,11 +40,7 @@ const addSkeletons = ()=>{
         const elementToReplace = document.querySelector(`.${classToReplace}`);
         
         elementToReplace.classList.add("hidden");
-        /*const countOfReplace = 2;
-        const fragmentToAppend = createGastrualSkeleton(countOfReplace);
-        list.appendChild(fragmentToAppend);*/
-        // Симулируем загрузку данных с помощью setTimeout
-        // Скрываем скелетон и показываем настоящий контент
+
     });
 }
 
@@ -40,4 +51,4 @@ const hideSkeletonsAndReplace = (classToReplace)=>{
     elementToReplace.classList.remove("hidden");
 }
 
-export {addSkeletons, hideSkeletonsAndReplace}
+export {addSkeletons, hideSkeletonsAndReplace, updateSkeletonElementCount}
