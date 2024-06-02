@@ -18,9 +18,6 @@ const showRes = (obj, isClear=false)=>{
     window.addEventListener('resize', moveInfoButton);
 
     var info = document.querySelector('.additional-info');
-    info.touchmove = ()=>{
-        document.querySelector(".hovered-text").style.display = 'block';
-    }
     info.onmouseover = ()=>{
         document.querySelector(".hovered-text").style.display = 'block';
     }
