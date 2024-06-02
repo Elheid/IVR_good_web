@@ -78,9 +78,9 @@ const createInfoCard = (info)=>{
     const infoCard = document.importNode(infoTemplate, true);
     const cardTitle = infoCard.querySelector('.card-description');
 
-    //const imgOrGif = infoCard.querySelector('.info-gif');
+    const imgOrGif = infoCard.querySelector('.info-card-gif');
 
-    //imgOrGif.src = info.gifPreview;
+    imgOrGif.src = info.gifPreview;
     cardTitle.textContent = info.title;
     infoCard.setAttribute("info-id", info.id);
     return infoCard;
