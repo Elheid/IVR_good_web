@@ -65,7 +65,11 @@ const infoRes = (info)=>{
     /*const button = res.querySelector("button");
     button.innerHTML = "";*/
     cardTitle.textContent = info.title; 
-    gif.src = info.gifLink;
+    if (getParamFromURL()[1] == "true"){
+        gif.classList.add("hidden");
+    }else{
+        gif.src = info.gifLink;
+    }
     
     text.innerHTML = iconInsertion(info.description, info.iconLinks);;
     return res;
