@@ -97,8 +97,8 @@ const changeHeaderBorderRadius = ()=>{
     }
 }
 
-var urlParams = window.location.search;
-    if (urlParams.match('catalog')){
+var urlParams = window.location.href;
+    if (urlParams.match('services')){
         window.addEventListener('resize', changeHeaderBorderRadius);
         document.addEventListener('DOMContentLoaded',changeHeaderBorderRadius); 
     }
