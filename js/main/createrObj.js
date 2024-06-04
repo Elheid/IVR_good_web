@@ -135,10 +135,10 @@ const createClarLangCard = (cardParent, title, count, iconGif)=>{
     icon.classList.add("icon");
 
 
-    /*const svgUrl = 'https://storage.yandexcloud.net/akhidov-ivr/icon2.svg';
+    const svgUrl = 'https://storage.yandexcloud.net/akhidov-ivr/icon6.svg';
 
 
-        async function loadAndModifySVG(url) {
+    async function loadAndModifySVG(url) {
         try {
         // Загружаем SVG содержимое
         const response = await fetch(url);
@@ -155,13 +155,13 @@ const createClarLangCard = (cardParent, title, count, iconGif)=>{
         });
 
         // Получаем HTML контейнер и вставляем изменённый SVG
-        icon.innerHTML = '';
-        icon.appendChild(svgDoc.documentElement);
+        //icon.innerHTML = '';
+        card.appendChild(svgDoc.documentElement);
         } catch (error) {
         console.error('Ошибка при загрузке или изменении SVG:', error);
         }
     }
-    loadAndModifySVG(svgUrl);*/
+    //loadAndModifySVG(svgUrl);
 
 
     icon.src = iconGif; 
@@ -180,7 +180,7 @@ const createClarLangCard = (cardParent, title, count, iconGif)=>{
     card.appendChild(icon);
 
     var cardContent = document.createElement('div');
-    cardContent.classList.add("card-content");
+    cardContent.classList.add("card-header");
     cardContent.appendChild(cardTitle);
 
 

@@ -60,12 +60,13 @@ main.main-content{
 .clear-card .card-button{
     min-height: 6vw;
 }
-.card-content {
+.card-header {
     display: flex;
     margin-left: 20px;
     flex-direction: column;
     height: 100%;
     width: -webkit-fill-available;
+    order: 2;
 }
 
 .card-footer{
@@ -80,6 +81,9 @@ main.main-content{
     padding: 10px 20px;
 }
 
+svg{
+    fill: white;
+}
 
 .card-button img{
     width: 100%;
@@ -625,8 +629,7 @@ button#showPopup img{
     color: #FFFFFF;
     font-size: 30px;
     font-weight: 400;
-    margin-left: auto;
-    margin-right: auto;
+
     text-align: left;
     padding-right: 30px;
     height: 100%;
