@@ -84,6 +84,11 @@ main.main-content{
 svg{
     fill: white;
 }
+.icon-container{
+    min-width: 6vw;
+    max-width: 6vw;
+    margin-left: 15px;
+}
 
 .card-button img{
     width: 100%;

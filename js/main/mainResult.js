@@ -7,9 +7,27 @@ import { addSkeletonRes } from '../skeletons/skeletonResult.js';
 
 addSkeletonRes();
 
-const text = "Manual на ясном языке \nЧтобы получить загран паспорт, нужно ..."
+/*const text = "Manual на ясном языке \nЧтобы получить загран паспорт, нужно ..."
 const gif = "img/gastrual2.jpg";
 const urlParams = new URLSearchParams(window.location.search);
+*/
+clearButton.addEventListener("click", function() {
+    flag = "clear-language";
+    window.location.href = destinationClear;
+    saveData();
+});
+
+
+const saveData = ()=>{
+localStorage.setItem("language", flag);
+}
+
+const loadSavedData = () => {
+const savedData = localStorage.getItem("language");
+if (savedData != null){
+    return savedData;
+}
+}
 
 
 
@@ -20,11 +38,6 @@ const isClear = res[1];
 
 getIsClear(isClear)
 
-/*const obj = {
-    title: stateData,
-    url: gif,
-    manualText:text
-}*/
 
 
 const loadResult = ()=>

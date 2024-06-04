@@ -56,6 +56,9 @@ const initializeResults = (cards)=>{
     hideSkeletonsAndReplace("catalogs");
     equalizeSubtitles();
     window.addEventListener('resize', equalizeSubtitles);
+    /*equalizeIconContainers();
+    window.addEventListener('resize', equalizeIconContainers);*/
+
     //equalizeSubtitles("catalogs")
 }
 

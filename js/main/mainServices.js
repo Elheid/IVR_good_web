@@ -7,11 +7,12 @@ import { addSearchButton, searchResult } from '../search/search.js';
 import { addPlayVidButton } from '../vidPlayButton.js';
 import { createGoButtons } from './createrObj.js';
 import { addSkeletons, updateSkeletonElementCount } from '../skeletons/skeleton.js';
-
+//import { equalizeIconContainers } from '../util.js';
 
 addSkeletons("catalogs");
 
 createBackButton();
+
 
 
 var flag = loadSavedData();

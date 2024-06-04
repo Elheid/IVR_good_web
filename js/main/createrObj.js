@@ -128,45 +128,79 @@ const createClarLangCard = (cardParent, title, count, iconGif)=>{
     cardTitle.classList.add('title');
     cardTitle.trxtContent = title;*/
 
-    //var iconContainer = document.createElement('div');
-    //iconContainer.classList.add("icon-container");
-
-    var icon = document.createElement('img');
-    icon.classList.add("icon");
+    var iconContainer = document.createElement('div');
+    iconContainer.classList.add("icon-container");
 
 
-    const svgUrl = 'https://storage.yandexcloud.net/akhidov-ivr/icon6.svg';
 
 
-    async function loadAndModifySVG(url) {
+    //const svgUrl = 'https://storage.yandexcloud.net/akhidov-ivr/icon6.svg';
+    let svgUrl = iconGif;
+    /*if (svgUrl.includes("icon2") || svgUrl.includes("icon20")){
+        svgUrl = 'https://storage.yandexcloud.net/akhidov-ivr/icon6.svg';
+    }*/
+
+    const changeSvgAttributes = (id)=>{
+        //const svgElement = document.querySelector('svg');
+        let svgElement = document.getElementById(id)
+        /*if (window.location.href.includes("catalog")){
+            svgElement = document.getElementById(cardParent.getAttribute("service-id"))
+        }*/
+
+        //svgElement.classList.add('icon');
+        const width = svgElement.getAttribute("width");
+        const height = svgElement.getAttribute("height");
+        svgElement.setAttribute("viewBox", `0 0 ${width} ${height}`)
+        svgElement.removeAttribute("width");
+        svgElement.removeAttribute("width");
+    
+        svgElement.setAttribute("width", "100%");
+        svgElement.setAttribute("height", "100%")
+    }
+    async function loadSVG(svgUrl) {
         try {
-        // Загружаем SVG содержимое
-        const response = await fetch(url);
-        const svgText = await response.text();
-
-        // Создаём временный элемент для парсинга SVG
-        const parser = new DOMParser();
-        const svgDoc = parser.parseFromString(svgText, 'image/svg+xml');
-
-        // Изменяем все элементы с атрибутом fill
-        const elements = svgDoc.querySelectorAll('[fill]');
-        elements.forEach(el => {
-        el.setAttribute('fill', '#ffffff');
-        });
-
-        // Получаем HTML контейнер и вставляем изменённый SVG
-        //icon.innerHTML = '';
-        card.appendChild(svgDoc.documentElement);
+            const response = await fetch(svgUrl);
+            const svgText = await response.text();
+            const container = document.getElementById('icon-container');
+    
+            const parser = new DOMParser();
+            const svgDoc = parser.parseFromString(svgText, 'image/svg+xml');
+    
+            const fillElements = svgDoc.querySelectorAll('[fill]');
+            fillElements.forEach(el => {
+                el.setAttribute('fill', '#ffffff');
+            });
+            let id = cardParent.getAttribute("catalog-id");
+            if (window.location.href.includes("catalog")){
+                id = cardParent.getAttribute("service-id");
+            }
+            else{
+                id = cardParent.getAttribute("catalog-id");
+            }
+            svgDoc.documentElement.setAttribute("id", id);
+            iconContainer.appendChild(svgDoc.documentElement);
+            changeSvgAttributes(id);
         } catch (error) {
-        console.error('Ошибка при загрузке или изменении SVG:', error);
+            console.error('Ошибка при загрузке или изменении SVG:', error);
+            console.error('svg -> ', iconGif);
+            var icon = document.createElement('img');
+            icon.classList.add("icon");
+            icon.src = iconGif;
+            if (!window.location.href.includes("catalog")){
+                card.appendChild(icon);
+            } 
         }
     }
+
+    loadSVG(svgUrl);
+    card.appendChild(iconContainer);
+    
     //loadAndModifySVG(svgUrl);
 
 
-    icon.src = iconGif; 
+    //icon.src = iconGif; 
+    //card.appendChild(icon);
     //iconContainer.appendChild(icon);
-    //card.appendChild(iconContainer);
 
     const cardTitle = document.createElement('h3');
     cardTitle.classList.add("card-title");
@@ -176,8 +210,6 @@ const createClarLangCard = (cardParent, title, count, iconGif)=>{
 
     var cardHeader = document.createElement('div');
     cardHeader.classList.add("card-header");
-
-    card.appendChild(icon);
 
     var cardContent = document.createElement('div');
     cardContent.classList.add("card-header");
@@ -234,8 +266,12 @@ const createSubstrate = ()=>{
 }
 
 const createCatalogCard = (catalog, clearLanguage)=>{
+
     const catalogTemplate = document.querySelector('#catalog-template').content.querySelector('li');
     var cardCatalog = document.importNode(catalogTemplate, true);
+
+    cardCatalog.setAttribute("catalog-id", catalog.id);
+
     const cardButton = cardCatalog.querySelector(".card-button");
     
     //const imgOrGif = cardCatalog.querySelector('img.catalog-gif');
@@ -266,9 +302,6 @@ const createCatalogCard = (catalog, clearLanguage)=>{
         //imgOrGif.src = "img/clear.jpg";
         
     }
-
-    
-    cardCatalog.setAttribute("catalog-id", catalog.id);
     return cardCatalog;
 };
 
@@ -276,7 +309,9 @@ const createCatalogCard = (catalog, clearLanguage)=>{
 const createServiceCard = (service, clearLanguage)=>{
     const serviceTemplate = document.querySelector('#service-template').content.querySelector('li');
     var cardService = document.importNode(serviceTemplate, true);
-    
+
+    cardService.setAttribute("service-id", service.id);
+
     const cardButton = cardService.querySelector(".card-button");
     //const imgOrGif = cardService.querySelector('img.service-gif');
 
@@ -332,8 +367,6 @@ const createServiceCard = (service, clearLanguage)=>{
     cardTitle.textContent = service.title;
 
 
-
-    cardService.setAttribute("service-id", service.id);
 
     const nextButton = cardService.querySelector(".service-button");
 

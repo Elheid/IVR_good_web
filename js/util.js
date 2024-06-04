@@ -123,6 +123,22 @@ const equalizeSubtitles = ()=>{
     });
 }
 
+const equalizeIconContainers = ()=>{
+    //const container = document.querySelector(`.${list} .list-of-cards:not(.sceleton-list)`)
+    var containers = document.querySelectorAll('.icon-container');
+    var maxHeight = 0;
+    
+    containers.forEach((icon)=> {
+    if (icon.offsetHeight > maxHeight) {
+    maxHeight = icon.offsetHeight;
+    }
+    });
+    
+    containers.forEach(function(card) {
+    card.style.height = maxHeight + 'px';
+    });
+}
+
 const getParamFromURL = ()=>{
     //const stateData = urlParams.get('serviceId');
     const href = window.location.href;
@@ -135,4 +151,6 @@ const getParamFromURL = ()=>{
     return res;
 }
 
-export {createCatalog, createService, getAllServices, createInfo, getCellById, getCatalogId, getCellNameById, equalizeSubtitles, getParamFromURL};
+export {createCatalog, createService, getAllServices,
+    createInfo, getCellById, getCatalogId, getCellNameById,
+    equalizeSubtitles, getParamFromURL, equalizeIconContainers};
