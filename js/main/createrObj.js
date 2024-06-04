@@ -339,12 +339,12 @@ const createServiceCard = (service, clearLanguage)=>{
         //var clearCard = createClarLangCard(cardService, service.title, 
             //service.itemsInCategoryIds ? service.itemsInCategoryIds.length : 0);
         if (service.mainIconLink.length != 0){
-                var clearCard = createClarLangCard(cardService, service.title, service.itemsInCategoryIds ? service.itemsInCategoryIds.length : 0, service.mainIconLink);
-                cardService = (clearCard);
+            var clearCard = createClarLangCard(cardService, service.title, service.itemsInCategoryIds ? service.itemsInCategoryIds.length : 0, service.mainIconLink);
+            cardService = (clearCard);
             }
         else{
-                var clearCard = createClarLangCard(cardService, service.title, service.itemsInCategoryIds ? service.itemsInCategoryIds.length : 0);
-                cardService = (clearCard);
+            var clearCard = createClarLangCard(cardService, service.title, service.itemsInCategoryIds ? service.itemsInCategoryIds.length : 0);
+            cardService = (clearCard);
         }
 
         const query = window.location.href;
@@ -375,7 +375,7 @@ const createServiceCard = (service, clearLanguage)=>{
     const serviceId = liEl.getAttribute("service-id");
     const language = document.querySelector(".services");
     window.location.href = `result.html?serviceId=${encodeURIComponent(serviceId)}?language=${encodeURIComponent(
-        language.classList.contains('clear-language'))}?`;
+    language.classList.contains('clear-language'))}?`;
     })
     return cardService;
 };
