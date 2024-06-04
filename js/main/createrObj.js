@@ -180,7 +180,7 @@ const createClarLangCard = (cardParent, title, count, iconGif)=>{
     card.appendChild(icon);
 
     var cardContent = document.createElement('div');
-    cardContent.classList.add("card-header");
+    cardContent.classList.add("card-content");
     cardContent.appendChild(cardTitle);
 
 

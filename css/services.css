@@ -60,20 +60,25 @@ main.main-content{
 .clear-card .card-button{
     min-height: 6vw;
 }
-.card-header {
+.card-content {
     display: flex;
     margin-left: 20px;
     flex-direction: column;
     height: 100%;
     width: -webkit-fill-available;
 }
+
 .card-footer{
     width: 100%;
     display: flex;
     align-items: flex-end;
     margin-bottom: 10px;
 }
-
+.clear-card .icon{
+    width: 20%;
+    height: auto;
+    padding: 10px 20px;
+}
 
 
 .card-button img{
@@ -639,11 +644,7 @@ button#showPopup img{
     margin-right: 10px;
 }
 
-.clear-card .icon{
-    width: 20%;
-    height: auto;
-    padding: 10px 20px;
-}
+
 
 .clear-card img{
 
