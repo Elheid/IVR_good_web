@@ -161,7 +161,6 @@ const createClarLangCard = (cardParent, title, count, iconGif)=>{
         try {
             const response = await fetch(svgUrl);
             const svgText = await response.text();
-            const container = document.getElementById('icon-container');
     
             const parser = new DOMParser();
             const svgDoc = parser.parseFromString(svgText, 'image/svg+xml');
@@ -171,7 +170,7 @@ const createClarLangCard = (cardParent, title, count, iconGif)=>{
                 el.setAttribute('fill', '#ffffff');
             });
             let id = cardParent.getAttribute("catalog-id");
-            if (window.location.href.includes("catalog")){
+            if (window.location.href.includes("catalog") || window.location.href.includes("query")){
                 id = cardParent.getAttribute("service-id");
             }
             else{
