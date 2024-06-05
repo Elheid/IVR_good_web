@@ -177,7 +177,7 @@ button{
 
 .hovered-text{
     position: fixed;
-    top:16.5%;
+    margin-top: -62px;
     background: #a77259;
     color: white;
     padding: 20px;
