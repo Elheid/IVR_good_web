@@ -680,6 +680,7 @@ button#showPopup img{
 
 .tag-list{
     min-width: 33vw;
+    max-width: 35vw;
     min-height: 3vw;
     display: flex;
     flex-wrap: wrap;

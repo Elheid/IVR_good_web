@@ -15,11 +15,20 @@
   </head>
   <body>
     <header class="main-header">
+      <div class="back-buttons">
+        <button class="return-button">
+          <img src="img/arrow-left-white.svg"  alt="Кнопка назад">
+        </button>
+        <h3 class="res-title"></h3>
+        <a class="house-button" href="services.html" >
+          <img src="img/SVGRepo_iconCarrier (4).svg" alt="Кнопка Домой">
+        </a>
+      </div>
     </header>
     <main class="main-content main-result">
       <section class="view-choose">
         <div class="manual-strp skeleton">
-          <h3 class="res-title"></h3>
+         <!---- <h3 class="res-title"></h3>-->
           <img class="gif">
           <div class="manual">
             <pre class="manual-text"></pre>
@@ -53,14 +62,6 @@
             </div>
       </section>
 
-      <div class="back-buttons">
-        <button class="return-button">
-          <img src="img/arrow-left-white.svg"  alt="Кнопка назад">
-        </button>
-        <a class="house-button" href="services.html" >
-          <img src="img/SVGRepo_iconCarrier (4).svg" alt="Кнопка Домой">
-        </a>
-      </div>
 
       <script src="js/main/mainResult.js" type="module"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.js"></script>
@@ -71,14 +72,14 @@
       </button>-->
     </footer>
     <template id="result">
-      <h3 class="card-title"></h3>
-      <button class="modal additional-info" id="showPopup" type="button">
-        <img title="Дополнительная информация" class="info-button hover" src="img/info1.svg">
-      </button>
-      <div class="hovered-text">Дополнительная информация</div>
+     <!-- <h3 class="card-title"></h3>-->
+
       <video src=""  class="instr" alt="Gif-с объяснениями" autoplay loop muted></video>
       <div class="manual">
-
+        <button class="modal additional-info" id="showPopup" type="button">
+          <img title="Дополнительная информация" class="info-button hover" src="img/info1.svg">
+        </button>
+        <div class="hovered-text">Дополнительная информация</div>
         <pre class="manual-text">
         </pre>
       </div>

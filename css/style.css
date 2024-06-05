@@ -31,6 +31,16 @@ h1, h2, h3{
     padding: 0 55px;
 }
 
+header.main-header {
+    padding: 0 0;
+    position: sticky;
+    top:0;
+    background-color: rgb(246 244 242);
+    z-index: 998;
+    padding-bottom: 5px;
+    border-radius: 5px;
+}
+
 .main-menu, .main-result{
     padding: 0 55px;
 }
@@ -167,7 +177,7 @@ button{
 
 .hovered-text{
     position: fixed;
-    top:16%;
+    top:16.5%;
     background: #a77259;
     color: white;
     padding: 20px;

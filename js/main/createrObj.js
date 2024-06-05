@@ -26,9 +26,9 @@ const createRes = (result, clear)=>{
         gif.classList.add("hidden");
     }
     const text = res.querySelector(".manual-text");
-    const cardTitle = res.querySelector(".card-title");
-    cardTitle.classList.remove("card-title");
-    cardTitle.classList.add("res-title");
+    const cardTitle = document.querySelector(".res-title");
+    //cardTitle.classList.remove("card-title");
+    cardTitle.classList.add("card-title");
     cardTitle.textContent = result.title; 
 
     const textFromBd = result.description;
@@ -374,12 +374,31 @@ const createServiceCard = (service, clearLanguage)=>{
     const liEl = evt.target.closest('li');
     const serviceId = liEl.getAttribute("service-id");
     const language = document.querySelector(".services");
+        //header save
+    const saveData = (data)=>{
+        localStorage.setItem("header", JSON.stringify(data));
+    }
+        
+    const data = document.querySelector(".header-list")
+    //window.location.href = destinationClear;
+    const detaHTML = data.outerHTML;
+    saveData(detaHTML);
+
     window.location.href = `result.html?serviceId=${encodeURIComponent(serviceId)}?language=${encodeURIComponent(
     language.classList.contains('clear-language'))}?`;
+
     })
+
     return cardService;
 };
 
+const loadHeaderData = () => {
+    const savedData = localStorage.getItem("header");
+      if (savedData != null){
+        return savedData;
+      }
+}
+    
 
 const rowButtonEvent = (listOfCards, remove ,marginTop, marginTop2)=>{
     if(listOfCards[1].children.length === 0){
@@ -443,4 +462,4 @@ const createGastrualSkeleton = (count, isClear)=>{
 
 
 
-export {createRes, createGoButtons, createServiceCard, createGastrualSkeleton, createCatalogCard, createInfoCard, infoRes}
+export {createRes, createGoButtons, createServiceCard, createGastrualSkeleton, createCatalogCard, createInfoCard, infoRes, loadHeaderData}
