@@ -8,6 +8,7 @@ import { addPlayVidButton } from '../vidPlayButton.js';
 import { createGoButtons } from './createrObj.js';
 import { addSkeletons, updateSkeletonElementCount } from '../skeletons/skeleton.js';
 //import { equalizeIconContainers } from '../util.js';
+import { createHomeReturner } from '../returnHome.js';
 
 addSkeletons("catalogs");
 
@@ -54,3 +55,5 @@ addWebcamPopupShow();
 
 
 createGoButtons();
+
+createHomeReturner();

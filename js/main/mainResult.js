@@ -3,7 +3,7 @@ import { showRes } from '../createResult.js';
 import { addInfoPopupShow, addInfoPopupClose, getIsClear } from '../additionalInfo.js';
 import { getParamFromURL } from '../util.js';
 import { getServiceById } from '../api/api.js';
-
+import { createHomeReturner } from '../returnHome.js';
 
 
 
@@ -37,3 +37,5 @@ const loadResult = ()=>
 loadResult();
 
 createBackButton();
+
+createHomeReturner(10000);
