@@ -38,4 +38,4 @@ loadResult();
 
 createBackButton();
 
-createHomeReturner(10000);
+createHomeReturner();

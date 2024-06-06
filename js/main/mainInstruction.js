@@ -28,7 +28,7 @@ prevButton.addEventListener("click", ()=>{
     window.location.href = prevWindow;
 })
 
-createHomeReturner(10000);
+createHomeReturner();
 
 /*giveMoreButton.addEventListener('click', ()=>{
     showText(description);

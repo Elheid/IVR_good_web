@@ -1,6 +1,11 @@
 import { addGastrualSearch, removeGastrualSearch, removeAllTags } from "../search/gastrualSearch.js";
 import { startWebcam, stopWebcam } from "../api/gastrualApi.js";
 
+import { resetIdleTimer } from "../returnHome.js";
+
+
+
+
 const closeSectionWeb = (event)=> {
     const popup = document.querySelector('.popup');
     const overlay = document.querySelector('.overlay');
