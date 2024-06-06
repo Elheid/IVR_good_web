@@ -11,23 +11,6 @@ addSkeletonRes();
 const gif = "img/gastrual2.jpg";
 const urlParams = new URLSearchParams(window.location.search);
 */
-clearButton.addEventListener("click", function() {
-    flag = "clear-language";
-    window.location.href = destinationClear;
-    saveData();
-});
-
-
-const saveData = ()=>{
-localStorage.setItem("language", flag);
-}
-
-const loadSavedData = () => {
-const savedData = localStorage.getItem("language");
-if (savedData != null){
-    return savedData;
-}
-}
 
 
 
