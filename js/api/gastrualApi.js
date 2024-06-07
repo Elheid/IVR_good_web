@@ -3,7 +3,7 @@ import { addNewTags } from "../keyWords.js";
 const interval = 30;
 let intervalId;
 let keyWords = [];
-const socketURL = 'wss://pincode-dev.ru';//'wss://pincode-dev.ru'
+const socketURL = 'wss://pincode-dev.ru';//'wss://pincode-dev.ru'//wss://pincode-dev.ru/rsl-filter
 
 const socket = io(socketURL, {
     autoConnect: false,

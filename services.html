@@ -31,11 +31,22 @@
         <div class="buttons-area">
           <button class="return-button">
             <img src="img/arrow-left-white.svg" alt="Кнопка назад">
+            <span class="button-title back-title">Назад</span>
           </button>
-            <input class="search-input" type="search" name="query" placeholder="Поиск">
+          <div class="searcher"><input class="search-input" type="search" name="query" placeholder="Поиск" wfd-id="id0">
             <button class="search-button" type="submit">
-              <img src="img/search1.svg" alt="Кнопка поиска">
+                <img src="img/search1.svg" alt="Кнопка поиска">
             </button>
+          </div>
+          <button id="showPopup" type="button">
+            <span class="button-title">Поиск по РЖЯ</span>
+            <img src="img/record.svg" alt="Кнопка поиска жестами">
+          </button>
+        
+            <!--<button class="search-button" type="submit">
+              <span class="button-title back-title">Найти</span>
+              <img src="img/search1.svg" alt="Кнопка поиска">
+            </button>-->
            <!-- <button id="showPopup" type="button">
               <img src="img/record.svg" alt="Кнопка поиска жестами">
             </button>-->
@@ -51,10 +62,12 @@
         
     </section>
     </header>
-    <button id="showPopup" type="button">
-      <span class="button-title">Поиск с помощью РЖЯ</span>
+    
+    <!--<button id="showPopup" type="button">
+      <span class="button-title">Поиск по РЖЯ</span>
       <img src="img/record.svg" alt="Кнопка поиска жестами">
-    </button>
+    </button>-->
+
     <main class="main-content">
         
       <section class="view-choose">
@@ -170,10 +183,12 @@
                       </button>
 
                       <button class="stop-record">
-                        <img src="img/pause4.svg" width="32px" height="30px">
+                        <img src="img/pauseSimple.svg" width="32px" height="30px">
+                        <span class="button-title back-title">Остановить запись</span>
                       </button>
                       <button class="start-record">
-                        <img src="img/play.svg" width="32px" height="30px">
+                        <img src="img/playSimple.svg" width="32px" height="30px">
+                        <span class="button-title back-title">Начать запись</span>
                       </button>
 
                       <button class="closePopup search-popup search-button">

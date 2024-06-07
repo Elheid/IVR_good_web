@@ -192,3 +192,8 @@ button{
     opacity: 0;
 }
 
+
+button.hidden {
+    display: none;
+}
+

@@ -123,6 +123,10 @@ const showInfoCard = (infoTmp)=>{
 }
 
 const showInfoCards = ()=>{
+
+    const cardTitle = document.querySelector(".popup-title");
+    cardTitle.textContent = "Дополнительная информация"; 
+
     const additionalInfoIds = document.getElementById("popup").getAttribute("addition-info-id");
     if (additionalInfoIds !== "null")
     {

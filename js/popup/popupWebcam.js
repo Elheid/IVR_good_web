@@ -60,10 +60,14 @@ const addWebcamPopupShow = ()=>{
     if (catalog.classList.contains("clear-language"))
     {
         document.querySelector(".search-button").style = "margin-right: 0";
-        document.getElementById('showPopup').querySelector("img").classList.add("hidden")
+        document.getElementById('showPopup').classList.add("hidden")
+        const width = document.querySelector(".buttons-area").offsetWidth - document.querySelector(".return-button").offsetWidth
+        /*console.log(document.querySelector(".buttons-area").offsetWidth);
+        console.log(document.querySelector(".return-button").offsetWidth)*///45.5vw
+        document.querySelector(".search-input").style = `width: calc(${width}px - 5.6vw);`
     }
     else{
-        document.querySelector(".search-button").style = "margin-right: 2vw";
+        /*document.querySelector(".search-button").style = "margin-right: 2vw";*/
     }
     
     document.getElementById('showPopup').addEventListener('click', showWebcamPopup);

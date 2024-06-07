@@ -33,20 +33,20 @@ const showRes = (obj, isClear=false)=>{
     hideSkeletonAndReplace();
 
 
-    var info = document.querySelector('.additional-info');
+    /*var info = document.querySelector('.additional-info');
     info.onmouseover = ()=>{
         document.querySelector(".hovered-text").style.display = 'block';
     }
     info.onmouseout = ()=> {
         document.querySelector(".hovered-text").style.display = 'none';
-    }
+    }*/
 
 
     addSkeletonRes();
     addPrevListHeader();
 
-    moveInfoButton();   
-    window.addEventListener('resize', moveInfoButton);
+    /*moveInfoButton();   
+    window.addEventListener('resize', moveInfoButton);*/
 }
 
 export {showRes}

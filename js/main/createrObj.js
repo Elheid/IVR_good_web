@@ -54,7 +54,7 @@ const infoRes = (info)=>{
     const gif = res.querySelector("video");
     gif.classList.add("result-info-gif");
 
-
+    //document.querySelector(".additional-info-res.card-title").classList.add("hidden")
     const text = res.querySelector(".manual-text");
     //text.classList.remove("manual-text");
     //text.classList.add("info-text");
@@ -422,6 +422,17 @@ const rowButtonEvent = (listOfCards, remove ,marginTop, marginTop2)=>{
     };
 }
 
+const changeVidLists = (lists)=>{
+    for (var i = 0; i < lists.length; i++){
+        lists[i].style = "width: 80%; margin-left: auto; margin-right: auto;";
+    }
+}
+const returnVidLists = (lists)=>{
+    for (var i = 0; i < lists.length; i++){
+        lists[i].style = "";
+    }
+}
+
 const createEventsButtons = (listOfCards)=>{
     const catalog = document.querySelector(".catalogs");
     const twoInRow = document.querySelector(".two-in-row");
@@ -429,9 +440,11 @@ const createEventsButtons = (listOfCards)=>{
 
     if (!catalog.classList.contains("clear-language")){
         oneInRow.addEventListener("click", ()=>{
+            changeVidLists(listOfCards);
             rowButtonEvent(listOfCards, false,"20px", "8.6%");
         })
         twoInRow.addEventListener("click", ()=>{
+            returnVidLists(listOfCards);
             rowButtonEvent(listOfCards, true, "0", "6%");
         })
 
@@ -439,6 +452,11 @@ const createEventsButtons = (listOfCards)=>{
         twoInRow.classList.add("opacity");
         oneInRow.classList.add("opacity");
     }
+
+    /*
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;*/
 }
 
 const createGoButtons = ()=>{
