@@ -13,15 +13,15 @@ const addSkeletonRes = ()=>{
         if(lenaguage === "clear"){
             skeleton.querySelector("img").classList.add("hidden")
         }
-        const classes = document.querySelectorAll(`.${classToReplace}`);
-        const elementToReplace = classes[1];
+    
+        const elementToReplace = document.querySelector(`.manual-strp:not(.skeleton)`);
         elementToReplace.classList.add("hidden");
     });
 }
 
 const hideSkeletonAndReplace = ()=>{
-    const classes = document.querySelectorAll(`.manual-strp`);
-    const elementToReplace = classes[1];
+    const elementToReplace = document.querySelector(`.manual-strp:not(.skeleton)`);
+    //const elementToReplace = classes[1];
     skeleton.classList.add("hidden");
     elementToReplace.classList.remove("hidden");
 }

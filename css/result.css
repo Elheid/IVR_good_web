@@ -52,9 +52,24 @@
     background-color: #C3936773;
     border-radius: 20px;
 }*/
+
+.skeleton {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.skeleton.hidden{
+    display: none;
+}
+
+.manual-strp.true-manual.hidden{
+    display: none;
+}
+
 .skeleton .manual-text {
     height: 35vw;
     max-width: 1000px;
+    width: 47vw;
 }
 
 .skeleton .res-title {
@@ -62,8 +77,8 @@
 }
 
 .skeleton img.gif {
-    width: 100%;
-    height: 45vw;
+    width: 70%;
+    height: 35vw;
     background-color: #99836f73;
     border-radius: 30px;
 }

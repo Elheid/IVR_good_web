@@ -1,5 +1,5 @@
 import { createRes, loadHeaderData } from "./main/createrObj.js";
-import { hideSkeletonAndReplace, addSkeletonRes } from "./skeletons/skeletonResult.js";
+import { hideSkeletonAndReplace } from "./skeletons/skeletonResult.js";
 
 
 const addPrevListHeader = ()=>{
@@ -42,7 +42,7 @@ const showRes = (obj, isClear=false)=>{
     }*/
 
 
-    addSkeletonRes();
+
     addPrevListHeader();
 
     /*moveInfoButton();   
