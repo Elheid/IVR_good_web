@@ -199,7 +199,8 @@ img.arrow{
 }
 section.search-and-buttons {
     display: flex;
-    justify-content: space-between;
+    /*justify-content: space-between;*/
+    justify-content: center;
 }
 
 .view-buttons {
