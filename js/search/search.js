@@ -58,6 +58,9 @@ const handleSearch = async (event) => {
     // Здесь вы можете использовать значение запроса (query) для выполнения поискового запроса к вашему API
     // Например, отправляем запрос к вашему API с поисковым запросом
     //searchResult(query); 
+    if (query === ""){
+        return;
+    }
     try {
         await searchResult(query);
     } catch (error) {
