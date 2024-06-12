@@ -95,5 +95,10 @@ const searchSimilarResult = (query)=>
 
   // Находим форму поиска и добавляем обработчик события для отправки запроса поиска
   const addSearchButton = (searchButton)=> searchButton.addEventListener('click', handleSearch);
-  export {addSearchButton, searchResult, /*hideAlerts*/}
+  const addSearchEnter = ()=> document.addEventListener('keyup', (evt)=>{
+    if (evt.keyCode === 13) {
+    handleSearch(evt);
+    }
+});
+  export {addSearchButton, addSearchEnter, searchResult, /*hideAlerts*/}
 

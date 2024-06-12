@@ -40,7 +40,8 @@
     max-width: 1000px;
     padding-top: 24px;
     padding-bottom: 18px;
-    padding-left: 50px;
+    /*padding-left: 50px;*/
+    padding-left: 100px;
     text-align: left;
     font-size:24px;
     white-space: break-spaces;
@@ -347,6 +348,13 @@ video{
 img.icons {
     max-width: 4vw;
     margin-bottom: 2vw;
+
+
+    position: relative;
+    /*left: -85px;*/
+    left: -4.5vw;
+    top: -4vw;
+
 }
 img.icon-in-card{
     /*border-radius: 30px;
