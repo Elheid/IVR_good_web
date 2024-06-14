@@ -11,8 +11,35 @@
       }
     });
 }
+    
 */
 
+const vidPlayIfIntersect = ()=> {
+  const videos = document.querySelectorAll("video.gif");
+  
+  const observerOptions = {
+  root: null,
+  rootMargin: "0px",
+  threshold: 1.0
+  };
+  
+  const videoObserver = new IntersectionObserver((entries, observer) => {
+  entries.forEach(entry => {
+  const video = entry.target;
+  
+  if (entry.isIntersecting) {
+  video.currentTime = 0; // Сбросить видео к началу
+  video.play();
+  } else {
+  video.pause();
+  }
+  });
+  }, observerOptions);
+  
+  videos.forEach(video => {
+  videoObserver.observe(video);
+  });
+}
 
 const addPlayVidButton = ()=>{
     //window.addEventListener('scroll', playVisibleVideos);
@@ -21,9 +48,11 @@ const addPlayVidButton = ()=>{
 
         var videos = document.querySelectorAll('.gif');
         videos.forEach((video)=>{
-          video.setAttribute("autoplay", true);
+          //video.setAttribute("autoplay", true);
           video.setAttribute("loop", true)
         })
+        //document.addEventListener("DOMContentLoaded", vidOptions);
+        vidPlayIfIntersect();
         /*if (videos.length > 0 && !videos[0].classList.contains("hidden")){
             videos.forEach(function(video) {
                 var button = video.parentElement.querySelector('.play-button');

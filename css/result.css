@@ -354,8 +354,12 @@ img.icons {
     /*left: -85px;*/
     left: -4.5vw;
     top: -4vw;
-
 }
+
+img.icons:first-child{
+    margin-top: 30px;
+}
+
 img.icon-in-card{
     /*border-radius: 30px;
     border: 1px solid #6f402a;*/
