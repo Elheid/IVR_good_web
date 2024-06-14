@@ -4,7 +4,7 @@ import { getParamFromURL } from "./util.js";
 import { infoRes } from "./main/createrObj.js";
 import {showPopup, closePopup} from "./popup/popup.js"
 import { getInfoById } from "./api/api.js";
-
+import { vidPlayIfIntersect } from "./vidPlayButton.js";
 
 
 const getIsClear = (isClear)=>{
@@ -91,7 +91,8 @@ const removeAdditionalInfo = ()=>{
 const loadInfo = (id)=>
     getInfoById(id)
         .then((data) => {
-            showInfoCard(data);;
+            showInfoCard(data);
+            vidPlayIfIntersect();
         })
         .catch((err)=> console.log(err)
 );

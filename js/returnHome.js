@@ -8,10 +8,7 @@ const createHomeReturner = (idleTime = defaultTimer)=>{
     }
     idleTimer = setTimeout(redirectToHome, idleTime);
     
-    /*const resetIdleTimer= ()=> {
-        clearTimeout(idleTimer);
-        idleTimer = setTimeout(redirectToHome, idleTime);
-    }*/
+
     
     window.addEventListener("DOMContentLoaded", ()=>{
         resetIdleTimer(idleTime)
@@ -25,9 +22,7 @@ const createHomeReturner = (idleTime = defaultTimer)=>{
     window.addEventListener("touchend", ()=>{
         resetIdleTimer(idleTime)
     });
-    /*window.onmousemove = resetIdleTimer(idleTime);
-    window.onkeypress = resetIdleTimer(idleTime);
-    window.ontouchstart = resetIdleTimer(idleTime);*/
+
 }
 const redirectToHome = ()=> {
     window.location.href = 'index.html';

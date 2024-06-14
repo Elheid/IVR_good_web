@@ -15,7 +15,7 @@
 */
 
 const vidPlayIfIntersect = ()=> {
-  const videos = document.querySelectorAll("video.gif");
+  const videos = document.querySelectorAll("video");
   
   const observerOptions = {
   root: null,
@@ -74,4 +74,4 @@ const addPlayVidButton = ()=>{
               });
         }*/
 };
-export {addPlayVidButton}
+export {addPlayVidButton, vidPlayIfIntersect}
