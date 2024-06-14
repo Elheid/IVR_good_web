@@ -1,4 +1,4 @@
-const defaultTimer = 12000000;
+const defaultTimer = 600000;
 let idleTimer;
 const createHomeReturner = (idleTime = defaultTimer)=>{
     //const idleTime = 5000;
