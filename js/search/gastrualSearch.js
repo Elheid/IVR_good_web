@@ -13,17 +13,26 @@ let tagNames = [];
     return listTags;
 }*/
 
-
+const changeRecognitionText = ()=>{
+    const span = document.querySelector(".recognition-text");
+    if (span.classList.contains("loading")){
+        span.textContent = "Распознаные жесты:"
+        span.classList.remove("loading");
+    }else{
+        span.textContent = "Идет распознавание..."
+        span.classList.add("loading");
+    }
+}
 
 const changeIndicator = (buttonName)=>{
     const indicator = document.querySelector(".indicator");
     if(indicator.classList.contains("red") && buttonName == "start"){
         indicator.classList.replace("red", "green")
-        indicator.src = "/img/greenDot.svg";
+        indicator.src = "/img/cameraOn.svg";
     }
     if(indicator.classList.contains("green") && buttonName == "stop"){
         indicator.classList.replace("green", "red")
-        indicator.src = "/img/redDot.svg";
+        indicator.src = "/img/cameraOff.svg";
     }
 }
 
@@ -35,6 +44,7 @@ const stopButtonEvent = ()=>{
     tagNames = [];
     changeIndicator(button);
     disconnectFromSocket();
+    changeRecognitionText();
 }
 
 const startButtonEvent = ()=>{
@@ -44,6 +54,7 @@ const startButtonEvent = ()=>{
     const button ="start";
     startRecord();
     changeIndicator(button);
+    changeRecognitionText();
 }
 
 

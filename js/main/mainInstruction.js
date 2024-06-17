@@ -1,3 +1,5 @@
+import { createHomeReturner } from "../returnHome.js";
+
 const nextButton = document.querySelector(".next-button");
 const prevButton = document.querySelector(".prev-button");
 
@@ -25,6 +27,8 @@ nextButton.addEventListener("click", ()=>{
 prevButton.addEventListener("click", ()=>{
     window.location.href = prevWindow;
 })
+
+createHomeReturner();
 
 /*giveMoreButton.addEventListener('click', ()=>{
     showText(description);

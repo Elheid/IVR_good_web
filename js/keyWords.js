@@ -1,3 +1,5 @@
+
+
 const createTag = (name)=>{
     const tagTemplate = document.getElementById("tag");
     const newTag = document.importNode(tagTemplate.content.querySelector("li"), true);
@@ -42,4 +44,4 @@ const removeGastrualSearch = ()=>{
     document.removeEventListener('click', addNewTags);
 }
 
-export {addNewTags,removeAllTags, removeGastrualSearch}
+export {addNewTags, removeAllTags, removeGastrualSearch}

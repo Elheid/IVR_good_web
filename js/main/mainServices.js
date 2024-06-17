@@ -3,11 +3,12 @@ import { loadSavedData } from './main.js';
 import { createBackButton } from '../backButton.js';
 import { addWebcamPopupClose, addWebcamPopupShow } from '../popup/popupWebcam.js';
 import { getCategories } from '../api/api.js';
-import { addSearchButton, searchResult } from '../search/search.js';
+import { addSearchButton, addSearchEnter, searchResult } from '../search/search.js';
 import { addPlayVidButton } from '../vidPlayButton.js';
 import { createGoButtons } from './createrObj.js';
 import { addSkeletons, updateSkeletonElementCount } from '../skeletons/skeleton.js';
 //import { equalizeIconContainers } from '../util.js';
+import { createHomeReturner } from '../returnHome.js';
 
 addSkeletons("catalogs");
 
@@ -48,9 +49,12 @@ const hideArrows = ()=>{
 hideArrows();
 
 addSearchButton(document.querySelector('.search-button'));
+addSearchEnter();
 
 addWebcamPopupClose();
 addWebcamPopupShow();
 
 
 createGoButtons();
+
+createHomeReturner();

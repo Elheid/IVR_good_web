@@ -3,8 +3,9 @@ import { addNewTags } from "../keyWords.js";
 const interval = 30;
 let intervalId;
 let keyWords = [];
+const socketURL = 'wss://pincode-dev.ru';//'wss://pincode-dev.ru'//wss://pincode-dev.ru/rsl-filter
 
-const socket = io('wss://pincode-dev.ru', {
+const socket = io(socketURL, {
     autoConnect: false,
     'reconnection': true,
     'reconnectionDelay': 500,
@@ -74,8 +75,11 @@ const getKeyWords = ()=>{
 
 const startSendingData =(videoElement)=>{
     intervalId = setInterval(function() {
-        addFrameSender(videoElement);
+        if (socket.connected){
+            addFrameSender(videoElement);
+        }
     }, interval);
+    
 }
 
 const stopSendingData = () => {

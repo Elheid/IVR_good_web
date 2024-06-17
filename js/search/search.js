@@ -58,6 +58,9 @@ const handleSearch = async (event) => {
     // Здесь вы можете использовать значение запроса (query) для выполнения поискового запроса к вашему API
     // Например, отправляем запрос к вашему API с поисковым запросом
     //searchResult(query); 
+    if (query === ""){
+        return;
+    }
     try {
         await searchResult(query);
     } catch (error) {
@@ -92,5 +95,10 @@ const searchSimilarResult = (query)=>
 
   // Находим форму поиска и добавляем обработчик события для отправки запроса поиска
   const addSearchButton = (searchButton)=> searchButton.addEventListener('click', handleSearch);
-  export {addSearchButton, searchResult, /*hideAlerts*/}
+  const addSearchEnter = ()=> document.addEventListener('keyup', (evt)=>{
+    if (evt.keyCode === 13) {
+    handleSearch(evt);
+    }
+});
+  export {addSearchButton, addSearchEnter, searchResult, /*hideAlerts*/}
 

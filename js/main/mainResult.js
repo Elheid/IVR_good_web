@@ -3,7 +3,9 @@ import { showRes } from '../createResult.js';
 import { addInfoPopupShow, addInfoPopupClose, getIsClear } from '../additionalInfo.js';
 import { getParamFromURL } from '../util.js';
 import { getServiceById } from '../api/api.js';
+import { createHomeReturner } from '../returnHome.js';
 import { addSkeletonRes } from '../skeletons/skeletonResult.js';
+
 
 addSkeletonRes();
 
@@ -36,3 +38,5 @@ const loadResult = ()=>
 loadResult();
 
 createBackButton();
+
+createHomeReturner();

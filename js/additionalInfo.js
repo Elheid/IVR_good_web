@@ -4,7 +4,7 @@ import { getParamFromURL } from "./util.js";
 import { infoRes } from "./main/createrObj.js";
 import {showPopup, closePopup} from "./popup/popup.js"
 import { getInfoById } from "./api/api.js";
-
+import { vidPlayIfIntersect } from "./vidPlayButton.js";
 
 
 const getIsClear = (isClear)=>{
@@ -19,6 +19,7 @@ const closeSection = (event)=> {
         document.removeEventListener('click', closeSection);
     }
 };
+
 const closePopupOnKey =(evt)=>{
     if (evt.key === 'Escape'){
         evt.preventDefault();
@@ -53,7 +54,9 @@ const showAdditionalInfo = (temp)=>{
     
     const info= infoRes(temp);
     const container = document.querySelector(".additional-info-res")
-    removeInfoCards();
+
+    //removeInfoCards();
+    hideInfoCards();
 
     var div = document.createElement("div");
     div.className = "close-container";
@@ -66,7 +69,10 @@ const showAdditionalInfo = (temp)=>{
     img.alt = "Кнопка назад";
     button.appendChild(img);
     button.addEventListener("click", ()=>{
-        closeInfoPopup();
+        //closeInfoPopup();
+        removeAdditionalInfo();
+        returnInfoCards();
+        returnPopupTitle();
     } );
 
     div.appendChild(button);
@@ -85,7 +91,8 @@ const removeAdditionalInfo = ()=>{
 const loadInfo = (id)=>
     getInfoById(id)
         .then((data) => {
-            showInfoCard(data);;
+            showInfoCard(data);
+            vidPlayIfIntersect();
         })
         .catch((err)=> console.log(err)
 );
@@ -122,7 +129,15 @@ const showInfoCard = (infoTmp)=>{
     })
 }
 
+
+const returnPopupTitle = ()=>{
+    const cardTitle = document.querySelector(".popup-title");
+    cardTitle.textContent = "Дополнительная информация"; 
+}
+
 const showInfoCards = ()=>{
+
+
     const additionalInfoIds = document.getElementById("popup").getAttribute("addition-info-id");
     if (additionalInfoIds !== "null")
     {
@@ -131,6 +146,7 @@ const showInfoCards = ()=>{
         for(var i=0; i<idArray.length; i++){
             loadInfo(idArray[i]);
         }
+        returnInfoCards();
     }
     else{
         const list = document.querySelector(".info-cards");
@@ -140,9 +156,23 @@ const showInfoCards = ()=>{
     }
 }
 
+const hideInfoCards =()=>{
+    const list = document.querySelector(".info-cards");
+    //list.innerHTML = "";
+    list.classList.add("hidden");
+}
+
 const removeInfoCards =()=>{
     const list = document.querySelector(".info-cards");
     list.innerHTML = "";
+}
+
+const returnInfoCards =()=>{
+    const list = document.querySelector(".info-cards");
+    //list.innerHTML = "";
+    if (list.classList.contains("hidden")){
+        list.classList.remove("hidden");
+    }
 }
 
 export {addInfoPopupShow, addInfoPopupClose, getIsClear}
