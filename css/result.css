@@ -356,8 +356,8 @@ img.icons {
     top: -4vw;
 }
 
-.manual-text img.icons:first-child{
-    /*margin-top: 30px;*/
+.info-manual img.icons:first-child{
+    margin-top: 30px;
 }
 
 img.icon-in-card{
