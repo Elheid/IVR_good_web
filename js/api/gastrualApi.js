@@ -5,7 +5,7 @@ let intervalId;
 let keyWords = [];
 const socketURL = 'wss://pincode-dev.ru';//'wss://pincode-dev.ru'//wss://pincode-dev.ru/rsl-filter
 
-const socket = io(socketURL, {
+/*const socket = io(socketURL, {
     autoConnect: false,
     'reconnection': true,
     'reconnectionDelay': 500,
@@ -13,7 +13,17 @@ const socket = io(socketURL, {
     extraHeaders: {
         "ngrok-skip-browser-warning": "true"
     }
-});
+});*/
+const socket = io('wss://pincode-dev.ru', {
+    path: '/rsl-filter/socket.io/',
+    autoConnect: false,
+    'reconnection': true,
+    'reconnectionDelay': 500,
+    'reconnectionAttempts': 10,
+    extraHeaders: {
+    "ngrok-skip-browser-warning": "true"
+    }
+    });
 const startWebcam = ()=>{
     navigator.mediaDevices.getUserMedia({ video: true })
     .then(((stream) =>{
