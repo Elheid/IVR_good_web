@@ -16,13 +16,26 @@ const services = document.querySelector('.services-list');
         list.appendChild(newElement);
     }
 }*/
+const updateURL = (catalogId)=>{
+  const searchParams = new URLSearchParams(window.location.search);
+
+  // Обновляем или добавляем параметр admin
+  searchParams.set('catalog', catalogId);
+
+  // Обновляем URL без перезаписи других параметров
+  const newUrl = `${window.location.pathname}?${searchParams.toString()}`;
+  history.pushState({ catalogId: catalogId }, '', newUrl);
+}
+
+
 const renderCatalogs = ()=>{
     const catalogCells = document.querySelectorAll('.catalog-card');
     catalogCells.forEach((cell) =>{
       const button = cell.querySelector(".card-button");
       button.addEventListener('click', () =>{
         const catalogId = cell.getAttribute('catalog-id');
-        history.pushState({ catalogId: catalogId }, '', `?catalog=${catalogId}`);
+        //history.pushState({ catalogId: catalogId }, '', `?catalog=${catalogId}`);
+        updateURL(catalogId);
         showServices();
       });
     });
@@ -30,7 +43,10 @@ const renderCatalogs = ()=>{
 const returnState = (searchResult)=>{
   var urlParams = window.location.search;
     if (urlParams.match('catalog')) {
-      var stateString = urlParams[urlParams.length-1];
+      /*const state = "catalog=";
+      const index = urlParams.indexOf(state)+state.length;*/
+      //var stateString = urlParams[index];
+      var stateString = new URLSearchParams(urlParams).get('catalog');
       showServices(getCellById(stateString));
     }
     if (urlParams.match('query')) {

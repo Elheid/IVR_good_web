@@ -19,6 +19,7 @@ const urlParams = new URLSearchParams(window.location.search);
 const res = getParamFromURL();
 const id = res[0];
 const isClear = res[1];
+const isAdmin = res[2];
 
 
 getIsClear(isClear)

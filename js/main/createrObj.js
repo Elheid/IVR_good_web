@@ -13,6 +13,56 @@ const iconInsertion = (textFromBd, iconLinks)=>{
     return replacedText;
 }
 
+const insertBlocks = (text, textFromBd, icons)=>{
+    let textOfBlocks = extractSubstrings(textFromBd)
+    if (!textFromBd.includes("\n-")){
+        textOfBlocks = extractSubstringsInfo(textFromBd);
+    }
+    if (!textFromBd.includes("\icon")){
+        textOfBlocks = textFromBd;
+        text.innerHTML = (textOfBlocks);
+    }
+    else{
+        const blocks = partingByBlocks(textOfBlocks, icons);
+        for (var i = 0; i < blocks.length; i++){
+            text.appendChild(blocks[i]);
+        }
+    }
+}
+
+const partingByBlocks = (blocksOfText, icons)=>{
+    const blocks = [];
+    for (var i = 0; i < blocksOfText.length; i++){
+        const block = document.createElement('span');
+        block.classList.add("text-icon-block")
+        block.innerHTML = iconInsertion(blocksOfText[i], icons);
+        blocks.push(block);
+    }
+    return blocks;
+}
+
+const extractSubstrings = (input)=>{
+    // Регулярное выражение для поиска подстрок
+    const regex = /\n-.*?\n\\icon\d+/gs;
+    
+    // Метод match возвращает массив всех найденных подстрок
+    const matches = input.match(regex);
+    
+    // Если ничего не найдено, возвращаем пустой массив
+    return matches || [];
+}
+
+
+const extractSubstringsInfo = (input)=>{
+    // Регулярное выражение для поиска блоков
+    const regex = /.*?\n\\icon\d+/gs;
+
+    // Метод match возвращает массив всех найденных блоков
+    const blocks = input.match(regex);
+
+    // Если ничего не найдено, возвращаем пустой массив
+    return blocks || [];
+}
 
 
 const createRes = (result, clear)=>{
@@ -31,9 +81,11 @@ const createRes = (result, clear)=>{
     cardTitle.classList.add("card-title");
     cardTitle.textContent = result.title; 
 
+    //const textFromBd = iconInsertion(result.description, result.iconLinks);
     const textFromBd = result.description;
+    //разбтиение на подстроки начиная с /n- до /icon
+    insertBlocks(text, textFromBd, result.iconLinks);
 
-    text.innerHTML = iconInsertion(textFromBd, result.iconLinks);
 
     const popup = document.getElementById("popup");
     if (result.additionIds !== null)
@@ -71,7 +123,8 @@ const infoRes = (info)=>{
         gif.src = info.gifLink;
     }
     
-    text.innerHTML = iconInsertion(info.description, info.iconLinks);;
+    //text.innerHTML = iconInsertion(info.description, info.iconLinks);
+    insertBlocks(text, info.description, info.iconLinks);
     return res;
 }
 
@@ -326,7 +379,6 @@ const createServiceCard = (service, clearLanguage)=>{
             cardButton.append(categoryNameSpan);
             //service.title = categoryName + " -> " + service.title;
           }
-          
         cardButton.appendChild(createSubstrate());
         //cardService.appendChild(createVidContainer());
         const vidOrGif = cardService.querySelector('video.gif');
@@ -384,13 +436,16 @@ const createServiceCard = (service, clearLanguage)=>{
     const detaHTML = data.outerHTML;
     saveData(detaHTML);
 
+    const isAdmin = document.querySelector("body").classList.contains("admin");
+
     window.location.href = `result.html?serviceId=${encodeURIComponent(serviceId)}?language=${encodeURIComponent(
-    language.classList.contains('clear-language'))}?`;
+    language.classList.contains('clear-language'))}?admin=${isAdmin}?`;
 
     })
 
     return cardService;
 };
+
 
 const loadHeaderData = () => {
     const savedData = localStorage.getItem("header");

@@ -10,9 +10,15 @@ import { addSkeletons, updateSkeletonElementCount } from '../skeletons/skeleton.
 //import { equalizeIconContainers } from '../util.js';
 import { createHomeReturner } from '../returnHome.js';
 
+import { addAdminPanel, addAdminButtonsToCards } from '../adminPanel.js';
+
+import { loadServices } from '../services.js';
+
+addAdminPanel();
+
 addSkeletons("catalogs");
 
-createBackButton();
+createBackButton(loadServices);
 
 
 
@@ -31,6 +37,9 @@ const loadCategories = async () => {
         initializeResults(data);
         addCatalogButton(searchResult);
         addPlayVidButton();
+        if (window.location.search.indexOf("admin=true") > 0){
+          addAdminButtonsToCards();
+      }
       })
       .catch((err)=> console.log(err));
 };
