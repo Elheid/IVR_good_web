@@ -184,6 +184,13 @@ button{
     border-radius: 40px;
 
 }
+
+
+
+
+
+
+
 .hidden {
     display: none;
 }
@@ -197,3 +204,9 @@ button.hidden {
     display: none;
 }
 
+button{
+    cursor: pointer;
+}
+li.service-card.card.hidden {
+    display: none;
+}

@@ -379,7 +379,6 @@ const createServiceCard = (service, clearLanguage)=>{
             cardButton.append(categoryNameSpan);
             //service.title = categoryName + " -> " + service.title;
           }
-          
         cardButton.appendChild(createSubstrate());
         //cardService.appendChild(createVidContainer());
         const vidOrGif = cardService.querySelector('video.gif');
@@ -437,13 +436,16 @@ const createServiceCard = (service, clearLanguage)=>{
     const detaHTML = data.outerHTML;
     saveData(detaHTML);
 
+    const isAdmin = document.querySelector("body").classList.contains("admin");
+
     window.location.href = `result.html?serviceId=${encodeURIComponent(serviceId)}?language=${encodeURIComponent(
-    language.classList.contains('clear-language'))}?`;
+    language.classList.contains('clear-language'))}?admin=${isAdmin}?`;
 
     })
 
     return cardService;
 };
+
 
 const loadHeaderData = () => {
     const savedData = localStorage.getItem("header");

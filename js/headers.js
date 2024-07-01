@@ -35,7 +35,12 @@ const addHeader = ()=>{
     const prevHeader = listChildren[listChildren.length-1];
     showArrows();
 
-    newHeader.querySelector("a").textContent = getCellNameById(curURL[curURL.length-1]);
+    var urlParams = window.location.search;
+    /*const state = "catalog=";
+    const index = urlParams.indexOf(state)+state.length;*/
+    const catalogId = new URLSearchParams(urlParams).get('catalog');
+
+    newHeader.querySelector("a").textContent = getCellNameById(catalogId);
     prevHeader.classList.replace("current-page", "prev-page");
     newHeader.appendChild(arrow);
     list.appendChild(newHeader);

@@ -97,8 +97,8 @@ const title = cell.querySelector(".card-title");
 return title.innerText;
 }
 const getCatalogId = ()=>{
-const href = window.location.search;
-return href[href.length-1];
+    const urlParams = window.location.search;
+    return new URLSearchParams(urlParams).get('catalog');
 }
 
 const getServicesByCatalog = (cell)=>{
