@@ -246,14 +246,14 @@ div#popup{
 }
 .popup-content{
     display: grid;
-    justify-content: center;
+    /*justify-content: center;*/
     text-align: center;
 }
 
 
 .house-button{
     background-color: #a77259;
-    border-radius: 30px;
+    border-radius: 50px;
     /*max-width: 120px;
     max-height: 68px;*/
     max-height: 4vw;

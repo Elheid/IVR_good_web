@@ -87,9 +87,11 @@ button{
 .list-of-cards.list {
     grid-template-columns: repeat(1, 1fr);
 }
-.service-card, .catalog-card, .info-card{
-    
+
+.service-card, .catalog-card{
     position: relative;
+}
+.service-card, .catalog-card, .info-card{
 
     display: flex;
     flex-direction: column-reverse;

@@ -25,9 +25,8 @@ const updateSkeletonElementCount  =(count)=>{
         // Скрываем скелетон и показываем настоящий контент
 }
 
-const addSkeletons = ()=>{
-
-    document.addEventListener('DOMContentLoaded', () => {
+const loadSkeletons = ()=>{
+    {
         const skeleton = determineSkeleton();
         if(skeleton.classList.contains("hidden")){
             skeleton.classList.remove("hidden")
@@ -41,7 +40,19 @@ const addSkeletons = ()=>{
         
         elementToReplace.classList.add("hidden");
 
-    });
+    }
+}
+const addSkeletons = ()=>{
+    document.addEventListener('DOMContentLoaded', loadSkeletons);
+    const videos = document.querySelectorAll('.video');
+    if(videos){
+        videos.forEach(video => {
+            video.addEventListener('canplaythrough', function() {
+                // Находим родительскую карточку и добавляем ей класс 'show'
+                loadSkeletons();
+            });
+        });
+    }
 }
 
 const hideSkeletonsAndReplace = (classToReplace)=>{

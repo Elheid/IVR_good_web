@@ -46,6 +46,7 @@ const displayServices = (services, searched = false)=> {
   
   hideSkeletonsAndReplace("services");
   equalizeSubtitles();
+  document.addEventListener("resize", equalizeSubtitles)
   //equalizeSubtitles("services")
 }
 

@@ -55,6 +55,7 @@ const showAdditionalInfo = (temp)=>{
     const info= infoRes(temp);
     const container = document.querySelector(".additional-info-res")
 
+
     //removeInfoCards();
     hideInfoCards();
 
@@ -80,6 +81,9 @@ const showAdditionalInfo = (temp)=>{
     container.appendChild(info);
 
     container.appendChild(div);
+
+    /*const width = container.parentElement.offsetWidth;
+    container.style = `width:calc(${width}px - 4%);`;// top:11%;*/
 }
 
 const removeAdditionalInfo = ()=>{
