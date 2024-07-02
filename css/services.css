@@ -628,6 +628,8 @@ button.search-popup {
     border: 2px solid #623B2A;
     border-radius: 20px;
 }
+
+
 .gestural-language .card-content {
     margin-top: -8%;
 }
@@ -668,6 +670,11 @@ button.search-popup {
     margin-top: 0;
 
 }
+
+.card-to-add {
+    order: 10;
+}
+
 
 .gestural-language .card.catalog-card,
 .gestural-language .card.service-card {
@@ -888,6 +895,10 @@ div.gif {
     radial-gradient(38px circle at 19px 19px, #ffffff  50%, transparent 51%),
     linear-gradient(#e9dcd0, #eee);  
 }
+
+
+
+
 /*    linear-gradient(0.25turn, transparent, #91644f , transparent),
     linear-gradient(#c19873, #c19873),
     radial-gradient(38px circle at 19px 19px, #91644f  50%, transparent 51%),

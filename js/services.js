@@ -7,7 +7,7 @@ import { getCellById, getCatalogId, getCellNameById, equalizeSubtitles } from ".
 import { addPlayVidButton } from "./vidPlayButton.js";
 import { hideSkeletonsAndReplace, addSkeletons, updateSkeletonElementCount } from './skeletons/skeleton.js';
 
-import { addAdminButtonsToCards } from "./adminPanel.js";
+import { addAdminButtonsToCards, addCadrdSample } from "./adminPanel.js";
 
 const blank = "";
 
@@ -55,7 +55,9 @@ const loadServices = (catalogId)=>
         updateSkeletonElementCount(data.content.length);
         displayServices(data);
         addPlayVidButton();
+        
         addAdminButtonsToCards();
+        addCadrdSample(document.querySelector('.services-list'));
       })
       .catch((err)=> console.log(err));
 
@@ -90,7 +92,9 @@ const showSearchedServices = (services, query)=>{
   displayServices(services, true);
   hideCatalogs();
   addPlayVidButton();
+
   addAdminButtonsToCards();
+  addCadrdSample(document.querySelector('.services-list'));
 }
 
 

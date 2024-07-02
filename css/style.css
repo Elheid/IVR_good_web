@@ -185,7 +185,51 @@ button{
 
 }
 
+.extended-button{
+    font-size: 1.5vw;
+    border: 2px solid #a77259;
+    margin: 10px;
 
+    border-radius: 30px;
+    width: fit-content;
+    padding: 5px;
+
+    background-color: #a77259;
+
+    
+    -webkit-text-stroke: 0.5px #f0bda4;
+}
+button.delete-button{
+    color: rgb(255, 3, 3);
+}
+button.edit-button{
+    color: rgb(94, 255, 0);
+}
+.admin-button{
+    font-size: 1.5vw;
+    border: 3px solid #a77259;
+    border-radius: 30px;
+    width: fit-content;
+    padding: 5px;
+    margin: 10px;
+
+    background-color: #a77259;
+
+    color: white;
+}
+.card-to-add .gif::before {
+    content: '+';
+    
+    font-size: 800%; /* Это значение можно настроить под размер вашего элемента */
+
+    
+    color: white; /* Цвет плюса, можно изменить под ваши нужды */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1; /* Убедитесь, что псевдоэлемент находится перед контентом */
+  }
 
 
 
