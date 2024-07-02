@@ -158,6 +158,7 @@ const addCadrdSample = (list)=>{
         fragmentToAppend.firstElementChild.classList.add("card-to-add")
         fragmentToAppend.firstElementChild.querySelector(".card-button").classList.remove("skeleton-substrate")
         fragmentToAppend.firstElementChild.querySelector(".gif").style = "animation: none;"
+        fragmentToAppend.firstElementChild.querySelector(".card-button").disabled = true;
         list.appendChild(fragmentToAppend);
     }
 }
