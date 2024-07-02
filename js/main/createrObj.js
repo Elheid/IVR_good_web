@@ -33,9 +33,10 @@ const insertBlocks = (text, textFromBd, icons)=>{
 const partingByBlocks = (blocksOfText, icons)=>{
     const blocks = [];
     for (var i = 0; i < blocksOfText.length; i++){
+        const text = blocksOfText[i].slice(1);//slice чтобы убрать /n
         const block = document.createElement('span');
         block.classList.add("text-icon-block")
-        block.innerHTML = iconInsertion(blocksOfText[i], icons);
+        block.innerHTML = iconInsertion(text, icons);
         blocks.push(block);
     }
     return blocks;
