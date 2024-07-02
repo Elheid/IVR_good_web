@@ -201,26 +201,30 @@ button{
     order: 10;
 }
 .extended-button img{
-    max-width: 1vw;
-    max-height: 1vw;
+    max-width: 1.4vw;
+    max-height: 1.3vw;
 }
 
 .extended-button{
+    z-index: 900;
     position: absolute;
 
     font-size: 1.5vw;
     /*border: 2px solid #a77259;*/
     border: 2px solid #ffffff;
     margin: 10px;
+    margin-left: 0;
+    margin-top: 0;
 
     border-radius: 30px;
     width: fit-content;
     padding: 5px;
+    padding-bottom: 0;
 
     padding-left: 15px;
     padding-right: 15px;
 
-    background-color: #a77259;
+    background-color: rgba(200, 186, 173, 0.836);
 
     
     -webkit-text-stroke: 0.5px #f0bda4;
@@ -285,8 +289,21 @@ form#card-form {
 .toggleCheckbox {
     display: none;
 }
+.toggleContainer img{
+    width: 2.5vw;
+    padding: 10px;
+}/*
+.toggleContainer img:first-child{
+    margin-right: 1vw;
+}
+.toggleContainer img:second-child{
+    margin-right: 1vw;
+}*/
+
 .toggleContainer {
     margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
     position: relative;
     display: grid;
     grid-template-columns: repeat(2, 1fr);

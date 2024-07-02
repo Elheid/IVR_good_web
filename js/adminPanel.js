@@ -19,11 +19,21 @@ const createAdminButton = () => {
     label.htmlFor = "toggle"; // Используем htmlFor вместо for
     label.classList.add("toggleContainer");
 
+
+
     const title1 = document.createElement('div');
     title1.textContent = "Просмотр";
 
     const title2 = document.createElement('div');
     title2.textContent = "Редактирование";
+
+    /*const img1 = document.createElement('img');
+    img1.src = "/img/view.svg";
+
+    const img2 = document.createElement('img');
+    img2.src = "/img/edit.svg";
+    title1.appendChild(img1);
+    title2.appendChild(img2);*/
 
     // Добавляем div в label
     label.appendChild(title1);
@@ -85,10 +95,25 @@ const addAdminButtonsEvent = (card)=>{
     const container = createExtraButtons();
     if (!card.querySelector(".extended-container")){
         if(!card.classList.contains("card-to-add")){
-            card.appendChild(container);
+            card.querySelector(".card-content").insertBefore(container, card.querySelector(".card-button"));
         }
     }
+    const img = card.querySelector(".extended-button img");
+    if (img){
+        img.addEventListener('load', () => {
+            updateMargin(card, container);
+        });
+    }
 }
+
+const updateMargin = (card, container) => {
+    if (card.offsetWidth !== 0) {
+        const deleteButton = container.querySelector(".delete-button");
+        const width = (card.offsetWidth - deleteButton.offsetWidth);
+        deleteButton.style.marginLeft = `calc(${width}px)`;
+    }
+};
+
 
 const addAdminButtonsToCards = ()=>{
     if(body.classList.contains("admin")){
@@ -163,14 +188,14 @@ const createExtraButtons = ()=>{
     deleteButton.appendChild(imgDelete);
 
 
-    const cards = document.querySelectorAll(".card");
+    /*const cards = document.querySelectorAll(".card");
     for (var i = 0; i < cards.length; i++){
         if(cards[i].offsetWidth !== 0){
-            const width = (cards[i].offsetWidth);
-            deleteButton.style.marginLeft = `calc(${width}px - 3vw)`;
+            const width = (cards[i].offsetWidth - deleteButton.offsetWidth);
+            deleteButton.style.marginLeft = `calc(${width}px )`;
             break;
         }
-    }
+    }*/
     deleteButton.addEventListener("click", (evt)=>deleteButtonClick(evt))
 
     const editButton = document.createElement('button');
@@ -183,6 +208,7 @@ const createExtraButtons = ()=>{
 
     container.appendChild(deleteButton);
     container.appendChild(editButton);
+    
     return  container;
 }
 
