@@ -21,6 +21,7 @@ const closeSectionWeb = (event)=> {
         document.removeEventListener('click', closeSectionWeb);
     }
 };
+
 const closePopupOnKeyWeb =(evt)=>{
     if (evt.key === 'Escape'){
         evt.preventDefault();
@@ -33,7 +34,6 @@ const closePopupOnKeyWeb =(evt)=>{
 const showPopup = ()=>{  
     const popup = document.getElementById('popup');
     popup.classList.add("popup-opened");
-
     document.getElementById('overlay').style.display = 'block';
     popup.style.display = 'block';
     //enablePopupScroll();

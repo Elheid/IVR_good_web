@@ -14,12 +14,10 @@ import { addAdminPanel, addAdminButtonsToCards } from '../adminPanel.js';
 
 import { loadServices } from '../services.js';
 
-addAdminPanel();
 
 addSkeletons("catalogs");
 
 createBackButton(loadServices);
-
 
 
 var flag = loadSavedData();
@@ -28,6 +26,8 @@ document.querySelector(".services").classList.add(flag);
 if (document.querySelector(".catalogs").classList.contains("gestural-language")){
   document.querySelector(".view-choose").style.marginTop = "6%";
 }
+
+addAdminPanel();
 
 
 const loadCategories = async () => {

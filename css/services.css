@@ -672,6 +672,7 @@ button.search-popup {
 }
 
 .card-to-add {
+    margin-top: 20px;
     order: 10;
 }
 

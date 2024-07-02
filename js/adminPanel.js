@@ -1,17 +1,45 @@
 import { createGastrualSkeleton } from "./main/createrObj.js";
+import { createForm } from "./form.js";
 
-
-const createAdminButton = ()=>{
-    const button = document.createElement('div');
+const createAdminButton = () => {
+    /*      
+    <input type="checkbox" id="toggle" class="toggleCheckbox" />
+    <label for="toggle" class='toggleContainer'>
+      <div>This is a toggle</div>   
+      <div>button</div>
+    </label>
+    */
+    const button = document.createElement('input');
+    button.type = "checkbox";
+    button.id = "toggle";
+    button.classList.add("toggleCheckbox");
     button.classList.add("admin-button");
-    button.textContent = "admin";
-    return button;
+
+    const label = document.createElement('label');
+    label.htmlFor = "toggle"; // Используем htmlFor вместо for
+    label.classList.add("toggleContainer");
+
+    const title1 = document.createElement('div');
+    title1.textContent = "Просмотр";
+
+    const title2 = document.createElement('div');
+    title2.textContent = "Редактирование";
+
+    // Добавляем div в label
+    label.appendChild(title1);
+    label.appendChild(title2);
+
+    // Возвращаем button и label
+    return { button, label };
 }
 
 const body = document.querySelector("body");
 let adminButton = document.querySelector(".admin-button");
-if (!document.querySelector(".admin-button")){
-    document.querySelector("header").appendChild(createAdminButton());
+if (!adminButton) {
+    const { button, label } = createAdminButton();
+    const header = document.querySelector("header");
+    header.appendChild(button);
+    header.appendChild(label);
     adminButton = document.querySelector(".admin-button");
 }
 
@@ -130,13 +158,27 @@ const createExtraButtons = ()=>{
     const deleteButton = document.createElement('button');
     deleteButton.classList.add("extended-button");
     deleteButton.classList.add("delete-button");
-    deleteButton.textContent = "delete";
+    const imgDelete = document.createElement('img');
+    imgDelete.src = "/img/trash.svg";
+    deleteButton.appendChild(imgDelete);
+
+
+    const cards = document.querySelectorAll(".card");
+    for (var i = 0; i < cards.length; i++){
+        if(cards[i].offsetWidth !== 0){
+            const width = (cards[i].offsetWidth);
+            deleteButton.style.marginLeft = `calc(${width}px - 3vw)`;
+            break;
+        }
+    }
     deleteButton.addEventListener("click", (evt)=>deleteButtonClick(evt))
 
     const editButton = document.createElement('button');
     editButton.classList.add("extended-button");
     editButton.classList.add("edit-button");
-    editButton.textContent = "edit";
+    const imgEdit = document.createElement('img');
+    imgEdit.src = "/img/edit.svg";
+    editButton.appendChild(imgEdit);
     editButton.addEventListener("click", (evt)=>editButtonClick(evt))
 
     container.appendChild(deleteButton);
@@ -147,19 +189,26 @@ const createExtraButtons = ()=>{
 const addCadrdSample = (list)=>{
     var urlParams = window.location.search;
     const state = (urlParams.match('catalog')) ? 'services-list' :  'catalogs-list';
-    const isClear = list.classList.contains("clear-language");
     for (var i = 0; i < list.children.length; i++){
         if(list.children[i].classList.contains("card-to-add")){
             return;
         }
     }
+    const isClear = list.parentNode.classList.contains("clear-language");
     const fragmentToAppend = createGastrualSkeleton(1, isClear);
     if (list.classList.contains(state)){
         fragmentToAppend.firstElementChild.classList.add("card-to-add")
         fragmentToAppend.firstElementChild.querySelector(".card-button").classList.remove("skeleton-substrate")
-        fragmentToAppend.firstElementChild.querySelector(".gif").style = "animation: none;"
-        fragmentToAppend.firstElementChild.querySelector(".card-button").disabled = true;
+        if(fragmentToAppend.firstElementChild.querySelector(".gif")){
+            fragmentToAppend.firstElementChild.querySelector(".gif").style = "animation: none;"
+        }
+        if (fragmentToAppend.firstElementChild.querySelector(".skeleton-content")){
+            fragmentToAppend.firstElementChild.querySelector(".skeleton-content").style = "animation: none;"
+        }
+        //fragmentToAppend.firstElementChild.querySelector(".card-button").replaceWith(fragmentToAppend.firstElementChild.querySelector(".card-button").cloneNode(true));
         list.appendChild(fragmentToAppend);
+
+        createForm();
     }
 }
 const deleteCadrdSample = (list)=>{
