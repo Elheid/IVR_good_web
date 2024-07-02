@@ -7,7 +7,7 @@ const giveMoreButton = document.querySelector(".more");
 const giveLessButton = document.querySelector(".less");
 
 const description = document.querySelector(".instruction");
-const nextWindow = "services.html";
+const nextWindow = "services.html?admin=false";
 const prevWindow = "index.html";;
 
 const hideText = (element)=>{
