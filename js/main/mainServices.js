@@ -27,7 +27,7 @@ if (document.querySelector(".catalogs").classList.contains("gestural-language"))
   document.querySelector(".view-choose").style.marginTop = "6%";
 }
 
-//addAdminPanel();
+addAdminPanel();
 
 
 const loadCategories = async () => {
