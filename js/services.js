@@ -7,10 +7,18 @@ import { getCellById, getCatalogId, getCellNameById, equalizeSubtitles } from ".
 import { addPlayVidButton } from "./vidPlayButton.js";
 import { hideSkeletonsAndReplace, addSkeletons, updateSkeletonElementCount } from './skeletons/skeleton.js';
 
-const displayServices = (services)=> {
+import { addAdminButtonsToCards, addCadrdSample } from "./adminPanel.js";
+
+const blank = "";
+
+const displayServices = (services, searched = false)=> {
 
   const servicesContainer = document.querySelector('.services-list');
-  servicesContainer.innerHTML = ''; // Очищаем контейнер перед добавлением новых данных
+  //servicesContainer.innerHTML = ''; // Очищаем контейнер перед добавлением новых данных
+  for(var i = 0; i < servicesContainer.children.length; i++){
+    const service = servicesContainer.children[i];
+    service.classList.add("hidden");
+  }
 
   const titleCounts = {};
 
@@ -27,44 +35,72 @@ const displayServices = (services)=> {
       service.title = getCellNameById(service.categoryId) + " " + service.title;
     }*/
 
-
     const services = document.querySelector(".services");
     const card = createServiceCard(service, services.classList.contains("clear-language"));
     servicesContainer.appendChild(card);
+    if (!searched){
+      if(card.querySelector(".categoryName"))
+        card.querySelector(".categoryName").remove();
+    }
   });
+  
   hideSkeletonsAndReplace("services");
   equalizeSubtitles();
+  document.addEventListener("resize", equalizeSubtitles)
   //equalizeSubtitles("services")
 }
 
-
-
-const showServices = ()=>{
-  addHeader();
-  //addSkeletons();
-  const loadServices = (catalogId)=>
+const loadServices = (catalogId)=>
   getService(catalogId)
       .then((data) => {
         updateSkeletonElementCount(data.content.length);
         displayServices(data);
         addPlayVidButton();
+        
+        addAdminButtonsToCards();
+        if (document.querySelector("body").classList.contains("admin")){
+          addCadrdSample(document.querySelector('.services-list'));
+        }
       })
       .catch((err)=> console.log(err));
+
+const showServices = ()=>{
+  addHeader();
+  //addSkeletons();
+  
   const id = getCatalogId();
   loadServices(id);
   //displayServices(cell);
   hideCatalogs();
 }
 
+const updateURL = (query)=>{
+
+  const searchParams = new URLSearchParams(window.location.search);
+
+  // Обновляем или добавляем параметр admin
+  searchParams.set('query', query);
+
+  // Обновляем URL без перезаписи других параметров
+  const newUrl = `${window.location.pathname}?${searchParams.toString()}`;
+  history.pushState({ query: query }, '', newUrl);
+}
+
 const showSearchedServices = (services, query)=>{
   removeSearchHeader();
   addHeaderForSearch();
-  history.pushState({ query: query }, '', `?query=${query}`);
-  displayServices(services);
+  //history.pushState({ query: query }, '', `?query=${query}`);
+  updateURL(query);
+  //console.log(services)
+  displayServices(services, true);
   hideCatalogs();
   addPlayVidButton();
 
+  addAdminButtonsToCards();
+  if (document.querySelector("body").classList.contains("admin")){
+    addCadrdSample(document.querySelector('.services-list'));
+  }
 }
 
 
-export {showServices, showSearchedServices};
+export {showServices, showSearchedServices, loadServices};

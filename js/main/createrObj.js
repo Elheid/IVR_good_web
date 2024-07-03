@@ -13,6 +13,60 @@ const iconInsertion = (textFromBd, iconLinks)=>{
     return replacedText;
 }
 
+const insertBlocks = (text, textFromBd, icons, isInfoCards)=>{
+    let textOfBlocks = extractSubstrings(textFromBd)
+    if (!textFromBd.includes("\n-")){
+        textOfBlocks = extractSubstringsInfo(textFromBd);
+    }
+    if (!textFromBd.includes("\icon")){
+        textOfBlocks = textFromBd;
+        text.innerHTML = (textOfBlocks);
+    }
+    else{
+        const blocks = partingByBlocks(textOfBlocks, icons, isInfoCards);
+        for (var i = 0; i < blocks.length; i++){
+            text.appendChild(blocks[i]);
+        }
+    }
+}
+
+const partingByBlocks = (blocksOfText, icons, isInfoCards)=>{
+    const blocks = [];
+    for (var i = 0; i < blocksOfText.length; i++){
+        let text = blocksOfText[i];
+        if (!isInfoCards){
+            text = text.slice(1);//slice чтобы убрать /n
+        }
+        const block = document.createElement('span');
+        block.classList.add("text-icon-block")
+        block.innerHTML = iconInsertion(text, icons);
+        blocks.push(block);
+    }
+    return blocks;
+}
+
+const extractSubstrings = (input)=>{
+    // Регулярное выражение для поиска подстрок
+    const regex = /\n-.*?\n\\icon\d+/gs;
+    
+    // Метод match возвращает массив всех найденных подстрок
+    const matches = input.match(regex);
+    
+    // Если ничего не найдено, возвращаем пустой массив
+    return matches || [];
+}
+
+
+const extractSubstringsInfo = (input)=>{
+    // Регулярное выражение для поиска блоков
+    const regex = /.*?\n\\icon\d+/gs;
+
+    // Метод match возвращает массив всех найденных блоков
+    const blocks = input.match(regex);
+
+    // Если ничего не найдено, возвращаем пустой массив
+    return blocks || [];
+}
 
 
 const createRes = (result, clear)=>{
@@ -21,6 +75,11 @@ const createRes = (result, clear)=>{
     const gif = res.querySelector("video");
     if (clear !== "true"){
         gif.src = result.gifLink;//"img/gastrual2.jpg";
+        gif.setAttribute("type","video/mp4")
+        gif.muted = true;
+        gif.play().catch(error => {
+            console.log('Autoplay failed:', error);
+        });
     }
     else{
         gif.classList.add("hidden");
@@ -31,9 +90,12 @@ const createRes = (result, clear)=>{
     cardTitle.classList.add("card-title");
     cardTitle.textContent = result.title; 
 
+    //const textFromBd = iconInsertion(result.description, result.iconLinks);
     const textFromBd = result.description;
+    //разбтиение на подстроки начиная с /n- до /icon
+    const infoCardText = false;
+    insertBlocks(text, textFromBd, result.iconLinks, infoCardText);
 
-    text.innerHTML = iconInsertion(textFromBd, result.iconLinks);
 
     const popup = document.getElementById("popup");
     if (result.additionIds !== null)
@@ -53,6 +115,7 @@ const infoRes = (info)=>{
     const res = document.importNode(template, true);
     const gif = res.querySelector("video");
     gif.classList.add("result-info-gif");
+    gif.muted = true;
 
     //document.querySelector(".additional-info-res.card-title").classList.add("hidden")
     const text = res.querySelector(".manual-text");
@@ -71,7 +134,9 @@ const infoRes = (info)=>{
         gif.src = info.gifLink;
     }
     
-    text.innerHTML = iconInsertion(info.description, info.iconLinks);;
+    //text.innerHTML = iconInsertion(info.description, info.iconLinks);
+    const infoCardText = true;
+    insertBlocks(text, info.description, info.iconLinks, infoCardText);
     return res;
 }
 
@@ -85,6 +150,7 @@ const createInfoCard = (info)=>{
     const imgOrGif = infoCard.querySelector('.info-card-gif');
 
     imgOrGif.src = info.gifPreview;
+    imgOrGif.muted = true;
     cardTitle.textContent = info.title;
     infoCard.setAttribute("info-id", info.id);
     return infoCard;
@@ -326,7 +392,6 @@ const createServiceCard = (service, clearLanguage)=>{
             cardButton.append(categoryNameSpan);
             //service.title = categoryName + " -> " + service.title;
           }
-          
         cardButton.appendChild(createSubstrate());
         //cardService.appendChild(createVidContainer());
         const vidOrGif = cardService.querySelector('video.gif');
@@ -384,13 +449,16 @@ const createServiceCard = (service, clearLanguage)=>{
     const detaHTML = data.outerHTML;
     saveData(detaHTML);
 
-    window.location.href = `result.html?serviceId=${encodeURIComponent(serviceId)}?language=${encodeURIComponent(
-    language.classList.contains('clear-language'))}?`;
+    const isAdmin = document.querySelector("body").classList.contains("admin");
+
+    window.location.href = `result.html?serviceId=${encodeURIComponent(serviceId)}&language=${encodeURIComponent(
+    language.classList.contains('clear-language'))}&admin=${isAdmin}&`;
 
     })
 
     return cardService;
 };
+
 
 const loadHeaderData = () => {
     const savedData = localStorage.getItem("header");

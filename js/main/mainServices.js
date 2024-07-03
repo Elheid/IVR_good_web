@@ -10,10 +10,14 @@ import { addSkeletons, updateSkeletonElementCount } from '../skeletons/skeleton.
 //import { equalizeIconContainers } from '../util.js';
 import { createHomeReturner } from '../returnHome.js';
 
+import { addAdminPanel, addAdminButtonsToCards } from '../adminPanel.js';
+
+import { loadServices } from '../services.js';
+
+
 addSkeletons("catalogs");
 
-createBackButton();
-
+createBackButton(loadServices);
 
 
 var flag = loadSavedData();
@@ -23,6 +27,8 @@ if (document.querySelector(".catalogs").classList.contains("gestural-language"))
   document.querySelector(".view-choose").style.marginTop = "6%";
 }
 
+//addAdminPanel();
+
 
 const loadCategories = async () => {
     await getCategories()
@@ -31,6 +37,9 @@ const loadCategories = async () => {
         initializeResults(data);
         addCatalogButton(searchResult);
         addPlayVidButton();
+        if (window.location.search.indexOf("admin=true") > 0){
+          addAdminButtonsToCards();
+      }
       })
       .catch((err)=> console.log(err));
 };

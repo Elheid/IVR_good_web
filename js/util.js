@@ -97,8 +97,8 @@ const title = cell.querySelector(".card-title");
 return title.innerText;
 }
 const getCatalogId = ()=>{
-const href = window.location.search;
-return href[href.length-1];
+    const urlParams = window.location.search;
+    return new URLSearchParams(urlParams).get('catalog');
 }
 
 const getServicesByCatalog = (cell)=>{
@@ -140,14 +140,21 @@ const equalizeIconContainers = ()=>{
 }
 
 const getParamFromURL = ()=>{
+    //const regex = /=(.*?)\?/g;
     //const stateData = urlParams.get('serviceId');
-    const href = window.location.href;
-    const regex = /=(.*?)\?/g;
-    let matches = href.match(regex);
+    /*const href = window.location.href;
+    const regex = /=(.*?)\&/g;
+    let matches = href.match(regex);*/
+    const searchParams = new URLSearchParams(window.location.search);
+    let paramNames = ['serviceId','language','admin'];
+    //const paramState = searchParams.get(paramName);
     const res = [];
-    matches.forEach((match)=>{
+    paramNames.forEach((name)=>{
+        res.push(searchParams.get(name));
+    })
+   /* matches.forEach((match)=>{
         res.push(match.replace("?", "").replace("=",""));
-    });
+    });*/
     return res;
 }
 

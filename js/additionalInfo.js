@@ -6,6 +6,7 @@ import {showPopup, closePopup} from "./popup/popup.js"
 import { getInfoById } from "./api/api.js";
 import { vidPlayIfIntersect } from "./vidPlayButton.js";
 
+import { addCadrdSample, extraButtonsUpdate } from "./adminPanel.js";
 
 const getIsClear = (isClear)=>{
     return isClear;
@@ -33,6 +34,9 @@ const showInfoPopup = ()=>{
     document.addEventListener('keydown', closePopupOnKey);   
     showPopup();
     showInfoCards();
+    if (document.querySelector("body").classList.contains("admin")){
+        addCadrdSample(document.querySelector('.info-cards'));
+      }
 }
 const closeInfoPopup = ()=>{
     closePopup();
@@ -54,6 +58,7 @@ const showAdditionalInfo = (temp)=>{
     
     const info= infoRes(temp);
     const container = document.querySelector(".additional-info-res")
+
 
     //removeInfoCards();
     hideInfoCards();
@@ -80,6 +85,9 @@ const showAdditionalInfo = (temp)=>{
     container.appendChild(info);
 
     container.appendChild(div);
+
+    /*const width = container.parentElement.offsetWidth;
+    container.style = `width:calc(${width}px - 4%);`;// top:11%;*/
 }
 
 const removeAdditionalInfo = ()=>{
@@ -97,6 +105,17 @@ const loadInfo = (id)=>
         .catch((err)=> console.log(err)
 );
 
+const changeColorOfAddCard = ()=>{
+    if (document.querySelector(".card-to-add")){
+        document.querySelector(".card-to-add").classList.add("newAdd");
+        /*if (document.querySelector(".card-to-add .gif")){
+            document.querySelector(".card-to-add .gif").style = "color: #bba8a8;"
+        }
+        if (document.querySelector(".card-to-add .skeleton-content")){
+            document.querySelector(".card-to-add .skeleton-content").style = "color: #bba8a8;"
+        }*/
+    }
+}
 
 const showInfoCard = (infoTmp)=>{
     const list = document.querySelector(".info-cards");
@@ -127,6 +146,9 @@ const showInfoCard = (infoTmp)=>{
     nextButton.addEventListener("click", (evt)=>{
         showAdditionalInfo(additionalInfo);
     })
+
+    extraButtonsUpdate(card);
+    changeColorOfAddCard();
 }
 
 

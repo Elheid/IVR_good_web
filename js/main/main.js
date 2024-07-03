@@ -1,6 +1,6 @@
 var flag = "";
 const destinationGestural = "instruction.html";
-const destinationClear = "services.html";
+const destinationClear = "services.html?admin=false";
 
 const createButtons = ()=>{
     const gesturalButton = document.querySelector(".gestural-language .transition-icon");

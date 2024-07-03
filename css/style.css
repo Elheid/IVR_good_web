@@ -87,8 +87,15 @@ button{
 .list-of-cards.list {
     grid-template-columns: repeat(1, 1fr);
 }
+
+.service-card, .catalog-card{
+    position: relative;
+}
 .service-card, .catalog-card, .info-card{
-    
+
+    display: flex;
+    flex-direction: column-reverse;
+
     width: 100%;
     height: 100%;
 }
@@ -184,6 +191,175 @@ button{
     border-radius: 40px;
 
 }
+
+
+.extended-container {
+    order: 0;
+    z-index: 900;
+    align-self: flex-start;
+}
+.gestural-language .card-content{
+    order: 10;
+}
+.extended-button img{
+    max-width: 1.4vw;
+    max-height: 1.3vw;
+}
+
+.extended-button{
+    pointer-events: auto;
+    z-index: 900;
+    position: absolute;
+
+    font-size: 1.5vw;
+    /*border: 2px solid #a77259;*/
+    border: 2px solid #ffffff;
+    margin: 10px;
+    margin-left: 0;
+    margin-top: 0;
+
+    border-radius: 30px;
+    width: fit-content;
+    padding: 5px;
+    padding-bottom: 0;
+
+    padding-left: 15px;
+    padding-right: 15px;
+
+    background-color: rgba(200, 186, 173, 0.836);
+
+    
+    -webkit-text-stroke: 0.5px #f0bda4;
+}
+button.delete-button{
+    color: rgb(255, 3, 3);
+}
+button.edit-button{
+    color: rgb(94, 255, 0);
+}
+.admin-button{
+    font-size: 1.5vw;
+    border: 3px solid #a77259;
+    border-radius: 30px;
+    width: fit-content;
+    padding: 5px;
+    margin: 10px;
+
+    background-color: #a77259;
+
+    color: white;
+}
+
+
+li.newAdd .gif::before, .black-plus .skeleton-content::before {
+    color: #bba8a8;
+}
+
+.card-to-add .gif::before, .card-to-add .skeleton-content::before {
+    content: '+';
+    
+    font-size: 800%; /* Это значение можно настроить под размер вашего элемента */
+
+    
+    color: white; /* Цвет плюса, можно изменить под ваши нужды */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1; /* Убедитесь, что псевдоэлемент находится перед контентом */
+}
+
+form#card-form {
+    display: flex;
+    flex-direction: column;
+}
+
+#card-form-container {
+    width: 60%;
+    height: 50%;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+
+    padding: 20px;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 1001;
+}
+
+
+
+
+.toggleCheckbox {
+    display: none;
+}
+.toggleContainer img{
+    width: 1.8vw;
+    padding: 2px;
+    padding-left: 8px;
+    padding-right: 8px;
+}/*
+.toggleContainer img:first-child{
+    margin-right: 1vw;
+}
+.toggleContainer img:second-child{
+    margin-right: 1vw;
+}*/
+
+.toggleContainer {
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    width: fit-content;
+    border: 1px solid #343434;
+    border-radius: 30px;
+    background: #a77259;
+    font-weight: bold;
+    color: #343434;
+    cursor: pointer;
+ }
+ .toggleContainer::before {
+    content: '';
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    left: 0%;
+    border-radius:30px;
+    /*background: white;*/
+    background:rgba(200, 186, 173, 0.836);
+    transition: all 0.3s;
+ }
+ .toggleContainer div {
+    padding: 6px;
+    text-align: center;
+    z-index: 1;
+ }
+ .toggleCheckbox:checked + .toggleContainer::before {
+    left: 50%;
+ }/*
+ .toggleCheckbox:checked + .toggleContainer div:first-child{
+   color: white;
+   transition: color 0.3s;
+}
+.toggleCheckbox:checked + .toggleContainer div:last-child{
+   color: #343434;
+   transition: color 0.3s;
+}
+.toggleCheckbox + .toggleContainer div:first-child{
+   color: #343434;
+   transition: color 0.3s;
+}
+.toggleCheckbox + .toggleContainer div:last-child{
+   color: white;
+   transition: color 0.3s;
+}*/
+
+
 .hidden {
     display: none;
 }
@@ -197,3 +373,9 @@ button.hidden {
     display: none;
 }
 
+button{
+    cursor: pointer;
+}
+li.service-card.card.hidden {
+    display: none;
+}
