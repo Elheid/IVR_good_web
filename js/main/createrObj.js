@@ -74,7 +74,7 @@ const createRes = (result, clear)=>{
         gif.src = result.gifLink;//"img/gastrual2.jpg";
         gif.setAttribute("type","video/mp4")
         gif.muted = true;
-        video.play().catch(error => {
+        gif.play().catch(error => {
             console.log('Autoplay failed:', error);
         });
     }
