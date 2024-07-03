@@ -65,7 +65,14 @@ const updateURL = ()=>{
     const searchParams = new URLSearchParams(window.location.search);
 
     // Обновляем или добавляем параметр admin
-    searchParams.set('admin', isAdmin);
+    if (searchParams.has('admin')) {
+        // Если параметр существует, изменяем его значение
+        searchParams.set('admin', isAdmin);
+    } else {
+        // Если параметра нет, добавляем его
+        searchParams.append('admin', isAdmin);
+    }
+    //searchParams.set('admin', isAdmin);
 
     // Обновляем URL без перезаписи других параметров
     const newUrl = `${window.location.pathname}?${searchParams.toString()}`;

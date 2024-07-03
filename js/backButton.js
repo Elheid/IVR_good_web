@@ -77,7 +77,7 @@ const createBackButton = (displayServices)=>{
                     window.location.href = "instruction.html";
                 }
             } else {
-                if (!notQuery && !notCatalogs){
+               /* if (!notQuery && !notCatalogs){
                     goBackToServices();
                     history.back();
                     const urlParams = window.location.search;
@@ -93,14 +93,28 @@ const createBackButton = (displayServices)=>{
                         //displayServices(getCatalogId());
                     }
                     //location.reload()
-                }
-                else{
+                }*/
+                //else{
                     document.querySelector('.search-input').value = "";
                     goBackToCatalogs();
-                    history.replaceState({}, '', window.location.pathname);
+                    
+                    const searchParams = new URLSearchParams(window.location.search);
+                    let paramName = 'admin';
+                    const paramState = searchParams.get(paramName);
+                    
+
+                    // Проверка, содержит ли путь параметр
+                    if (window.location.pathname.includes(paramName)) {
+                        console.log(`Параметр '${paramName}' уже существует в пути.`);
+                        history.replaceState({}, '', window.location.pathname);
+                    } else {
+                        console.log(`Параметр '${paramName}' не существует в пути.`);
+                        history.replaceState({}, '', window.location.pathname + `?${paramName}=${paramState}`);
+                        // Вы можете добавить ваш параметр здесь
+                    }
                     //history.back();
                     //hideAlerts();
-                }
+                //}
             }
         }
 
