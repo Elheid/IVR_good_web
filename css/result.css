@@ -213,6 +213,9 @@ header.main-header {
     background: #f1f1f1;
     margin: 60px;
 }
+.scrollbar-thin{
+    scrollbar-width: thin;
+}
 
 .popup::-webkit-scrollbar-thumb {
     background: #000000BF;

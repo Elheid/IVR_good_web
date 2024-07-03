@@ -20,6 +20,7 @@ const createNetworkAlert = ()=>{
     alertContainer.style.display = 'flex';
     alertContainer.style.alignItems = 'center';
     alertContainer.style.justifyContent = "center";
+    alertContainer.style.zIndex = "1001";
     return alertContainer;
 };
 

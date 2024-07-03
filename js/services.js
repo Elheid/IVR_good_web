@@ -58,7 +58,7 @@ const loadServices = (catalogId)=>
         addPlayVidButton();
         
         addAdminButtonsToCards();
-        if (body.classList.contains("admin")){
+        if (document.querySelector("body").classList.contains("admin")){
           addCadrdSample(document.querySelector('.services-list'));
         }
       })
@@ -97,7 +97,7 @@ const showSearchedServices = (services, query)=>{
   addPlayVidButton();
 
   addAdminButtonsToCards();
-  if (body.classList.contains("admin")){
+  if (document.querySelector("body").classList.contains("admin")){
     addCadrdSample(document.querySelector('.services-list'));
   }
 }

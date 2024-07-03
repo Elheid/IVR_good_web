@@ -72,6 +72,7 @@ const createRes = (result, clear)=>{
     const gif = res.querySelector("video");
     if (clear !== "true"){
         gif.src = result.gifLink;//"img/gastrual2.jpg";
+        gif.setAttribute("type","video/mp4")
     }
     else{
         gif.classList.add("hidden");

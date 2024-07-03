@@ -72,7 +72,8 @@ const getLastHeader = ()=>{
   
 const removeSearchHeader = ()=>{
     const lastHeader = getLastHeader().innerText;
-    if (lastHeader === searchHeader){
+    const mainHeader = document.querySelector(".header-list").children[1].innerText;
+    if (lastHeader === searchHeader || lastHeader !== mainHeader){
         removeLastHeader();
     }
 }

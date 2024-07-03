@@ -66,6 +66,7 @@ main.main-content{
     flex-direction: column;
     height: 100%;
     width: -webkit-fill-available;
+    width: -moz-available; 
     order: 2;
 }
 
