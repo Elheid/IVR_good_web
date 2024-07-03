@@ -156,6 +156,7 @@ div.popup{
     justify-content: space-between;
     width: 100%;
     align-items: center;
+    order:1;
 }
 
 .modal .additional-info{
@@ -374,7 +375,8 @@ img.icons {
 img.icon-in-card{
     /*border-radius: 30px;
     border: 1px solid #6f402a;*/
-    width: 45%;
+    width: 35%;
+    padding-top: 10px;
     height: auto;
 }
 
@@ -408,6 +410,7 @@ img.icon-in-card{
     background: repeating-linear-gradient(10deg, #a77259, #91644f 70px);
 
     /*margin-bottom: 20px;*/
+    order:2;
 }
 
 

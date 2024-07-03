@@ -79,11 +79,14 @@ const createForm = ()=>{
     document.querySelector('.close-form').addEventListener('click', hideForm);
 
     //document.addEventListener('click', closeFormWeb);
-    
+    document.querySelectorAll(".edit-button").forEach((card)=>{
+        card.removeEventListener('click', showForm);
+        card.addEventListener('click', showForm);
+    })
     document.querySelectorAll('.card-to-add').forEach((card)=>{
         card.removeEventListener('click', showForm);
         card.addEventListener('click', showForm);
     })
 }
 
-export {createForm}
+export {createForm, showForm}

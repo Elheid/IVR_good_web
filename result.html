@@ -36,7 +36,35 @@
             <pre class="manual-text"></pre>
           </div>
         </div>
-
+        <div id="card-form-container" class="hidden">
+          <form id="card-form">
+            <div class="close-form">закрыть</div>
+              <label for="type">Категория или Услуга:</label>
+              <select id="type" name="type" required>
+                  <option value="category">Категория</option>
+                  <option value="service">Услуга</option>
+              </select>
+  
+              <label for="parent-id" id="parent-id-label" class="hidden">Родительская карточка:</label>
+              <select id="parent-id" name="parent-id" class="hidden">
+                  <!-- Список существующих карточек -->
+                  <option value="1">Card Title 1</option>
+                  <!-- Добавить другие опции -->
+              </select>
+  
+              <label for="title">Название карточки:</label>
+              <input type="text" id="title" name="title" required>
+  
+              <label for="image">Картинка:</label>
+              <input type="file" id="image" name="image" accept="image/*">
+  
+              <label for="video">Видео:</label>
+              <input type="file" id="video" name="video" accept="video/*">
+  
+              <button type="submit">Добавить карточку</button>
+          </form>
+      </div>
+      
           <div class="manual-strp true-manual hidden">
           </div>
           <div class="popup-container">
@@ -107,6 +135,35 @@
             <h3 class="card-title card-description">Зашлушка</h3>
             <video class="info-card-gif" src="img/long.mp4" autoplay loop muted> </video>
         </button>
+      </li>
+    </template>
+    <template id="gastrual-skeleton">
+      <li class="catalog-card card" catalog-id="2">
+        <div class="card-content">
+        <button class="card-button skeleton-substrate">
+        <div class="video-overlay">
+          <div class="gif"></div>
+        </div>
+        <div class="substrate">
+          <h3 class="card-title card-description"></h3>
+          <img src=>
+        </div>
+      </button>
+      </div></li>
+    </template>
+    <template id="clear-skeleton">
+      <li class="catalog-card card" catalog-id="2">
+        <div class="card-content clear-card skeleton-content">
+          <button class="card-button">
+          <img class="icon" src=""><div class="card-header">
+            <h3 class="card-title card-description"></h3>
+            <div class="card-footer">
+              <p class="count-services"></p>
+              <img class="arrow-img">
+              </div>
+            </div>
+          </button>
+        </div>
       </li>
     </template>
   </body>

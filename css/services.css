@@ -672,8 +672,12 @@ button.search-popup {
 
 }
 
-.card-to-add {
+.gestural-language .card-to-add {
     margin-top: 20px;
+    order: 10;
+}
+.card-to-add {
+    /*margin-top: 20px;*/
     order: 10;
 }
 
@@ -886,7 +890,7 @@ div.gif {
     margin-bottom: 10px;
     /*width: 570px;
     height: 428px;*/
-    width: 28vw;
+    width: 29.3vw;
     height: 23vw;
     /*background-color: #c39367;*/
     /*background-color: #c19873;*/

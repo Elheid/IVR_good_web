@@ -196,6 +196,7 @@ button{
 .extended-container {
     order: 0;
     z-index: 900;
+    align-self: flex-start;
 }
 .gestural-language .card-content{
     order: 10;
@@ -206,6 +207,7 @@ button{
 }
 
 .extended-button{
+    pointer-events: auto;
     z-index: 900;
     position: absolute;
 
@@ -249,6 +251,10 @@ button.edit-button{
 }
 
 
+li.newAdd .gif::before, .black-plus .skeleton-content::before {
+    color: #bba8a8;
+}
+
 .card-to-add .gif::before, .card-to-add .skeleton-content::before {
     content: '+';
     
@@ -290,8 +296,10 @@ form#card-form {
     display: none;
 }
 .toggleContainer img{
-    width: 2.5vw;
-    padding: 10px;
+    width: 1.8vw;
+    padding: 2px;
+    padding-left: 8px;
+    padding-right: 8px;
 }/*
 .toggleContainer img:first-child{
     margin-right: 1vw;

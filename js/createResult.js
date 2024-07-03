@@ -47,6 +47,8 @@ const showRes = (obj, isClear=false)=>{
 
     /*moveInfoButton();   
     window.addEventListener('resize', moveInfoButton);*/
+
+
 }
 
 export {showRes}

@@ -1,5 +1,5 @@
 import { createGastrualSkeleton } from "./main/createrObj.js";
-import { createForm } from "./form.js";
+import { createForm, showForm } from "./form.js";
 
 const createAdminButton = () => {
     /*      
@@ -22,18 +22,18 @@ const createAdminButton = () => {
 
 
     const title1 = document.createElement('div');
-    title1.textContent = "Просмотр";
+    //title1.textContent = "Просмотр";
 
     const title2 = document.createElement('div');
-    title2.textContent = "Редактирование";
+    //title2.textContent = "Редактирование";
 
-    /*const img1 = document.createElement('img');
+    const img1 = document.createElement('img');
     img1.src = "/img/view.svg";
 
     const img2 = document.createElement('img');
     img2.src = "/img/edit.svg";
     title1.appendChild(img1);
-    title2.appendChild(img2);*/
+    title2.appendChild(img2);
 
     // Добавляем div в label
     label.appendChild(title1);
@@ -62,27 +62,65 @@ document.addEventListener("DOMContentLoaded", ()=>{
 const updateURL = ()=>{
     const isAdmin = body.classList.contains("admin");
 
-    const searchParams = new URLSearchParams(window.location.search);
+    const searchUrl = window.location.search;
+    let searchParams = new URLSearchParams(searchUrl);
+    const paramName = "admin";
 
     // Обновляем или добавляем параметр admin
-    if (searchParams.has('admin')) {
+    /*if (searchParams.has('admin')) {
         // Если параметр существует, изменяем его значение
         searchParams.set('admin', isAdmin);
     } else {
         // Если параметра нет, добавляем его
         searchParams.append('admin', isAdmin);
-    }
+    }*/
     //searchParams.set('admin', isAdmin);
-
+    const curState = new URLSearchParams(searchUrl).get("admin");
+    if (window.location.search.includes(paramName)) {
+        if (curState === isAdmin){
+            history.replaceState({}, '', searchUrl);
+        }
+        else{
+            history.replaceState({}, '', searchUrl.replace(paramName+"="+curState, paramName+"="+isAdmin));
+        }  
+    } else {
+        history.pushState({}, '', window.location.pathname + searchUrl + `&${paramName}=${isAdmin}`);
+        // Вы можете добавить ваш параметр здесь
+    }
     // Обновляем URL без перезаписи других параметров
-    const newUrl = `${window.location.pathname}?${searchParams.toString()}`;
-    history.pushState({ admin: isAdmin }, '', newUrl);
+    /*const newUrl = `${window.location.pathname}?${window.location.search}`;
+    history.pushState({ admin: isAdmin }, '', newUrl);*/
+}
+
+const toggleButtonStateUpdate = ()=> {
+    const body = document.body;
+    const toggleCheckbox = document.getElementById('toggle');
+
+    // Устанавливаем начальное состояние чекбокса в зависимости от класса admin у body
+    if (body.classList.contains('admin')) {
+        toggleCheckbox.checked = true;
+    } else {
+        toggleCheckbox.checked = false;
+    }
+
+    // Обработчик для изменения положения переключателя при изменении состояния чекбокса
+    toggleCheckbox.addEventListener('change', function() {
+        if (this.checked) {
+            document.querySelector('.toggleContainer::before').style.left = '50%';
+        } else {
+            document.querySelector('.toggleContainer::before').style.left = '0%';
+        }
+    });
+
+    // Запускаем событие change, чтобы применить начальное состояние
+    toggleCheckbox.dispatchEvent(new Event('change'));
 }
 
 const adminButtonClick = ()=>{
     body.classList.toggle("admin")
     updateURL();
     toggleAdminExtra();
+    toggleButtonStateUpdate();
    /* if (!body.classList.contains("admin")){
         deleteExtraButtons();
     }
@@ -102,7 +140,14 @@ const addAdminButtonsEvent = (card)=>{
     const container = createExtraButtons();
     if (!card.querySelector(".extended-container")){
         if(!card.classList.contains("card-to-add")){
-            card.querySelector(".card-content").insertBefore(container, card.querySelector(".card-button"));
+            let toInsert = card.querySelector(".card-content");
+            if (card.querySelector(".card-content")){
+                toInsert.insertBefore(container, card.querySelector(".card-button"));
+            }
+            else{//? card.querySelector(".card-content") : card;
+                card.querySelector(".card-button").appendChild(container);
+            }   
+            
         }
     }
     const img = card.querySelector(".extended-button img");
@@ -148,41 +193,63 @@ const toggleAdminExtra = ()=>{
         }
         if (cards.length > 0){
             for(var j = 0; j < cards.length; j++){
-                if (!body.classList.contains("admin")){
-                    deleteExtraButtons(cards[j]);
-
-                    //deleteCadrdSample(lists[i]);
-                }
-                else{
-                    addAdminButtonsEvent(cards[j]);
-
-                    //addCadrdSample(lists[i]);
-                }
+                extraButtonsUpdate(cards[j])
             }
+
         }
     }
     
 }
 
+const extraButtonsUpdate = (card)=>{
+    if (!body.classList.contains("admin")){
+        deleteExtraButtons(card);
 
-const editButtonClick = (evt)=>{
-    const target = evt.target.closest('li');
+        //deleteCadrdSample(lists[i]);
+    }
+    else{
+        addAdminButtonsEvent(card);
+
+        //addCadrdSample(lists[i]);
+    }
+}
+
+const editButtonClick = (event)=>{
+    event.stopPropagation();
+    showForm();
+    /*const target = evt.target.closest('li');
     if (target.classList.contains("edited"))
     {
         target.classList.remove("edited");
-        target.style = ""
     }
     else{
+        showForm();
         target.classList.add("edited");
-        target.style = "mix-blend-mode: plus-lighter;"
+    }*/
+}
+
+const deleteButtonClick = (event)=>{
+    event.stopPropagation();
+    confirmDelete(event);
+}
+
+const confirmDelete = (event)=> {
+    // Предотвращаем стандартное действие кнопки
+    event.preventDefault();
+
+    // Отображаем диалоговое окно с подтверждением
+    if (confirm("Вы действительно хотите удалить?")) {
+        // Если пользователь подтвердил, выполнить удаление (например, отправка формы)
+        // В данном примере просто выводим сообщение в консоль
+        console.log("Элемент удалён");
+        const target = event.target.closest('li');
+        target.remove();
+    } else {
+        // Если пользователь отменил, ничего не делаем
+        console.log("Удаление отменено");
     }
 }
 
-const deleteButtonClick = (evt)=>{
-    const target = evt.target.closest('li');
-    //заменить на удаление
-    target.remove();
-}
 
 const createExtraButtons = ()=>{
     const container = document.createElement('div');
@@ -221,10 +288,12 @@ const createExtraButtons = ()=>{
 
 const addCadrdSample = (list)=>{
     var urlParams = window.location.search;
-    const state = (urlParams.match('catalog')) ? 'services-list' :  'catalogs-list';
-    for (var i = 0; i < list.children.length; i++){
-        if(list.children[i].classList.contains("card-to-add")){
-            return;
+    const state = (urlParams.match('serviceId'))? 'info-cards' : (urlParams.match('catalog')) ? 'services-list' :  'catalogs-list';
+    if (list.children.length != 0){
+        for (var i = 0; i < list.children.length; i++){
+            if(list.children[i].classList.contains("card-to-add")){
+                return;
+            }
         }
     }
     const isClear = list.parentNode.classList.contains("clear-language");
@@ -281,4 +350,4 @@ const addAdminPanel = ()=>{
     }*/
 }
 
-export {addAdminPanel, addAdminButtonsToCards, addCadrdSample}
+export {addAdminPanel, addAdminButtonsToCards, addCadrdSample, extraButtonsUpdate}

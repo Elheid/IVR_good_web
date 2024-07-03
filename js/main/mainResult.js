@@ -6,6 +6,7 @@ import { getServiceById } from '../api/api.js';
 import { createHomeReturner } from '../returnHome.js';
 import { addSkeletonRes } from '../skeletons/skeletonResult.js';
 
+import { addAdminPanel, addAdminButtonsToCards } from '../adminPanel.js';
 
 addSkeletonRes();
 
@@ -14,7 +15,7 @@ const gif = "img/gastrual2.jpg";
 const urlParams = new URLSearchParams(window.location.search);
 */
 
-
+addAdminPanel();
 
 const res = getParamFromURL();
 const id = res[0];
