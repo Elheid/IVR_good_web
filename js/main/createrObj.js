@@ -111,6 +111,7 @@ const infoRes = (info)=>{
     const res = document.importNode(template, true);
     const gif = res.querySelector("video");
     gif.classList.add("result-info-gif");
+    gif.muted = true;
 
     //document.querySelector(".additional-info-res.card-title").classList.add("hidden")
     const text = res.querySelector(".manual-text");
@@ -144,6 +145,7 @@ const createInfoCard = (info)=>{
     const imgOrGif = infoCard.querySelector('.info-card-gif');
 
     imgOrGif.src = info.gifPreview;
+    imgOrGif.muted = true;
     cardTitle.textContent = info.title;
     infoCard.setAttribute("info-id", info.id);
     return infoCard;
