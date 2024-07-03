@@ -44,20 +44,6 @@ const createAdminButton = () => {
 }
 
 const body = document.querySelector("body");
-let adminButton = document.querySelector(".admin-button");
-if (!adminButton) {
-    const { button, label } = createAdminButton();
-    const header = document.querySelector("header");
-    header.appendChild(button);
-    header.appendChild(label);
-    adminButton = document.querySelector(".admin-button");
-}
-
-document.addEventListener("DOMContentLoaded", ()=>{
-    if (window.location.search.indexOf("admin=true") > 0){
-        adminButtonClick();
-    }
-})
 
 const updateURL = ()=>{
     const isAdmin = body.classList.contains("admin");
@@ -336,12 +322,29 @@ const deleteCadrdSample = (list)=>{
 
 
 const addButtons = ()=>{
+    let adminButton = document.querySelector(".admin-button");
     adminButton.addEventListener("click", adminButtonClick)
 }
 
 
 
 const addAdminPanel = ()=>{
+    let adminButton = document.querySelector(".admin-button");
+    if (!adminButton) {
+        const { button, label } = createAdminButton();
+        const header = document.querySelector("header");
+        header.appendChild(button);
+        header.appendChild(label);
+        adminButton = document.querySelector(".admin-button");
+    }
+
+    document.addEventListener("DOMContentLoaded", ()=>{
+        if (window.location.search.indexOf("admin=true") > 0){
+            adminButtonClick();
+        }
+    })
+
+
     addButtons();
     /*var urlParams = window.location.search;
     const isAddCardNeed = (urlParams.match('services')) ? true : false;

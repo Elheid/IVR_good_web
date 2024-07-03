@@ -13,7 +13,7 @@ const iconInsertion = (textFromBd, iconLinks)=>{
     return replacedText;
 }
 
-const insertBlocks = (text, textFromBd, icons)=>{
+const insertBlocks = (text, textFromBd, icons, isInfoCards)=>{
     let textOfBlocks = extractSubstrings(textFromBd)
     if (!textFromBd.includes("\n-")){
         textOfBlocks = extractSubstringsInfo(textFromBd);
@@ -23,17 +23,20 @@ const insertBlocks = (text, textFromBd, icons)=>{
         text.innerHTML = (textOfBlocks);
     }
     else{
-        const blocks = partingByBlocks(textOfBlocks, icons);
+        const blocks = partingByBlocks(textOfBlocks, icons, isInfoCards);
         for (var i = 0; i < blocks.length; i++){
             text.appendChild(blocks[i]);
         }
     }
 }
 
-const partingByBlocks = (blocksOfText, icons)=>{
+const partingByBlocks = (blocksOfText, icons, isInfoCards)=>{
     const blocks = [];
     for (var i = 0; i < blocksOfText.length; i++){
-        const text = blocksOfText[i].slice(1);//slice чтобы убрать /n
+        let text = blocksOfText[i];
+        if (!isInfoCards){
+            text = text.slice(1);//slice чтобы убрать /n
+        }
         const block = document.createElement('span');
         block.classList.add("text-icon-block")
         block.innerHTML = iconInsertion(text, icons);
@@ -90,7 +93,8 @@ const createRes = (result, clear)=>{
     //const textFromBd = iconInsertion(result.description, result.iconLinks);
     const textFromBd = result.description;
     //разбтиение на подстроки начиная с /n- до /icon
-    insertBlocks(text, textFromBd, result.iconLinks);
+    const infoCardText = false;
+    insertBlocks(text, textFromBd, result.iconLinks, infoCardText);
 
 
     const popup = document.getElementById("popup");
@@ -131,7 +135,8 @@ const infoRes = (info)=>{
     }
     
     //text.innerHTML = iconInsertion(info.description, info.iconLinks);
-    insertBlocks(text, info.description, info.iconLinks);
+    const infoCardText = true;
+    insertBlocks(text, info.description, info.iconLinks, infoCardText);
     return res;
 }
 

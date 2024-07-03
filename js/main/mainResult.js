@@ -15,7 +15,7 @@ const gif = "img/gastrual2.jpg";
 const urlParams = new URLSearchParams(window.location.search);
 */
 
-addAdminPanel();
+//addAdminPanel();
 
 const res = getParamFromURL();
 const id = res[0];
