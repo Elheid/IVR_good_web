@@ -47,8 +47,10 @@ const addSkeletons = ()=>{
     const videos = document.querySelectorAll('.video');
     if(videos){
         videos.forEach(video => {
+            video.classList.add("hidden");
             video.addEventListener('canplaythrough', function() {
                 // Находим родительскую карточку и добавляем ей класс 'show'
+                video.classList.remove("hidden");
                 loadSkeletons();
             });
         });

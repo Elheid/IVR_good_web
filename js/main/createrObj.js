@@ -73,6 +73,10 @@ const createRes = (result, clear)=>{
     if (clear !== "true"){
         gif.src = result.gifLink;//"img/gastrual2.jpg";
         gif.setAttribute("type","video/mp4")
+        gif.muted = true;
+        video.play().catch(error => {
+            console.log('Autoplay failed:', error);
+        });
     }
     else{
         gif.classList.add("hidden");
