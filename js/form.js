@@ -1,18 +1,23 @@
 
 
 const showHideInputs = ()=>{
-    const types = document.getElementById('type');
-
+    const addExtra = document.querySelector(".add-extra");
+    const hideExtra = document.querySelector(".hide-extra");
     const parentIdLabel = document.getElementById('parent-id-label');
     const parentIdSelect = document.getElementById('parent-id');
 
-    if (types.value === 'service') {
-        parentIdLabel.classList.remove('hidden');
-        parentIdSelect.classList.remove('hidden');
-    } else {
-        parentIdLabel.classList.add('hidden');
-        parentIdSelect.classList.add('hidden');
-    }
+    addExtra.addEventListener("click", ()=>{
+        if (addExtra.checked) {
+            parentIdLabel.classList.remove('hidden');
+            parentIdSelect.classList.remove('hidden');
+        }
+    })
+    hideExtra.addEventListener("click", ()=>{
+        if(hideExtra.checked){
+            parentIdLabel.classList.add('hidden');
+            parentIdSelect.classList.add('hidden');
+        }
+    })
 }
 
 const submitCardAdd = (event)=>{
@@ -78,8 +83,9 @@ const closeFormOnExitBorders = (event)=> {
 
 
 const createForm = ()=>{
-    document.getElementById('type').addEventListener('change', showHideInputs);
-
+    //document.getElementById('type').addEventListener('change', showHideInputs);
+    showHideInputs();
+    
     document.getElementById('card-form').addEventListener('submit', (event)=> submitCardAdd(event));
 
     document.querySelector('.close-form').addEventListener('click', hideForm);

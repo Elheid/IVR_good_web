@@ -170,6 +170,7 @@ const updateStyleButtonsClearCard = (container)=>{
     const cardButton = container.parentNode.querySelector(".card-button");
     if (isClear){
         container.style.paddingBottom = "30px";
+        container.style.paddingTop = "5px";
         cardButton.style.height = "auto";
     }
 }
@@ -253,20 +254,25 @@ const deleteButtonClick = (event)=>{
 }
 
 const confirmDelete = (event)=> {
-    // Предотвращаем стандартное действие кнопки
-    event.preventDefault();
-
-    // Отображаем диалоговое окно с подтверждением
-    if (confirm("Вы действительно хотите удалить?")) {
-        // Если пользователь подтвердил, выполнить удаление (например, отправка формы)
-        // В данном примере просто выводим сообщение в консоль
-        console.log("Элемент удалён");
+        event.preventDefault();
         const target = event.target.closest('li');
-        target.remove();
-    } else {
-        // Если пользователь отменил, ничего не делаем
-        console.log("Удаление отменено");
-    }
+        const title = target.querySelector(".card-title").textContent;
+        console.log(title)
+        // Отображаем диалоговое окно с подтверждением
+        if (confirm("Вы действительно хотите удалить?")) {
+            // Запрашиваем ввод текста для подтверждения
+            const input = prompt('Для подтверждения удаления введите название удаляемого объекта:');
+            if (input === title) {
+                console.log("Элемент " + title + " удалён");
+                target.remove();
+            } else {
+                alert("Неверное слово. Удаление отменено.");
+                console.log("Удаление отменено");
+            }
+        } else {
+            // Если пользователь отменил, ничего не делаем
+            console.log("Удаление отменено");
+        }
 }
 
 
@@ -310,20 +316,25 @@ const equalizeSampleHeight = ()=>{
     if (cards.length > 1){
             
         
-        const cardToAdd = document.querySelector('.card-to-add');
+        const cardToAdd = document.querySelector('.card-to-add').querySelector(".card-content");
         let maxHeight = 0;
         let maxWidth = 0;
         
-        cards.forEach((card)=> {
+        cards.forEach((cardInCards)=> {
+        const card = cardInCards.querySelector(".card-button");
         if (card.offsetHeight > maxHeight) {
-        maxHeight = card.offsetHeight;
+            maxHeight = card.offsetHeight;
         }
         if (card.offsetWidth > maxWidth) {
             maxWidth = card.offsetWidth
         }});
-        
-        cardToAdd.style.height = maxHeight + 'px';
+    
+
+        cardToAdd.style.height = maxHeight > 300 ? "fit-content" :maxHeight + 'px';
         cardToAdd.style.width = maxWidth + 'px';
+        if (cardToAdd.querySelector(".gif")){
+            cardToAdd.querySelector(".gif").style.width = maxWidth + 'px';
+        }
     }
 }
 
@@ -351,7 +362,7 @@ const addCadrdSample = (list)=>{
         //fragmentToAppend.firstElementChild.querySelector(".card-button").replaceWith(fragmentToAppend.firstElementChild.querySelector(".card-button").cloneNode(true));
         list.appendChild(fragmentToAppend);
 
-
+        document.addEventListener("resize", equalizeSampleHeight)
         equalizeSampleHeight();
 
         createForm();

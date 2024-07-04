@@ -117,9 +117,8 @@ const equalizeSubtitles = ()=>{
     maxHeight = card.offsetHeight;
     }
     });
-    
     cards.forEach(function(card) {
-    card.style.height = maxHeight + 'px';
+    card.style.height = maxHeight > 300 ? "fit-content" :maxHeight + 'px';;
     });
 }
 
