@@ -1,10 +1,12 @@
 
 
 const showHideInputs = ()=>{
+    const types = document.getElementById('type');
+
     const parentIdLabel = document.getElementById('parent-id-label');
     const parentIdSelect = document.getElementById('parent-id');
 
-    if (this.value === 'Услуга') {
+    if (types.value === 'service') {
         parentIdLabel.classList.remove('hidden');
         parentIdSelect.classList.remove('hidden');
     } else {
@@ -57,18 +59,22 @@ const hideForm = ()=>{
 }
 
 const showForm = ()=>{
+    event.stopPropagation();
     console.log("show form")
     document.getElementById('card-form-container').classList.remove('hidden');
+    document.addEventListener('click', closeFormOnExitBorders);
 }
 
-/*const closeFormWeb = (event)=> {
+const closeFormOnExitBorders = (event)=> {
     //const form = document.getElementById('card-form');
+    //event.stopPropagation();
     const overlay = document.getElementById('card-form-container');
-    if (event.target !== (overlay)) {
+    const form = document.getElementById('card-form');
+    if (event.target !== overlay && event.target !== form) {
         hideForm();
         //document.removeEventListener('click', closeFormWeb);
     }
-};*/
+};
 
 
 const createForm = ()=>{
@@ -78,7 +84,7 @@ const createForm = ()=>{
 
     document.querySelector('.close-form').addEventListener('click', hideForm);
 
-    //document.addEventListener('click', closeFormWeb);
+    
     document.querySelectorAll(".edit-button").forEach((card)=>{
         card.removeEventListener('click', showForm);
         card.addEventListener('click', showForm);

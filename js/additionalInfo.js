@@ -6,7 +6,7 @@ import {showPopup, closePopup} from "./popup/popup.js"
 import { getInfoById } from "./api/api.js";
 import { vidPlayIfIntersect } from "./vidPlayButton.js";
 
-import { addCadrdSample, extraButtonsUpdate } from "./adminPanel.js";
+import { addCadrdSample, extraButtonsUpdate, toggleEditResButtons } from "./adminPanel.js";
 
 const getIsClear = (isClear)=>{
     return isClear;
@@ -85,6 +85,14 @@ const showAdditionalInfo = (temp)=>{
     container.appendChild(info);
 
     container.appendChild(div);
+
+    toggleEditResButtons();
+    const buttons = document.querySelectorAll(".edit-element-button");
+    buttons.forEach(button =>{
+        if (button.classList.contains("hidden")){
+            button.classList.remove("hidden");
+        }
+    })
 
     /*const width = container.parentElement.offsetWidth;
     container.style = `width:calc(${width}px - 4%);`;// top:11%;*/

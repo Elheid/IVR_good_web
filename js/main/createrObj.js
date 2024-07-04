@@ -77,6 +77,7 @@ const createRes = (result, clear)=>{
         gif.src = result.gifLink;//"img/gastrual2.jpg";
         gif.setAttribute("type","video/mp4")
         gif.muted = true;
+        gif.classList.add("result-video");
         gif.play().catch(error => {
             console.log('Autoplay failed:', error);
         });
@@ -115,6 +116,7 @@ const infoRes = (info)=>{
     const res = document.importNode(template, true);
     const gif = res.querySelector("video");
     gif.classList.add("result-info-gif");
+    gif.classList.add("result-video");
     gif.muted = true;
 
     //document.querySelector(".additional-info-res.card-title").classList.add("hidden")

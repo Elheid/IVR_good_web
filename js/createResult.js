@@ -1,6 +1,7 @@
 import { createRes, loadHeaderData } from "./main/createrObj.js";
 import { hideSkeletonAndReplace } from "./skeletons/skeletonResult.js";
 
+import { addAdminPanel, toggleEditResButtons } from "./adminPanel.js";
 
 const addPrevListHeader = ()=>{
     const headerHTML =  JSON.parse(loadHeaderData());
@@ -45,6 +46,9 @@ const showRes = (obj, isClear=false)=>{
 
     addPrevListHeader();
 
+
+    addAdminPanel();
+    toggleEditResButtons();
     /*moveInfoButton();   
     window.addEventListener('resize', moveInfoButton);*/
 

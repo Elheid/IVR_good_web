@@ -20,7 +20,7 @@
           <img src="img/arrow-left-white.svg"  alt="Кнопка назад">
           <span class="button-title back-title">Назад</span>
         </button>
-        <h3 class="res-title"></h3>
+        <h3 class="res-title title"></h3>
         <a class="house-button" href="services.html" >
           <img src="img/SVGRepo_iconCarrier (4).svg" alt="Кнопка Домой">
           <span class="button-title back-title">Меню</span>
@@ -38,7 +38,7 @@
         </div>
         <div id="card-form-container" class="hidden">
           <form id="card-form">
-            <div class="close-form">закрыть</div>
+            <div class="close-form"><img src="img/close.jpg" width="32px" height="30px"></div>
               <label for="type">Категория или Услуга:</label>
               <select id="type" name="type" required>
                   <option value="category">Категория</option>
@@ -61,7 +61,7 @@
               <label for="video">Видео:</label>
               <input type="file" id="video" name="video" accept="video/*">
   
-              <button type="submit">Добавить карточку</button>
+              <button class="submit-form" type="submit">Добавить карточку</button>
           </form>
       </div>
       
@@ -71,9 +71,9 @@
             <div class="overlay" id="overlay"></div>
                 <div class="popup cases-table-popup" id="popup">
                   <div class="popup-header">
-                    <h2 class="popup-title">
+                    <h3 class="popup-title title">
                       Дополнительная информация
-                    </h2>
+                    </h3>
                     <button class="close-info" id="closePopup">
                       <img src="img/close.jpg" width="32px" height="30px">
                     </button>

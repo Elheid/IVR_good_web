@@ -1,6 +1,10 @@
 import { createGastrualSkeleton } from "./main/createrObj.js";
 import { createForm, showForm } from "./form.js";
 
+
+const body = document.querySelector("body");
+
+
 const createAdminButton = () => {
     /*      
     <input type="checkbox" id="toggle" class="toggleCheckbox" />
@@ -39,11 +43,27 @@ const createAdminButton = () => {
     label.appendChild(title1);
     label.appendChild(title2);
 
+
+    updateIsAdmin();
+
     // Возвращаем button и label
     return { button, label };
 }
 
-const body = document.querySelector("body");
+const updateIsAdmin = ()=>{
+    const searchUrl = window.location.search;
+    const curState = new URLSearchParams(searchUrl).get("admin");
+    if (curState === "true"){
+        if(!body.classList.contains("admin")){
+            body.classList.add("admin")
+        }
+    }
+    else{
+        if(body.classList.contains("admin")){
+            body.classList.remove("admin")
+        }
+    }
+}
 
 const updateURL = ()=>{
     const isAdmin = body.classList.contains("admin");
@@ -90,13 +110,13 @@ const toggleButtonStateUpdate = ()=> {
     }
 
     // Обработчик для изменения положения переключателя при изменении состояния чекбокса
-    toggleCheckbox.addEventListener('change', function() {
+    /*toggleCheckbox.addEventListener('change', ()=> {
         if (this.checked) {
             document.querySelector('.toggleContainer::before').style.left = '50%';
         } else {
             document.querySelector('.toggleContainer::before').style.left = '0%';
         }
-    });
+    });*/
 
     // Запускаем событие change, чтобы применить начальное состояние
     toggleCheckbox.dispatchEvent(new Event('change'));
@@ -107,6 +127,7 @@ const adminButtonClick = ()=>{
     updateURL();
     toggleAdminExtra();
     toggleButtonStateUpdate();
+    toggleEditResButtons();
    /* if (!body.classList.contains("admin")){
         deleteExtraButtons();
     }
@@ -140,15 +161,27 @@ const addAdminButtonsEvent = (card)=>{
     if (img){
         img.addEventListener('load', () => {
             updateMargin(card, container);
+            updateStyleButtonsClearCard(container);
         });
+    }
+}
+const updateStyleButtonsClearCard = (container)=>{
+    const isClear = container.closest("ul").parentNode.classList.contains("clear-language");
+    const cardButton = container.parentNode.querySelector(".card-button");
+    if (isClear){
+        container.style.paddingBottom = "30px";
+        cardButton.style.height = "auto";
     }
 }
 
 const updateMargin = (card, container) => {
     if (card.offsetWidth !== 0) {
         const deleteButton = container.querySelector(".delete-button");
+        const editButton = container.querySelector(".edit-button");
         const width = (card.offsetWidth - deleteButton.offsetWidth);
-        deleteButton.style.marginLeft = `calc(${width}px)`;
+        const leftMargin = width/28
+        deleteButton.style.marginLeft = `calc(${width - leftMargin}px)`;
+        editButton.style.marginLeft = `calc(${leftMargin}px)`;
     }
 };
 
@@ -272,6 +305,24 @@ const createExtraButtons = ()=>{
     return  container;
 }
 
+const equalizeSampleHeight = ()=>{
+    let cards = document.querySelectorAll('.card');
+    if (cards.length > 1){
+            
+        
+        const cardToAdd = document.querySelector('.card-to-add');
+        let maxHeight = 0;
+        
+        cards.forEach((card)=> {
+        if (card.offsetHeight > maxHeight) {
+        maxHeight = card.offsetHeight;
+        }
+        });
+        
+        cardToAdd.style.height = maxHeight + 'px';
+    }
+}
+
 const addCadrdSample = (list)=>{
     var urlParams = window.location.search;
     const state = (urlParams.match('serviceId'))? 'info-cards' : (urlParams.match('catalog')) ? 'services-list' :  'catalogs-list';
@@ -295,6 +346,9 @@ const addCadrdSample = (list)=>{
         }
         //fragmentToAppend.firstElementChild.querySelector(".card-button").replaceWith(fragmentToAppend.firstElementChild.querySelector(".card-button").cloneNode(true));
         list.appendChild(fragmentToAppend);
+
+
+        equalizeSampleHeight();
 
         createForm();
     }
@@ -320,6 +374,51 @@ const deleteCadrdSample = (list)=>{
     })
 }*/
 
+const createEditElementBitton = ()=>{
+    const button = document.createElement('button');
+    button.classList.add("edit-element-button");
+    button.textContent = "edit";
+    return button;
+}
+
+const editResElement = (elemet)=>{
+    const button = createEditElementBitton();
+    //button.addEventListener("click",showForm);
+    if(elemet.classList.contains("title")){
+        if (elemet.classList.contains("popup-title")){
+            button.classList.add("hidden");
+        }
+        elemet.appendChild(button);
+    }
+    else{
+        elemet.parentNode.insertBefore(button, elemet);
+    }
+}
+
+const resDeleteEditButtons = ()=>{
+    const buttons = document.querySelectorAll(".edit-element-button")
+    buttons.forEach((button)=>button.remove())
+}
+
+const resAddEditButtons = ()=>{
+    const titles = document.querySelectorAll(".title");
+    const descriptions = document.querySelectorAll(".manual-text:not(.skeleton .manual-text)");
+    const videos = document.querySelectorAll(".result-video");
+    const elementsToEdit = [];
+    titles.forEach((title)=> elementsToEdit.push(title));
+    descriptions.forEach((description)=> elementsToEdit.push(description));
+    videos.forEach((video)=> elementsToEdit.push(video));
+    elementsToEdit.forEach((elemet)=>editResElement(elemet))
+}
+
+const toggleEditResButtons = ()=>{
+    if (body.classList.contains("admin")){
+        resAddEditButtons();
+    }
+    else{
+        resDeleteEditButtons();
+    }
+}
 
 const addButtons = ()=>{
     let adminButton = document.querySelector(".admin-button");
@@ -353,4 +452,4 @@ const addAdminPanel = ()=>{
     }*/
 }
 
-export {addAdminPanel, addAdminButtonsToCards, addCadrdSample, extraButtonsUpdate}
+export {addAdminPanel, addAdminButtonsToCards, addCadrdSample, extraButtonsUpdate, adminButtonClick, toggleEditResButtons}

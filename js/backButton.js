@@ -57,6 +57,23 @@ const goBackToServices = ()=>{
 const backButton = document.querySelector(".return-button");
 
 
+const updateParamUrl = ()=>{
+    const searchParams = new URLSearchParams(window.location.search);
+    let paramName = 'admin';
+    const paramState = searchParams.get(paramName);
+    
+
+    // Проверка, содержит ли путь параметр
+    if (window.location.pathname.includes(paramName)) {
+        console.log(`Параметр '${paramName}' уже существует в пути.`);
+        history.replaceState({}, '', window.location.pathname);
+    } else {
+        console.log(`Параметр '${paramName}' не существует в пути.`);
+        history.replaceState({}, '', window.location.pathname + `?${paramName}=${paramState}`);
+        // Вы можете добавить ваш параметр здесь
+    }
+}
+
 const createBackButton = (displayServices)=>{
     backButton.addEventListener('click', ()=> {
         if (!window.location.href.includes("services")){
@@ -97,21 +114,7 @@ const createBackButton = (displayServices)=>{
                 //else{
                     document.querySelector('.search-input').value = "";
                     goBackToCatalogs();
-                    
-                    const searchParams = new URLSearchParams(window.location.search);
-                    let paramName = 'admin';
-                    const paramState = searchParams.get(paramName);
-                    
-
-                    // Проверка, содержит ли путь параметр
-                    if (window.location.pathname.includes(paramName)) {
-                        console.log(`Параметр '${paramName}' уже существует в пути.`);
-                        history.replaceState({}, '', window.location.pathname);
-                    } else {
-                        console.log(`Параметр '${paramName}' не существует в пути.`);
-                        history.replaceState({}, '', window.location.pathname + `?${paramName}=${paramState}`);
-                        // Вы можете добавить ваш параметр здесь
-                    }
+                    updateParamUrl();
                     //history.back();
                     //hideAlerts();
                 //}

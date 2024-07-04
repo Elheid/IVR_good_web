@@ -215,8 +215,8 @@ button{
     /*border: 2px solid #a77259;*/
     border: 2px solid #ffffff;
     margin: 10px;
-    margin-left: 0;
-    margin-top: 0;
+    /*margin-left: 0;
+    margin-top: 0;*/
 
     border-radius: 30px;
     width: fit-content;
@@ -272,6 +272,8 @@ li.newAdd .gif::before, .black-plus .skeleton-content::before {
 form#card-form {
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
+    gap: 20px
 }
 
 #card-form-container {
@@ -286,11 +288,24 @@ form#card-form {
     padding: 20px;
     border: 1px solid #ccc;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    z-index: 1001;
+    z-index: 998;
+
+    border-radius: 40px;
+    box-shadow: 0px 0px 10px 10px rgba(0, 0, 0, 0.25);
+    border-color: #593C2F;
 }
 
-
-
+.close-form {
+    align-self: end;
+    cursor: pointer;
+}
+button.submit-form {
+    font-size: 1.15em;
+    background: #42b142;
+    border-radius: 30px;
+    color: white;
+    padding: 8px;
+}
 
 .toggleCheckbox {
     display: none;
@@ -309,7 +324,9 @@ form#card-form {
 }*/
 
 .toggleContainer {
-    margin-top: 10px;
+    /*margin-top: 10px;*/
+    margin-top: 20px;
+
     margin-left: auto;
     margin-right: auto;
     position: relative;
