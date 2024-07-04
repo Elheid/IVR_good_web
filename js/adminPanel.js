@@ -312,14 +312,18 @@ const equalizeSampleHeight = ()=>{
         
         const cardToAdd = document.querySelector('.card-to-add');
         let maxHeight = 0;
+        let maxWidth = 0;
         
         cards.forEach((card)=> {
         if (card.offsetHeight > maxHeight) {
         maxHeight = card.offsetHeight;
         }
-        });
+        if (card.offsetWidth > maxWidth) {
+            maxWidth = card.offsetWidth
+        }});
         
         cardToAdd.style.height = maxHeight + 'px';
+        cardToAdd.style.width = maxWidth + 'px';
     }
 }
 

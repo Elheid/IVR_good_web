@@ -98,6 +98,7 @@ const createForm = ()=>{
 const showEditForm = ()=>{
     event.stopPropagation();
     const editForm = document.getElementById("edit-form");
+    const name = document.querySelector("label");
     editForm.classList.remove("hidden");
     document.querySelector(".close-edit-form").addEventListener("click", hideEditForm);
     document.addEventListener('click', closeEditOnBorders);
