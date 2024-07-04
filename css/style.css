@@ -278,7 +278,7 @@ form#card-form {
 
 #card-form-container {
     width: 60%;
-    height: 50%;
+    height: auto;
     position: fixed;
     top: 50%;
     left: 50%;

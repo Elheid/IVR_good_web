@@ -70,7 +70,7 @@ const closeFormOnExitBorders = (event)=> {
     //event.stopPropagation();
     const overlay = document.getElementById('card-form-container');
     const form = document.getElementById('card-form');
-    if (event.target !== overlay && event.target !== form) {
+    if (event.target !== overlay && event.target !== form && !form.contains(event.target)) {
         hideForm();
         //document.removeEventListener('click', closeFormWeb);
     }
