@@ -294,6 +294,23 @@ form#card-form {
     box-shadow: 0px 0px 10px 10px rgba(0, 0, 0, 0.25);
     border-color: #593C2F;
 }
+#edit-form{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 998;
+    border-radius: 40px;
+    box-shadow: 0px 0px 10px 10px rgba(0, 0, 0, 0.25);
+    border-color: #593C2F;
+}
+.close-edit-form {
+    width: fit-content;
+}
 
 .close-form {
     align-self: end;

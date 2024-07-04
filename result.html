@@ -36,6 +36,13 @@
             <pre class="manual-text"></pre>
           </div>
         </div>
+        <form id="edit-form" class="hidden">
+          <div class="close-edit-form"><img src="img/close.jpg" width="32px" height="30px"></div>
+          <label for="edit-field">Название карточки:</label>
+          <input type="text" id="title" name="edit-field" required>
+          <button class="submit-form" type="submit">Изменить поле</button>
+        </form>
+
         <div id="card-form-container" class="hidden">
           <form id="card-form">
             <div class="close-form"><img src="img/close.jpg" width="32px" height="30px"></div>
@@ -53,6 +60,9 @@
               </select>
   
               <label for="title">Название карточки:</label>
+              <input type="text" id="title" name="title" required>
+
+              <label for="description">Содержимое</label>
               <input type="text" id="title" name="title" required>
   
               <label for="image">Картинка:</label>

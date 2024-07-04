@@ -95,4 +95,29 @@ const createForm = ()=>{
     })
 }
 
-export {createForm, showForm}
+const showEditForm = ()=>{
+    event.stopPropagation();
+    const editForm = document.getElementById("edit-form");
+    editForm.classList.remove("hidden");
+    document.querySelector(".close-edit-form").addEventListener("click", hideEditForm);
+    document.addEventListener('click', closeEditOnBorders);
+}
+
+const hideEditForm = ()=>{
+    const editForm = document.getElementById("edit-form");
+    editForm.classList.add("hidden");
+}
+
+const closeEditOnBorders = (event)=> {
+    const form = document.getElementById('edit-form');
+    const isntContain = !form.contains(event.target);
+    const instEquals = event.target !== form;
+    if (instEquals && isntContain) {
+        hideEditForm();
+        document.removeEventListener("click",closeEditOnBorders)
+    }
+};
+
+
+
+export {createForm, showForm, showEditForm}

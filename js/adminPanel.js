@@ -1,5 +1,5 @@
 import { createGastrualSkeleton } from "./main/createrObj.js";
-import { createForm, showForm } from "./form.js";
+import { createForm, showForm, showEditForm } from "./form.js";
 
 
 const body = document.querySelector("body");
@@ -381,9 +381,16 @@ const createEditElementBitton = ()=>{
     return button;
 }
 
-const editResElement = (elemet)=>{
+const editResClick = (name)=>{
+    console.log("edit  " + name);
+    showEditForm();
+}
+
+const editResElement = (elemet, name)=>{
     const button = createEditElementBitton();
-    //button.addEventListener("click",showForm);
+    button.addEventListener("click", ()=>{
+        editResClick(name);
+    });
     if(elemet.classList.contains("title")){
         if (elemet.classList.contains("popup-title")){
             button.classList.add("hidden");
@@ -405,10 +412,10 @@ const resAddEditButtons = ()=>{
     const descriptions = document.querySelectorAll(".manual-text:not(.skeleton .manual-text)");
     const videos = document.querySelectorAll(".result-video");
     const elementsToEdit = [];
-    titles.forEach((title)=> elementsToEdit.push(title));
-    descriptions.forEach((description)=> elementsToEdit.push(description));
-    videos.forEach((video)=> elementsToEdit.push(video));
-    elementsToEdit.forEach((elemet)=>editResElement(elemet))
+    titles.forEach((title)=> elementsToEdit.push({element:title, name:"title"}));
+    descriptions.forEach((description)=> elementsToEdit.push({element:description, name:"description"}));
+    videos.forEach((video)=> elementsToEdit.push({element:video, name:"video"}));
+    elementsToEdit.forEach((elemet)=>editResElement(elemet.element, elemet.name))
 }
 
 const toggleEditResButtons = ()=>{
