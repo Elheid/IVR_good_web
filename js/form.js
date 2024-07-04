@@ -85,7 +85,6 @@ const closeFormOnExitBorders = (event)=> {
 const createForm = ()=>{
     //document.getElementById('type').addEventListener('change', showHideInputs);
     showHideInputs();
-    
     document.getElementById('card-form').addEventListener('submit', (event)=> submitCardAdd(event));
 
     document.querySelector('.close-form').addEventListener('click', hideForm);
