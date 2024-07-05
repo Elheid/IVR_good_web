@@ -3,6 +3,9 @@ import {  createCatalogCard } from "./main/createrObj.js";
 import { hideSkeletonsAndReplace } from './skeletons/skeleton.js';
 import { showServices } from "./services.js";
 import { getCellById, equalizeSubtitles } from "./util.js";
+
+import { addCadrdSample } from "./adminPanel.js";
+
 const list = document.querySelector('.catalogs-list');
 
 const services = document.querySelector('.services-list');
@@ -27,17 +30,29 @@ const updateURL = (catalogId)=>{
   history.pushState({ catalogId: catalogId }, '', newUrl);
 }
 
+const catalogClick = (cell) =>{
+  const catalogId = cell.getAttribute('catalog-id');
+  //history.pushState({ catalogId: catalogId }, '', `?catalog=${catalogId}`);
+  updateURL(catalogId);
+  showServices();
+}
+
+document.addEventListener('newCardCreated', (event)=>{
+  const catalogId = event.detail.card.getAttribute("catalog-id");
+  const button = event.detail.card.querySelector(".card-button");
+  button.addEventListener('click', ()=>{
+    catalogClick(event.detail.card);
+    if (document.querySelector("body").classList.contains("admin")){
+      addCadrdSample(document.querySelector('.services-list'));
+    }
+  });
+});
 
 const renderCatalogs = ()=>{
     const catalogCells = document.querySelectorAll('.catalog-card');
     catalogCells.forEach((cell) =>{
       const button = cell.querySelector(".card-button");
-      button.addEventListener('click', () =>{
-        const catalogId = cell.getAttribute('catalog-id');
-        //history.pushState({ catalogId: catalogId }, '', `?catalog=${catalogId}`);
-        updateURL(catalogId);
-        showServices();
-      });
+      button.addEventListener('click', ()=>catalogClick(cell));
     });
 }
 const returnState = (searchResult)=>{

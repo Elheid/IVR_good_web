@@ -46,23 +46,26 @@
         <div id="card-form-container" class="hidden">
           <form id="card-form">
             <div class="close-form"><img src="img/close.jpg" width="32px" height="30px"></div>
-              <label for="type">Категория или Услуга:</label>
-              <select id="type" name="type" required>
-                  <option value="category">Категория</option>
-                  <option value="service">Услуга</option>
-              </select>
+              <label for="type">Родительская карточка</label>
+              <!--<select id="type" name="type" required>
+                  <option value="service">Есть</option>
+                  <option value="category">Нет</option>
+              </select>-->
+              <div>
+                <input class="add-extra" type="radio" id="type" name="drone" value="service" name="type" required/>
+                <label for="type">Есть</label>
+              </div>
+              <div>
+                <input class="hide-extra" type="radio" id="type" name="drone" value="category" name="type" required/>
+                <label for="type">Нет</label>
+              </div>
   
               <label for="parent-id" id="parent-id-label" class="hidden">Родительская карточка:</label>
               <select id="parent-id" name="parent-id" class="hidden">
-                  <!-- Список существующих карточек -->
                   <option value="1">Card Title 1</option>
-                  <!-- Добавить другие опции -->
               </select>
   
               <label for="title">Название карточки:</label>
-              <input type="text" id="title" name="title" required>
-
-              <label for="description">Содержимое</label>
               <input type="text" id="title" name="title" required>
   
               <label for="image">Картинка:</label>

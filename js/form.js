@@ -1,4 +1,5 @@
-
+import { createCatalogCard, createServiceCard } from "./main/createrObj.js";
+import { getCatalogId, getCellNameById, getCatalogsId } from "./util.js";
 
 const showHideInputs = ()=>{
     const addExtra = document.querySelector(".add-extra");
@@ -19,52 +20,119 @@ const showHideInputs = ()=>{
         }
     })
 }
-
-const submitCardAdd = (event)=>{
+const submitCardAdd = (event) => {
     event.preventDefault();
-    
-    const type = document.getElementById('type').value;
+
+    //const listToAdd = event.target.closest("li");
+    //const listToAdd = document.querySelector(".list-of-cards.catalogs-list");
+    const targetCard = lastClickedButton.closest("li");
+    const listToAdd = targetCard.parentNode;
+
+    const addExtra = document.querySelector(".add-extra");
+    const hideExtra = document.querySelector(".hide-extra");
+
+    const type = addExtra.checked ? 'service' : 'catalog';
     const title = document.getElementById('title').value;
+    const id = document.getElementById('id').value;
     const image = document.getElementById('image').files[0];
     const video = document.getElementById('video').files[0];
 
-    // Создаем новую карточку
-    const newCard = document.createElement('div');
-    newCard.classList.add('card');
-    
-    const cardTitle = document.createElement('h2');
-    cardTitle.textContent = title;
-    newCard.appendChild(cardTitle);
+    let newCard;
 
-    if (image) {
-        const img = document.createElement('img');
-        img.src = URL.createObjectURL(image);
-        img.style.width = '100%';
-        newCard.appendChild(img);
+    if (type === 'catalog') {
+        // Создаем объект категории
+        const category = {
+            gifLink: video ? URL.createObjectURL(video) : "",
+            gifPreview: video ? URL.createObjectURL(video) : "",
+            mainIconLink: image ? URL.createObjectURL(image): "",
+            itemsInCategoryIds: [],  
+            title: title,
+            id: id,
+            parentCategoryId: '' 
+        };
+        const isClear = listToAdd.parentNode.classList.contains("clear-language")
+        newCard = createCatalogCard(category, isClear);;
+    } else if (type === 'service') {
+        // Создаем объект сервиса
+        
+        const service = {
+            categoryId: '1', // Замените на реальный идентификатор категории
+            gifLink: video ? URL.createObjectURL(video) : URL.createObjectURL(image),
+            gifPreview: video ? URL.createObjectURL(video) : URL.createObjectURL(image),
+            id: id, // Замените на реальный идентификатор сервиса
+            title: title
+        };
+        const isClear = listToAdd.classList.contains("clear-language")
+        newCard = createServiceCard(service, isClear);
     }
 
-    if (video) {
-        const videoElement = document.createElement('video');
-        videoElement.src = URL.createObjectURL(video);
-        videoElement.controls = true;
-        videoElement.style.width = '100%';
-        newCard.appendChild(videoElement);
+    if (newCard) {
+        if (targetCard.classList.contains("card-to-add")){
+            listToAdd.appendChild(newCard);
+        }
+        else{
+            targetCard.parentNode.replaceChild(newCard, targetCard);
+        }
+        console.log("should added: ", newCard);
+        const cardAddedEvent = new CustomEvent('newCardCreated', {
+            detail: { card:newCard}
+        })
+        document.dispatchEvent(cardAddedEvent);
     }
-
-    //document.querySelector('.card-container').appendChild(newCard);
-    console.log("should added: ", newCard)
 
     // Скрываем форму
     document.getElementById('card-form-container').classList.add('hidden');
     document.getElementById('card-form').reset();
-}
+};
+
 
 const hideForm = ()=>{
     document.getElementById('card-form-container').classList.add('hidden');
 }
 
+let lastClickedButton = null;
+
+const changeParentOptions = (targetCard)=>{
+    if (targetCard.classList.contains("service-card")){
+        const addExtra = document.querySelector(".add-extra");
+        addExtra.click();
+        const catalogName = getCellNameById(getCatalogId())
+        const parentsOption = document.getElementById("parent-id")
+        parentsOption.querySelectorAll("option")[0].textContent = catalogName;
+        parentsOption.querySelectorAll("option")[0].value = catalogName;
+
+        const allCatalogs = [];
+        const allCatalogId = getCatalogsId();
+        allCatalogId.forEach(item =>{
+            if (item){
+                const name = getCellNameById(item);
+                if (name !== catalogName){
+                    allCatalogs.push({name:name, id:item})
+                }
+                else{
+                    parentsOption.querySelectorAll("option")[0].value = item;
+                }
+            }
+        });
+        //getCatalogsNames().filter(item => item !== catalogName);
+        for (let i = 0; i < allCatalogs.length; i++){
+            const clone = document.importNode(parentsOption.querySelectorAll("option")[0], true);
+            clone.textContent = allCatalogs[i].name;
+            clone.value = allCatalogs[i].id;
+            parentsOption.appendChild(clone);
+        }
+    }
+    else{
+        const hideExtra = document.querySelector(".hide-extra");
+        hideExtra.click();
+    }
+}
+
 const showForm = ()=>{
     event.stopPropagation();
+    lastClickedButton = event.currentTarget;
+    const targetCard = lastClickedButton.closest("li");
+    changeParentOptions(targetCard);
     console.log("show form")
     document.getElementById('card-form-container').classList.remove('hidden');
     document.addEventListener('click', closeFormOnExitBorders);

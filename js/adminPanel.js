@@ -143,6 +143,7 @@ const deleteExtraButtons = (card)=>{
     const container = card.querySelector(".extended-container");
     container.remove();
 }
+
 const addAdminButtonsEvent = (card)=>{
     const container = createExtraButtons();
     if (!card.querySelector(".extended-container")){
@@ -458,7 +459,7 @@ const addAdminPanel = ()=>{
         header.appendChild(label);
         adminButton = document.querySelector(".admin-button");
     }
-
+    document.addEventListener('newCardCreated', (event)=>{addAdminButtonsEvent(event.detail.card)});
     document.addEventListener("DOMContentLoaded", ()=>{
         if (window.location.search.indexOf("admin=true") > 0){
             adminButtonClick();

@@ -258,8 +258,9 @@ const createClarLangCard = (cardParent, title, count, iconGif)=>{
             } 
         }
     }
-
-    loadSVG(svgUrl);
+    if (iconGif){
+        loadSVG(svgUrl);
+    }
     card.appendChild(iconContainer);
     
     //loadAndModifySVG(svgUrl);
@@ -352,6 +353,10 @@ const createCatalogCard = (catalog, clearLanguage)=>{
         const vidOrGif = cardCatalog.querySelector('video.gif');
         const cardTitle = cardCatalog.querySelector('.card-description');
         vidOrGif.src = catalog.gifPreview;
+
+        vidOrGif.loop = true;
+        vidOrGif.muted = true;
+        vidOrGif.autoplay = true;
         
         cardTitle.textContent = catalog.title;
     }
@@ -398,6 +403,10 @@ const createServiceCard = (service, clearLanguage)=>{
         //cardService.appendChild(createVidContainer());
         const vidOrGif = cardService.querySelector('video.gif');
         vidOrGif.src = service.gifPreview;
+        vidOrGif.loop = true;
+        vidOrGif.muted = true;
+        vidOrGif.autoplay = true;
+        
 
     }
     else{

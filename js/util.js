@@ -51,11 +51,11 @@ const titleCreator = idCreater();
 
 const emptyGifURL = "img/ratherGIF.jpg";
 const emptyForClear = "img/clear.jpg";
-
+/*
 const getTitles = ()=>{
     const id = titleCreator() - 1;
     return ARR_OF_TITLES[id];
-}
+}*//*
 
 const createCatalog = () => ({
     id: createIdForCatalog(), //любое число
@@ -78,7 +78,7 @@ const createInfo = (title) => ({
     title:title,
     img:"img/ratherGIF.jpg",
     additionalInfo:"сделай то, не знаю, что"
-});
+});*/
 
 const getCellById = (id)=>{
     const catalogs = document.querySelector(".catalogs:not(.sceleton)")
@@ -92,19 +92,38 @@ const getCellById = (id)=>{
 }
 
 const getCellNameById = (id)=>{
-const cell = getCellById(id);
-const title = cell.querySelector(".card-title");
-return title.innerText;
+    const cell = getCellById(id);
+    const title = cell.querySelector(".card-title");
+    return title.innerText;
 }
 const getCatalogId = ()=>{
     const urlParams = window.location.search;
     return new URLSearchParams(urlParams).get('catalog');
 }
-
-const getServicesByCatalog = (cell)=>{
-const title = cell.innerText;
-return getAllServices(title);
+const getCatalogsNames = ()=>{
+    const catalogs = document.querySelector(".list-of-cards.catalogs-list").children;
+    const res = [];
+    for (let i = 0; i < catalogs.length; i++){
+        res.push(catalogs[i].querySelector(".card-title").textContent)
+    }
+    //catalogs.forEach(catalog=> res.push(catalog.querySelector(".card-title").textContent));
+    return res;
 }
+const getCatalogsId = ()=>{
+    const catalogs = document.querySelector(".list-of-cards.catalogs-list").children;
+    const res = [];
+    for (let i = 0; i < catalogs.length; i++){
+        res.push(catalogs[i].getAttribute("catalog-id"))
+    }
+    //catalogs.forEach(catalog=> res.push(catalog.querySelector(".card-title").textContent));
+    return res;
+}
+
+/*
+const getServicesByCatalog = (cell)=>{
+    const title = cell.innerText;
+    return getAllServices(title);
+}*/
 
 
 const equalizeSubtitles = ()=>{
@@ -157,7 +176,7 @@ const getParamFromURL = ()=>{
     return res;
 }
 
-export {createCatalog, createService, getAllServices,
-    createInfo, getCellById, getCatalogId, getCellNameById,
-    equalizeSubtitles, getParamFromURL, equalizeIconContainers};
+export {/*createCatalog, createService, createInfo, getAllServices,*/
+     getCellById, getCatalogId, getCellNameById,
+    equalizeSubtitles, getParamFromURL, equalizeIconContainers, getCatalogsId};
 

@@ -73,6 +73,11 @@ const showServices = ()=>{
   //displayServices(cell);
   hideCatalogs();
 }
+/*
+document.addEventListener('newCardCreated', (event)=>{
+  //loadServices(event.detail.card.getAttribute("catalog-id"))
+  showServices();
+});*/
 
 const updateURL = (query)=>{
 
