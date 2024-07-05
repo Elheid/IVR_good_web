@@ -160,8 +160,8 @@ const addAdminButtonsEvent = (card)=>{
     }
     const img = card.querySelector(".extended-button img");
     const video = card.querySelector("video");
-    if (img){/*
-        video.addEventListener("load",()=>
+    if (img){
+        /*video.addEventListener('loadeddata', () =>
         {
             img.addEventListener('load', () => {
                 updateMargin(card, container);
@@ -467,7 +467,19 @@ const addAdminPanel = ()=>{
         header.appendChild(label);
         adminButton = document.querySelector(".admin-button");
     }
-    document.addEventListener('newCardCreated', (event)=>{addAdminButtonsEvent(event.detail.card)});
+    document.addEventListener('newCardCreated', (event)=>{
+        const card = event.detail.card;
+        addAdminButtonsEvent(card)
+
+        const video = card.querySelector("video");
+        const container = card.querySelector(".extended-container")
+        video.addEventListener('loadeddata', () =>
+        {
+            updateMargin(card, container);
+            updateStyleButtonsClearCard(container);
+        })
+
+    });
     document.addEventListener("DOMContentLoaded", ()=>{
         if (window.location.search.indexOf("admin=true") > 0){
             adminButtonClick();
