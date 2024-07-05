@@ -179,4 +179,3 @@ const getParamFromURL = ()=>{
 export {/*createCatalog, createService, createInfo, getAllServices,*/
      getCellById, getCatalogId, getCellNameById,
     equalizeSubtitles, getParamFromURL, equalizeIconContainers, getCatalogsId};
-

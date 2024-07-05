@@ -54,7 +54,7 @@ const submitCardAdd = (event) => {
         newCard = createCatalogCard(category, isClear);;
     } else if (type === 'service') {
         // Создаем объект сервиса
-        
+
         const service = {
             categoryId: '1', // Замените на реальный идентификатор категории
             gifLink: video ? URL.createObjectURL(video) : URL.createObjectURL(image),
@@ -93,7 +93,9 @@ const hideForm = ()=>{
 let lastClickedButton = null;
 
 const changeParentOptions = (targetCard)=>{
-    if (targetCard.classList.contains("service-card")){
+    var urlParams = window.location.search;
+    const state = (urlParams.match('catalog')) ? 'services' :  'catalogs';
+    if (state === "services"){
         const addExtra = document.querySelector(".add-extra");
         addExtra.click();
         const catalogName = getCellNameById(getCatalogId())

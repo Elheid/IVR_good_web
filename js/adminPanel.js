@@ -371,6 +371,20 @@ const addCadrdSample = (list)=>{
         //fragmentToAppend.firstElementChild.querySelector(".card-button").replaceWith(fragmentToAppend.firstElementChild.querySelector(".card-button").cloneNode(true));
         list.appendChild(fragmentToAppend);
 
+    /*let otherList;
+    if (state === "services-list"){
+        otherList = document.querySelector('.catalogs-list');
+        for (var i = 0; i < otherList.children.length; i++){
+            if(otherList.children[i].classList.contains("card-to-add")){
+                break;
+            }
+            else if(i === otherList.children.length - 1 ){
+                addCadrdSample(otherList);
+            }
+        }
+    }*/
+
+
         document.addEventListener("resize", equalizeSampleHeight)
         equalizeSampleHeight();
 
