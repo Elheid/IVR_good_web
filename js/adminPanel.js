@@ -159,7 +159,15 @@ const addAdminButtonsEvent = (card)=>{
         }
     }
     const img = card.querySelector(".extended-button img");
-    if (img){
+    const video = card.querySelector("video");
+    if (img){/*
+        video.addEventListener("load",()=>
+        {
+            img.addEventListener('load', () => {
+                updateMargin(card, container);
+                updateStyleButtonsClearCard(container);
+            });
+        })*/
         img.addEventListener('load', () => {
             updateMargin(card, container);
             updateStyleButtonsClearCard(container);
