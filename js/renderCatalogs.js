@@ -55,6 +55,7 @@ const renderCatalogs = ()=>{
       button.addEventListener('click', ()=>catalogClick(cell));
     });
 }
+
 const returnState = (searchResult)=>{
   var urlParams = window.location.search;
     if (urlParams.match('catalog')) {

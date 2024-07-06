@@ -1,6 +1,8 @@
 import { createGastrualSkeleton } from "./main/createrObj.js";
 import { createForm, showForm, showEditForm } from "./form.js";
 
+import { updateMargin } from "./util.js";
+
 
 const body = document.querySelector("body");
 
@@ -184,16 +186,6 @@ const updateStyleButtonsClearCard = (container)=>{
     }
 }
 
-const updateMargin = (card, container) => {
-    if (card.offsetWidth !== 0) {
-        const deleteButton = container.querySelector(".delete-button");
-        const editButton = container.querySelector(".edit-button");
-        const width = (card.offsetWidth - deleteButton.offsetWidth);
-        const leftMargin = width/28
-        deleteButton.style.marginLeft = `calc(${width - leftMargin}px)`;
-        editButton.style.marginLeft = `calc(${leftMargin}px)`;
-    }
-};
 
 
 const addAdminButtonsToCards = ()=>{
@@ -350,16 +342,22 @@ const equalizeSampleHeight = ()=>{
 const addCadrdSample = (list)=>{
     var urlParams = window.location.search;
     const state = (urlParams.match('serviceId'))? 'info-cards' : (urlParams.match('catalog')) ? 'services-list' :  'catalogs-list';
+    /*
     if (list.children.length != 0){
         for (var i = 0; i < list.children.length; i++){
             if(list.children[i].classList.contains("card-to-add")){
                 return;
             }
         }
+    }*/
+
+    const hasClass = list.querySelector('.card-to-add') !== null;
+    if (hasClass){
+        return;
     }
     const isClear = list.parentNode.classList.contains("clear-language");
     const fragmentToAppend = createGastrualSkeleton(1, isClear);
-    if (list.classList.contains(state)){
+    //if (list.classList.contains(state)){
         fragmentToAppend.firstElementChild.classList.add("card-to-add")
         fragmentToAppend.firstElementChild.querySelector(".card-button").classList.remove("skeleton-substrate")
         if(fragmentToAppend.firstElementChild.querySelector(".gif")){
@@ -371,25 +369,33 @@ const addCadrdSample = (list)=>{
         //fragmentToAppend.firstElementChild.querySelector(".card-button").replaceWith(fragmentToAppend.firstElementChild.querySelector(".card-button").cloneNode(true));
         list.appendChild(fragmentToAppend);
 
-    /*let otherList;
-    if (state === "services-list"){
-        otherList = document.querySelector('.catalogs-list');
-        for (var i = 0; i < otherList.children.length; i++){
-            if(otherList.children[i].classList.contains("card-to-add")){
-                break;
-            }
-            else if(i === otherList.children.length - 1 ){
-                addCadrdSample(otherList);
-            }
-        }
-    }*/
 
 
         document.addEventListener("resize", equalizeSampleHeight)
         equalizeSampleHeight();
 
         createForm();
-    }
+
+        let otherList;
+        if (state === "services-list"){
+            otherList = document.querySelector('.catalogs-list');
+            //for (var i = 0; i < otherList.children.length; i++){
+                addCadrdSample(otherList);
+                const cards = otherList.children;
+                for (var i = 0; i< cards.length; i++){
+                    updateMargin(cards[i], cards[i].querySelector(".extended-container"));
+                }
+
+                /*if(otherList.querySelector('.card-to-add') !== null){
+                    return;
+                }
+                else if(i === otherList.children.length - 1 ){
+                    addCadrdSample(otherList);
+                }*/
+            //}
+        }
+
+    //}
 }
 const deleteCadrdSample = (list)=>{
     var urlParams = window.location.search;

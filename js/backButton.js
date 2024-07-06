@@ -1,5 +1,5 @@
 import { removeLastHeader} from "./headers.js";
-import { getCatalogId } from "./util.js";
+import { getCatalogId, updateMarginButtonsOnList } from "./util.js";
 
 const goBackToCatalogs = ()=>{
     const list = document.querySelector('.catalogs-list');
@@ -7,6 +7,7 @@ const goBackToCatalogs = ()=>{
     list.classList.remove("hidden");
     services.innerHTML = "";
     removeLastHeader();
+    updateMarginButtonsOnList(list);
 }
 const goBackToServices = ()=>{
     //const list = document.querySelector('.catalogs-list');

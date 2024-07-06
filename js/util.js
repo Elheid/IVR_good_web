@@ -176,6 +176,26 @@ const getParamFromURL = ()=>{
     return res;
 }
 
+const updateMarginButtonsOnList = (list)=>{
+    const cards = list.children;
+    for (var i = 0; i< cards.length; i++){
+        updateMargin(cards[i], cards[i].querySelector(".extended-container"));
+    }
+}
+
+const updateMargin = (card, container) => {
+    if (card.offsetWidth !== 0) {
+        const deleteButton = container.querySelector(".delete-button");
+        const editButton = container.querySelector(".edit-button");
+        const width = (card.offsetWidth - deleteButton.offsetWidth);
+        const leftMargin = width/28
+        deleteButton.style.marginLeft = `calc(${width - leftMargin}px)`;
+        editButton.style.marginLeft = `calc(${leftMargin}px)`;
+    }
+};
+
+
 export {/*createCatalog, createService, createInfo, getAllServices,*/
      getCellById, getCatalogId, getCellNameById,
-    equalizeSubtitles, getParamFromURL, equalizeIconContainers, getCatalogsId};
+    equalizeSubtitles, getParamFromURL, equalizeIconContainers, getCatalogsId,
+    updateMargin, updateMarginButtonsOnList};
