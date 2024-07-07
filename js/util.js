@@ -196,8 +196,12 @@ const updateMargin = (card, container) => {
     }
 };
 
+const getCurState = ()=>{
+    var urlParams = window.location.search;
+    return (urlParams.match('serviceId'))? 'info-cards' : (urlParams.match('catalog')) ? 'services-list' :  'catalogs-list';
+}
 
 export {/*createCatalog, createService, createInfo, getAllServices,*/
      getCellById, getCatalogId, getCellNameById,
     equalizeSubtitles, getParamFromURL, equalizeIconContainers, getCatalogsId,
-    updateMargin, updateMarginButtonsOnList};
+    updateMargin, updateMarginButtonsOnList, getCurState};

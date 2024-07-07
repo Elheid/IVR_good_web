@@ -1,8 +1,7 @@
 import { createGastrualSkeleton } from "./main/createrObj.js";
 import { createForm, showForm, showEditForm } from "./form.js";
 
-import { updateMargin } from "./util.js";
-
+import { getCurState, updateMargin } from "./util.js";
 
 const body = document.querySelector("body");
 
@@ -340,8 +339,7 @@ const equalizeSampleHeight = ()=>{
 }
 
 const addCadrdSample = (list)=>{
-    var urlParams = window.location.search;
-    const state = (urlParams.match('serviceId'))? 'info-cards' : (urlParams.match('catalog')) ? 'services-list' :  'catalogs-list';
+    const state = getCurState();
     /*
     if (list.children.length != 0){
         for (var i = 0; i < list.children.length; i++){
@@ -352,7 +350,7 @@ const addCadrdSample = (list)=>{
     }*/
 
     const hasClass = list.querySelector('.card-to-add') !== null;
-    if (hasClass || list.children.length === 0){
+    if (hasClass || (list.children.length === 0 && state !== "info-cards")){
         return;
     }
     const isClear = list.parentNode.classList.contains("clear-language");

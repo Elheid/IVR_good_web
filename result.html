@@ -39,23 +39,23 @@
         <form id="edit-form" class="hidden">
           <div class="close-edit-form"><img src="img/close.jpg" width="32px" height="30px"></div>
           <label for="edit-field"></label>
-          <input type="text" id="title" name="edit-field" required>
+          <input type="text" id="edit-field" name="edit-field" required>
           <button class="submit-form" type="submit">Изменить поле</button>
         </form>
 
         <div id="card-form-container" class="hidden">
           <form id="card-form">
             <div class="close-form"><img src="img/close.jpg" width="32px" height="30px"></div>
-              <label for="type">Родительская карточка</label>
+              <label for="type" class="parent-existence">Родительская карточка</label>
               <!--<select id="type" name="type" required>
                   <option value="service">Есть</option>
                   <option value="category">Нет</option>
               </select>-->
-              <div>
+              <div class="parent-existence">
                 <input class="add-extra" type="radio" id="type" name="drone" value="service" name="type" required/>
                 <label for="type">Есть</label>
               </div>
-              <div>
+              <div class="parent-existence">
                 <input class="hide-extra" type="radio" id="type" name="drone" value="category" name="type" required/>
                 <label for="type">Нет</label>
               </div>
@@ -67,6 +67,9 @@
   
               <label for="title">Название карточки:</label>
               <input type="text" id="title" name="title" required>
+
+              <label for="id">ID карточки:</label>
+              <input type="text" id="id" name="id" required>
   
               <label for="image">Картинка:</label>
               <input type="file" id="image" name="image" accept="image/*">

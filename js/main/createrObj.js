@@ -138,7 +138,11 @@ const infoRes = (info)=>{
     
     //text.innerHTML = iconInsertion(info.description, info.iconLinks);
     const infoCardText = true;
-    insertBlocks(text, info.description, info.iconLinks, infoCardText);
+    const undefindCheck = typeof info.description !== 'undefined';
+    const emptyString = info.description !== "";
+    if ( emptyString && undefindCheck){
+        insertBlocks(text, info.description, info.iconLinks, infoCardText);
+    }
     return res;
 }
 
@@ -157,6 +161,22 @@ const createInfoCard = (info)=>{
     infoCard.setAttribute("info-id", info.id);
     return infoCard;
 };
+
+const createAndUpdateInfoCard = (data)=>{
+    const card = createInfoCard(data);
+
+    const clear = getParamFromURL()[1];
+    if (clear === "true"){
+        card.classList.add("clear-card")
+        var img = document.createElement('img');
+        img.classList.add('icon-in-card');
+        img.src = data.mainIconLink;
+        card.querySelector(".card-button").appendChild(img);
+        const vid = card.querySelector("video");
+        vid.classList.add("hidden");
+    }
+    return card;
+}
 
 
 const createPlayButton = ()=>{
@@ -559,4 +579,6 @@ const createGastrualSkeleton = (count, isClear)=>{
 
 
 
-export {createRes, createGoButtons, createServiceCard, createGastrualSkeleton, createCatalogCard, createInfoCard, infoRes, loadHeaderData}
+export {createRes, createGoButtons, createServiceCard, createGastrualSkeleton, createCatalogCard, createInfoCard, infoRes, loadHeaderData,
+    createAndUpdateInfoCard
+}
