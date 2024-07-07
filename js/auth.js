@@ -87,7 +87,7 @@ const login = (username, password)=> {
 const checkAdmin = ()=> {
     const token = localStorage.getItem('token');
     if (token) {
-        fetch('URL_ВАШЕГО_БЭКЕНДА/api/check-admin', { // замените на URL вашего бэкенда
+        fetch(URL, { 
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${token}`
@@ -105,7 +105,6 @@ const checkAdmin = ()=> {
 // Функция для отображения функций администратора
 const showAdminFunctions = ()=> {
     const adminPanel = document.createElement('div');
-    adminPanel.innerHTML = '<h1>Admin Panel</h1><p>Welcome, admin!</p>';
     document.body.appendChild(adminPanel);
 }
 
