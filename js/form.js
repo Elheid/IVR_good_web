@@ -217,6 +217,7 @@ const showEditForm = ()=>{
     document.addEventListener('click', closeEditOnBorders);
 }
 
+
 const hideEditForm = ()=>{
     const editForm = document.getElementById("edit-form");
     editForm.classList.add("hidden");

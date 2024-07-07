@@ -153,10 +153,16 @@
           </ul>
         </div>
 
+        <form class="hidden" id="loginForm">
+          <input type="login" id="username" name="username" placeholder="Username" required>
+          <input type="password" id="password" name="password" placeholder="Password" required>
+          <button type="submit">Login</button>
+      </form>
+
         <div id="card-form-container" class="hidden">
           <form id="card-form">
             <div class="close-form"><img src="img/close.jpg" width="32px" height="30px"></div>
-              <label for="type">Родительская карточка</label>
+              <label for="type" class="parent-existence">Родительская карточка</label>
               <!--<select id="type" name="type" required>
                   <option value="service">Есть</option>
                   <option value="category">Нет</option>

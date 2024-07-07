@@ -15,6 +15,8 @@ import { addAdminPanel, addAdminButtonsToCards } from '../adminPanel.js';
 import { loadServices } from '../services.js';
 
 
+import { addAuth } from '../auth.js';
+
 addSkeletons("catalogs");
 
 createBackButton(loadServices);
@@ -67,3 +69,5 @@ addWebcamPopupShow();
 createGoButtons();
 
 createHomeReturner();
+
+addAuth();
