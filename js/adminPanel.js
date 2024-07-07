@@ -352,7 +352,7 @@ const addCadrdSample = (list)=>{
     }*/
 
     const hasClass = list.querySelector('.card-to-add') !== null;
-    if (hasClass){
+    if (hasClass || list.children.length === 0){
         return;
     }
     const isClear = list.parentNode.classList.contains("clear-language");

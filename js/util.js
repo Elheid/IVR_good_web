@@ -184,13 +184,15 @@ const updateMarginButtonsOnList = (list)=>{
 }
 
 const updateMargin = (card, container) => {
-    if (card.offsetWidth !== 0) {
-        const deleteButton = container.querySelector(".delete-button");
-        const editButton = container.querySelector(".edit-button");
-        const width = (card.offsetWidth - deleteButton.offsetWidth);
-        const leftMargin = width/28
-        deleteButton.style.marginLeft = `calc(${width - leftMargin}px)`;
-        editButton.style.marginLeft = `calc(${leftMargin}px)`;
+    if (container){
+        if (card.offsetWidth !== 0) {
+            const deleteButton = container.querySelector(".delete-button");
+            const editButton = container.querySelector(".edit-button");
+            const width = (card.offsetWidth - deleteButton.offsetWidth);
+            const leftMargin = width/28
+            deleteButton.style.marginLeft = `calc(${width - leftMargin}px)`;
+            editButton.style.marginLeft = `calc(${leftMargin}px)`;
+        }
     }
 };
 
