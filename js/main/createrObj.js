@@ -13,7 +13,7 @@ const iconInsertion = (textFromBd, iconLinks)=>{
     return replacedText;
 }
 
-const insertBlocks = (text, textFromBd, icons, isInfoCards)=>{
+const insertBlocks = (text, textFromBd, icons)=>{
     let textOfBlocks = extractSubstrings(textFromBd)
     if (!textFromBd.includes("\n-")){
         textOfBlocks = extractSubstringsInfo(textFromBd);
@@ -23,20 +23,17 @@ const insertBlocks = (text, textFromBd, icons, isInfoCards)=>{
         text.innerHTML = (textOfBlocks);
     }
     else{
-        const blocks = partingByBlocks(textOfBlocks, icons, isInfoCards);
+        const blocks = partingByBlocks(textOfBlocks, icons);
         for (var i = 0; i < blocks.length; i++){
             text.appendChild(blocks[i]);
         }
     }
 }
 
-const partingByBlocks = (blocksOfText, icons, isInfoCards)=>{
+const partingByBlocks = (blocksOfText, icons)=>{
     const blocks = [];
     for (var i = 0; i < blocksOfText.length; i++){
         let text = blocksOfText[i];
-        if (!isInfoCards){
-            text = text.slice(1);//slice чтобы убрать /n
-        }
         const block = document.createElement('span');
         block.classList.add("text-icon-block")
         block.innerHTML = iconInsertion(text, icons);
@@ -46,14 +43,32 @@ const partingByBlocks = (blocksOfText, icons, isInfoCards)=>{
 }
 
 const extractSubstrings = (input)=>{
-    // Регулярное выражение для поиска подстрок
     const regex = /\n-.*?\n\\icon\d+/gs;
-    
-    // Метод match возвращает массив всех найденных подстрок
-    const matches = input.match(regex);
-    
-    // Если ничего не найдено, возвращаем пустой массив
-    return matches || [];
+    const blocks = [];
+    let lastIndex = 0;
+
+    const matches = input.matchAll(regex);
+
+    for (const match of matches) {
+    // Добавляем текст перед блоком с иконкой как отдельный блок
+    if (match.index > lastIndex) {
+        blocks.push(input.slice(lastIndex, match.index).trim());
+    }
+
+    // Добавляем найденный блок с иконкой
+    blocks.push(match[0].trimStart());
+
+    // Обновляем индекс для следующего поиска
+    lastIndex = match.index + match[0].length;
+    }
+
+    // Добавляем оставшийся текст как отдельный блок
+    if (lastIndex < input.length) {
+    blocks.push(input.slice(lastIndex).trim());
+    }
+
+    console.log(blocks);
+    return blocks || [];
 }
 
 
@@ -94,8 +109,7 @@ const createRes = (result, clear)=>{
     //const textFromBd = iconInsertion(result.description, result.iconLinks);
     const textFromBd = result.description;
     //разбтиение на подстроки начиная с /n- до /icon
-    const infoCardText = false;
-    insertBlocks(text, textFromBd, result.iconLinks, infoCardText);
+    insertBlocks(text, textFromBd, result.iconLinks);
 
 
     const popup = document.getElementById("popup");
@@ -137,11 +151,10 @@ const infoRes = (info)=>{
     }
     
     //text.innerHTML = iconInsertion(info.description, info.iconLinks);
-    const infoCardText = true;
     const undefindCheck = typeof info.description !== 'undefined';
     const emptyString = info.description !== "";
     if ( emptyString && undefindCheck){
-        insertBlocks(text, info.description, info.iconLinks, infoCardText);
+        insertBlocks(text, info.description, info.iconLinks);
     }
     return res;
 }
