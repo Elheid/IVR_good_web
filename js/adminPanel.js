@@ -3,6 +3,8 @@ import { createForm, showForm, showEditForm } from "./form.js";
 
 import { getCurState, updateMargin } from "./util.js";
 
+import { deleteCategory } from "./api/api.js";
+
 const body = document.querySelector("body");
 
 
@@ -256,8 +258,9 @@ const deleteButtonClick = (event)=>{
 const confirmDelete = (event)=> {
         event.preventDefault();
         const target = event.target.closest('li');
+        const id = event.target.closest('li').getAttribute("catalog-id");
         const title = target.querySelector(".card-title").textContent;
-        console.log(title)
+        console.log(title + "  id " + id)
         // Отображаем диалоговое окно с подтверждением
         if (confirm("Вы действительно хотите удалить?")) {
             // Запрашиваем ввод текста для подтверждения
@@ -265,6 +268,7 @@ const confirmDelete = (event)=> {
             if (input === title) {
                 console.log("Элемент " + title + " удалён");
                 target.remove();
+                deleteCategory(id)
             } else {
                 alert("Неверное слово. Удаление отменено.");
                 console.log("Удаление отменено");
@@ -350,13 +354,17 @@ const addCadrdSample = (list)=>{
     }*/
 
     const hasClass = list.querySelector('.card-to-add') !== null;
-    if (hasClass || (list.children.length === 0 && state !== "info-cards")){
+    const notInfoCards = (list.children.length === 0 && state !== "info-cards");
+    const notServicesWhileCatalogs = (list.children.length === 0 && state === "catalogs-list");
+    const hollowCategory = (list.children.length === 0 && state === "services-list");
+    if ((hasClass || (notInfoCards || notServicesWhileCatalogs)) && !hollowCategory){
         return;
     }
     const isClear = list.parentNode.classList.contains("clear-language");
     const fragmentToAppend = createGastrualSkeleton(1, isClear);
     //if (list.classList.contains(state)){
-        fragmentToAppend.firstElementChild.classList.add("card-to-add")
+        fragmentToAppend.firstElementChild.classList.add("card-to-add");
+        fragmentToAppend.firstElementChild.removeAttribute("catalog-id");
         fragmentToAppend.firstElementChild.querySelector(".card-button").classList.remove("skeleton-substrate")
         if(fragmentToAppend.firstElementChild.querySelector(".gif")){
             fragmentToAppend.firstElementChild.querySelector(".gif").style = "animation: none;"

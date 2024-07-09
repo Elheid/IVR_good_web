@@ -153,12 +153,6 @@
           </ul>
         </div>
 
-        <form class="hidden" id="loginForm">
-          <input type="login" id="username" name="username" placeholder="Username" required>
-          <input type="password" id="password" name="password" placeholder="Password" required>
-          <button type="submit">Login</button>
-      </form>
-
         <div id="card-form-container" class="hidden">
           <form id="card-form">
             <div class="close-form"><img src="img/close.jpg" width="32px" height="30px"></div>
@@ -184,14 +178,14 @@
               <label for="title">Название карточки:</label>
               <input type="text" id="title" name="title" required>
 
-              <label for="id">ID карточки:</label>
-              <input type="text" id="id" name="id" required>
   
               <label for="image">Картинка:</label>
-              <input type="file" id="image" name="image" accept="image/*">
+              <!--<input type="file" id="image" name="image" accept="image/*">-->
+              <input type="text" id="image" name="image" accept="image/*">
   
               <label for="video">Видео:</label>
-              <input type="file" id="video" name="video" accept="video/*">
+              <input type="text" id="video" name="video" accept="video/*">
+              <!--<input type="file" id="video" name="video" accept="video/*">-->
   
               <button class="submit-form" type="submit">Добавить карточку</button>
           </form>

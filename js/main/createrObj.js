@@ -394,7 +394,9 @@ const createCatalogCard = (catalog, clearLanguage)=>{
         cardTitle.textContent = catalog.title;
     }
     else{
-        
+        if (!catalog.mainIconLink){
+            catalog.mainIconLink = "/img/close.jpg"
+        }
         if (catalog.mainIconLink.length != 0){
             var clearCard = createClarLangCard(cardCatalog, catalog.title, catalog.itemsInCategoryIds.length, catalog.mainIconLink);
             cardCatalog = (clearCard);

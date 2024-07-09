@@ -1,6 +1,8 @@
 import { createCatalogCard, createServiceCard } from "./main/createrObj.js";
 import { getCatalogId, getCellNameById, getCatalogsId, getCurState } from "./util.js";
 import { showInfoCard } from "./showInfo.js";
+import { createCategory, createService, addServiceCategory } from "./api/api.js";
+
 
 const showHideInputs = ()=>{
     const addExtra = document.querySelector(".add-extra");
@@ -21,6 +23,30 @@ const showHideInputs = ()=>{
         }
     })
 }
+
+const sendCardToBd = (type,sendData, parentId = null)=>{
+    switch(type) {
+        case 'catalogs-list': 
+            createCategory(sendData)
+            break;
+      
+        case 'services-list':  
+            createService(sendData)
+            /*.then(()=>
+                addServiceCategory(parentId)
+            );*/
+            break;
+
+        case 'info-cards':  
+            console.log("Ещё не сделано")
+            break;
+      
+        default:
+            console.log("Ошибка с созданием запроса добавления")
+            break;
+      }
+}
+
 const submitCardAdd = (event) => {
     event.preventDefault();
 
@@ -28,31 +54,44 @@ const submitCardAdd = (event) => {
     const state = getCurState();
 
 
+
     //const listToAdd = event.target.closest("li");
     //const listToAdd = document.querySelector(".list-of-cards.catalogs-list");
     const targetCard = lastClickedButton.closest("li");
+
+    const action = targetCard.classList.contains("card-to-add") ? 'add' : 'edit';
+
     const listToAdd = targetCard.parentNode;
+    const parentId = targetCard.getAttribute("catalog-id");
+    console.log(parentId)
 
     const addExtra = document.querySelector(".add-extra");
     const hideExtra = document.querySelector(".hide-extra");
 
     const type = addExtra.checked ? 'service' : 'catalog';
     const title = document.getElementById('title').value;
-    const id = document.getElementById('id').value;
-    const image = document.getElementById('image').files[0];
-    const video = document.getElementById('video').files[0];
+    //const id = document.getElementById('id').value;
+    
+    const image = document.getElementById('image').value//.files[0];
+    const video = document.getElementById('video').value//.files[0];
 
 
     let newCard;
+
+    let infoTmp;
+    let category;
+    let service;
+
+    let sendToBd;
     if (state === "info-cards"){
 
 
-        const infoTmp = {
+        infoTmp = {
             categoryId: '1', 
             //gifLink: video ? URL.createObjectURL(video) : URL.createObjectURL(image),
-            gifPreview: video ? URL.createObjectURL(video) : "",
-            mainIconLink: image ? URL.createObjectURL(image): "",
-            id: id, 
+            gifPreview: video, //? URL.createObjectURL(video) : "",
+            mainIconLink: image, //? URL.createObjectURL(image): "",
+            //id: id, 
             title: title,
             itemId:""//parentId
         };
@@ -60,35 +99,56 @@ const submitCardAdd = (event) => {
     }else{
         if (type === 'catalog') {
             // Создаем объект категории
-            const category = {
-                //gifLink: video ? URL.createObjectURL(video) : "",
-                gifPreview: video ? URL.createObjectURL(video) : "",
-                mainIconLink: image ? URL.createObjectURL(image): "",
+            category = {
+                gifLink: video, //? URL.createObjectURL(video) : "",
+                gifPreview: video, //? URL.createObjectURL(video) : "",
+                mainIconLink: image, //? URL.createObjectURL(image): "",
+
                 itemsInCategoryIds: [],  
                 title: title,
-                id: id,
+                //id: id,
                 parentCategoryId: '' 
             };
+            sendToBd = {
+                title: category.title,
+                gifPreview: category.gifPreview,
+                gifLink: category.gifLink,
+                mainIconLink: category.mainIconLink,
+            }
             const isClear = listToAdd.parentNode.classList.contains("clear-language")
-            newCard = createCatalogCard(category, isClear);;
+            newCard = createCatalogCard(category, isClear);
         } else if (type === 'service') {
             // Создаем объект сервиса
     
-            const service = {
+            service = {
                 categoryId: '1', // Замените на реальный идентификатор категории
                 //gifLink: video ? URL.createObjectURL(video) : "",
-                gifPreview: video ? URL.createObjectURL(video) : URL.createObjectURL(image),
-                id: id, // Замените на реальный идентификатор сервиса
+                gifPreview: video,// ? URL.createObjectURL(video) : URL.createObjectURL(image),
+                mainIconLink: image, 
+                //id: id, // Замените на реальный идентификатор сервиса
                 title: title,
                 parentId:""
             };
+            sendToBd = {
+                title: service.title,
+                description:"Тестовое описание",
+                gifPreview: service.gifPreview,
+                gifLink: service.gifLink,
+                mainIconLink: service.mainIconLink,
+            }
             const isClear = listToAdd.classList.contains("clear-language")
             newCard = createServiceCard(service, isClear);
         }
     }
 
     if (newCard) {
-        if (targetCard.classList.contains("card-to-add")){
+        if (action === 'add'){
+            if (sendToBd){
+                sendCardToBd(state,sendToBd);
+            }
+            else{
+                console.log("Что-то случилось с информыцией из формы")
+            }
             listToAdd.appendChild(newCard);
         }
         else{
@@ -110,12 +170,19 @@ const submitCardAdd = (event) => {
 
 const hideForm = ()=>{
     document.getElementById('card-form-container').classList.add('hidden');
+    const parentsOption = document.getElementById("parent-id");
+    removeAllChildrenExceptFirst(parentsOption);
 }
 
 let lastClickedButton = null;
 
+const removeAllChildrenExceptFirst = (parentElement)=> {
+    while (parentElement.children.length > 1) {
+      parentElement.removeChild(parentElement.lastChild);
+    }
+  }
+
 const changeParentOptions = (targetCard)=>{
-    var urlParams = window.location.search;
     const state = getCurState();
 
     const parentDivs = document.querySelectorAll(".parent-existence");
@@ -134,9 +201,13 @@ const changeParentOptions = (targetCard)=>{
         const addExtra = document.querySelector(".add-extra");
         addExtra.click();
         const catalogName = getCellNameById(getCatalogId())
-        const parentsOption = document.getElementById("parent-id")
-        parentsOption.querySelectorAll("option")[0].textContent = catalogName;
-        parentsOption.querySelectorAll("option")[0].value = catalogName;
+        const parentsOption = document.getElementById("parent-id");
+        removeAllChildrenExceptFirst(parentsOption);
+        const firstChild =  parentsOption.querySelectorAll("option")[0];
+        if (firstChild){
+            parentsOption.querySelectorAll("option")[0].textContent = catalogName;
+            parentsOption.querySelectorAll("option")[0].value = catalogName;
+        }
 
         const allCatalogs = [];
         const allCatalogId = getCatalogsId();
@@ -153,7 +224,7 @@ const changeParentOptions = (targetCard)=>{
         });
         //getCatalogsNames().filter(item => item !== catalogName);
         for (let i = 0; i < allCatalogs.length; i++){
-            const clone = document.importNode(parentsOption.querySelectorAll("option")[0], true);
+            const clone = document.importNode(firstChild, true);
             clone.textContent = allCatalogs[i].name;
             clone.value = allCatalogs[i].id;
             parentsOption.appendChild(clone);

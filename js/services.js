@@ -62,7 +62,12 @@ const loadServices = (catalogId)=>
           addCadrdSample(document.querySelector('.services-list'));
         }
       })
-      .catch((err)=> console.log(err));
+      .catch((err)=>{ 
+        console.log("Ошибка загрузки услуг или их нет "+err);
+        if (document.querySelector("body").classList.contains("admin")){
+          addCadrdSample(document.querySelector('.services-list'));
+        }
+      });
 
 const showServices = ()=>{
   addHeader();
