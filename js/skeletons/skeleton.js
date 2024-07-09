@@ -36,10 +36,13 @@ const loadSkeletons = ()=>{
         const classToReplace = state;
         
         //const list = skeleton.querySelector("ul")
-        const elementToReplace = document.querySelector(`.${classToReplace}`);
         
+        const elementToReplace = document.querySelector(`.${classToReplace}`);
         elementToReplace.classList.add("hidden");
-
+        /*const list = elementToReplace.querySelector("ul");
+        if (list.children.length !== 0){
+            elementToReplace.classList.add("hidden");
+        }*/
     }
 }
 const addSkeletons = ()=>{

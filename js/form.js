@@ -24,20 +24,34 @@ const showHideInputs = ()=>{
     })
 }
 
-const sendCardToBd = (type,sendData, parentId = null)=>{
+const setIdAfterAdd = (type, id)=>{
+    const attribute = type === 'info-cards'  ? 'info-id' : type === 'catalogs-list' ? "catalog-id":"service-id";
+    const element = document.querySelector(`li[${attribute}="undefined"]`);
+    element.setAttribute(`${attribute}`, id);
+}
+
+const sendCardToBd = (type,sendData, parentId)=>{
+    const catalog = 'catalogs-list';
+    const service = 'services-list';
+    const info = 'info-cards';
     switch(type) {
-        case 'catalogs-list': 
-            createCategory(sendData)
+        case catalog: 
+            createCategory(sendData).then((data) => {
+                const id = data.id;
+                setIdAfterAdd(catalog, id);
+            });
             break;
       
-        case 'services-list':  
+        case service:  
             createService(sendData)
-            /*.then(()=>
-                addServiceCategory(parentId)
-            );*/
+            .then((data) => {
+                const id = data.id;
+                addServiceCategory(id ,parentId);
+                setIdAfterAdd(service, id)
+            });
             break;
 
-        case 'info-cards':  
+        case info:  
             console.log("Ещё не сделано")
             break;
       
@@ -49,6 +63,7 @@ const sendCardToBd = (type,sendData, parentId = null)=>{
 
 const submitCardAdd = (event) => {
     event.preventDefault();
+    event.stopPropagation();
 
 
     const state = getCurState();
@@ -62,7 +77,8 @@ const submitCardAdd = (event) => {
     const action = targetCard.classList.contains("card-to-add") ? 'add' : 'edit';
 
     const listToAdd = targetCard.parentNode;
-    const parentId = targetCard.getAttribute("catalog-id");
+    const search = new URLSearchParams(window.location.search)
+    const parentId = search.get("catalog")//targetCard.getAttribute("catalog-id");
     console.log(parentId)
 
     const addExtra = document.querySelector(".add-extra");
@@ -75,6 +91,10 @@ const submitCardAdd = (event) => {
     const image = document.getElementById('image').value//.files[0];
     const video = document.getElementById('video').value//.files[0];
 
+    //"https://storage.yandexcloud.net/akhidov-ivr/10full.mp4"
+    const resVideo = document.getElementById('resVideo').value;
+    const description = document.getElementById('res-description').value;//"Тестовое наполнение";
+
 
     let newCard;
 
@@ -85,15 +105,12 @@ const submitCardAdd = (event) => {
     let sendToBd;
     if (state === "info-cards"){
 
-
         infoTmp = {
-            categoryId: '1', 
             //gifLink: video ? URL.createObjectURL(video) : URL.createObjectURL(image),
-            gifPreview: video, //? URL.createObjectURL(video) : "",
-            mainIconLink: image, //? URL.createObjectURL(image): "",
-            //id: id, 
+            mainIconLink: image, 
+            gifLink:image,
+            description:description ? description : ".",
             title: title,
-            itemId:""//parentId
         };
         newCard = showInfoCard(infoTmp);
     }else{
@@ -103,7 +120,6 @@ const submitCardAdd = (event) => {
                 gifLink: video, //? URL.createObjectURL(video) : "",
                 gifPreview: video, //? URL.createObjectURL(video) : "",
                 mainIconLink: image, //? URL.createObjectURL(image): "",
-
                 itemsInCategoryIds: [],  
                 title: title,
                 //id: id,
@@ -121,17 +137,17 @@ const submitCardAdd = (event) => {
             // Создаем объект сервиса
     
             service = {
-                categoryId: '1', // Замените на реальный идентификатор категории
-                //gifLink: video ? URL.createObjectURL(video) : "",
+                //categoryId: '1', // Замените на реальный идентификатор категории
+                gifLink: resVideo ? resVideo : "",
                 gifPreview: video,// ? URL.createObjectURL(video) : URL.createObjectURL(image),
                 mainIconLink: image, 
-                //id: id, // Замените на реальный идентификатор сервиса
+                description:description ? description : ".",
                 title: title,
                 parentId:""
             };
             sendToBd = {
                 title: service.title,
-                description:"Тестовое описание",
+                description:service.description,
                 gifPreview: service.gifPreview,
                 gifLink: service.gifLink,
                 mainIconLink: service.mainIconLink,
@@ -144,7 +160,7 @@ const submitCardAdd = (event) => {
     if (newCard) {
         if (action === 'add'){
             if (sendToBd){
-                sendCardToBd(state,sendToBd);
+                sendCardToBd(state,sendToBd, parentId);
             }
             else{
                 console.log("Что-то случилось с информыцией из формы")
@@ -163,6 +179,7 @@ const submitCardAdd = (event) => {
     }
 
     // Скрываем форму
+    document.getElementById('card-form').removeEventListener('submit', submitCardAdd);
     document.getElementById('card-form-container').classList.add('hidden');
     document.getElementById('card-form').reset();
 };
@@ -186,15 +203,24 @@ const changeParentOptions = (targetCard)=>{
     const state = getCurState();
 
     const parentDivs = document.querySelectorAll(".parent-existence");
+    const resDivs = document.querySelectorAll(".res-parts");
+    if (state === 'catalogs-list'){
+        resDivs.forEach((div)=> div.classList.add("hidden"))
+    }
     if (state === 'info-cards'){
         parentDivs.forEach((div)=> div.classList.add("hidden"))
     }
     else{
+        resDivs.forEach((div)=>{ 
+            if (div.classList.contains("hidden")){
+                div.classList.remove("hidden")
+            }
+        });
         parentDivs.forEach((div)=>{ 
             if (div.classList.contains("hidden")){
                 div.classList.remove("hidden")
             }
-        })
+        });
     }
 
     if (state === "services-list"){
@@ -261,7 +287,7 @@ const closeFormOnExitBorders = (event)=> {
 const createForm = ()=>{
     //document.getElementById('type').addEventListener('change', showHideInputs);
     showHideInputs();
-    document.getElementById('card-form').addEventListener('submit', (event)=> submitCardAdd(event));
+    document.getElementById('card-form').addEventListener('submit', submitCardAdd);
 
     document.querySelector('.close-form').addEventListener('click', hideForm);
 

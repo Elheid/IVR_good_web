@@ -19,6 +19,19 @@ const Route = {
   REMOVE_CATEGORY_CHILD: 'categories/children/remove/',
 
 
+
+  CREATE_SERVICE: 'items',
+  DELETE_SERVICE: 'items/',
+  REMOVE_SERVICE_CATEGORY: 'items/',
+  ADD_SERVICE_CATEGORY: 'items/',
+  UPDATE_SERVICE_MAIN_ICON: 'items/',
+  REMOVE_SERVICE_ICON: 'items/',
+  ADD_SERVICE_ICON: 'items/',
+  UPDATE_SERVICE_GIF: 'items/',
+  UPDATE_SERVICE_GIF_PREVIEW: 'items/',
+  UPDATE_SERVICE_DESCRIPTION: 'items/',
+
+
   CREATE_ADDITION: 'additions',
   DELETE_ADDITION: 'additions/',
   REMOVE_ADDITION_ICON: 'additions/',
@@ -67,7 +80,8 @@ const fetchForm = (route, errorText, method = Method.GET, body = null) =>
       if (!response.ok) {
         throw new Error();
       }
-      return response.json();
+      const json = response.json();
+      return json;
     })
     .catch(() => {
       throw new Error(errorText);
@@ -136,7 +150,7 @@ const setCategoryParent = (categoryId, parentId) => loadById(Route.SET_CATEGORY_
 const removeCategoryChild = (childId) => loadById(Route.REMOVE_CATEGORY_CHILD, childId, ErrorText.UPDATE_DATA, Method.PUT);
 
 //Методы для услуг
-const createService = (body) => load(Route.CREATE_SERVICE, ErrorText.SEND_DATA, Method.POST, body);
+const createService = (body) => fetchForm(Route.CREATE_SERVICE, ErrorText.SEND_DATA, Method.POST, body);
 const deleteService = (id) => loadById(Route.DELETE_SERVICE, id, ErrorText.DELETE_DATA, Method.DELETE);
 const removeServiceCategory = (itemId) => loadById(Route.REMOVE_SERVICE_CATEGORY + itemId + '/category/remove', '', ErrorText.UPDATE_DATA, Method.PUT);
 const addServiceCategory = (itemId, categoryId) => loadById(Route.ADD_SERVICE_CATEGORY + itemId + '/category/add/', categoryId, ErrorText.UPDATE_DATA, Method.PUT);

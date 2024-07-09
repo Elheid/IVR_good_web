@@ -3,7 +3,7 @@ import { createForm, showForm, showEditForm } from "./form.js";
 
 import { getCurState, updateMargin } from "./util.js";
 
-import { deleteCategory } from "./api/api.js";
+import { deleteCategory, deleteService } from "./api/api.js";
 
 const body = document.querySelector("body");
 
@@ -255,10 +255,41 @@ const deleteButtonClick = (event)=>{
     confirmDelete(event);
 }
 
+
+const deleteCard = (type,id)=>{
+    switch(type) {
+        case 'catalog': 
+            deleteCategory(id)
+            break;
+      
+        case 'service':  
+            deleteService(id)
+            break;
+
+        case 'inf':  
+            console.log("C info card Ещё не сделано")
+            break;
+      
+        default:
+            console.log("Ошибка с созданием запроса добавления")
+            break;
+      }
+}
 const confirmDelete = (event)=> {
         event.preventDefault();
         const target = event.target.closest('li');
-        const id = event.target.closest('li').getAttribute("catalog-id");
+
+        let state = "catalog";
+
+        let id = event.target.closest('li').getAttribute("catalog-id");
+        if (!id){
+            id = event.target.closest('li').getAttribute("service-id");
+            state = "service";
+            if (!id){
+                id = event.target.closest('li').getAttribute("info-id");
+                state = "info";
+            }
+        }
         const title = target.querySelector(".card-title").textContent;
         console.log(title + "  id " + id)
         // Отображаем диалоговое окно с подтверждением
@@ -268,7 +299,7 @@ const confirmDelete = (event)=> {
             if (input === title) {
                 console.log("Элемент " + title + " удалён");
                 target.remove();
-                deleteCategory(id)
+                deleteCard(state,id)
             } else {
                 alert("Неверное слово. Удаление отменено.");
                 console.log("Удаление отменено");
@@ -521,4 +552,4 @@ const addAdminPanel = ()=>{
     }*/
 }
 
-export {addAdminPanel, addAdminButtonsToCards, addCadrdSample, extraButtonsUpdate, adminButtonClick, toggleEditResButtons}
+export {addAdminPanel, addAdminButtonsToCards, addCadrdSample, extraButtonsUpdate, adminButtonClick, toggleEditResButtons, toggleButtonStateUpdate}

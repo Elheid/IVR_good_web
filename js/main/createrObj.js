@@ -449,6 +449,9 @@ const createServiceCard = (service, clearLanguage)=>{
         //imgOrGif.src = "img/clear.jpg";
         //var clearCard = createClarLangCard(cardService, service.title, 
             //service.itemsInCategoryIds ? service.itemsInCategoryIds.length : 0);
+        if (!service.mainIconLink){
+            service.mainIconLink = "/img/close.jpg"
+        }
         if (service.mainIconLink.length != 0){
             var clearCard = createClarLangCard(cardService, service.title, service.itemsInCategoryIds ? service.itemsInCategoryIds.length : 0, service.mainIconLink);
             cardService = (clearCard);
