@@ -400,6 +400,7 @@ const createServiceCard = (service, clearLanguage)=>{
     cardService.setAttribute("service-id", service.id);
 
     const cardButton = cardService.querySelector(".card-button");
+    const title = tryJsonParse(service.title, "title")
     //const imgOrGif = cardService.querySelector('img.service-gif');
 
     if (!(clearLanguage)){
@@ -413,11 +414,17 @@ const createServiceCard = (service, clearLanguage)=>{
             categoryNameSpan.textContent = categoryName ;
             cardButton.append(categoryNameSpan);
             //service.title = categoryName + " -> " + service.title;
-          }
+        }
         cardButton.appendChild(createSubstrate());
         //cardService.appendChild(createVidContainer());
         const vidOrGif = cardService.querySelector('video.gif');
-        vidOrGif.src = service.gifPreview;
+
+        const gifPreview = tryJsonParse(service.gifPreview, "video")
+        vidOrGif.src = gifPreview;
+        vidOrGif.loop = true;
+        vidOrGif.muted = true;
+        vidOrGif.autoplay = true;
+        
 
     }
     else{
@@ -425,12 +432,16 @@ const createServiceCard = (service, clearLanguage)=>{
         //imgOrGif.src = "img/clear.jpg";
         //var clearCard = createClarLangCard(cardService, service.title, 
             //service.itemsInCategoryIds ? service.itemsInCategoryIds.length : 0);
-        if (service.mainIconLink.length != 0){
-            var clearCard = createClarLangCard(cardService, service.title, service.itemsInCategoryIds ? service.itemsInCategoryIds.length : 0, service.mainIconLink);
+        const mainIcon = tryJsonParse(service.mainIconLink, "image")
+        if (!mainIcon){
+            service.mainIconLink = "/img/close.jpg"
+        }
+        if (mainIcon.length != 0){
+            var clearCard = createClarLangCard(cardService, title, service.itemsInCategoryIds ? service.itemsInCategoryIds.length : 0, mainIcon);
             cardService = (clearCard);
             }
         else{
-            var clearCard = createClarLangCard(cardService, service.title, service.itemsInCategoryIds ? service.itemsInCategoryIds.length : 0);
+            var clearCard = createClarLangCard(cardService, title, service.itemsInCategoryIds ? service.itemsInCategoryIds.length : 0);
             cardService = (clearCard);
         }
 
@@ -449,8 +460,9 @@ const createServiceCard = (service, clearLanguage)=>{
         //imgOrGif.src = "img/clear.jpg";
         //cardService = (clearCard);
     }
+
     const cardTitle = cardService.querySelector('.card-description');
-    cardTitle.textContent = service.title;
+    cardTitle.textContent = title;
 
 
 
