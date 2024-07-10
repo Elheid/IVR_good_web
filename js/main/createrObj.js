@@ -341,6 +341,7 @@ const createCatalogCard = (catalog, clearLanguage)=>{
     
     //const imgOrGif = cardCatalog.querySelector('img.catalog-gif');
 
+    const title = tryJsonParse(catalog.title, "title");
    
     if (!(clearLanguage)){
         //imgOrGif.classList.add("hidden");
@@ -349,18 +350,29 @@ const createCatalogCard = (catalog, clearLanguage)=>{
        // cardCatalog.appendChild(createVidContainer());
         const vidOrGif = cardCatalog.querySelector('video.gif');
         const cardTitle = cardCatalog.querySelector('.card-description');
-        vidOrGif.src = catalog.gifPreview;
+
+        const gifPreview = tryJsonParse(catalog.gifPreview, "video")
+
+        vidOrGif.src = gifPreview;
+
+        vidOrGif.loop = true;
+        vidOrGif.muted = true;
+        vidOrGif.autoplay = true;
         
-        cardTitle.textContent = catalog.title;
+
+        cardTitle.textContent = title;
     }
     else{
-        
-        if (catalog.mainIconLink.length != 0){
-            var clearCard = createClarLangCard(cardCatalog, catalog.title, catalog.itemsInCategoryIds.length, catalog.mainIconLink);
+        const mainIcon = tryJsonParse(catalog.mainIconLink, "image")
+        if (!mainIcon){
+            mainIcon = "/img/close.jpg"
+        }
+        if (mainIcon.length != 0){
+            var clearCard = createClarLangCard(cardCatalog, title, catalog.itemsInCategoryIds.length, mainIcon);
             cardCatalog = (clearCard);
         }
         else{
-            var clearCard = createClarLangCard(cardCatalog, catalog.title, catalog.itemsInCategoryIds.length);
+            var clearCard = createClarLangCard(cardCatalog, title, catalog.itemsInCategoryIds.length);
             cardCatalog = (clearCard);
         }
         //cardTitle.textContent = catalog.title + " " + catalog.itemsInCategoryIds.length + " услуг";
