@@ -97,11 +97,21 @@ const loadById = (route, id, errorText, method = Method.GET, body = null) =>
       if (!response.ok) {
         throw new Error();
       }
-      return response.json();
+      //return response.json();
+      return response.text().then(text => {
+        try {
+          return JSON.parse(text);
+        } catch (e) {
+          console.error('Error parsing JSON:', e, text);
+          //throw new Error('Failed to parse JSON response');
+          return;
+        }
+      });
     })
     .catch(() => {
       throw new Error(errorText);
 });
+
 
 /*
 const loadToSearch = ( title, errorText, method = Method.GET, body = null) =>
@@ -175,6 +185,6 @@ const updateAdditionGifPreview = (id, body) => loadById(Route.UPDATE_ADDITION_GI
 
 export { getCategories, getService, getInfoById, getServiceById, getServiceByTitle, getSimilarService, sendData,
   createCategory, deleteCategory, updateCategoryMainIcon, updateCategoryGif, updateCategoryGifPreview, setCategoryParent, removeCategoryChild,
-  createService, deleteService, addServiceCategory, addServiceIcon,
-  createAddition, deleteAddition,
+  createService, deleteService, addServiceCategory, addServiceIcon, updateServiceMainIcon, updateServiceGifPreview,
+  createAddition, deleteAddition, updateAdditionTitle
 };

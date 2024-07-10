@@ -1,7 +1,9 @@
 import { createCatalogCard, createServiceCard, createAndUpdateInfoCard } from "./main/createrObj.js";
 import { getCatalogId, getCellNameById, getCatalogsId, getCurState } from "./util.js";
 import { showInfoCard } from "./showInfo.js";
-import { createCategory, createService, addServiceCategory, createAddition, addServiceIcon } from "./api/api.js";
+import { createCategory, createService, addServiceCategory, createAddition, 
+    addServiceIcon, updateCategoryMainIcon, updateCategoryGifPreview, updateAdditionTitle, updateServiceMainIcon
+    } from "./api/api.js";
 
 
 const showHideInputs = ()=>{
@@ -29,6 +31,40 @@ const setIdAfterAdd = (type, id)=>{
     const element = document.querySelector(`li[${attribute}="undefined"]`);
     element.setAttribute(`${attribute}`, id);
 }
+
+
+const handleUpdate = (condition, updateFunc/*, newCard, targetCard*/) => {
+    if (condition) {
+        if (updateFunc) updateFunc();
+        //targetCard.parentNode.replaceChild(newCard, targetCard);
+        //location.reload();
+    }
+};
+/*
+const editCardToBd = (type, editFunc)=>{
+    const catalog = 'catalogs-list';
+    const service = 'services-list';
+    const info = 'info-cards';
+    switch(type) {
+        case catalog: 
+            editFunc();
+            break;
+      
+        case service:  
+            //const iconLinks = assembleDescription().iconLinks;
+            editFunc();
+            break;
+
+        case info:  
+            //console.log("Ещё не сделано")
+            editFunc();
+            break;
+      
+        default:
+            console.log("Ошибка с созданием запроса добавления")
+            break;
+    }
+}*/
 
 const sendCardToBd = (type,sendData, parentId)=>{
     const catalog = 'catalogs-list';
@@ -67,58 +103,17 @@ const sendCardToBd = (type,sendData, parentId)=>{
         default:
             console.log("Ошибка с созданием запроса добавления")
             break;
-      }
+    }
 }
 
-let iconLinks;
-
-const submitCardAdd = (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-
-
-    const state = getCurState();
-
-
-
-    //const listToAdd = event.target.closest("li");
-    //const listToAdd = document.querySelector(".list-of-cards.catalogs-list");
-    const targetCard = lastClickedButton.closest("li");
-
-    const action = targetCard.classList.contains("card-to-add") ? 'add' : 'edit';
-
-    const listToAdd = targetCard.parentNode;
-    const search = new URLSearchParams(window.location.search)
-    let parentId = search.get("catalog");
-    if (!parentId){
-        parentId = search.get("serviceId");
-    }
-    console.log(parentId)
-
-    const addExtra = document.querySelector(".add-extra");
-    const hideExtra = document.querySelector(".hide-extra");
-
-    const type = addExtra.checked ? 'service' : 'catalog';
-    const title = document.getElementById('title').value;
-    //const id = document.getElementById('id').value;
-    
-    const image = document.getElementById('image').value//.files[0];
-    const video = document.getElementById('video').value//.files[0];
-
-    //"https://storage.yandexcloud.net/akhidov-ivr/10full.mp4"
-    const resVideo = document.getElementById('resVideo').value;
-
-    const resText = assembleDescription();
-    const description = resText.description;//"Тестовое наполнение";
-    iconLinks = resText.iconLinks;
+const createSendData = (state, listToAdd,
+     type, title, image, video, resVideo, description)=>{
 
 
     let newCard;
-
     let infoTmp;
-    let category;
     let service;
-
+    let category;
     let sendToBd;
     if (state === "info-cards"){
 
@@ -186,6 +181,59 @@ const submitCardAdd = (event) => {
             newCard = createServiceCard(service, isClear);
         }
     }
+    const res = {
+        card:newCard,
+        info:infoTmp,
+        service:service,
+        category:category,
+        sendToBd:sendToBd,
+    }
+    return res;
+}
+
+let iconLinks;
+
+const submitCardAdd = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    const state = getCurState();
+
+    const targetCard = lastClickedButton.closest("li");
+
+    const action = targetCard.classList.contains("card-to-add") ? 'add' : 'edit';
+
+    const listToAdd = targetCard.parentNode;
+    const search = new URLSearchParams(window.location.search)
+    let parentId = search.get("catalog");
+    if (!parentId){
+        parentId = search.get("serviceId");
+    }
+    console.log(parentId)
+
+    const addExtra = document.querySelector(".add-extra");
+
+    const type = addExtra.checked ? 'service' : 'catalog';
+    const title = document.getElementById('title').value;
+    
+    const image = document.getElementById('image').value//.files[0];
+    const video = document.getElementById('video').value//.files[0];
+
+    const resVideo = document.getElementById('resVideo').value;
+
+    const resText = assembleDescription();
+    const description = resText.description;//"Тестовое наполнение";
+    iconLinks = resText.iconLinks;
+
+
+    const data = createSendData(state, listToAdd,
+         type, title, image, video, resVideo, description);
+    const newCard = data.card;
+
+    const infoTmp = data.info;
+    const category = data.category;
+    const service = data.service;
+
+    let sendToBd = data.sendToBd;
 
     if (newCard) {
         if (action === 'add'){
@@ -201,16 +249,64 @@ const submitCardAdd = (event) => {
             else{
                 listToAdd.appendChild(newCard);
             }
+
+            const cardAddedEvent = new CustomEvent('newCardCreated', {
+                detail: { card:newCard}
+            })
+    
+            document.dispatchEvent(cardAddedEvent);
         }
         else{
-            targetCard.parentNode.replaceChild(newCard, targetCard);
+           /* const catalog = 'catalogs-list';
+            const service = 'services-list';
+            const info = 'info-cards';*/
+            /// service - title, image (iconPreview), video (previcw), resVideo, description, iconList
+            /// addition/info - title, image (iconPreview), video (previcw), resVideo, description, iconList
+            ///category - image (iconPreview), video (previcw),
+
+            const attribute = state === 'info-cards'  ? 'info-id' : state === 'catalogs-list' ? "catalog-id":"service-id";
+            const id = targetCard.getAttribute(attribute);
+            /*
+            if (title){
+                console.log("Ещё не сделано");
+            }*/
+
+            handleUpdate(title, () => updateAdditionTitle(id, {title}));
+            handleUpdate(image, async() => {
+                if (state === 'catalogs-list'){
+                    await updateCategoryMainIcon(id, {image});
+                    location.reload();
+                }
+                if (state === 'services-list'){
+                    await updateServiceMainIcon(id, {image});
+                    location.reload();
+                }
+                if (state === 'info-cards') console.log("Ещё не сделано");//updateCategoryGifPreview(id, {video});
+            });
+            handleUpdate(video, async() => {
+                if (state === 'catalogs-list'){
+                    await updateCategoryGifPreview(id, {video});
+                    location.reload();
+                }
+                if (state === 'services-list'){
+                    await uupdateServiceGifPreview(id, {video});
+                    location.reload();
+                }
+                if (state === 'info-cards') console.log("Ещё не сделано");//updateCategoryGifPreview(id, {video});
+            });
+
+            if (resVideo){
+                console.log("Ещё не сделано");
+            }
+            if (description){
+                console.log("Ещё не сделано");
+            }
+            handleUpdate(iconLinks.length !== 0, () => {
+                if (state === 'services-list')  console.log("Ещё не сделано");
+                if (state === 'info-cards') console.log("Ещё не сделано");
+            });
         }
         console.log("should added: ", newCard);
-        const cardAddedEvent = new CustomEvent('newCardCreated', {
-            detail: { card:newCard}
-        })
-
-        document.dispatchEvent(cardAddedEvent);
     }
 
     // Скрываем форму
@@ -218,17 +314,6 @@ const submitCardAdd = (event) => {
     document.getElementById('card-form-container').classList.add('hidden');
     document.getElementById('card-form').reset();
 };
-/*
-
-Бла бла бла, порверка:
-
-проверка текста с иконкой 3
-https://storage.yandexcloud.net/akhidov-ivr/icon15.3.svg
-проверка текста с иконкой 5
-https://storage.yandexcloud.net/akhidov-ivr/icon28.5.svg
-проверка текста с иконкой 2
-https://storage.yandexcloud.net/akhidov-ivr/icon26.2.svg
-*/
 
 const assembleDescription = ()=>{
     const listOfLi = document.querySelectorAll(".res-text-parts.part");
@@ -238,6 +323,7 @@ const assembleDescription = ()=>{
     listOfLi.forEach((li)=>{
         const description = li.querySelector('#res-description').value;//"Тестовое наполнение";
         const icon = li.querySelector('#res-icon').value;
+        if (description !== ""){
         if (icon === ""){
             textRes += description + "\n";
         }
@@ -245,6 +331,7 @@ const assembleDescription = ()=>{
             textRes += "\n- " + description + `\n\\icon${count}`;//'\n-sdgfdsgsdg\n\\icon1'
             iconRes[count] = icon;
             count++;
+        }
         }
     })
     const res = {description:textRes, iconLinks:iconRes}
@@ -347,6 +434,22 @@ const showForm = ()=>{
     event.stopPropagation();
     lastClickedButton = event.currentTarget;
     const targetCard = lastClickedButton.closest("li");
+
+    const inputElement = document.getElementById('title');
+    const labelElement = document.querySelector(`label[for="${inputElement.id}"]`);
+
+    if (!targetCard.classList.contains("card-to-add") && !targetCard.classList.contains("info-card")){
+        document.querySelector(".submit-form").textContent = "Изменить карточку";
+        inputElement.removeAttribute('required');
+        inputElement.classList.add("hidden");
+        labelElement.classList.add("hidden");
+    }
+    else{
+        document.querySelector(".submit-form").textContent = "Добавить карточку";
+        inputElement.setAttribute('required', '');
+        inputElement.classList.remove("hidden");
+        labelElement.classList.remove("hidden");
+    }
     changeParentOptions(targetCard);
     console.log("show form")
     document.getElementById('card-form-container').classList.remove('hidden');

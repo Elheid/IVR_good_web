@@ -530,12 +530,13 @@ const addAdminPanel = ()=>{
 
         const video = card.querySelector("video");
         const container = card.querySelector(".extended-container")
-        video.addEventListener('loadeddata', () =>
-        {
-            updateMargin(card, container);
-            updateStyleButtonsClearCard(container);
-        })
-
+        if (video){
+            video.addEventListener('loadeddata', () =>
+                {
+                    updateMargin(card, container);
+                    updateStyleButtonsClearCard(container);
+                })
+        }
     });
     document.addEventListener("DOMContentLoaded", ()=>{
         if (window.location.search.indexOf("admin=true") > 0){

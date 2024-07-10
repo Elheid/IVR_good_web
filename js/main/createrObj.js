@@ -1,6 +1,17 @@
 // это должно быть временная штука ддля проверки идеи
 import { getCellNameById, getParamFromURL } from "../util.js";
 
+
+const tryJsonParse = (value, name)=>{
+    let res;
+    try {
+        res = JSON.parse(value)[name];  // Попробуем распарсить как JSON
+    } catch (e) {
+        res =  value;  
+    }
+    return res;
+}
+
 const iconInsertion = (textFromBd, iconLinks)=>{
     const iconRegex = /\\icon(\d+)/g;
 
@@ -8,11 +19,12 @@ const iconInsertion = (textFromBd, iconLinks)=>{
 
     const replacedText =  textFromBd.replace(iconRegex, (match, p1) => {
         let icon = iconLinks[Number(p1)];
-        try {
+        /*try {
             icon = JSON.parse(iconLinks[Number(p1)]).link;  // Попробуем распарсить как JSON
         } catch (e) {
             icon =  iconLinks[Number(p1)];  
-        }
+        }*/
+       icon = tryJsonParse(icon, "link")
     
         return `<img class="icons" src="${icon}" alt="icon${p1}">`;
     });
@@ -140,6 +152,8 @@ const infoRes = (info)=>{
     gif.classList.add("result-video");
     gif.muted = true;
 
+    const title = tryJsonParse(info.title, "title");
+    const description = tryJsonParse(info.description, "description");
     //document.querySelector(".additional-info-res.card-title").classList.add("hidden")
     const text = res.querySelector(".manual-text");
     //text.classList.remove("manual-text");
@@ -150,7 +164,8 @@ const infoRes = (info)=>{
     const cardTitle = document.querySelector(".popup-title");
     /*const button = res.querySelector("button");
     button.innerHTML = "";*/
-    cardTitle.textContent = info.title; 
+    
+    cardTitle.textContent = title; 
     if (getParamFromURL()[1] == "true"){
         gif.classList.add("hidden");
     }else{
@@ -158,10 +173,10 @@ const infoRes = (info)=>{
     }
     
     //text.innerHTML = iconInsertion(info.description, info.iconLinks);
-    const undefindCheck = typeof info.description !== 'undefined';
-    const emptyString = info.description !== "";
+    const undefindCheck = typeof description !== 'undefined';
+    const emptyString = description !== "";
     if ( emptyString && undefindCheck){
-        insertBlocks(text, info.description, info.iconLinks);
+        insertBlocks(text, description, info.iconLinks);
     }
     return res;
 }
@@ -169,15 +184,17 @@ const infoRes = (info)=>{
 const createInfoCard = (info)=>{
     const infoTemplate = document.querySelector('#additional-info').content.querySelector('li');
 
+    title = tryJsonParse(info.title, "title")
+    gifPreview = tryJsonParse(info.gifPreview, "video")
 
     const infoCard = document.importNode(infoTemplate, true);
     const cardTitle = infoCard.querySelector('.card-description');
 
     const imgOrGif = infoCard.querySelector('.info-card-gif');
 
-    imgOrGif.src = info.gifPreview;
+    imgOrGif.src = gifPreview;
     imgOrGif.muted = true;
-    cardTitle.textContent = info.title;
+    cardTitle.textContent = title;
     infoCard.setAttribute("info-id", info.id);
     return infoCard;
 };
@@ -230,6 +247,10 @@ const createVidContainer = ()=>{
 
 const createClarLangCard = (cardParent, title, count, iconGif)=>{
 
+    title = tryJsonParse(title, "title")
+    iconGif = tryJsonParse(iconGif, "image")
+
+
     cardParent.children[0].classList.add("clear-card");
     const card = cardParent.querySelector("button");
     /*var cardTitle = document.createElement('p');
@@ -251,19 +272,21 @@ const createClarLangCard = (cardParent, title, count, iconGif)=>{
     const changeSvgAttributes = (id)=>{
         //const svgElement = document.querySelector('svg');
         let svgElement = document.getElementById(id)
+        if (svgElement){
+            const width = svgElement.getAttribute("width");
+            const height = svgElement.getAttribute("height");
+            svgElement.setAttribute("viewBox", `0 0 ${width} ${height}`)
+            svgElement.removeAttribute("width");
+            svgElement.removeAttribute("width");
+        
+            svgElement.setAttribute("width", "100%");
+            svgElement.setAttribute("height", "100%")
+        }
         /*if (window.location.href.includes("catalog")){
             svgElement = document.getElementById(cardParent.getAttribute("service-id"))
         }*/
 
         //svgElement.classList.add('icon');
-        const width = svgElement.getAttribute("width");
-        const height = svgElement.getAttribute("height");
-        svgElement.setAttribute("viewBox", `0 0 ${width} ${height}`)
-        svgElement.removeAttribute("width");
-        svgElement.removeAttribute("width");
-    
-        svgElement.setAttribute("width", "100%");
-        svgElement.setAttribute("height", "100%")
     }
     async function loadSVG(svgUrl) {
         try {
@@ -384,6 +407,7 @@ const createCatalogCard = (catalog, clearLanguage)=>{
     
     //const imgOrGif = cardCatalog.querySelector('img.catalog-gif');
 
+    const title = tryJsonParse(catalog.title, "title");
    
     if (!(clearLanguage)){
         //imgOrGif.classList.add("hidden");
@@ -392,24 +416,29 @@ const createCatalogCard = (catalog, clearLanguage)=>{
        // cardCatalog.appendChild(createVidContainer());
         const vidOrGif = cardCatalog.querySelector('video.gif');
         const cardTitle = cardCatalog.querySelector('.card-description');
-        vidOrGif.src = catalog.gifPreview;
+
+        const gifPreview = tryJsonParse(catalog.gifPreview, "video")
+
+        vidOrGif.src = gifPreview;
 
         vidOrGif.loop = true;
         vidOrGif.muted = true;
         vidOrGif.autoplay = true;
         
-        cardTitle.textContent = catalog.title;
+
+        cardTitle.textContent = title;
     }
     else{
-        if (!catalog.mainIconLink){
-            catalog.mainIconLink = "/img/close.jpg"
+        const mainIcon = tryJsonParse(catalog.mainIconLink, "image")
+        if (!mainIcon){
+            mainIcon = "/img/close.jpg"
         }
-        if (catalog.mainIconLink.length != 0){
-            var clearCard = createClarLangCard(cardCatalog, catalog.title, catalog.itemsInCategoryIds.length, catalog.mainIconLink);
+        if (mainIcon.length != 0){
+            var clearCard = createClarLangCard(cardCatalog, title, catalog.itemsInCategoryIds.length, mainIcon);
             cardCatalog = (clearCard);
         }
         else{
-            var clearCard = createClarLangCard(cardCatalog, catalog.title, catalog.itemsInCategoryIds.length);
+            var clearCard = createClarLangCard(cardCatalog, title, catalog.itemsInCategoryIds.length);
             cardCatalog = (clearCard);
         }
         //cardTitle.textContent = catalog.title + " " + catalog.itemsInCategoryIds.length + " услуг";
@@ -427,6 +456,7 @@ const createServiceCard = (service, clearLanguage)=>{
     cardService.setAttribute("service-id", service.id);
 
     const cardButton = cardService.querySelector(".card-button");
+    const title = tryJsonParse(service.title, "title")
     //const imgOrGif = cardService.querySelector('img.service-gif');
 
     if (!(clearLanguage)){
@@ -440,11 +470,13 @@ const createServiceCard = (service, clearLanguage)=>{
             categoryNameSpan.textContent = categoryName ;
             cardButton.append(categoryNameSpan);
             //service.title = categoryName + " -> " + service.title;
-          }
+        }
         cardButton.appendChild(createSubstrate());
         //cardService.appendChild(createVidContainer());
         const vidOrGif = cardService.querySelector('video.gif');
-        vidOrGif.src = service.gifPreview;
+
+        const gifPreview = tryJsonParse(service.gifPreview, "video")
+        vidOrGif.src = gifPreview;
         vidOrGif.loop = true;
         vidOrGif.muted = true;
         vidOrGif.autoplay = true;
@@ -456,15 +488,16 @@ const createServiceCard = (service, clearLanguage)=>{
         //imgOrGif.src = "img/clear.jpg";
         //var clearCard = createClarLangCard(cardService, service.title, 
             //service.itemsInCategoryIds ? service.itemsInCategoryIds.length : 0);
-        if (!service.mainIconLink){
+        const mainIcon = tryJsonParse(service.mainIconLink, "image")
+        if (!mainIcon){
             service.mainIconLink = "/img/close.jpg"
         }
-        if (service.mainIconLink.length != 0){
-            var clearCard = createClarLangCard(cardService, service.title, service.itemsInCategoryIds ? service.itemsInCategoryIds.length : 0, service.mainIconLink);
+        if (mainIcon.length != 0){
+            var clearCard = createClarLangCard(cardService, title, service.itemsInCategoryIds ? service.itemsInCategoryIds.length : 0, mainIcon);
             cardService = (clearCard);
             }
         else{
-            var clearCard = createClarLangCard(cardService, service.title, service.itemsInCategoryIds ? service.itemsInCategoryIds.length : 0);
+            var clearCard = createClarLangCard(cardService, title, service.itemsInCategoryIds ? service.itemsInCategoryIds.length : 0);
             cardService = (clearCard);
         }
 
@@ -483,8 +516,9 @@ const createServiceCard = (service, clearLanguage)=>{
         //imgOrGif.src = "img/clear.jpg";
         //cardService = (clearCard);
     }
+
     const cardTitle = cardService.querySelector('.card-description');
-    cardTitle.textContent = service.title;
+    cardTitle.textContent = title;
 
 
 
