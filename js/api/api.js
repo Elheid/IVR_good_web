@@ -175,6 +175,6 @@ const updateAdditionGifPreview = (id, body) => loadById(Route.UPDATE_ADDITION_GI
 
 export { getCategories, getService, getInfoById, getServiceById, getServiceByTitle, getSimilarService, sendData,
   createCategory, deleteCategory, updateCategoryMainIcon, updateCategoryGif, updateCategoryGifPreview, setCategoryParent, removeCategoryChild,
-  createService, deleteService, addServiceCategory,
+  createService, deleteService, addServiceCategory, addServiceIcon,
   createAddition, deleteAddition,
 };

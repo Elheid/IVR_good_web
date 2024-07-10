@@ -269,9 +269,58 @@ li.newAdd .gif::before, .black-plus .skeleton-content::before {
     z-index: 1; /* Убедитесь, что псевдоэлемент находится перед контентом */
 }
 
-form#card-form {
+.common-card{
     display: flex;
     flex-direction: column;
+}
+
+ul.res-text-parts.list {
+    display: flex;
+    flex-direction: column;
+
+    overflow-y: scroll;
+    max-height: 100px;
+}
+
+li.res-text-parts.part {
+    display: flex;
+    flex-direction: column;
+}
+
+section.res-card {
+    align-self: end;
+    padding-left: 10px;
+
+    display: flex;
+    flex-direction: column;
+}
+
+aside.res-text-parts {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    
+}
+
+.add-new-block::after {
+    content: '+';
+    font-size: 150%;
+    color: black;
+    border: 1px solid black;
+    margin-top: 5px;
+}
+
+.add-new-block {
+    margin-top: 5px;
+}
+
+#card-form input{
+    padding-top: 2px;
+}
+
+form#card-form {
+    display: flex;
+    /*flex-direction: column;*/
     align-items: flex-start;
     gap: 20px
 }
@@ -313,7 +362,7 @@ form#card-form {
 }
 
 .close-form {
-    align-self: end;
+    
     cursor: pointer;
 }
 button.submit-form {
@@ -322,6 +371,9 @@ button.submit-form {
     border-radius: 30px;
     color: white;
     padding: 8px;
+
+    align-self: end;
+    margin-left: auto;
 }
 
 .toggleCheckbox {
@@ -411,5 +463,9 @@ button{
     cursor: pointer;
 }
 li.service-card.card.hidden {
+    display: none;
+}
+
+section.hidden {
     display: none;
 }

@@ -155,6 +155,7 @@
 
         <div id="card-form-container" class="hidden">
           <form id="card-form">
+            <section  class="common-card">
             <div class="close-form"><img src="img/close.jpg" width="32px" height="30px"></div>
               <label for="type" class="parent-existence">Родительская карточка</label>
               <!--<select id="type" name="type" required>
@@ -186,13 +187,24 @@
               <label for="video">Видео для превью:</label>
               <input type="text" id="video" name="video" accept="video/*">
 
-              <label for="res-description" class="res-parts">Текст в описании:</label>
-              <input class="res-parts" type="text" id="res-description" name="res-description">
-
+            </section>
+          <section class="res-card">
               <label for="resVideo" class="res-parts">Видео для описании:</label>
               <input class="res-parts" type="text" id="resVideo" name="resVideo" accept="video/*">
               <!--<input type="file" id="video" name="video" accept="video/*">-->
-  
+
+              <aside class="res-text-parts">
+                <ul class="res-text-parts list">
+                  <li class="res-text-parts part">
+                    <label for="res-description" class="res-parts">Текст в описании:</label>
+                    <input class="res-parts" type="text" id="res-description" name="res-description">
+                    <label for="res-icon">Икнока в блоке текста:</label>
+                    <input type="text" id="res-icon" name="res-icon" accept="image/*">
+                  </li>
+                </ul>
+                <div class="add-new-block"></div>
+              </aside>
+          </section>
               <button class="submit-form" type="submit">Добавить карточку</button>
           </form>
       </div>

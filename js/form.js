@@ -1,7 +1,7 @@
 import { createCatalogCard, createServiceCard, createAndUpdateInfoCard } from "./main/createrObj.js";
 import { getCatalogId, getCellNameById, getCatalogsId, getCurState } from "./util.js";
 import { showInfoCard } from "./showInfo.js";
-import { createCategory, createService, addServiceCategory, createAddition } from "./api/api.js";
+import { createCategory, createService, addServiceCategory, createAddition, addServiceIcon } from "./api/api.js";
 
 
 const showHideInputs = ()=>{
@@ -43,11 +43,15 @@ const sendCardToBd = (type,sendData, parentId)=>{
             break;
       
         case service:  
+            //const iconLinks = assembleDescription().iconLinks;
             createService(sendData)
             .then((data) => {
                 const id = data.id;
                 addServiceCategory(id ,parentId);
-                setIdAfterAdd(service, id)
+                setIdAfterAdd(service, id);
+                iconLinks.forEach((link)=>{
+                    addServiceIcon(id, {link});
+                })
             });
             break;
 
@@ -65,6 +69,8 @@ const sendCardToBd = (type,sendData, parentId)=>{
             break;
       }
 }
+
+let iconLinks;
 
 const submitCardAdd = (event) => {
     event.preventDefault();
@@ -101,7 +107,10 @@ const submitCardAdd = (event) => {
 
     //"https://storage.yandexcloud.net/akhidov-ivr/10full.mp4"
     const resVideo = document.getElementById('resVideo').value;
-    const description = document.getElementById('res-description').value;//"Тестовое наполнение";
+
+    const resText = assembleDescription();
+    const description = resText.description;//"Тестовое наполнение";
+    iconLinks = resText.iconLinks;
 
 
     let newCard;
@@ -119,11 +128,13 @@ const submitCardAdd = (event) => {
             gifLink:video,
             gifPreview: video,
             description:description ? description : ".",
+            //iconLinks:iconLinks ? iconLinks : [],
             title: title,
         };
         sendToBd = {
             title: infoTmp.title,
             description:infoTmp.description,
+            //iconLinks: infoTmp.iconLinks,
             gifPreview: infoTmp.gifPreview,
             gifLink: infoTmp.gifLink,
             mainIconLink: infoTmp.mainIconLink,
@@ -159,12 +170,14 @@ const submitCardAdd = (event) => {
                 gifPreview: video,// ? URL.createObjectURL(video) : URL.createObjectURL(image),
                 mainIconLink: image, 
                 description:description ? description : ".",
+                //iconLinks:iconLinks ? iconLinks : [],
                 title: title,
                 parentId:""
             };
             sendToBd = {
                 title: service.title,
                 description:service.description,
+                //iconLinks:service.iconLinks,
                 gifPreview: service.gifPreview,
                 gifLink: service.gifLink,
                 mainIconLink: service.mainIconLink,
@@ -205,12 +218,56 @@ const submitCardAdd = (event) => {
     document.getElementById('card-form-container').classList.add('hidden');
     document.getElementById('card-form').reset();
 };
+/*
+
+Бла бла бла, порверка:
+
+проверка текста с иконкой 3
+https://storage.yandexcloud.net/akhidov-ivr/icon15.3.svg
+проверка текста с иконкой 5
+https://storage.yandexcloud.net/akhidov-ivr/icon28.5.svg
+проверка текста с иконкой 2
+https://storage.yandexcloud.net/akhidov-ivr/icon26.2.svg
+*/
+
+const assembleDescription = ()=>{
+    const listOfLi = document.querySelectorAll(".res-text-parts.part");
+    let textRes = '';
+    let iconRes = [];
+    let count = 0;
+    listOfLi.forEach((li)=>{
+        const description = li.querySelector('#res-description').value;//"Тестовое наполнение";
+        const icon = li.querySelector('#res-icon').value;
+        if (icon === ""){
+            textRes += description + "\n";
+        }
+        else{
+            textRes += "\n- " + description + `\n\\icon${count}`;//'\n-sdgfdsgsdg\n\\icon1'
+            iconRes[count] = icon;
+            count++;
+        }
+    })
+    const res = {description:textRes, iconLinks:iconRes}
+    return res;
+}
+const addNewResBlockButton = ()=>{
+    const list = document.querySelector(".res-text-parts.list");
+    const first = list.children[0];
+    const clone = document.importNode(first, true);
+    list.appendChild(clone);
+}
+
+const removeNewResBlocks = ()=>{
+    const list = document.querySelector(".res-text-parts.list");
+    removeAllChildrenExceptFirst(list);
+}
 
 
 const hideForm = ()=>{
     document.getElementById('card-form-container').classList.add('hidden');
     const parentsOption = document.getElementById("parent-id");
     removeAllChildrenExceptFirst(parentsOption);
+    removeNewResBlocks();
 }
 
 let lastClickedButton = null;
@@ -219,25 +276,27 @@ const removeAllChildrenExceptFirst = (parentElement)=> {
     while (parentElement.children.length > 1) {
       parentElement.removeChild(parentElement.lastChild);
     }
-  }
+}
 
 const changeParentOptions = (targetCard)=>{
     const state = getCurState();
 
     const parentDivs = document.querySelectorAll(".parent-existence");
-    const resDivs = document.querySelectorAll(".res-parts");
+    const resDivs = document.querySelector("section.res-card");
     if (state === 'catalogs-list'){
-        resDivs.forEach((div)=> div.classList.add("hidden"))
+        //resDivs.forEach((div)=> div.classList.add("hidden"))
+        resDivs.classList.add("hidden");
     }
-    if (state === 'info-cards'){
+    else if (state === 'info-cards'){
         parentDivs.forEach((div)=> div.classList.add("hidden"))
     }
     else{
-        resDivs.forEach((div)=>{ 
+        resDivs.classList.remove("hidden");
+        /*resDivs.forEach((div)=>{ 
             if (div.classList.contains("hidden")){
                 div.classList.remove("hidden")
             }
-        });
+        });*/
         parentDivs.forEach((div)=>{ 
             if (div.classList.contains("hidden")){
                 div.classList.remove("hidden")
@@ -292,6 +351,8 @@ const showForm = ()=>{
     console.log("show form")
     document.getElementById('card-form-container').classList.remove('hidden');
     document.addEventListener('click', closeFormOnExitBorders);
+    
+    document.querySelector(".add-new-block").addEventListener("click", addNewResBlockButton)
 }
 
 const closeFormOnExitBorders = (event)=> {

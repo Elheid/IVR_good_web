@@ -7,7 +7,14 @@ const iconInsertion = (textFromBd, iconLinks)=>{
     // Массив для сохранения найденных значений
 
     const replacedText =  textFromBd.replace(iconRegex, (match, p1) => {
-    return `<img class="icons" src="${iconLinks[Number(p1)]}" alt="icon${p1}">`;
+        let icon = iconLinks[Number(p1)];
+        try {
+            icon = JSON.parse(iconLinks[Number(p1)]).link;  // Попробуем распарсить как JSON
+        } catch (e) {
+            icon =  iconLinks[Number(p1)];  
+        }
+    
+        return `<img class="icons" src="${icon}" alt="icon${p1}">`;
     });
     // Вставка результата в <pre> элемент
     return replacedText;
@@ -67,7 +74,7 @@ const extractSubstrings = (input)=>{
     blocks.push(input.slice(lastIndex).trim());
     }
 
-    console.log(blocks);
+    //console.log(blocks);
     return blocks || [];
 }
 
