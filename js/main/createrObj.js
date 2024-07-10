@@ -1,6 +1,16 @@
 // это должно быть временная штука ддля проверки идеи
 import { getCellNameById, getParamFromURL } from "../util.js";
 
+const tryJsonParse = (value, name)=>{
+    let res;
+    try {
+        res = JSON.parse(value)[name];  // Попробуем распарсить как JSON
+    } catch (e) {
+        res =  value;  
+    }
+    return res;
+}
+
 const iconInsertion = (textFromBd, iconLinks)=>{
     const iconRegex = /\\icon(\d+)/g;
 
