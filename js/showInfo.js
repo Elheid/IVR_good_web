@@ -101,9 +101,8 @@ const showInfoCard = (infoTmp)=>{
     addOpenResultButton(infoTmp, card)
     const list = document.querySelector(".info-cards");
     list.appendChild(card);
-
     extraButtonsUpdate(card);
-    changeColorOfAddCard();
+    //changeColorOfAddCard();
 }
 
-export {showInfoCard, removeAdditionalInfo, returnInfoCards}
+export {showInfoCard, removeAdditionalInfo, returnInfoCards, changeColorOfAddCard}

@@ -5,7 +5,7 @@ import { vidPlayIfIntersect } from "./vidPlayButton.js";
 
 import { addCadrdSample } from "./adminPanel.js";
 
-import { showInfoCard, removeAdditionalInfo, returnInfoCards } from "./showInfo.js";
+import { showInfoCard, removeAdditionalInfo, returnInfoCards, changeColorOfAddCard } from "./showInfo.js";
 
 const getIsClear = (isClear)=>{
     return isClear;
@@ -33,8 +33,12 @@ const showInfoPopup = ()=>{
     document.addEventListener('keydown', closePopupOnKey);   
     showPopup();
     showInfoCards();
+    if (document.querySelector(".info-cards").classList.contains("hidden")){
+        document.querySelector(".info-cards").classList.remove("hidden")
+    }
     if (document.querySelector("body").classList.contains("admin")){
         addCadrdSample(document.querySelector('.info-cards'));
+        changeColorOfAddCard();
       }
 }
 const closeInfoPopup = ()=>{

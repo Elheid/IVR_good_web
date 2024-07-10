@@ -1,7 +1,7 @@
-import { createCatalogCard, createServiceCard } from "./main/createrObj.js";
+import { createCatalogCard, createServiceCard, createAndUpdateInfoCard } from "./main/createrObj.js";
 import { getCatalogId, getCellNameById, getCatalogsId, getCurState } from "./util.js";
 import { showInfoCard } from "./showInfo.js";
-import { createCategory, createService, addServiceCategory } from "./api/api.js";
+import { createCategory, createService, addServiceCategory, createAddition } from "./api/api.js";
 
 
 const showHideInputs = ()=>{
@@ -52,7 +52,12 @@ const sendCardToBd = (type,sendData, parentId)=>{
             break;
 
         case info:  
-            console.log("Ещё не сделано")
+            //console.log("Ещё не сделано")
+            createAddition(sendData)
+            .then((data) => {
+                const id = data.id;
+                setIdAfterAdd(info, id)
+            });
             break;
       
         default:
@@ -78,7 +83,10 @@ const submitCardAdd = (event) => {
 
     const listToAdd = targetCard.parentNode;
     const search = new URLSearchParams(window.location.search)
-    const parentId = search.get("catalog")//targetCard.getAttribute("catalog-id");
+    let parentId = search.get("catalog");
+    if (!parentId){
+        parentId = search.get("serviceId");
+    }
     console.log(parentId)
 
     const addExtra = document.querySelector(".add-extra");
@@ -108,11 +116,20 @@ const submitCardAdd = (event) => {
         infoTmp = {
             //gifLink: video ? URL.createObjectURL(video) : URL.createObjectURL(image),
             mainIconLink: image, 
-            gifLink:image,
+            gifLink:video,
+            gifPreview: video,
             description:description ? description : ".",
             title: title,
         };
-        newCard = showInfoCard(infoTmp);
+        sendToBd = {
+            title: infoTmp.title,
+            description:infoTmp.description,
+            gifPreview: infoTmp.gifPreview,
+            gifLink: infoTmp.gifLink,
+            mainIconLink: infoTmp.mainIconLink,
+            itemId: parentId
+        }
+        newCard = createAndUpdateInfoCard(infoTmp);
     }else{
         if (type === 'catalog') {
             // Создаем объект категории
@@ -165,7 +182,12 @@ const submitCardAdd = (event) => {
             else{
                 console.log("Что-то случилось с информыцией из формы")
             }
-            listToAdd.appendChild(newCard);
+            if (state === "info-cards"){
+                showInfoCard(infoTmp);
+            }
+            else{
+                listToAdd.appendChild(newCard);
+            }
         }
         else{
             targetCard.parentNode.replaceChild(newCard, targetCard);

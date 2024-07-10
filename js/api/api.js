@@ -162,7 +162,7 @@ const updateServiceGifPreview = (id, body) => loadById(Route.UPDATE_SERVICE_GIF_
 const updateServiceDescription = (id, body) => loadById(Route.UPDATE_SERVICE_DESCRIPTION + id + '/description', '', ErrorText.UPDATE_DATA, Method.PUT, body);
 
 //Методы для доп инфы
-const createAddition = (body) => load(Route.CREATE_ADDITION, ErrorText.SEND_DATA, Method.POST, body);
+const createAddition = (body) => fetchForm(Route.CREATE_ADDITION, ErrorText.SEND_DATA, Method.POST, body);
 const deleteAddition = (id) => loadById(Route.DELETE_ADDITION, id, ErrorText.DELETE_DATA, Method.DELETE);
 const removeAdditionIcon = (id) => loadById(Route.REMOVE_ADDITION_ICON + id + '/icon/remove', '', ErrorText.UPDATE_DATA, Method.PUT);
 const updateAdditionTitle = (id, body) => loadById(Route.UPDATE_ADDITION_TITLE + id + '/title', '', ErrorText.UPDATE_DATA, Method.PUT, body);
@@ -175,5 +175,6 @@ const updateAdditionGifPreview = (id, body) => loadById(Route.UPDATE_ADDITION_GI
 
 export { getCategories, getService, getInfoById, getServiceById, getServiceByTitle, getSimilarService, sendData,
   createCategory, deleteCategory, updateCategoryMainIcon, updateCategoryGif, updateCategoryGifPreview, setCategoryParent, removeCategoryChild,
-  createService, deleteService, addServiceCategory
+  createService, deleteService, addServiceCategory,
+  createAddition, deleteAddition,
 };

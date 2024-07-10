@@ -3,7 +3,7 @@ import { createForm, showForm, showEditForm } from "./form.js";
 
 import { getCurState, updateMargin } from "./util.js";
 
-import { deleteCategory, deleteService } from "./api/api.js";
+import { deleteCategory, deleteService, deleteAddition } from "./api/api.js";
 
 const body = document.querySelector("body");
 
@@ -121,7 +121,6 @@ const toggleButtonStateUpdate = ()=> {
         }
     });*/
 
-    // Запускаем событие change, чтобы применить начальное состояние
     toggleCheckbox.dispatchEvent(new Event('change'));
 }
 
@@ -266,12 +265,13 @@ const deleteCard = (type,id)=>{
             deleteService(id)
             break;
 
-        case 'inf':  
-            console.log("C info card Ещё не сделано")
+        case 'info':  
+            //console.log("C info card Ещё не сделано")
+            deleteAddition(id);
             break;
       
         default:
-            console.log("Ошибка с созданием запроса добавления")
+            console.log("Ошибка с созданием запроса удаления")
             break;
       }
 }
