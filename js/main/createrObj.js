@@ -84,10 +84,16 @@ const createRes = (result, clear)=>{
     const template = document.querySelector('#result').content;
     const res = document.importNode(template, true);
     const gif = res.querySelector("video");
+
+    const title = tryJsonParse(result.title, "title");
+    const description = tryJsonParse(result.description, "description");
+    const gifLink = tryJsonParse(result.gifLink, "resVideo");
+
     if (clear !== "true"){
-        gif.src = result.gifLink;//"img/gastrual2.jpg";
+        gif.src = gifLink;//"img/gastrual2.jpg";
         gif.setAttribute("type","video/mp4")
         gif.muted = true;
+        gif.classList.add("result-video");
         gif.play().catch(error => {
             console.log('Autoplay failed:', error);
         });
@@ -99,13 +105,12 @@ const createRes = (result, clear)=>{
     const cardTitle = document.querySelector(".res-title");
     //cardTitle.classList.remove("card-title");
     cardTitle.classList.add("card-title");
-    cardTitle.textContent = result.title; 
+    cardTitle.textContent = title; 
 
     //const textFromBd = iconInsertion(result.description, result.iconLinks);
-    const textFromBd = result.description;
+    const textFromBd = description;
     //разбтиение на подстроки начиная с /n- до /icon
-    const infoCardText = false;
-    insertBlocks(text, textFromBd, result.iconLinks, infoCardText);
+    insertBlocks(text, textFromBd, result.iconLinks);
 
 
     const popup = document.getElementById("popup");
