@@ -465,7 +465,11 @@ const createServiceCard = (service, clearLanguage)=>{
 
         cardButton.appendChild(createVidContainer());
         if (query.includes("query")){
-            const categoryName = getCellNameById(service.categoryId);
+            let categoryName = '';
+            if (!service.categoryId === 0){
+                categoryName = getCellNameById(service.categoryId);
+            }
+           
             var categoryNameSpan = document.createElement('h3');
             categoryNameSpan.classList.add("categoryName")
             categoryNameSpan.textContent = categoryName ;

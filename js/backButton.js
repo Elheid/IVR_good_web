@@ -78,7 +78,14 @@ const updateParamUrl = ()=>{
 const createBackButton = (displayServices)=>{
     backButton.addEventListener('click', ()=> {
         if (!window.location.href.includes("services")){
-            history.back();
+            var breadcrumbs = document.querySelectorAll('.breadcrumb-item a');
+            if (breadcrumbs.length > 0) {
+                var lastBreadcrumb = breadcrumbs[breadcrumbs.length - 1];
+                window.location.href = lastBreadcrumb.href;
+            } else {
+                history.back();
+            }
+            //history.back();
             //hideAlerts();
             //showServices();
         }
