@@ -108,8 +108,13 @@ const createRes = (result, clear)=>{
     const template = document.querySelector('#result').content;
     const res = document.importNode(template, true);
     const gif = res.querySelector("video");
+
+    const title = tryJsonParse(result.title, "title");
+    const description = tryJsonParse(result.description, "description");
+    const gifLink = tryJsonParse(result.gifLink, "resVideo");
+
     if (clear !== "true"){
-        gif.src = result.gifLink;//"img/gastrual2.jpg";
+        gif.src = gifLink;//"img/gastrual2.jpg";
         gif.setAttribute("type","video/mp4")
         gif.muted = true;
         gif.classList.add("result-video");
@@ -124,10 +129,10 @@ const createRes = (result, clear)=>{
     const cardTitle = document.querySelector(".res-title");
     //cardTitle.classList.remove("card-title");
     cardTitle.classList.add("card-title");
-    cardTitle.textContent = result.title; 
+    cardTitle.textContent = title; 
 
     //const textFromBd = iconInsertion(result.description, result.iconLinks);
-    const textFromBd = result.description;
+    const textFromBd = description;
     //разбтиение на подстроки начиная с /n- до /icon
     insertBlocks(text, textFromBd, result.iconLinks);
 
@@ -155,6 +160,7 @@ const infoRes = (info)=>{
 
     const title = tryJsonParse(info.title, "title");
     const description = tryJsonParse(info.description, "description");
+    const gifLink = tryJsonParse(info.gifLink, "resVideo");
     //document.querySelector(".additional-info-res.card-title").classList.add("hidden")
     const text = res.querySelector(".manual-text");
     //text.classList.remove("manual-text");
@@ -170,7 +176,7 @@ const infoRes = (info)=>{
     if (getParamFromURL()[1] == "true"){
         gif.classList.add("hidden");
     }else{
-        gif.src = info.gifLink;
+        gif.src = gifLink;
     }
     
     //text.innerHTML = iconInsertion(info.description, info.iconLinks);
@@ -193,6 +199,9 @@ const createInfoCard = (info)=>{
 
     const imgOrGif = infoCard.querySelector('.info-card-gif');
 
+
+
+
     imgOrGif.src = gifPreview;
     imgOrGif.muted = true;
     cardTitle.textContent = title;
@@ -208,7 +217,7 @@ const createAndUpdateInfoCard = (data)=>{
         card.classList.add("clear-card")
         var img = document.createElement('img');
         img.classList.add('icon-in-card');
-        img.src = data.mainIconLink;
+        img.src = tryJsonParse(data.mainIconLink, "image");;
         card.querySelector(".card-button").appendChild(img);
         const vid = card.querySelector("video");
         vid.classList.add("hidden");

@@ -121,7 +121,7 @@ const toggleButtonStateUpdate = ()=> {
         }
     });*/
 
-    toggleCheckbox.dispatchEvent(new Event('change'));
+    //toggleCheckbox.dispatchEvent(new Event('change'));
 }
 
 const adminButtonClick = ()=>{
@@ -532,10 +532,10 @@ const addAdminPanel = ()=>{
         const container = card.querySelector(".extended-container")
         if (video){
             video.addEventListener('loadeddata', () =>
-                {
-                    updateMargin(card, container);
-                    updateStyleButtonsClearCard(container);
-                })
+            {
+                updateMargin(card, container);
+                updateStyleButtonsClearCard(container);
+            })
         }
     });
     document.addEventListener("DOMContentLoaded", ()=>{

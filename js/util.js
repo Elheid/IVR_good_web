@@ -194,6 +194,13 @@ const updateMargin = (card, container) => {
             editButton.style.marginLeft = `calc(${leftMargin}px)`;
         }
     }
+    const video = card.querySelector("video");
+    if (video){
+        video.addEventListener('loadeddata', () =>
+        {
+            updateMargin(card, container);
+        })
+    }
 };
 
 const getCurState = ()=>{

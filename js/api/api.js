@@ -102,7 +102,7 @@ const loadById = (route, id, errorText, method = Method.GET, body = null) =>
         try {
           return JSON.parse(text);
         } catch (e) {
-          console.error('Error parsing JSON:', e, text);
+          console.log('Error parsing JSON:', e, text);
           //throw new Error('Failed to parse JSON response');
           return;
         }
@@ -185,6 +185,6 @@ const updateAdditionGifPreview = (id, body) => loadById(Route.UPDATE_ADDITION_GI
 
 export { getCategories, getService, getInfoById, getServiceById, getServiceByTitle, getSimilarService, sendData,
   createCategory, deleteCategory, updateCategoryMainIcon, updateCategoryGif, updateCategoryGifPreview, setCategoryParent, removeCategoryChild,
-  createService, deleteService, addServiceCategory, addServiceIcon, updateServiceMainIcon, updateServiceGifPreview,
-  createAddition, deleteAddition, updateAdditionTitle
+  createService, deleteService, addServiceCategory, addServiceIcon, updateServiceMainIcon, updateServiceGifPreview, updateServiceGif, updateServiceDescription,removeServiceCategory,
+  createAddition, deleteAddition, updateAdditionTitle, addAdditionIcon, updateAdditionMainIcon, updateAdditionGifPreview, updateAdditionGif,  updateAdditionDescription,
 };

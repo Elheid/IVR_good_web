@@ -469,3 +469,8 @@ li.service-card.card.hidden {
 section.hidden {
     display: none;
 }
+
+.card-button{
+    justify-content: space-around;
+    height: 100%;
+}

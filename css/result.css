@@ -143,9 +143,8 @@ div.popup{
     /*padding-left: 40px;*/
 }
 .card-button{
-    height: auto;
+ 
     width: 100%;
-    height: auto;
     display: flex;
     flex-direction: column-reverse;
     align-items: center;
