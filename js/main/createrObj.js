@@ -8,7 +8,8 @@ const tryJsonParse = (value, name)=>{
     } catch (e) {
         res =  value;  
     }
-    return res;
+    const undefindCheck = typeof res !== 'undefined';
+    return undefindCheck ? res:value;
 }
 
 const iconInsertion = (textFromBd, iconLinks)=>{
