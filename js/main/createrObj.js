@@ -131,8 +131,12 @@ const infoRes = (info)=>{
     const res = document.importNode(template, true);
     const gif = res.querySelector("video");
     gif.classList.add("result-info-gif");
+    gif.classList.add("result-video");
     gif.muted = true;
 
+    const title = tryJsonParse(info.title, "title");
+    const description = tryJsonParse(info.description, "description");
+    const gifLink = tryJsonParse(info.gifLink, "resVideo");
     //document.querySelector(".additional-info-res.card-title").classList.add("hidden")
     const text = res.querySelector(".manual-text");
     //text.classList.remove("manual-text");
@@ -143,16 +147,20 @@ const infoRes = (info)=>{
     const cardTitle = document.querySelector(".popup-title");
     /*const button = res.querySelector("button");
     button.innerHTML = "";*/
-    cardTitle.textContent = info.title; 
+    
+    cardTitle.textContent = title; 
     if (getParamFromURL()[1] == "true"){
         gif.classList.add("hidden");
     }else{
-        gif.src = info.gifLink;
+        gif.src = gifLink;
     }
     
     //text.innerHTML = iconInsertion(info.description, info.iconLinks);
-    const infoCardText = true;
-    insertBlocks(text, info.description, info.iconLinks, infoCardText);
+    const undefindCheck = typeof description !== 'undefined';
+    const emptyString = description !== "";
+    if ( emptyString && undefindCheck){
+        insertBlocks(text, description, info.iconLinks);
+    }
     return res;
 }
 
@@ -165,9 +173,12 @@ const createInfoCard = (info)=>{
 
     const imgOrGif = infoCard.querySelector('.info-card-gif');
 
-    imgOrGif.src = info.gifPreview;
+    const title = tryJsonParse(info.title, "title");
+    const gifPreview = tryJsonParse(info.gifPreview, "video");
+
+    imgOrGif.src = gifPreview;
     imgOrGif.muted = true;
-    cardTitle.textContent = info.title;
+    cardTitle.textContent = title;
     infoCard.setAttribute("info-id", info.id);
     return infoCard;
 };
