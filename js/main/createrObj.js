@@ -184,8 +184,8 @@ const infoRes = (info)=>{
 const createInfoCard = (info)=>{
     const infoTemplate = document.querySelector('#additional-info').content.querySelector('li');
 
-    title = tryJsonParse(info.title, "title")
-    gifPreview = tryJsonParse(info.gifPreview, "video")
+    const title = tryJsonParse(info.title, "title")
+    const gifPreview = tryJsonParse(info.gifPreview, "video")
 
     const infoCard = document.importNode(infoTemplate, true);
     const cardTitle = infoCard.querySelector('.card-description');
