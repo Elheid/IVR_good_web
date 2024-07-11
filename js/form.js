@@ -341,6 +341,9 @@ const addNewResBlockButton = ()=>{
     const list = document.querySelector(".res-text-parts.list");
     const first = list.children[0];
     const clone = document.importNode(first, true);
+    clone.querySelectorAll("input").forEach((input) => {
+        input.value = "";
+    })
     list.appendChild(clone);
 }
 
