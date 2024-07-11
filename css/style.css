@@ -279,7 +279,7 @@ ul.res-text-parts.list {
     flex-direction: column;
 
     overflow-y: scroll;
-    max-height: 100px;
+    max-height: 120px;
 }
 
 li.res-text-parts.part {
