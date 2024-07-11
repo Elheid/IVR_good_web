@@ -3,13 +3,14 @@ import { getCellNameById, getParamFromURL } from "../util.js";
 
 
 const tryJsonParse = (value, name)=>{
-    let res;
+    let res = '';
     try {
         res = JSON.parse(value)[name];  // Попробуем распарсить как JSON
     } catch (e) {
         res =  value;  
     }
-    return res;
+    const undefindCheck = typeof res !== 'undefined';
+    return undefindCheck ? res:value;
 }
 
 const iconInsertion = (textFromBd, iconLinks)=>{
