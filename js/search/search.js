@@ -28,10 +28,10 @@ const showAlert = (message = NETWORK_MESSAGE) => {
     const alertContainer = createNetworkAlert();
     alertContainer.innerHTML = message + "<img style='width:1.5vw; height:1.5vw;' src='/img/nothSearch.png'>";
   
-    document.body.append(alertContainer);
+    //document.body.append(alertContainer);
   
     setTimeout(() => {
-      alertContainer.remove();
+      //alertContainer.remove();
     }, ALERT_SHOW_TIME);
 };
 
