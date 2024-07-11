@@ -636,8 +636,12 @@ button.search-popup {
 }
 
 .gestural-language .list-of-cards{
-    grid-row-gap: 5%;
+    grid-row-gap: 5em;
 }
+.gestural-language .list-of-cards.catalogs-list{
+    grid-row-gap: 5em;
+}
+
 
 .substrate{
     grid-row: 2;
