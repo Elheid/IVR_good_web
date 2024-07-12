@@ -42,7 +42,7 @@ document.addEventListener('newCardCreated', (event)=>{
   const button = event.detail.card.querySelector(".card-button");
   button.addEventListener('click', ()=>{
     catalogClick(event.detail.card);
-    if (document.querySelector("body").classList.contains("admin")){
+    if (isAdmin()){
       addCadrdSample(document.querySelector('.services-list'));
     }
   });

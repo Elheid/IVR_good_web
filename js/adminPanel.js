@@ -1,7 +1,7 @@
 import { createGastrualSkeleton } from "./main/createrObj.js";
 import { createForm, showForm } from "./form.js";
 
-import { getCurState, updateMargin } from "./util.js";
+import { getCurState, updateMargin, isAdmin } from "./util.js";
 
 import { deleteCategory, deleteService, deleteAddition } from "./api/api.js";
 
@@ -54,7 +54,7 @@ const createAdminButton = () => {
 }
 
 const updateIsAdmin = ()=>{
-    const searchUrl = window.location.search;
+    /*const searchUrl = window.location.search;
     const curState = new URLSearchParams(searchUrl).get("admin");
     if (curState === "true"){
         if(!body.classList.contains("admin")){
@@ -65,7 +65,7 @@ const updateIsAdmin = ()=>{
         if(body.classList.contains("admin")){
             body.classList.remove("admin")
         }
-    }
+    }*/
 }
 
 const updateURL = ()=>{
@@ -84,7 +84,7 @@ const updateURL = ()=>{
         searchParams.append('admin', isAdmin);
     }*/
     //searchParams.set('admin', isAdmin);
-    const curState = new URLSearchParams(searchUrl).get("admin");
+    /*const curState = new URLSearchParams(searchUrl).get("admin");
     if (window.location.search.includes(paramName)) {
         if (curState === isAdmin){
             history.replaceState({}, '', searchUrl);
@@ -95,7 +95,7 @@ const updateURL = ()=>{
     } else {
         history.pushState({}, '', window.location.pathname + searchUrl + `&${paramName}=${isAdmin}`);
         // Вы можете добавить ваш параметр здесь
-    }
+    }*/
     // Обновляем URL без перезаписи других параметров
     /*const newUrl = `${window.location.pathname}?${window.location.search}`;
     history.pushState({ admin: isAdmin }, '', newUrl);*/
@@ -106,7 +106,9 @@ const toggleButtonStateUpdate = ()=> {
     const toggleCheckbox = document.getElementById('toggle');
 
     // Устанавливаем начальное состояние чекбокса в зависимости от класса admin у body
-    if (body.classList.contains('admin')) {
+    //console.log("func"+isAdmin())
+    //console.log("actual" + localStorage.getItem("isAdmin"))
+    if (isAdmin()) {
         toggleCheckbox.checked = true;
     } else {
         toggleCheckbox.checked = false;
@@ -124,22 +126,70 @@ const toggleButtonStateUpdate = ()=> {
     //toggleCheckbox.dispatchEvent(new Event('change'));
 }
 
-const adminButtonClick = ()=>{
-    body.classList.toggle("admin")
-    updateURL();
-    toggleAdminExtra();
-    toggleButtonStateUpdate();
-    toggleEditResButtons();
-   /* if (!body.classList.contains("admin")){
-        deleteExtraButtons();
+const adminUpdate = ()=>{
+    const toggleCheckbox = document.getElementById('toggle');
+    
+    if (isAdmin()){
+        addAdminExtra();
+        resAddEditButtons();
+        toggleCheckbox.checked = true;
     }
     else{
-        addAdminButtonsToCards();
-    }*/
-    
-    if (!body.classList.contains("admin")){
-        //document.removeEventListener('click', adminButtonClick);
+        removeAdminExtra();
+        toggleCheckbox.checked = false;
+        resDeleteEditButtons();
     }
+}
+
+const adminButtonClick = ()=>{
+    const admin = localStorage.getItem("isAdmin");
+    const undefindCheck = typeof admin !== 'undefined';
+    const toggleCheckbox = document.getElementById('toggle');
+
+    if (!undefindCheck && !toggleCheckbox.checked){
+        localStorage.setItem("isAdmin", false);
+    }
+    else if (undefindCheck && !isAdmin()){
+        localStorage.setItem("isAdmin", true);
+    }
+    else{
+        localStorage.setItem("isAdmin", false);
+    }
+    console.log(localStorage.getItem("isAdmin"))
+    adminUpdate();
+    
+    /*if (!prevClickAddAdmin && !undefindCheck){
+        localStorage.setItem("isAdmin", true);
+        prevClickAddAdmin = true
+    }
+    else{
+        localStorage.setItem("isAdmin", false);
+        prevClickAddAdmin = false
+    }
+
+    if (localStorage.getItem("isAdmin")){
+        localStorage.setItem("isAdmin", true);
+        body.classList.add("admin")
+    }
+    else{
+        localStorage.setItem("isAdmin", false);
+        body.classList.remove("admin")
+    }*/
+    updateURL();
+    //toggleAdminExtra();
+    /*
+    if (localStorage.getItem("isAdmin") !== "true"){
+        addAdminExtra();
+        resAddEditButtons();
+        toggleCheckbox.checked = true;
+    }
+    else{
+        removeAdminExtra();
+        toggleCheckbox.checked = false;
+        resDeleteEditButtons();
+    }*/
+    //toggleButtonStateUpdate();
+    //toggleEditResButtons();
 }
 const deleteExtraButtons = (card)=>{
     const container = card.querySelector(".extended-container");
@@ -189,7 +239,7 @@ const updateStyleButtonsClearCard = (container)=>{
 
 
 const addAdminButtonsToCards = ()=>{
-    if(body.classList.contains("admin")){
+    if(isAdmin()){
         const lists = document.querySelectorAll(".list-of-cards:not(.sceleton-list)");
         for(var i = 0; i < lists.length; i++){
             const cards = lists[i].children;
@@ -202,11 +252,42 @@ const addAdminButtonsToCards = ()=>{
     }
 }
 
+const addAdminExtra = ()=>{
+    const lists = document.querySelectorAll(".list-of-cards:not(.sceleton-list)");
+    for(var i = 0; i < lists.length; i++){
+        const cards = lists[i].children;
+        if (isAdmin()){
+            addCadrdSample(lists[i]);
+        }
+        if (cards.length > 0){
+            for(var j = 0; j < cards.length; j++){
+                extraButtonsUpdate(cards[j])
+            }
+
+        }
+    }
+}
+const removeAdminExtra = ()=>{
+    const lists = document.querySelectorAll(".list-of-cards:not(.sceleton-list)");
+    for(var i = 0; i < lists.length; i++){
+        const cards = lists[i].children;
+        if (!isAdmin()){
+            deleteCadrdSample(lists[i]);
+        }
+        if (cards.length > 0){
+            for(var j = 0; j < cards.length; j++){
+                extraButtonsUpdate(cards[j])
+            }
+
+        }
+    }
+}
+/*
 const toggleAdminExtra = ()=>{
     const lists = document.querySelectorAll(".list-of-cards:not(.sceleton-list)");
     for(var i = 0; i < lists.length; i++){
         const cards = lists[i].children;
-        if (body.classList.contains("admin")){
+        if (localStorage.getItem("isAdmin") !== "true"){
             addCadrdSample(lists[i]);
         }
         else{
@@ -220,10 +301,10 @@ const toggleAdminExtra = ()=>{
         }
     }
     
-}
+}*/
 
 const extraButtonsUpdate = (card)=>{
-    if (!body.classList.contains("admin")){
+    if (!isAdmin()){
         deleteExtraButtons(card);
 
         //deleteCadrdSample(lists[i]);
@@ -524,14 +605,15 @@ const resAddEditButtons = ()=>{
     elementsToEdit.forEach((elemet)=>editResElement(elemet.element, elemet.name))
 }
 
+/*
 const toggleEditResButtons = ()=>{
-    if (body.classList.contains("admin")){
+    if (localStorage.getItem("isAdmin") !== "true"){
         resAddEditButtons();
     }
     else{
         resDeleteEditButtons();
     }
-}
+}*/
 
 const addButtons = ()=>{
     let adminButton = document.querySelector(".admin-button");
@@ -564,9 +646,10 @@ const addAdminPanel = ()=>{
         }
     });
     document.addEventListener("DOMContentLoaded", ()=>{
-        if (window.location.search.indexOf("admin=true") > 0){
-            adminButtonClick();
-        }
+        //if (localStorage.getItem("isAdmin") !== "true"){
+            //adminButtonClick();
+        //}
+        adminUpdate();
     })
 
 
@@ -578,4 +661,4 @@ const addAdminPanel = ()=>{
     }*/
 }
 
-export {addAdminPanel, addAdminButtonsToCards, addCadrdSample, extraButtonsUpdate, adminButtonClick, toggleEditResButtons, toggleButtonStateUpdate}
+export {addAdminPanel, addAdminButtonsToCards, addCadrdSample, extraButtonsUpdate, adminButtonClick, adminUpdate}

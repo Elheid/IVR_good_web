@@ -208,7 +208,12 @@ const getCurState = ()=>{
     return (urlParams.match('serviceId'))? 'info-cards' : (urlParams.match('catalog')) ? 'services-list' :  'catalogs-list';
 }
 
+const isAdmin = ()=>{
+    return window.localStorage.getItem("isAdmin") === "true"
+}
+
+
 export {/*createCatalog, createService, createInfo, getAllServices,*/
      getCellById, getCatalogId, getCellNameById,
     equalizeSubtitles, getParamFromURL, equalizeIconContainers, getCatalogsId,
-    updateMargin, updateMarginButtonsOnList, getCurState};
+    updateMargin, updateMarginButtonsOnList, getCurState, isAdmin};

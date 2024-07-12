@@ -1,5 +1,6 @@
-import { extraButtonsUpdate, toggleEditResButtons } from "./adminPanel.js";
+import { extraButtonsUpdate } from "./adminPanel.js";
 import { createAndUpdateInfoCard, infoRes } from "./main/createrObj.js";
+
 
 const changeColorOfAddCard = ()=>{
     if (document.querySelector(".card-to-add")){
@@ -60,7 +61,7 @@ const showAdditionalInfo = (temp)=>{
 
     container.appendChild(div);
 
-    toggleEditResButtons();
+    //toggleEditResButtons();
     const buttons = document.querySelectorAll(".edit-element-button");
     buttons.forEach(button =>{
         if (button.classList.contains("hidden")){
@@ -102,7 +103,7 @@ const showInfoCard = (infoTmp)=>{
     addOpenResultButton(infoTmp, card)
     const list = document.querySelector(".info-cards");
     list.appendChild(card);
-    if (document.querySelector("body").classList.contains("admin")){
+    if (localStorage.getItem("isAdmin") === "true"){
         extraButtonsUpdate(card); 
     }
     //changeColorOfAddCard();

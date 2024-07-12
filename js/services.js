@@ -3,11 +3,12 @@ import { hideCatalogs} from "./renderCatalogs.js";
 import { createServiceCard } from "./main/createrObj.js";
 import { getService } from "./api/api.js";
 import { addHeader, addHeaderForSearch, removeSearchHeader} from "./headers.js";
-import { getCellById, getCatalogId, getCellNameById, equalizeSubtitles } from "./util.js";
+import { getCellById, getCatalogId, getCellNameById, equalizeSubtitles, isAdmin } from "./util.js";
 import { addPlayVidButton } from "./vidPlayButton.js";
 import { hideSkeletonsAndReplace, addSkeletons, updateSkeletonElementCount } from './skeletons/skeleton.js';
 
 import { addAdminButtonsToCards, addCadrdSample } from "./adminPanel.js";
+
 
 const blank = "";
 
@@ -58,13 +59,13 @@ const loadServices = (catalogId)=>
         addPlayVidButton();
         
         addAdminButtonsToCards();
-        if (document.querySelector("body").classList.contains("admin")){
+        if (isAdmin()){
           addCadrdSample(document.querySelector('.services-list'));
         }
       })
       .catch((err)=>{ 
         console.log("Ошибка загрузки услуг или их нет "+err);
-        if (document.querySelector("body").classList.contains("admin")){
+        if (isAdmin()){
           addCadrdSample(document.querySelector('.services-list'));
         }
       });
@@ -107,7 +108,7 @@ const showSearchedServices = (services, query)=>{
   addPlayVidButton();
 
   addAdminButtonsToCards();
-  if (document.querySelector("body").classList.contains("admin")){
+  if (isAdmin()){
     addCadrdSample(document.querySelector('.services-list'));
   }
 }

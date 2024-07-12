@@ -477,7 +477,7 @@ const createServiceCard = (service, clearLanguage)=>{
         cardButton.appendChild(createVidContainer());
         if (query.includes("query")){
             let categoryName = '';
-            if (!service.categoryId === 0){
+            if (service.categoryId !== 0){
                 categoryName = getCellNameById(service.categoryId);
             }
            
@@ -555,10 +555,8 @@ const createServiceCard = (service, clearLanguage)=>{
     const detaHTML = data.outerHTML;
     saveData(detaHTML);
 
-    const isAdmin = document.querySelector("body").classList.contains("admin");
-
     window.location.href = `result.html?serviceId=${encodeURIComponent(serviceId)}&language=${encodeURIComponent(
-    language.classList.contains('clear-language'))}&admin=${isAdmin}&`;
+    language.classList.contains('clear-language'))}&`;
 
     })
 

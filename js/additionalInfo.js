@@ -6,6 +6,7 @@ import { vidPlayIfIntersect } from "./vidPlayButton.js";
 import { addCadrdSample } from "./adminPanel.js";
 
 import { showInfoCard, removeAdditionalInfo, returnInfoCards, changeColorOfAddCard } from "./showInfo.js";
+import { isAdmin } from "./util.js";
 
 const getIsClear = (isClear)=>{
     return isClear;
@@ -36,7 +37,7 @@ const showInfoPopup = ()=>{
     if (document.querySelector(".info-cards").classList.contains("hidden")){
         document.querySelector(".info-cards").classList.remove("hidden")
     }
-    if (document.querySelector("body").classList.contains("admin")){
+    if (isAdmin()){
         addCadrdSample(document.querySelector('.info-cards'));
         changeColorOfAddCard();
     }

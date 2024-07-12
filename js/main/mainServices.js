@@ -39,7 +39,7 @@ const loadCategories = async () => {
         initializeResults(data);
         addCatalogButton(searchResult);
         addPlayVidButton();
-        if (window.location.search.indexOf("admin=true") > 0){
+        if (localStorage.getItem("isAdmin") === "true"){
           addAdminButtonsToCards();
       }
       })

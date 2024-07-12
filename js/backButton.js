@@ -60,32 +60,32 @@ const backButton = document.querySelector(".return-button");
 
 const updateParamUrl = ()=>{
     const searchParams = new URLSearchParams(window.location.search);
-    let paramName = 'admin';
+    let paramName = 'catalog';
     const paramState = searchParams.get(paramName);
     
 
     // Проверка, содержит ли путь параметр
     if (window.location.pathname.includes(paramName)) {
-        console.log(`Параметр '${paramName}' уже существует в пути.`);
+        //console.log(`Параметр '${paramName}' уже существует в пути.`);
         history.replaceState({}, '', window.location.pathname);
     } else {
-        console.log(`Параметр '${paramName}' не существует в пути.`);
-        history.replaceState({}, '', window.location.pathname + `?${paramName}=${paramState}`);
+        //console.log(`Параметр '${paramName}' не существует в пути.`);
+        history.replaceState({}, '', window.location.pathname);
         // Вы можете добавить ваш параметр здесь
-    }
+    } 
 }
 
 const createBackButton = (displayServices)=>{
     backButton.addEventListener('click', ()=> {
         if (!window.location.href.includes("services")){
-            var breadcrumbs = document.querySelectorAll('.breadcrumb-item a');
+            /*var breadcrumbs = document.querySelectorAll('.breadcrumb-item a');
             if (breadcrumbs.length > 0) {
                 var lastBreadcrumb = breadcrumbs[breadcrumbs.length - 1];
                 window.location.href = lastBreadcrumb.href;
             } else {
                 history.back();
-            }
-            //history.back();
+            }*/
+            history.back();
             //hideAlerts();
             //showServices();
         }
