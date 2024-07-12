@@ -387,6 +387,10 @@ const addNewResBlockButton = ()=>{
         input.value = "";
         input.textContent = "";
     })
+    clone.querySelectorAll("input").forEach((input) => {
+        input.value = "";
+        input.textContent = "";
+    })
     list.appendChild(clone);
 }
 
