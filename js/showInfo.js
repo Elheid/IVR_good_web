@@ -30,7 +30,6 @@ const addOpenResultButton = (data, card)=>{
 ////info card
 
 const showAdditionalInfo = (temp)=>{
-    returnPopupTitle();
     const info= infoRes(temp);
     const container = document.querySelector(".additional-info-res")
 
@@ -98,11 +97,14 @@ const hideInfoCards =()=>{
 }
 
 const showInfoCard = (infoTmp)=>{
+    returnPopupTitle();
     const card = createAndUpdateInfoCard(infoTmp);
     addOpenResultButton(infoTmp, card)
     const list = document.querySelector(".info-cards");
     list.appendChild(card);
-    extraButtonsUpdate(card);
+    if (document.querySelector("body").classList.contains("admin")){
+        extraButtonsUpdate(card); 
+    }
     //changeColorOfAddCard();
 }
 
