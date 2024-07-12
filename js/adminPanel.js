@@ -155,7 +155,7 @@ const adminButtonClick = ()=>{
     else{
         localStorage.setItem("isAdmin", false);
     }
-    console.log(localStorage.getItem("isAdmin"))
+    //console.log(localStorage.getItem("isAdmin"))
     adminUpdate();
     
     /*if (!prevClickAddAdmin && !undefindCheck){
@@ -193,7 +193,7 @@ const adminButtonClick = ()=>{
 }
 const deleteExtraButtons = (card)=>{
     const container = card.querySelector(".extended-container");
-    container.remove();
+    if (container) container.remove();
 }
 
 const addAdminButtonsEvent = (card)=>{
@@ -465,13 +465,27 @@ const addCadrdSample = (list)=>{
         }
     }*/
 
-    const hasClass = list.querySelector('.card-to-add') !== null;
+    const alreadyHas = list.querySelector('.card-to-add') !== null;
     const notInfoCards = (list.children.length === 0 && state !== "info-cards");
-    const notServicesWhileCatalogs = (list.children.length === 0 && state === "catalogs-list");
+    const hollowServicesWhileCatalogs = (list.children.length === 0 && state === "catalogs-list");
     const hollowCategory = (list.children.length === 0 && state === "services-list");
-    if ((hasClass || (notInfoCards || notServicesWhileCatalogs)) && !hollowCategory){
+    if (alreadyHas){
         return;
     }
+    if (hollowServicesWhileCatalogs){
+        return
+    }
+    if (!hollowCategory && (notInfoCards)){
+        return;
+    }
+    if (hollowCategory){
+        list.classList.remove("hidden");
+        list.parentNode.classList.remove("hidden");
+    }
+
+   /* if ((alreadyHas || (notInfoCards || notServicesWhileCatalogs)) && !hollowCategory){
+        return;
+    }*/
     const isClear = list.parentNode.classList.contains("clear-language");
     const fragmentToAppend = createGastrualSkeleton(1, isClear);
     //if (list.classList.contains(state)){

@@ -103,7 +103,7 @@ const loadById = (route, id, errorText, method = Method.GET, body = null) =>
         try {
           return JSON.parse(text);
         } catch (e) {
-          console.log('Error parsing JSON:', e, text);
+          //console.log('Error parsing JSON:', e, text);
           //throw new Error('Failed to parse JSON response');
           return;
         }

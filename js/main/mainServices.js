@@ -10,7 +10,7 @@ import { addSkeletons, updateSkeletonElementCount } from '../skeletons/skeleton.
 //import { equalizeIconContainers } from '../util.js';
 import { createHomeReturner } from '../returnHome.js';
 
-import { addAdminPanel, addAdminButtonsToCards } from '../adminPanel.js';
+import { addAdminPanel, addAdminButtonsToCards, adminUpdate } from '../adminPanel.js';
 
 import { loadServices } from '../services.js';
 
@@ -39,9 +39,10 @@ const loadCategories = async () => {
         initializeResults(data);
         addCatalogButton(searchResult);
         addPlayVidButton();
-        if (localStorage.getItem("isAdmin") === "true"){
+        adminUpdate();
+        /*if (localStorage.getItem("isAdmin") === "true"){
           addAdminButtonsToCards();
-      }
+        }*/
       })
       .catch((err)=> console.log(err));
 };
