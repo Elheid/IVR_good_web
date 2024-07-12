@@ -18,7 +18,8 @@ const iconInsertion = (textFromBd, iconLinks)=>{
     // Массив для сохранения найденных значений
 
     const replacedText =  textFromBd.replace(iconRegex, (match, p1) => {
-    return `<img class="icons" src="${iconLinks[Number(p1)]}" alt="icon${p1}">`;
+        let icon = tryJsonParse(iconLinks[Number(p1)],"link");
+    return `<img class="icons" src="${icon}" alt="icon${p1}">`;
     });
     // Вставка результата в <pre> элемент
     return replacedText;
