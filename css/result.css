@@ -235,6 +235,7 @@ div#popup{
     top: 0%;
     padding-top: 2vw;
     background: white;
+    z-index: 20;
 }
 
 .popup-title{
@@ -496,7 +497,7 @@ img.arrow{
     color: black;
     background: white;
     border-radius: 50px;
-    z-index: 997;
+    z-index: 20;
 }
 
 

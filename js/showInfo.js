@@ -19,7 +19,8 @@ const addOpenResultButton = (data, card)=>{
         gifLink: data.gifLink,
         description:data.description,
         title:data.title,
-        iconLinks:data.iconLinks
+        iconLinks:data.iconLinks,
+        id: data.id,
     }
     const nextButton = card.querySelector(".card-button");
     nextButton.addEventListener("click", (evt)=>{
@@ -29,7 +30,7 @@ const addOpenResultButton = (data, card)=>{
 ////info card
 
 const showAdditionalInfo = (temp)=>{
-    
+    returnPopupTitle();
     const info= infoRes(temp);
     const container = document.querySelector(".additional-info-res")
 

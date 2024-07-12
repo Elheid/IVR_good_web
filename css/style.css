@@ -470,6 +470,10 @@ section.hidden {
     display: none;
 }
 
+aside.hidden{
+    display: none;
+}
+
 .card-button{
     justify-content: space-around;
     height: 100%;

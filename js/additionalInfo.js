@@ -39,8 +39,9 @@ const showInfoPopup = ()=>{
     if (document.querySelector("body").classList.contains("admin")){
         addCadrdSample(document.querySelector('.info-cards'));
         changeColorOfAddCard();
-      }
+    }
 }
+
 const closeInfoPopup = ()=>{
     closePopup();
     removeInfoCards();

@@ -1,5 +1,5 @@
 import { createGastrualSkeleton } from "./main/createrObj.js";
-import { createForm, showForm, showEditForm } from "./form.js";
+import { createForm, showForm } from "./form.js";
 
 import { getCurState, updateMargin } from "./util.js";
 
@@ -462,16 +462,41 @@ const createEditElementBitton = ()=>{
     return button;
 }
 
+const toggleElements = (name) => {
+    // Hide all conditional elements
+    document.querySelectorAll('.conditional').forEach(el => el.classList.add('hidden'));
+    document.querySelectorAll('.reduced').forEach(el => el.classList.add('hidden'));
+
+    
+    document.querySelectorAll('#type').forEach(el => el.removeAttribute("required"));
+    document.querySelectorAll('[for="title"], #title').forEach(el => el.removeAttribute("required"));
+    // Show elements based on name
+    if (name === 'title') {
+      document.querySelectorAll('[for="title"], #title').forEach(el => el.classList.remove('hidden'));
+    } else if (name === 'video') {
+      document.querySelectorAll('[for="resVideo"], #resVideo').forEach(el => el.classList.remove('hidden'));
+    } else if (name === 'description') {
+      document.querySelectorAll('aside.res-text-parts').forEach(el => el.classList.remove('hidden'));
+    }
+  }
+
+
 const editResClick = (name)=>{
     console.log("edit  " + name);
-    showEditForm();
+    toggleElements(name);
+    showForm();
 }
+
 
 const editResElement = (elemet, name)=>{
     const button = createEditElementBitton();
     button.addEventListener("click", ()=>{
-        editResClick(name);
+        editResClick(name, elemet);
     });
+    const resTitle = elemet.classList.contains("res-title");
+    if(resTitle){
+        button.classList.add("hidden");
+    }
     if(elemet.classList.contains("title")){
         if (elemet.classList.contains("popup-title")){
             button.classList.add("hidden");

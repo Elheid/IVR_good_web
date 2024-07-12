@@ -30,6 +30,7 @@ const Route = {
   UPDATE_SERVICE_GIF: 'items/',
   UPDATE_SERVICE_GIF_PREVIEW: 'items/',
   UPDATE_SERVICE_DESCRIPTION: 'items/',
+  CLEAR_SERVICE_ICONS: 'items/',
 
 
   CREATE_ADDITION: 'additions',
@@ -113,31 +114,6 @@ const loadById = (route, id, errorText, method = Method.GET, body = null) =>
 });
 
 
-/*
-const loadToSearch = ( title, errorText, method = Method.GET, body = null) =>
-  fetch(`${BASE_URL}items/search?title=${title}`, {method, body})
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error();
-      }
-      return response.json();
-    })
-    .catch(() => {
-      loadToSearchSimilar(title);
-});
-
-const loadToSearchSimilar = (title, errorText, method = Method.GET, body = null) =>
-  fetch(`${BASE_URL}items/search/similar?title=${title}`, {method, body})
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error();
-      }
-      return response.json();
-    })
-    .catch(() => {
-      throw new Error(errorText);});
-*/
-
 const getCategories= () => load(Route.GET_CATEGORY, ErrorText.GET_DATA);
 const getService= (id) => loadById(Route.GET_SERVICES, id, ErrorText.GET_DATA);
 const getServiceById= (id) => loadById(Route.GET_SERVICE_BY_ID, id, ErrorText.GET_DATA);
@@ -170,6 +146,8 @@ const addServiceIcon = (id, body) => loadById(Route.ADD_SERVICE_ICON + id + '/ic
 const updateServiceGif = (id, body) => loadById(Route.UPDATE_SERVICE_GIF + id + '/gif', '', ErrorText.UPDATE_DATA, Method.PUT, body);
 const updateServiceGifPreview = (id, body) => loadById(Route.UPDATE_SERVICE_GIF_PREVIEW + id + '/gif-preview', '', ErrorText.UPDATE_DATA, Method.PUT, body);
 const updateServiceDescription = (id, body) => loadById(Route.UPDATE_SERVICE_DESCRIPTION + id + '/description', '', ErrorText.UPDATE_DATA, Method.PUT, body);
+const clearServiceIcons = (id) => loadById(Route.CLEAR_SERVICE_ICONS + id + '/clear-icons', '', ErrorText.UPDATE_DATA, Method.PUT);
+
 
 //Методы для доп инфы
 const createAddition = (body) => fetchForm(Route.CREATE_ADDITION, ErrorText.SEND_DATA, Method.POST, body);
@@ -185,6 +163,6 @@ const updateAdditionGifPreview = (id, body) => loadById(Route.UPDATE_ADDITION_GI
 
 export { getCategories, getService, getInfoById, getServiceById, getServiceByTitle, getSimilarService, sendData,
   createCategory, deleteCategory, updateCategoryMainIcon, updateCategoryGif, updateCategoryGifPreview, setCategoryParent, removeCategoryChild,
-  createService, deleteService, addServiceCategory, addServiceIcon, updateServiceMainIcon, updateServiceGifPreview, updateServiceGif, updateServiceDescription,removeServiceCategory,
+  createService, deleteService, addServiceCategory, addServiceIcon, updateServiceMainIcon, updateServiceGifPreview, updateServiceGif, updateServiceDescription,removeServiceCategory, clearServiceIcons,
   createAddition, deleteAddition, updateAdditionTitle, addAdditionIcon, updateAdditionMainIcon, updateAdditionGifPreview, updateAdditionGif,  updateAdditionDescription,
 };

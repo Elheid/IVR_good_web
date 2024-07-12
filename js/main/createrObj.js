@@ -161,6 +161,8 @@ const infoRes = (info)=>{
     const title = tryJsonParse(info.title, "title");
     const description = tryJsonParse(info.description, "description");
     const gifLink = tryJsonParse(info.gifLink, "resVideo");
+
+    document.querySelector(".additional-info-res").classList.add(info.id)
     //document.querySelector(".additional-info-res.card-title").classList.add("hidden")
     const text = res.querySelector(".manual-text");
     //text.classList.remove("manual-text");
