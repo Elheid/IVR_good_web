@@ -257,7 +257,7 @@ const createVidContainer = ()=>{
     return videoOverlay;
 }
 
-const createClarLangCard = (cardParent, title, count, iconGif)=>{
+const createClarLangCard = (cardParent, title, count, iconGif, word = "услуг: ")=>{
 
     title = tryJsonParse(title, "title")
     iconGif = tryJsonParse(iconGif, "image")
@@ -383,7 +383,7 @@ const createClarLangCard = (cardParent, title, count, iconGif)=>{
     if(cardParent.classList.contains("catalog-card")){
         var countServices = document.createElement('p');
         countServices.classList.add('count-services');
-        countServices.textContent = count + " услуг";
+        countServices.textContent = word + count;
         cardFooter.appendChild(countServices);
     }
 
@@ -454,7 +454,7 @@ const createCatalogCard = (catalog, clearLanguage)=>{
         }
         if (mainIcon.length != 0){
             if (catalog.childrenCategoryIds && catalog.childrenCategoryIds .length !== 0){
-                var clearCard = createClarLangCard(cardCatalog, title, catalog.childrenCategoryIds.length, mainIcon);
+                var clearCard = createClarLangCard(cardCatalog, title, catalog.childrenCategoryIds.length, mainIcon, "подкатегорий: ");
                 cardCatalog = (clearCard);
             }else{
                 var clearCard = createClarLangCard(cardCatalog, title, catalog.itemsInCategoryIds.length, mainIcon);
