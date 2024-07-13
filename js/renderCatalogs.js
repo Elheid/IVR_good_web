@@ -160,6 +160,7 @@ const returnState = (searchResult)=>{
           const listSubCategory = matchingElement.querySelector(".sub-catalogs-list");
           listSubCategory.classList.remove("hidden");
         }else{
+          addHeader(idSubCatalog);
           showServices(getCellById(stateString));
         }
       }
