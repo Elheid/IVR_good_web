@@ -438,18 +438,23 @@ const equalizeSampleHeight = ()=>{
         
         cards.forEach((cardInCards)=> {
         const card = cardInCards.querySelector(".card-button");
-        if (card.offsetHeight > maxHeight) {
-            maxHeight = card.offsetHeight;
+        if (card){
+            if (card.offsetHeight > maxHeight) {
+                maxHeight = card.offsetHeight;
+            }
+            if (card.offsetWidth > maxWidth) {
+                maxWidth = card.offsetWidth
+            }
         }
-        if (card.offsetWidth > maxWidth) {
-            maxWidth = card.offsetWidth
-        }});
+        });
     
 
-        cardToAdd.style.height = maxHeight > 300 ? "fit-content" :maxHeight + 'px';
-        cardToAdd.style.width = maxWidth + 'px';
-        if (cardToAdd.querySelector(".gif")){
-            cardToAdd.querySelector(".gif").style.width = maxWidth + 'px';
+        if (!cardToAdd.parentNode.parentNode.classList.contains("hidden")){
+            cardToAdd.style.height = maxHeight > 300 ? "fit-content" :maxHeight + 'px';
+            cardToAdd.style.width = maxHeight < 100 ? "fit-content" : maxWidth + 'px';
+            if (cardToAdd.querySelector(".gif")){
+                cardToAdd.querySelector(".gif").style.width = maxWidth + 'px';
+            }
         }
     }
 }
@@ -469,6 +474,11 @@ const addCadrdSample = (list)=>{
     const notInfoCards = (list.children.length === 0 && state !== "info-cards");
     const hollowServicesWhileCatalogs = (list.children.length === 0 && state === "catalogs-list");
     const hollowCategory = (list.children.length === 0 && state === "services-list");
+    const subCategory = document.querySelector(".sub-catalogs-list");
+    let subCategories = false;
+    if (subCategory){
+        subCategories = ((!subCategory.classList.contains("hidden")) && state === "services-list" && list.classList.contains(state))
+    }
     if (alreadyHas){
         return;
     }
@@ -478,11 +488,13 @@ const addCadrdSample = (list)=>{
     if (!hollowCategory && (notInfoCards)){
         return;
     }
+    if (subCategories){
+        return;
+    }
     if (hollowCategory){
         list.classList.remove("hidden");
         list.parentNode.classList.remove("hidden");
     }
-
    /* if ((alreadyHas || (notInfoCards || notServicesWhileCatalogs)) && !hollowCategory){
         return;
     }*/
@@ -491,7 +503,8 @@ const addCadrdSample = (list)=>{
     //if (list.classList.contains(state)){
         fragmentToAppend.firstElementChild.classList.add("card-to-add");
         fragmentToAppend.firstElementChild.removeAttribute("catalog-id");
-        fragmentToAppend.firstElementChild.querySelector(".card-button").classList.remove("skeleton-substrate")
+        fragmentToAppend.firstElementChild.querySelector(".card-button").classList.remove("skeleton-substrate");
+        fragmentToAppend.firstElementChild.querySelector(".card-button").classList.replace("card-button","cardButton-to-add")
         if(fragmentToAppend.firstElementChild.querySelector(".gif")){
             fragmentToAppend.firstElementChild.querySelector(".gif").style = "animation: none;"
         }

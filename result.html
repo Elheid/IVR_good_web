@@ -47,26 +47,37 @@
 
         <div id="card-form-container" class="hidden">
           <form id="card-form">
-            <section  class="common-card">
             <div class="close-form"><img src="img/close.jpg" width="32px" height="30px"></div>
-              <label for="type" class="parent-existence reduced">Родительская карточка</label>
+            <section class="parent-choose">
+
+              <!--<select id="card-transfer" name="card-transfer" class="hidden">
+                <option value="service">Нет</option>
+                <option value="category">Да</option>
+              </select>-->
+              
               <!--<select id="type" name="type" required>
                   <option value="service">Есть</option>
                   <option value="category">Нет</option>
               </select>-->
+              <label for="card-transfer" class="parent-existence reduced hidden">Переместить карточку</label>
               <div class="parent-existence reduced">
-                <input class="add-extra" type="radio" id="type" name="drone" value="service" name="type" required/>
-                <label for="type">Есть</label>
+                <input class="add-extra" type="radio" id="type" name="drone" value="service" name="type"/>
+                <label for="type">Нет</label>
               </div>
               <div class="parent-existence reduced">
-                <input class="hide-extra" type="radio" id="type" name="drone" value="category" name="type" required/>
-                <label for="type">Нет</label>
+                <input class="hide-extra" type="radio" id="type" name="drone" value="category" name="type"/>
+                <label for="type">Да</label>
               </div>
   
               <label class="reduced" for="parent-id" id="parent-id-label" class="hidden">Родительская карточка:</label>
               <select class="reduced" id="parent-id" name="parent-id" class="hidden">
                   <option value="1">Card Title 1</option>
               </select>
+            </section>
+            <section  class="common-card">
+          
+
+              
   
               <label for="title" class="conditional">Название карточки:</label>
               <input type="text" id="title" name="title" class="conditional" required>
@@ -78,6 +89,9 @@
   
               <label class="conditional" for="video" >Видео для превью:</label>
               <input class="conditional" type="text" id="video" name="video" accept="video/*">
+
+              <input class="reduced" type="file" id="fileInput">
+              <div class="upload-file reduced">Upload</div>
 
             </section>
           <section class="res-card">

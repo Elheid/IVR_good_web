@@ -255,6 +255,33 @@ li.newAdd .gif::before, .black-plus .skeleton-content::before {
     color: #bba8a8;
 }
 
+.gestural-language .cardButton-to-add {
+    width: 100%;
+    /* width: 100%; */
+    padding: 0;
+    height: auto;
+    /* border: 2px solid #623B2A; */
+    border: 2px solid #895b3e;
+    border-radius: 20px;
+    /* background-color: #6f402a; */
+    /* background: linear-gradient(45deg, #6f402a, #c39367); */
+    /* background: #c39367; */
+    background: #a77259;
+    /* box-shadow: 6px 4px 0px #00000026; */
+    box-shadow: 6px 4px 3px #0000001c;
+}
+.clear-card .cardButton-to-add {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    min-height: 6vw;
+    justify-content: space-around;
+    height: 100%;
+}
+
+
 .card-to-add .gif::before, .card-to-add .skeleton-content::before {
     content: '+';
     
@@ -293,6 +320,14 @@ section.res-card {
 
     display: flex;
     flex-direction: column;
+}
+section.parent-choose {
+    width: min-content;
+    align-self: center;
+}
+section.common-card {
+    width: min-content;
+    align-self: center;
 }
 
 aside.res-text-parts {
@@ -463,6 +498,9 @@ button{
     cursor: pointer;
 }
 li.service-card.card.hidden {
+    display: none;
+}
+li.catalog-card.card.hidden {
     display: none;
 }
 

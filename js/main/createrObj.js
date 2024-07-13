@@ -285,8 +285,15 @@ const createClarLangCard = (cardParent, title, count, iconGif)=>{
         //const svgElement = document.querySelector('svg');
         let svgElement = document.getElementById(id)
         if (svgElement){
-            const width = svgElement.getAttribute("width");
-            const height = svgElement.getAttribute("height");
+            let width = svgElement.getAttribute("width");
+            let height = svgElement.getAttribute("height");
+            if (width.indexOf("%")>0){
+                width = width.slice(0, width.length-1)
+            }
+            if (height.indexOf("%")>0){
+                height = height.slice(0, height.length-1)
+            }
+
             svgElement.setAttribute("viewBox", `0 0 ${width} ${height}`)
             svgElement.removeAttribute("width");
             svgElement.removeAttribute("width");
@@ -446,8 +453,14 @@ const createCatalogCard = (catalog, clearLanguage)=>{
             mainIcon = "/img/close.jpg"
         }
         if (mainIcon.length != 0){
-            var clearCard = createClarLangCard(cardCatalog, title, catalog.itemsInCategoryIds.length, mainIcon);
-            cardCatalog = (clearCard);
+            if (catalog.itemsInCategoryIds.length !== 0){
+                var clearCard = createClarLangCard(cardCatalog, title, catalog.itemsInCategoryIds.length, mainIcon);
+                cardCatalog = (clearCard);
+            }
+            else{
+                var clearCard = createClarLangCard(cardCatalog, title, catalog.childrenCategoryIds.length, mainIcon);
+                cardCatalog = (clearCard);
+            }
         }
         else{
             var clearCard = createClarLangCard(cardCatalog, title, catalog.itemsInCategoryIds.length);
@@ -455,8 +468,33 @@ const createCatalogCard = (catalog, clearLanguage)=>{
         }
         //cardTitle.textContent = catalog.title + " " + catalog.itemsInCategoryIds.length + " услуг";
         //imgOrGif.src = "img/clear.jpg";
-        
     }
+
+    
+    if (catalog.childrenCategoryIds.length !== 0){
+        //console.log("У " + title +" - есть подкатегории");
+
+        const subCategoryContainer = document.createElement('div');
+        subCategoryContainer.classList.add("sub-catalogs");
+        const language = localStorage.getItem("language");
+        subCategoryContainer.classList.add(language);
+        const listSubCategory = document.createElement('ul');
+        listSubCategory.classList.add("list-of-cards");
+        listSubCategory.classList.add("catalogs-list");
+        listSubCategory.classList.add("sub-catalogs-list");
+        listSubCategory.classList.add("hidden");
+        subCategoryContainer.appendChild(listSubCategory);
+        document.querySelector(".view-choose").insertBefore(subCategoryContainer, document.getElementById("card-form-container"))
+
+        cardCatalog.classList.add("has-sub-catalogs");
+        subCategoryContainer.setAttribute("parent-id", catalog.id);
+    }
+    if (catalog.parentCategoryId !== 0){
+        //console.log( title +" -подкатегория");
+        cardCatalog.classList.add("sub-catalog-card")
+
+    }
+
     return cardCatalog;
 };
 
@@ -554,6 +592,8 @@ const createServiceCard = (service, clearLanguage)=>{
     //window.location.href = destinationClear;
     const detaHTML = data.outerHTML;
     saveData(detaHTML);
+
+    localStorage.setItem("pre-res-search", window.location.search)
 
     window.location.href = `result.html?serviceId=${encodeURIComponent(serviceId)}&language=${encodeURIComponent(
     language.classList.contains('clear-language'))}&`;

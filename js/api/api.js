@@ -41,7 +41,9 @@ const Route = {
   ADD_ADDITION_ICON: 'additions/',
   UPDATE_ADDITION_GIF: 'additions/',
   UPDATE_ADDITION_DESCRIPTION: 'additions/',
-  UPDATE_ADDITION_GIF_PREVIEW: 'additions/'
+  UPDATE_ADDITION_GIF_PREVIEW: 'additions/',
+
+  S3_UPLOAD: 's3/upload'
 
 };
 
@@ -70,6 +72,25 @@ const load = (route, errorText, method = Method.GET, body = null, ) =>
     .catch(() => {
       throw new Error(errorText);
 });
+
+const loadFile = (route, errorText, method = Method.POST, body = null, headers = {}) =>
+  fetch(`${BASE_URL}${route}`, {
+    method,
+    body,
+    headers
+  })
+  .then((response) => {
+    if (!response.ok) {
+      return response.text().then((text) => {
+        throw new Error(text);
+      });
+    }
+    return response.json();
+  })
+  .catch((error) => {
+    console.error('Error details:', error);
+    throw new Error(errorText);
+  });
 
 const fetchForm = (route, errorText, method = Method.GET, body = null) =>
   fetch(`${BASE_URL}${route}`, { 
@@ -161,8 +182,11 @@ const updateAdditionDescription = (id, body) => loadById(Route.UPDATE_ADDITION_D
 const updateAdditionGifPreview = (id, body) => loadById(Route.UPDATE_ADDITION_GIF_PREVIEW + id + '/gif-preview', '', ErrorText.UPDATE_DATA, Method.PUT, body);
 
 
+const uploadToS3 = (body) => loadFile(Route.S3_UPLOAD, ErrorText.SEND_DATA, Method.POST, body, {});
+
 export { getCategories, getService, getInfoById, getServiceById, getServiceByTitle, getSimilarService, sendData,
   createCategory, deleteCategory, updateCategoryMainIcon, updateCategoryGif, updateCategoryGifPreview, setCategoryParent, removeCategoryChild,
   createService, deleteService, addServiceCategory, addServiceIcon, updateServiceMainIcon, updateServiceGifPreview, updateServiceGif, updateServiceDescription,removeServiceCategory, clearServiceIcons,
   createAddition, deleteAddition, updateAdditionTitle, addAdditionIcon, updateAdditionMainIcon, updateAdditionGifPreview, updateAdditionGif,  updateAdditionDescription,
+  uploadToS3,
 };

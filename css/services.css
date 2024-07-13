@@ -680,7 +680,7 @@ button.search-popup {
 }
 
 .gestural-language .card-to-add {
-    margin-top: 20px;
+    /*margin-top: 20px;*/
     order: 10;
 }
 .card-to-add {
@@ -898,7 +898,7 @@ div.gif {
     /*width: 570px;
     height: 428px;*/
     width: 29.3vw;
-    height: 23vw;
+    height: 22vw;
     /*background-color: #c39367;*/
     /*background-color: #c19873;*/
     animation: loading 1.5s infinite;

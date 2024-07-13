@@ -82,19 +82,36 @@ const createInfo = (title) => ({
 
 const getCellById = (id)=>{
     const catalogs = document.querySelector(".catalogs:not(.sceleton)")
-    const catalogCells = catalogs.querySelectorAll('.catalog-card');
-    for (const cell of catalogCells){
-      const catalogId = cell.getAttribute('catalog-id');
-      if (catalogId == id){
-        return cell;
-      }
+    if (catalogs){
+        const catalogCells = catalogs.querySelectorAll('.catalog-card');
+        for (const cell of catalogCells){
+          const catalogId = cell.getAttribute('catalog-id');
+          if (catalogId == id){
+            return cell;
+          }
+        }
     }
+    
+    const subcatalogs = document.querySelector(".sub-catalogs:not(.sceleton)")
+    if(subcatalogs){
+        const subcatalogCells = subcatalogs.querySelectorAll('.catalog-card');
+        for (const cell of subcatalogCells){
+          const catalogId = cell.getAttribute('catalog-id');
+          if (catalogId == id){
+            return cell;
+          }
+        }
+    }
+    
 }
 
 const getCellNameById = (id)=>{
     const cell = getCellById(id);
-    const title = cell.querySelector(".card-title");
-    return title.innerText;
+    if (cell){
+        const title = cell.querySelector(".card-title");
+        return title.innerText;
+    }
+    return "";
 }
 const getCatalogId = ()=>{
     const urlParams = window.location.search;

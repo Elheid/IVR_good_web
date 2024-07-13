@@ -1,5 +1,5 @@
 
-import { hideCatalogs} from "./renderCatalogs.js";
+import { hideCatalogs, hideSubCategories} from "./renderCatalogs.js";
 import { createServiceCard } from "./main/createrObj.js";
 import { getService } from "./api/api.js";
 import { addHeader, addHeaderForSearch, removeSearchHeader} from "./headers.js";
@@ -105,6 +105,7 @@ const showSearchedServices = (services, query)=>{
   //console.log(services)
   displayServices(services, true);
   hideCatalogs();
+  hideSubCategories();
   addPlayVidButton();
 
   addAdminButtonsToCards();

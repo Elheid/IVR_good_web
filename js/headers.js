@@ -3,6 +3,37 @@ import { getCellNameById } from "./util.js";
 const searchHeader = "Результаты поиска";
 
 
+document.addEventListener(("DOMContentLoaded"), ()=>{
+    /*onst subCatalogHref = localStorage.getItem("subCatalogHref");
+    const curId = new URLSearchParams(window.location.search).get("catalog");
+    const id = new URLSearchParams(subCatalogHref).get("catalog");
+    if (id !== curId){
+        addHeader(id);
+    }*/
+        const curId = new URLSearchParams(window.location.search).get("catalog");
+        if(curId){
+            const name = getCellNameById(curId);
+            if (!hasSimilar() && name !== ""){
+                addHeader(curId);
+            }
+        }
+})
+document.addEventListener(("goBackEvent"), ()=>{
+    /*onst subCatalogHref = localStorage.getItem("subCatalogHref");
+    const curId = new URLSearchParams(window.location.search).get("catalog");
+    const id = new URLSearchParams(subCatalogHref).get("catalog");
+    if (id !== curId){
+        addHeader(id);
+    }*/
+    const curId = new URLSearchParams(window.location.search).get("catalog");
+    if(curId){
+        if (!hasSimilar(getCellNameById(curId))){
+            addHeader(curId);
+        }
+    }
+})
+
+
 const showArrows = ()=>{
     const listChildren = document.querySelector(".header-list");
     const prevHeader = listChildren.lastElementChild;
@@ -17,10 +48,11 @@ const hideArrows = ()=>{
     hiddenEl.classList.add("hidden");
 }
 
-const addHeader = ()=>{
+const addHeader = (prevHeadId = null)=>{
     const curURL = window.location.href;
     const list = document.querySelector(".header-list");
     const listChildren = list.children;
+
 
     const newHeaderTemp = document.querySelector('#header').content.querySelector('li');
     
@@ -38,12 +70,38 @@ const addHeader = ()=>{
     var urlParams = window.location.search;
     /*const state = "catalog=";
     const index = urlParams.indexOf(state)+state.length;*/
-    const catalogId = new URLSearchParams(urlParams).get('catalog');
+    let catalogId = new URLSearchParams(urlParams).get('catalog');
+    if (!catalogId){
+        catalogId = new URLSearchParams(urlParams).get('sub-catalog');
+    }
+    let nameBread;
+    if(prevHeadId){
+        nameBread = getCellNameById(prevHeadId);
+    }
+    else{
+        nameBread = getCellNameById(catalogId);
+    }
 
-    newHeader.querySelector("a").textContent = getCellNameById(catalogId);
+    if (hasSimilar(nameBread)){
+        return
+    }
+
+    newHeader.querySelector("a").textContent = nameBread;
+
     prevHeader.classList.replace("current-page", "prev-page");
     newHeader.appendChild(arrow);
     list.appendChild(newHeader);
+}
+
+const hasSimilar = (title)=>{
+    const list = document.querySelector(".header-list").children;
+    for (var i = 0; i< list.length; i++){
+        const crunch = list[i].querySelector("a").textContent;
+        if (crunch === title){
+            return true;
+        }
+    }
+    return false;
 }
 
 
@@ -67,23 +125,37 @@ const addHeaderForSearch = ()=>{
 
 const getLastHeader = ()=>{
     const list = document.querySelector(".header-list");
-    return list.lastChild;
+    const items = list.querySelectorAll("li");
+    const lastItem = items[items.length - 1];
+    return lastItem;
 }
   
 const removeSearchHeader = ()=>{
-    const lastHeader = getLastHeader().innerText;
+    let lastHeader = getLastHeader().innerText;
     const mainHeader = document.querySelector(".header-list").children[1].innerText;
-    if (lastHeader === searchHeader || lastHeader !== mainHeader){
-        removeLastHeader();
+    while (lastHeader !== mainHeader){
+        lastHeader = getLastHeader().innerText;
+        if (lastHeader === searchHeader){
+            removeLastHeader();
+        }
+        lastHeader = getLastHeader().innerText;
+        if(lastHeader !== mainHeader){
+            removeLastHeader();
+        }
     }
 }
 const removeLastHeader = ()=>{
 
     const list = document.querySelector(".header-list");
+
+    let lastHeader = getLastHeader().innerText;
+    const mainHeader = document.querySelector(".header-list").children[1].innerText;
+    if(lastHeader !== mainHeader){
     list.removeChild(getLastHeader());
     const prevHeader = list.children[list.children.length-1];
     hideArrows();
     prevHeader.classList.replace("prev-page", "current-page");
+    }
 }
 
 const changeButtonsArea = ()=>{

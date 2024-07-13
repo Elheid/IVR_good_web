@@ -4,6 +4,7 @@ import { showInfoCard } from "./showInfo.js";
 import { createCategory, updateCategoryMainIcon, updateCategoryGifPreview,
     createService, addServiceCategory, removeServiceCategory,  addServiceIcon, updateServiceMainIcon, updateServiceGif, updateServiceDescription, updateServiceGifPreview, clearServiceIcons,
     createAddition, updateAdditionTitle, addAdditionIcon, updateAdditionMainIcon, updateAdditionGifPreview, updateAdditionGif,  updateAdditionDescription,
+    uploadToS3,
 } from "./api/api.js";
 
 
@@ -15,14 +16,29 @@ const showHideInputs = ()=>{
 
     addExtra.addEventListener("click", ()=>{
         if (addExtra.checked) {
-            parentIdLabel.classList.remove('hidden');
-            parentIdSelect.classList.remove('hidden');
+            //parentIdLabel.classList.remove('hidden');
+            //parentIdSelect.classList.remove('hidden');
+            document.getElementById("parent-id").setAttribute("disabled","")
+
+            document.querySelector(".common-card").classList.remove("hidden");
+            document.querySelector(".res-card").classList.remove("hidden");
+
+            //document.querySelectorAll(".reduced").forEach((item)=> item.classList.remove("hidden"))
+            //document.querySelectorAll(".conditional").forEach((item)=> item.classList.remove("hidden"))
+            //document.querySelectorAll(".parent-existence").forEach((item)=> item.classList.add("hidden"))
         }
     })
     hideExtra.addEventListener("click", ()=>{
         if(hideExtra.checked){
-            parentIdLabel.classList.add('hidden');
-            parentIdSelect.classList.add('hidden');
+            document.getElementById("parent-id").removeAttribute("disabled")
+
+            document.querySelector(".common-card").classList.add("hidden");
+            document.querySelector(".res-card").classList.add("hidden");
+
+            //document.querySelectorAll(".reduced").forEach((item)=> item.classList.add("hidden"))
+            //document.querySelectorAll(".conditional").forEach((item)=> item.classList.add("hidden"))
+           // parentIdLabel.classList.add('hidden');
+            //parentIdSelect.classList.add('hidden');
         }
     })
 }
@@ -49,14 +65,14 @@ const handleUpdate =  (condition, updateFunc, updateEvent) => {
     }
 };
 
-const setIdAndAddIcons = async(type, data)=>{
+const setIdAndAddIcons = async(type, data, iconLinks)=>{
     setIdAfterAdd(type, data.id);
     for (const link of iconLinks) {
         await addServiceIcon(data.id, { link });
     }
 }
 
-const sendCardToBd = async (type, sendData, parentId) => {
+const sendCardToBd = async (type, sendData, parentId, iconLinks) => {
     const catalog = 'catalogs-list';
     const service = 'services-list';
     const info = 'info-cards';
@@ -67,8 +83,9 @@ const sendCardToBd = async (type, sendData, parentId) => {
         },
         [service]: async () => {
             const data = await createService(sendData);
-            await addServiceCategory(data.id, parentId);
-            setIdAndAddIcons(service, data);
+            //await addServiceCategory(data.id, parentId);
+            addServiceCategory(data.id, parentId);
+            setIdAndAddIcons(service, data, iconLinks);
             /*setIdAfterAdd(service, data.id);
             for (const link of iconLinks) {
                 await addServiceIcon(data.id, { link });
@@ -76,7 +93,7 @@ const sendCardToBd = async (type, sendData, parentId) => {
         },
         [info]: async () => {
             const data = await createAddition(sendData);
-            setIdAndAddIcons(info, data);
+            setIdAndAddIcons(info, data, iconLinks);
             /*setIdAfterAdd(info, data.id);
             for (const link of iconLinks) {
                 await addAdditionIcon(data.id, { link });
@@ -123,7 +140,7 @@ const createSendData = (state, listToAdd, type, title, image, video, resVideo, d
             mainIconLink: image,
             description: description || ".",
             title: title,
-            parentId: ""
+            categoryId: parentId,
         };
         sendToBd = { ...service };
         newCard = createServiceCard(service, isClear);
@@ -257,8 +274,8 @@ const submitForm = async (event) => {
     }
     const search = new URLSearchParams(window.location.search);
     let parentId = search.get("catalog") || search.get("serviceId");
-    const addExtra = document.querySelector(".add-extra");
-    const type = addExtra.checked ? 'service' : 'catalog';
+    //const addExtra = document.querySelector(".add-extra");
+    const type = state === "services-list" ? 'service' : 'catalog';
     const title = document.getElementById('title').value;
     const image = document.getElementById('image').value;
     const video = document.getElementById('video').value;
@@ -270,7 +287,8 @@ const submitForm = async (event) => {
     if (action === 'add') {
         const { newCard, sendToBd } = createSendData(state, listToAdd, type, title, image, video, resVideo, description, parentId);
         if (sendToBd) {
-            await sendCardToBd(state, sendToBd, parentId);
+            sendCardToBd(state, sendToBd, parentId, iconLinks);
+            
         } else {
             console.error("Error: Invalid form data.");
         }
@@ -283,6 +301,8 @@ const submitForm = async (event) => {
         document.dispatchEvent(cardAddedEvent);
         console.log("should added: ", newCard);
     } else {
+        const promises = [];
+
         const attribute = state === 'info-cards' ? 'info-id' : state === 'catalogs-list' ? "catalog-id" : "service-id";
 
         const url = new URLSearchParams(window.location.search);
@@ -293,10 +313,9 @@ const submitForm = async (event) => {
 
         const selectElement = document.getElementById('parent-id');
         const selectedValue = selectElement.value;
-        const promises = [];
 
         if (!selectElement.classList.contains("hidden") && selectedValue !== parentId){
-            promises.push(removeServiceCategory(id).then(() => addServiceCategory(id, selectedValue)));
+            promises.push(removeServiceCategory(id).then(() => promises.push(addServiceCategory(id, selectedValue))));
         } 
 
         if (title && state === 'info-cards') promises.push(updateAdditionTitle(id, { title }));
@@ -341,15 +360,18 @@ const submitForm = async (event) => {
         }
 
         // Ожидаем завершения всех промисов
-        await Promise.all(promises);
+        /* await*/ Promise.all(promises).then(()=>{
+        form.removeEventListener('submit', submitForm);
+        document.getElementById('card-form-container').classList.add('hidden');
+        form.reset();
+
+        // Перезагрузка страницы после завершения всех запросов
+        window.location.reload();
+    })
     }
-
-    form.removeEventListener('submit', submitForm);
-    document.getElementById('card-form-container').classList.add('hidden');
-    form.reset();
-
-    // Перезагрузка страницы после завершения всех запросов
-    window.location.reload();
+   form.removeEventListener('submit', submitForm);
+   document.getElementById('card-form-container').classList.add('hidden');
+   form.reset();
 };
 
 
@@ -446,33 +468,36 @@ const changeParentOptions = (targetCard)=>{
     const parentDivs = document.querySelectorAll(".parent-existence");
     const resDivs = document.querySelector("section.res-card");
 
+    const parentChoose = document.querySelector(".parent-choose");
+
     if (state === 'catalogs-list'){
         //resDivs.forEach((div)=> div.classList.add("hidden"))
         resDivs.classList.add("hidden");
 
-        const typeOfParent = document.querySelectorAll("div.parent-existence");
+        parentChoose.classList.add("hidden");
+        /*const typeOfParent = document.querySelectorAll("div.parent-existence");
         typeOfParent.forEach(parent=>{
             parent.classList.add("hidden");
         })
-        document.querySelector(`label.parent-existence`).classList.add("hidden");
+        document.querySelector(`label.parent-existence`).classList.add("hidden");*/
     }
     else if (state === 'info-cards'){
 
-        const typeOfParent = document.querySelectorAll("div.parent-existence");
+        /*const typeOfParent = document.querySelectorAll("div.parent-existence");
         typeOfParent.forEach(parent=>{
             parent.classList.add("hidden");
         })
-        document.querySelector(`label.parent-existence`).classList.add("hidden");
-
+        document.querySelector(`label.parent-existence`).classList.add("hidden");*/
+        parentChoose.classList.add("hidden");
         parentDivs.forEach((div)=> div.classList.add("hidden"))
     }
     else{
 
-        const typeOfParent = document.querySelectorAll("div.parent-existence");
+        /*const typeOfParent = document.querySelectorAll("div.parent-existence");
         typeOfParent.forEach(parent=>{
             parent.classList.add("hidden");
         })
-        document.querySelector(`label.parent-existence`).classList.add("hidden");
+        document.querySelector(`label.parent-existence`).classList.add("hidden");*/
 
 
         resDivs.classList.remove("hidden");
@@ -481,14 +506,17 @@ const changeParentOptions = (targetCard)=>{
                 div.classList.remove("hidden")
             }
         });*/
-        parentDivs.forEach((div)=>{ 
+        /*parentDivs.forEach((div)=>{ 
             if (div.classList.contains("hidden")){
                 div.classList.remove("hidden")
             }
-        });
+        });*/
     }
 
     if (state === "services-list"){
+
+        parentChoose.classList.remove("hidden");
+
         const addExtra = document.querySelector(".add-extra");
         addExtra.click();
         const catalogName = getCellNameById(getCatalogId())
@@ -522,8 +550,8 @@ const changeParentOptions = (targetCard)=>{
         }
     }
     else{
-        const hideExtra = document.querySelector(".hide-extra");
-        hideExtra.click();
+        //const hideExtra = document.querySelector(".hide-extra");
+        //hideExtra.click();
     }
 }
 
@@ -591,7 +619,15 @@ const showForm = ()=>{
         updateFormBasedOnCardState(targetCard);
         changeParentOptions(targetCard);
     }
-
+    else if(lastClickedButton.classList.contains("edit-button") ||
+    lastClickedButton.classList.contains("edit-element-button")){
+        setFormForEditCard(document.querySelector(".submit-form"));
+        document.getElementById("parent-id").removeAttribute("disabled")
+    }
+    if(targetCard.classList.contains("card-to-add")){
+        document.getElementById("parent-id").setAttribute("disabled","")
+        document.querySelectorAll(".parent-existence").forEach((item)=> item.classList.add("hidden"))
+    }
     console.log("show form")
     document.getElementById('card-form-container').classList.remove('hidden');
     document.addEventListener('click', closeFormOnExitBorders);
@@ -599,6 +635,37 @@ const showForm = ()=>{
     document.querySelector(".add-new-block").addEventListener("click", addNewResBlockButton)
 
     toggleClassToForm(lastClickedButton);
+
+
+
+    const uploadFile =()=> {
+        console.log("Не работает");
+       /* const fileInput = document.getElementById('fileInput');
+        const file = fileInput.files[0];
+      
+        if (file) {
+
+          const formData = new FormData();
+          formData.append('file', file);
+      
+          for (let pair of formData.entries()) {
+            console.log(pair[0]+ ': ' + pair[1]);
+          }
+          
+          uploadToS3(formData)
+            .then(response => {
+              console.log('File uploaded successfully:', response);
+            })
+            .catch(error => {
+              console.error('Error uploading file:', error);
+            });
+        } else {
+          console.error('No file selected');
+        }*/
+    }
+
+    const uploadButton = document.querySelector(".upload-file").addEventListener("click", uploadFile);
+
 }
 
 const closeFormOnExitBorders = (event)=> {
