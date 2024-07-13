@@ -485,6 +485,11 @@ const addCadrdSample = (list)=>{
     if (hollowServicesWhileCatalogs){
         return
     }
+    const categoryId = new URLSearchParams(window.location.search).get("category");
+    const hiddenService = list.classList.contains("hidden") && list.classList.contains("services-list");
+    if (hiddenService){
+        return;
+    }
     if (!hollowCategory && (notInfoCards)){
         return;
     }
@@ -514,8 +519,11 @@ const addCadrdSample = (list)=>{
         //fragmentToAppend.firstElementChild.querySelector(".card-button").replaceWith(fragmentToAppend.firstElementChild.querySelector(".card-button").cloneNode(true));
         list.appendChild(fragmentToAppend);
 
-
-
+        const catalog = new URLSearchParams(window.location.search).get("catalog");
+        const subcatalog = new URLSearchParams(window.location.search).get("sub-catalog");
+        if (catalog && catalog !== "" || subcatalog && subcatalog !== ""){
+            document.querySelector(".catalogs-list").classList.add("hidden");
+        }
         document.addEventListener("resize", equalizeSampleHeight)
         equalizeSampleHeight();
 

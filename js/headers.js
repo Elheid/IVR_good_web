@@ -1,4 +1,4 @@
-import { getCellNameById } from "./util.js";
+import { getCellNameById, getLastSubCatalog } from "./util.js";
 
 const searchHeader = "Результаты поиска";
 
@@ -64,15 +64,13 @@ const addHeader = (prevHeadId = null)=>{
     arrow.classList.add("hidden");
     arrow.src = "/img/breadMini3.svg"
 
-    const prevHeader = listChildren[listChildren.length-1];
-    showArrows();
 
     var urlParams = window.location.search;
     /*const state = "catalog=";
     const index = urlParams.indexOf(state)+state.length;*/
     let catalogId = new URLSearchParams(urlParams).get('catalog');
     if (!catalogId){
-        catalogId = new URLSearchParams(urlParams).get('sub-catalog');
+        catalogId = getLastSubCatalog();
     }
     let nameBread;
     if(prevHeadId){
@@ -85,6 +83,9 @@ const addHeader = (prevHeadId = null)=>{
     if (hasSimilar(nameBread)){
         return
     }
+
+    const prevHeader = listChildren[listChildren.length-1];
+    showArrows();
 
     newHeader.querySelector("a").textContent = nameBread;
 

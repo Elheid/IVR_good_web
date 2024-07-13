@@ -2,7 +2,7 @@
 import {  createCatalogCard } from "./main/createrObj.js";
 import { hideSkeletonsAndReplace } from './skeletons/skeleton.js';
 import { showServices } from "./services.js";
-import { getCellById, equalizeSubtitles } from "./util.js";
+import { getCellById, equalizeSubtitles, getLastSubCatalog, countSubCatalogs, getPreSubCatalog } from "./util.js";
 
 import { addCadrdSample } from "./adminPanel.js";
 import { addHeader } from "./headers.js";
@@ -36,19 +36,36 @@ const updateURLSubCatalog = (subCatalogId)=>{
   const searchParams = new URLSearchParams(window.location.search);
 
   // Обновляем или добавляем параметр admin
-  searchParams.set('sub-catalog', subCatalogId);
+  const subCatalog = getLastSubCatalog();//searchParams.get("sub-catalog");
+  if (subCatalog && subCatalog !== 0){
+    // Получаем список всех существующих sub-catalog параметров в URL
+    let i = 1; // начальный индекс для нового параметра sub-catalog
+    while (searchParams.has(`sub-catalog${i}`)) {
+        i++; // увеличиваем индекс, пока не найдем свободный
+    }
+
+    // Добавляем новый параметр sub-catalog с инкрементированным индексом
+    searchParams.set(`sub-catalog${i}`, subCatalogId);
+  }else{
+    searchParams.set(`sub-catalog`, subCatalogId);
+  }
 
   // Обновляем URL без перезаписи других параметров
   const newUrl = `${window.location.pathname}?${searchParams.toString()}`;
   history.pushState({ subCatalogId: subCatalogId }, '', newUrl);
 }
 
+
 const catalogClick = (cell) =>{
   const catalogId = cell.getAttribute('catalog-id');
   //history.pushState({ catalogId: catalogId }, '', `?catalog=${catalogId}`);
   const id = cell.getAttribute("catalog-id")
+
   if(cell.classList.contains("has-sub-catalogs")){
     hideCatalogs();
+    if (countSubCatalogs() >= 1){
+      hideSubCategories();
+    }
     showSubCategories(id);
     updateURLSubCatalog(catalogId);
     addHeader();
@@ -63,7 +80,7 @@ const catalogClick = (cell) =>{
 const hideSubCategories =()=>{
   //localStorage.setItem("subCatalogHref", window.location.search)
   const subCatalogs = document.querySelectorAll('.sub-catalogs');
-  const id = new URLSearchParams(window.location.search).get("sub-catalog");
+  const id = getLastSubCatalog();//new URLSearchParams(window.location.search).get("sub-catalog");
   if (subCatalogs){
     const matchingElement = Array.from(subCatalogs).find(element =>element.getAttribute("parent-id") === id);
     if (matchingElement){
@@ -83,9 +100,20 @@ const showSubCategories =(id)=>{
   }
 }
 
+const searchSubList = (id)=>{
+  const subCatalogs = document.querySelectorAll('.sub-catalogs');
+  if (subCatalogs){
+    const matchingElement = Array.from(subCatalogs).find(element => element.getAttribute("parent-id") === id);
+    if (matchingElement){
+      return matchingElement.querySelector(".sub-catalogs-list");
+    }
+  }
+}
+
 const replaceCardToSubCategory =(cell)=>{
   if (cell.classList.contains("sub-catalog-card")){
-    const listSubCategory = document.querySelector(".sub-catalogs-list");
+    const id = cell.getAttribute("parent-id")
+    const listSubCategory = searchSubList(id);
     listSubCategory.appendChild(cell);
   }
 }
@@ -121,7 +149,7 @@ const returnState = (searchResult)=>{
       const index = urlParams.indexOf(state)+state.length;*/
       //var stateString = urlParams[index];
       let idCatalog = new URLSearchParams(window.location.search).get("catalog");
-      let idSubCatalog = new URLSearchParams(window.location.search).get("sub-catalog");
+      let idSubCatalog = getLastSubCatalog();//new URLSearchParams(window.location.search).get("sub-catalog");
       if(idSubCatalog && idSubCatalog !== "" && idCatalog && idCatalog !== ""){
         var stateString = new URLSearchParams(urlParams).get('catalog');
 
@@ -154,7 +182,16 @@ const returnState = (searchResult)=>{
 
             const catalogs = document.querySelector(".catalogs:not(.sceleton)").querySelector("ul");
             catalogs.classList.add("hidden");
-            addHeader(idSubCatalog);
+            const preSubId = getPreSubCatalog();
+            if (preSubId){
+              if (preSubId !== idSubCatalog){
+                addHeader(getPreSubCatalog());
+                addHeader(idSubCatalog);
+              }
+            }
+            else{
+              addHeader(idSubCatalog);
+            }
       }
       else if (idCatalog && idCatalog !== ""){
         var stateString = new URLSearchParams(urlParams).get('catalog');

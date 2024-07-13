@@ -1,5 +1,5 @@
 import { removeLastHeader,addHeader} from "./headers.js";
-import { getCatalogId, updateMarginButtonsOnList } from "./util.js";
+import { countSubCatalogs, getCatalogId, getLastSubCatalog, getLastSubCatalogName, getPreSubCatalog, updateMarginButtonsOnList } from "./util.js";
 
 const goBackToCatalogs = ()=>{
 
@@ -15,7 +15,7 @@ const goBackToCatalogs = ()=>{
 
     const subCatalogs = document.querySelectorAll('.sub-catalogs');
     let idCatalog = new URLSearchParams(window.location.search).get("catalog");
-    let idSubCatalog = new URLSearchParams(window.location.search).get("sub-catalog");
+    let idSubCatalog = getLastSubCatalog();
 
     //const subCatalog = searchParams.get('sub-catalog');
     const notQuery = !window.location.href.includes("query=");
@@ -44,6 +44,25 @@ const goBackToCatalogs = ()=>{
         history.replaceState({}, '', window.location.pathname +"?"+ newSearch.toString());
         addHeader()
     }
+    else if(idSubCatalog !== '' && idSubCatalog && countSubCatalogs() > 1){
+
+        const preLastSub = getPreSubCatalog();
+        const subCatalogs = document.querySelectorAll('.sub-catalogs');
+        const matchingElement = Array.from(subCatalogs).find(element =>element.getAttribute("parent-id") === preLastSub);
+
+        subCatalogs.forEach((catalog)=>catalog.querySelector("ul").classList.add("hidden"))
+        const listSubCategory = matchingElement.querySelector(".sub-catalogs-list")
+        listSubCategory.classList.remove("hidden");
+
+        removeLastHeader();
+        updateMarginButtonsOnList(listSubCategory);
+
+        //console.log(getLastSubCatalogName())
+        //history.back();
+
+        updateParamUrl(getLastSubCatalogName())
+        
+    }
     else if(idSubCatalog !== '' && idSubCatalog){
         const list = document.querySelector('.catalogs-list');
         const services = document.querySelector('.services-list');
@@ -53,6 +72,7 @@ const goBackToCatalogs = ()=>{
         subCatalogs.forEach((catalog)=>catalog.querySelector("ul").classList.add("hidden"))
         removeLastHeader();
         updateMarginButtonsOnList(list);
+
 
         updateParamUrl("sub-catalog");
         
@@ -66,8 +86,7 @@ const goBackToCatalogs = ()=>{
         subCatalogs.forEach((catalog)=>catalog.querySelector("ul").classList.add("hidden"))
         removeLastHeader();
         updateMarginButtonsOnList(list);
-
-        updateParamUrl('catalog');
+        //updateParamUrl('catalog');
     }
 }
 
@@ -125,11 +144,12 @@ const updateParamUrl = (paramName)=>{
     //let paramName = 'catalog';
     const paramState = searchParams.get(paramName);
     
-
+    const search = new URLSearchParams(window.location.search)
     // Проверка, содержит ли путь параметр
-    if (window.location.pathname.includes(paramName)) {
+    if (window.location.search.includes(paramName)) {
+        search.delete(paramName);
         //console.log(`Параметр '${paramName}' уже существует в пути.`);
-        history.replaceState({}, '', window.location.pathname);
+        history.replaceState({}, '', window.location.pathname +"?" +search.toString());
     } else {
         //console.log(`Параметр '${paramName}' не существует в пути.`);
         history.replaceState({}, '', window.location.pathname);

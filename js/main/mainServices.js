@@ -31,7 +31,7 @@ if (document.querySelector(".catalogs").classList.contains("gestural-language"))
 
 addAdminPanel();
 
-
+document.querySelector(".services-list").classList.add("hidden");
 const loadCategories = async () => {
     await getCategories()
       .then((data) => {

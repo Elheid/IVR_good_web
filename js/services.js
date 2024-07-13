@@ -14,11 +14,15 @@ const blank = "";
 
 const displayServices = (services, searched = false)=> {
 
+
   const servicesContainer = document.querySelector('.services-list');
+  servicesContainer.classList.remove("hidden");
   //servicesContainer.innerHTML = ''; // Очищаем контейнер перед добавлением новых данных
   for(var i = 0; i < servicesContainer.children.length; i++){
     const service = servicesContainer.children[i];
-    service.classList.add("hidden");
+    if (!service.classList.contains("card-to-add")){
+      service.classList.add("hidden");
+    }
   }
 
   const titleCounts = {};

@@ -109,7 +109,8 @@ const sendCardToBd = async (type, sendData, parentId, iconLinks) => {
 
 const createSendData = (state, listToAdd, type, title, image, video, resVideo, description, parentId) => {
     let newCard, sendToBd;
-    const isClear = window.localStorage.getItem("language");
+    const language = window.localStorage.getItem("language");
+    const isClear = language === "clear-language" ?true:false;
     //console.log(url)
    // const isClear = listToAdd.parentNode.classList.contains("clear-language");
     if (state === "info-cards") {
@@ -426,7 +427,7 @@ const removeReducedForm = () => {
     document.querySelectorAll('.conditional').forEach(el => el.classList.remove('hidden'));
     document.querySelectorAll('.reduced').forEach(el => el.classList.remove('hidden'));
 
-    document.querySelectorAll('#type').forEach(el => el.setAttribute("required", ""));
+    //document.querySelectorAll('#type').forEach(el => el.setAttribute("required", ""));
     document.querySelectorAll('[for="title"], #title').forEach(el => el.setAttribute("required", ""));
 }
 
@@ -570,14 +571,14 @@ const setFormForAddCard = (submitButton, inputElement) => {
 const hideTitleInput = (inputElement, labelElement) => {
     inputElement.classList.add("hidden");
     labelElement.classList.add("hidden");
-    inputElement.removeAttribute('required');
+    //inputElement.removeAttribute('required');
 }
 
 // Функция для показа поля ввода заголовка
 const showTitleInput = (inputElement, labelElement) => {
     inputElement.classList.remove("hidden");
     labelElement.classList.remove("hidden");
-    inputElement.setAttribute('required', '');
+    //inputElement.setAttribute('required', '');
 }
 
 const updateFormBasedOnCardState = (targetCard) => {

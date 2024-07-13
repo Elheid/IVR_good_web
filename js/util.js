@@ -92,18 +92,91 @@ const getCellById = (id)=>{
         }
     }
     
-    const subcatalogs = document.querySelector(".sub-catalogs:not(.sceleton)")
-    if(subcatalogs){
-        const subcatalogCells = subcatalogs.querySelectorAll('.catalog-card');
-        for (const cell of subcatalogCells){
-          const catalogId = cell.getAttribute('catalog-id');
-          if (catalogId == id){
-            return cell;
-          }
+    const subcatalogs = document.querySelectorAll(".sub-catalogs");
+    for (const subcatalog of subcatalogs){
+        if(subcatalog){
+            const subcatalogCells = subcatalog.querySelectorAll('.catalog-card');
+            for (const cell of subcatalogCells){
+              const catalogId = cell.getAttribute('catalog-id');
+              if (catalogId == id){
+                return cell;
+              }
+            }
         }
     }
     
 }
+
+const getLastSubCatalog = ()=>{
+    const searchParams = new URLSearchParams(window.location.search);
+  
+    // Переменная для хранения последнего значения sub-catalog
+    let lastSubCatalog = null;
+  
+    // Получаем все параметры из запроса URL
+    for (const [key, value] of searchParams.entries()) {
+      // Проверяем ключ, чтобы убедиться, что это sub-catalog{i}
+      if (key.startsWith('sub-catalog')) {
+          // Присваиваем значение последнего sub-catalog
+          lastSubCatalog = value;
+      }
+    }
+    return lastSubCatalog;
+}
+
+const getLastSubCatalogName = ()=>{
+    const searchParams = new URLSearchParams(window.location.search);
+  
+    // Переменная для хранения последнего значения sub-catalog
+    let lastSubCatalog = null;
+  
+    // Получаем все параметры из запроса URL
+    for (const [key, value] of searchParams.entries()) {
+      // Проверяем ключ, чтобы убедиться, что это sub-catalog{i}
+      if (key.startsWith('sub-catalog')) {
+          // Присваиваем значение последнего sub-catalog
+          lastSubCatalog = key;
+      }
+    }
+    return lastSubCatalog;
+}
+
+const getPreSubCatalog = () => {
+    const searchParams = new URLSearchParams(window.location.search);
+  
+    // Переменные для хранения последнего и предпоследнего значений sub-catalog
+    let lastSubCatalog = null;
+    let penultimateSubCatalog = null;
+  
+    // Получаем все параметры из запроса URL
+    for (const [key, value] of searchParams.entries()) {
+        // Проверяем ключ, чтобы убедиться, что это sub-catalog{i}
+        if (key.startsWith('sub-catalog')) {
+            // Обновляем предпоследнее значение на текущее последнее
+            penultimateSubCatalog = lastSubCatalog;
+            // Обновляем последнее значение на текущее значение параметра
+            lastSubCatalog = value;
+        }
+    }
+  
+    return penultimateSubCatalog;
+}
+
+  const countSubCatalogs = () => {
+    const searchParams = new URLSearchParams(window.location.search);
+    let count = 0;
+
+    // Итерируем по всем ключам в объекте URLSearchParams
+    for (const key of searchParams.keys()) {
+        // Проверяем, что ключ начинается с "sub-catalog"
+        if (key.startsWith('sub-catalog')) {
+            count++;
+        }
+    }
+
+    return count;
+}
+
 
 const getCellNameById = (id)=>{
     const cell = getCellById(id);
@@ -233,4 +306,5 @@ const isAdmin = ()=>{
 export {/*createCatalog, createService, createInfo, getAllServices,*/
      getCellById, getCatalogId, getCellNameById,
     equalizeSubtitles, getParamFromURL, equalizeIconContainers, getCatalogsId,
-    updateMargin, updateMarginButtonsOnList, getCurState, isAdmin};
+    updateMargin, updateMarginButtonsOnList, getCurState, isAdmin, 
+    getLastSubCatalog, countSubCatalogs, getPreSubCatalog, getLastSubCatalogName};
