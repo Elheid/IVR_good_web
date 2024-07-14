@@ -1,4 +1,4 @@
-import { getCellNameById, getLastSubCatalog } from "./util.js";
+import { findSubCatalogByValue, getCellNameById, getLastSubCatalog, removeLastQueryParam } from "./util.js";
 
 const searchHeader = "Результаты поиска";
 
@@ -47,6 +47,72 @@ const hideArrows = ()=>{
     const hiddenEl = prevHeader.querySelector(".arrow");
     hiddenEl.classList.add("hidden");
 }
+const updateParamUrl = (paramName)=>{
+    const searchParams = new URLSearchParams(window.location.search);
+    const paramState = searchParams.get(paramName);
+    
+    const search = new URLSearchParams(window.location.search)
+    if (window.location.search.includes(paramName)) {
+        search.delete(paramName);
+        //console.log(`Параметр '${paramName}' уже существует в пути.`);
+        return  window.location.pathname +"?" +search.toString();
+    }
+
+}
+
+const addSubHeader = (prevHeadId = null)=>{
+    const curURL = window.location.href;
+    const list = document.querySelector(".header-list");
+    const listChildren = list.children;
+
+
+    const newHeaderTemp = document.querySelector('#header').content.querySelector('li');
+    
+    const newHeader = document.importNode(newHeaderTemp, true);
+    if (prevHeadId){
+        const newParam = removeLastQueryParam();
+        newHeader.querySelector("a").href = newParam;
+    }
+    else{
+        newHeader.querySelector("a").href = curURL;
+    }
+    
+    const arrow = document.createElement("img");
+    arrow.classList.add("arrow");
+    arrow.classList.add("hidden");
+    arrow.src = "/img/breadMini3.svg"
+
+
+    var urlParams = window.location.search;
+    /*const state = "catalog=";
+    const index = urlParams.indexOf(state)+state.length;*/
+    let catalogId = new URLSearchParams(urlParams).get('catalog');
+    if (!catalogId){
+        catalogId = getLastSubCatalog();
+    }
+    let nameBread;
+    if(prevHeadId){
+        nameBread = getCellNameById(prevHeadId);
+    }
+    else{
+        nameBread = getCellNameById(catalogId);
+    }
+
+    if (hasSimilar(nameBread)){
+        return
+    }
+
+    const prevHeader = listChildren[listChildren.length-1];
+    showArrows();
+
+    newHeader.querySelector("a").textContent = nameBread;
+
+    prevHeader.classList.replace("current-page", "prev-page");
+    newHeader.appendChild(arrow);
+    list.appendChild(newHeader);
+}
+
+
 
 const addHeader = (prevHeadId = null)=>{
     const curURL = window.location.href;
@@ -189,4 +255,4 @@ var urlParams = window.location.href;
         document.addEventListener('DOMContentLoaded',changeHeaderBorderRadius); 
     }
     
-export {addHeader, removeLastHeader, addHeaderForSearch, removeSearchHeader}
+export {addHeader, removeLastHeader, addHeaderForSearch, removeSearchHeader, addSubHeader}

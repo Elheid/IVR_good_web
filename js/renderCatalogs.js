@@ -2,10 +2,10 @@
 import {  createCatalogCard } from "./main/createrObj.js";
 import { hideSkeletonsAndReplace } from './skeletons/skeleton.js';
 import { showServices } from "./services.js";
-import { getCellById, equalizeSubtitles, getLastSubCatalog, countSubCatalogs, getPreSubCatalog } from "./util.js";
+import { getCellById, equalizeSubtitles, getLastSubCatalog, countSubCatalogs, getPreSubCatalog, getAllSubCatalogs } from "./util.js";
 
 import { addCadrdSample } from "./adminPanel.js";
-import { addHeader } from "./headers.js";
+import { addHeader, addSubHeader } from "./headers.js";
 
 const catalogsList = document.querySelector('.catalogs-list');
 
@@ -141,6 +141,15 @@ const renderCatalogs = ()=>{
     });
 }
 
+const returnAllSubHeader = ()=>{
+  const allSubCatalogs = getAllSubCatalogs();
+  //for (let i = allSubCatalogs.length - 1; i >= 0; i--){
+  for (let i = 0; i < allSubCatalogs.length; i++){
+    //addHeader(allSubCatalogs[i]);
+    addSubHeader(allSubCatalogs[i]);
+  }
+}
+
 const returnState = (searchResult)=>{
   var urlParams = window.location.search;
     if (urlParams.match('catalog')) {
@@ -155,12 +164,13 @@ const returnState = (searchResult)=>{
 
         const subCatalogs = document.querySelectorAll('.sub-catalogs');
       
+
         const matchingElement = Array.from(subCatalogs).find(element =>element.getAttribute("parent-id") === stateString);
         if (matchingElement){
           const listSubCategory = matchingElement.querySelector(".sub-catalogs-list");
           listSubCategory.classList.remove("hidden");
         }else{
-          addHeader(idSubCatalog);
+          returnAllSubHeader();
           showServices(getCellById(stateString));
         }
       }
@@ -185,13 +195,16 @@ const returnState = (searchResult)=>{
             catalogs.classList.add("hidden");
             const preSubId = getPreSubCatalog();
             if (preSubId){
-              if (preSubId !== idSubCatalog){
+              returnAllSubHeader();
+
+              /*if (preSubId !== idSubCatalog){
                 addHeader(getPreSubCatalog());
                 addHeader(idSubCatalog);
-              }
+              }*/
             }
             else{
-              addHeader(idSubCatalog);
+              returnAllSubHeader();
+              //addHeader(idSubCatalog);
             }
       }
       else if (idCatalog && idCatalog !== ""){

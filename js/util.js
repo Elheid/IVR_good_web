@@ -107,6 +107,66 @@ const getCellById = (id)=>{
     
 }
 
+const getAllSubCatalogs = () => {
+    const searchParams = new URLSearchParams(window.location.search);
+  
+    // Массив для хранения всех значений sub-catalog
+    const subCatalogs = [];
+  
+    // Получаем все параметры из запроса URL
+    for (const [key, value] of searchParams.entries()) {
+        // Проверяем ключ, чтобы убедиться, что это sub-catalog{i}
+        if (key.startsWith('sub-catalog')) {
+            // Добавляем значение sub-catalog в массив
+            subCatalogs.push(value);
+        }
+    }
+  
+    return subCatalogs;
+}
+
+const removeLastQueryParam = () => {
+    const searchParams = new URLSearchParams(window.location.search);
+  
+    // Переменные для хранения последнего ключа и значения параметра
+    let lastParamKey = null;
+    let lastParamValue = null;
+
+    // Получаем все параметры из запроса URL
+    for (const [key, value] of searchParams.entries()) {
+        // Обновляем последний найденный параметр ключ и значение
+        lastParamKey = key;
+        lastParamValue = value;
+    }
+
+    // Удаляем последний найденный параметр
+    if (lastParamKey) {
+        searchParams.delete(lastParamKey);
+
+        // Обновляем URL без перезагрузки страницы
+        const newUrl = `${window.location.pathname}?${searchParams.toString()}`;
+        return  newUrl;
+    }
+}
+
+
+const findSubCatalogByValue = (valueToFind) => {
+    const searchParams = new URLSearchParams(window.location.search);
+  
+    // Перебираем все параметры в запросе URL
+    for (const [key, value] of searchParams.entries()) {
+        // Проверяем, является ли текущий ключ `sub-catalog` и соответствует ли его значение искомому
+        if (key.startsWith('sub-catalog') && value === valueToFind) {
+            return key;
+        }
+    }
+  
+    // Если значение не найдено, возвращаем null
+    return null;
+}
+
+
+
 const getLastSubCatalog = ()=>{
     const searchParams = new URLSearchParams(window.location.search);
   
@@ -307,4 +367,4 @@ export {/*createCatalog, createService, createInfo, getAllServices,*/
      getCellById, getCatalogId, getCellNameById,
     equalizeSubtitles, getParamFromURL, equalizeIconContainers, getCatalogsId,
     updateMargin, updateMarginButtonsOnList, getCurState, isAdmin, 
-    getLastSubCatalog, countSubCatalogs, getPreSubCatalog, getLastSubCatalogName};
+    getLastSubCatalog, countSubCatalogs, getPreSubCatalog, getLastSubCatalogName, getAllSubCatalogs, findSubCatalogByValue, removeLastQueryParam};
