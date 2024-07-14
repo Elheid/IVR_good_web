@@ -86,7 +86,7 @@ const goBackToCatalogs = ()=>{
         subCatalogs.forEach((catalog)=>catalog.querySelector("ul").classList.add("hidden"))
         removeLastHeader();
         updateMarginButtonsOnList(list);
-        //updateParamUrl('catalog');
+        updateParamUrl('catalog');
     }
 }
 

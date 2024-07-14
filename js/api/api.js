@@ -42,6 +42,7 @@ const Route = {
   UPDATE_ADDITION_GIF: 'additions/',
   UPDATE_ADDITION_DESCRIPTION: 'additions/',
   UPDATE_ADDITION_GIF_PREVIEW: 'additions/',
+  CLEAR_ADDITION_ICONS: 'additions/',
 
   S3_UPLOAD: 's3/upload'
 
@@ -180,6 +181,7 @@ const addAdditionIcon = (id, body) => loadById(Route.ADD_ADDITION_ICON + id + '/
 const updateAdditionGif = (id, body) => loadById(Route.UPDATE_ADDITION_GIF + id + '/gif', '', ErrorText.UPDATE_DATA, Method.PUT, body);
 const updateAdditionDescription = (id, body) => loadById(Route.UPDATE_ADDITION_DESCRIPTION + id + '/description', '', ErrorText.UPDATE_DATA, Method.PUT, body);
 const updateAdditionGifPreview = (id, body) => loadById(Route.UPDATE_ADDITION_GIF_PREVIEW + id + '/gif-preview', '', ErrorText.UPDATE_DATA, Method.PUT, body);
+const clearAdditionIcons = (id) => loadById(Route.CLEAR_ADDITION_ICONS + id + '/clear-icons', '', ErrorText.UPDATE_DATA, Method.PUT);
 
 
 const uploadToS3 = (body) => loadFile(Route.S3_UPLOAD, ErrorText.SEND_DATA, Method.POST, body, {});
@@ -187,6 +189,6 @@ const uploadToS3 = (body) => loadFile(Route.S3_UPLOAD, ErrorText.SEND_DATA, Meth
 export { getCategories, getService, getInfoById, getServiceById, getServiceByTitle, getSimilarService, sendData,
   createCategory, deleteCategory, updateCategoryMainIcon, updateCategoryGif, updateCategoryGifPreview, setCategoryParent, removeCategoryChild,
   createService, deleteService, addServiceCategory, addServiceIcon, updateServiceMainIcon, updateServiceGifPreview, updateServiceGif, updateServiceDescription,removeServiceCategory, clearServiceIcons,
-  createAddition, deleteAddition, updateAdditionTitle, addAdditionIcon, updateAdditionMainIcon, updateAdditionGifPreview, updateAdditionGif,  updateAdditionDescription,
+  createAddition, deleteAddition, updateAdditionTitle, addAdditionIcon, updateAdditionMainIcon, updateAdditionGifPreview, updateAdditionGif,  updateAdditionDescription,clearAdditionIcons,
   uploadToS3,
 };

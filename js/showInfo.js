@@ -90,7 +90,9 @@ const returnInfoCards =()=>{
 const returnPopupTitle = ()=>{
     const cardTitle = document.querySelector(".popup-title");
     const edit = cardTitle.parentNode.querySelector(".edit-element-button");
-    edit.classList.add("hidden")
+    if(edit){
+        edit.classList.add("hidden")
+    }
     cardTitle.textContent = "Дополнительная информация"; 
 }
 

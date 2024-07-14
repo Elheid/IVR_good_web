@@ -4,7 +4,7 @@ import { showInfoCard } from "./showInfo.js";
 import { createCategory, updateCategoryMainIcon, updateCategoryGifPreview,
     createService, addServiceCategory, removeServiceCategory,  addServiceIcon, updateServiceMainIcon, updateServiceGif, updateServiceDescription, updateServiceGifPreview, clearServiceIcons,
     createAddition, updateAdditionTitle, addAdditionIcon, updateAdditionMainIcon, updateAdditionGifPreview, updateAdditionGif,  updateAdditionDescription,
-    uploadToS3,
+    uploadToS3, clearAdditionIcons,
 } from "./api/api.js";
 
 
@@ -46,7 +46,9 @@ const showHideInputs = ()=>{
 const setIdAfterAdd = (type, id)=>{
     const attribute = type === 'info-cards'  ? 'info-id' : type === 'catalogs-list' ? "catalog-id":"service-id";
     const element = document.querySelector(`li[${attribute}="undefined"]`);
-    element.setAttribute(`${attribute}`, id);
+    if (element){
+        element.setAttribute(`${attribute}`, id);
+    }
 }
 
 let iconLinks;
@@ -68,7 +70,9 @@ const handleUpdate =  (condition, updateFunc, updateEvent) => {
 const setIdAndAddIcons = async(type, data, iconLinks)=>{
     setIdAfterAdd(type, data.id);
     for (const link of iconLinks) {
-        await addServiceIcon(data.id, { link });
+        if (type === "services-list") await addServiceIcon(data.id, { link });
+        if (type === "info-cards") await addAdditionIcon(data.id, { link });
+        window.location.reload();
     }
 }
 
@@ -316,10 +320,11 @@ const submitForm = async (event) => {
         const selectElement = document.getElementById('parent-id');
         const selectedValue = selectElement.value;
 
-        if (!selectElement.classList.contains("hidden") && selectedValue !== parentId){
-            promises.push(removeServiceCategory(id).then(() => promises.push(addServiceCategory(id, selectedValue))));
-        } 
-
+        if (parentId){
+            if (!selectElement.classList.contains("hidden") && selectedValue !== parentId && state !== "info-cards"){
+                promises.push(removeServiceCategory(id).then(() => promises.push(addServiceCategory(id, selectedValue))));
+            }     
+        }
         if (title && state === 'info-cards') promises.push(updateAdditionTitle(id, { title }));
 
         if (image){
@@ -349,16 +354,21 @@ const submitForm = async (event) => {
         }
 
         if (description && iconLinks.length !== 0) {
-            promises.push(clearServiceIcons(id).then(() => {
-                for (const link of iconLinks) {
-                    if (state === 'services-list') {
+            if (state === 'services-list') {
+                promises.push(clearServiceIcons(id).then(() => {
+                    for (const link of iconLinks) {
                         promises.push(addServiceIcon(id, { link }));
                     }
-                    if (state === 'info-cards') {
+                }));
+            }
+            if (state === 'info-cards') {
+                promises.push(clearAdditionIcons(id).then(() => {
+                    for (const link of iconLinks) {
                         promises.push(addAdditionIcon(id, { link }));
                     }
-                }
-            }));
+                }));
+            }
+
         }
 
         // Ожидаем завершения всех промисов
@@ -370,6 +380,9 @@ const submitForm = async (event) => {
         // Перезагрузка страницы после завершения всех запросов
         window.location.reload();
     })
+    }
+    if (state === "info-cards"){
+        document.querySelector(".close-info").click();
     }
    form.removeEventListener('submit', submitForm);
    document.getElementById('card-form-container').classList.add('hidden');
@@ -527,7 +540,7 @@ const changeParentOptions = (targetCard)=>{
         const firstChild =  parentsOption.querySelectorAll("option")[0];
         if (firstChild){
             parentsOption.querySelectorAll("option")[0].textContent = catalogName;
-            parentsOption.querySelectorAll("option")[0].value = catalogName;
+            parentsOption.querySelectorAll("option")[0].value = getCatalogId();
         }
 
         const allCatalogs = [];
