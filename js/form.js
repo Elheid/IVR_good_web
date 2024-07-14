@@ -628,9 +628,11 @@ const showForm = ()=>{
         }
 
         const res = document.getElementById("resVideo");
-        const resVid = targetCard.querySelector(".card-button").dataset.ressrc;
-        if (image && resVid){
-            res.value = resVid;
+        if ( targetCard.querySelector(".card-button")){
+            const resVid = targetCard.querySelector(".card-button");
+            if (image && resVid){
+                res.value = resVid.dataset.ressrc;;
+            }
         }
         if(lastClickedButton.classList.contains("edit-button")){
             const language = window.localStorage.getItem("language");
