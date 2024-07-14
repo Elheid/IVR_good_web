@@ -81,6 +81,7 @@ const showServices = ()=>{
   const id = getCatalogId();
   loadServices(id);
   //displayServices(cell);
+  document.querySelector(".services-list").classList.remove("hidden");
   hideCatalogs();
 }
 /*
