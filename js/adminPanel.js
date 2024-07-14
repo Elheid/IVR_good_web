@@ -611,13 +611,20 @@ const editResElement = (elemet, name)=>{
     });
     const resTitle = elemet.classList.contains("res-title");
     if(resTitle){
-        button.classList.add("hidden");
+        //button.classList.add("hidden");
+        return;
     }
-    if(elemet.classList.contains("title")){
-        if (elemet.classList.contains("popup-title")){
-            button.classList.add("hidden");
-        }
+    if(elemet.classList.contains("title") && elemet.textContent.indexOf("Дополнительная информация")>0){
+        button.classList.add("hidden");
         elemet.appendChild(button);
+    }
+    else if (elemet.classList.contains("title") && elemet.textContent.indexOf("Дополнительная информация") <=0){
+        if (elemet.parentNode.querySelector(".edit-element-button")){
+            elemet.parentNode.querySelector(".edit-element-button").classList.remove("hidden")
+        }
+        else{
+            elemet.appendChild(button);
+        }
     }
     else{
         elemet.parentNode.insertBefore(button, elemet);
@@ -696,4 +703,4 @@ const addAdminPanel = ()=>{
     }*/
 }
 
-export {addAdminPanel, addAdminButtonsToCards, addCadrdSample, extraButtonsUpdate, adminButtonClick, adminUpdate}
+export {addAdminPanel, addAdminButtonsToCards, addCadrdSample, extraButtonsUpdate, adminButtonClick, resAddEditButtons,  adminUpdate}

@@ -190,21 +190,34 @@
               <label for="title" class="conditional">Название карточки:</label>
               <input type="text" id="title" name="title" class="conditional" required>
 
-  
-              <label class="reduced" for="image">Картинка для превью:</label>
-              <!--<input type="file" id="image" name="image" accept="image/*">-->
-              <input class="reduced" type="text" id="image" name="image" accept="image/*">
-  
-              <label class="conditional" for="video" >Видео для превью:</label>
-              <input class="conditional" type="text" id="video" name="video" accept="video/*">
+              <div class="can-upload">
+                <label class="reduced" for="image">Картинка для превью:</label>
+                <!--<input type="file" id="image" name="image" accept="image/*">-->
+                <input class="reduced" type="text" id="image" name="image" accept="image/*">
 
-              <input class="reduced" type="file" id="fileInput">
-              <div class="upload-file reduced">Upload</div>
+                <input class="reduced" type="file" id="fileInput">
+                <div class="upload-file reduced">getLink</div>
+              </div>
+  
+              <div class="can-upload">
+                <label class="conditional" for="video" >Видео для превью:</label>
+                <input class="conditional" type="text" id="video" name="video" accept="video/*">
 
+                <input class="reduced" type="file" id="fileInput">
+                <div class="upload-file reduced">getLink</div>
+              </div>
             </section>
           <section class="res-card">
+            <div class="can-upload">
               <label class="conditional" for="resVideo" class="res-parts">Видео для описания:</label>
               <input class="res-parts conditional" type="text" id="resVideo" name="resVideo" accept="video/*">
+
+              <input class="reduced" type="file" id="fileInput">
+              <div class="upload-file reduced">getLink</div>
+            </div>
+              
+
+
               <!--<input type="file" id="video" name="video" accept="video/*">-->
 
               <aside class="res-text-parts conditional">

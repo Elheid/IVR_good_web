@@ -362,8 +362,19 @@ const isAdmin = ()=>{
     return window.localStorage.getItem("isAdmin") === "true"
 }
 
+const tryJsonParse = (value, name)=>{
+    let res = '';
+    try {
+        res = JSON.parse(value)[name];  // Попробуем распарсить как JSON
+    } catch (e) {
+        res =  value;  
+    }
+    const undefindCheck = typeof res !== 'undefined';
+    return undefindCheck ? res:value;
+}
 
 export {/*createCatalog, createService, createInfo, getAllServices,*/
+    tryJsonParse,
      getCellById, getCatalogId, getCellNameById,
     equalizeSubtitles, getParamFromURL, equalizeIconContainers, getCatalogsId,
     updateMargin, updateMarginButtonsOnList, getCurState, isAdmin, 

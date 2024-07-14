@@ -1,17 +1,6 @@
 // это должно быть временная штука ддля проверки идеи
-import { getCellNameById, getParamFromURL } from "../util.js";
+import { getCellNameById, getParamFromURL, tryJsonParse } from "../util.js";
 
-
-const tryJsonParse = (value, name)=>{
-    let res = '';
-    try {
-        res = JSON.parse(value)[name];  // Попробуем распарсить как JSON
-    } catch (e) {
-        res =  value;  
-    }
-    const undefindCheck = typeof res !== 'undefined';
-    return undefindCheck ? res:value;
-}
 
 const iconInsertion = (textFromBd, iconLinks)=>{
     const iconRegex = /\\icon(\d+)/g;
@@ -201,7 +190,11 @@ const createInfoCard = (info)=>{
 
     const imgOrGif = infoCard.querySelector('.info-card-gif');
 
+    const cardButton = infoCard.querySelector(".card-button")
 
+    if (info.gifPreview) cardButton.setAttribute("data-gifSrc", gifPreview);
+    if (info.mainIconLink) cardButton.setAttribute("data-iconSrc", tryJsonParse(info.mainIconLink, "image"))
+    if (info.gifLink) cardButton.setAttribute("data-resSrc", tryJsonParse(info.gifLink, "resVideo"));
 
 
     imgOrGif.src = gifPreview;
@@ -275,6 +268,7 @@ const createClarLangCard = (cardParent, title, count, iconGif, word = "услу�
 
 
 
+
     //const svgUrl = 'https://storage.yandexcloud.net/akhidov-ivr/icon6.svg';
     let svgUrl = iconGif;
     /*if (svgUrl.includes("icon2") || svgUrl.includes("icon20")){
@@ -341,6 +335,7 @@ const createClarLangCard = (cardParent, title, count, iconGif, word = "услу�
         }
     }
     if (iconGif){
+        //card.setAttribute("data-iconSrc", iconGif)
         loadSVG(svgUrl);
     }
     card.appendChild(iconContainer);
@@ -428,10 +423,14 @@ const createCatalogCard = (catalog, clearLanguage)=>{
 
     const title = tryJsonParse(catalog.title, "title");
    
+    if (catalog.gifPreview) cardButton.setAttribute("data-gifSrc", tryJsonParse(catalog.gifPreview, "video"));
+    if (catalog.mainIconLink) cardButton.setAttribute("data-iconSrc", tryJsonParse(catalog.mainIconLink, "image"))
+
     if (!(clearLanguage)){
         //imgOrGif.classList.add("hidden");
         cardButton.appendChild(createVidContainer());
         cardButton.appendChild(createSubstrate());
+        
        // cardCatalog.appendChild(createVidContainer());
         const vidOrGif = cardCatalog.querySelector('video.gif');
         const cardTitle = cardCatalog.querySelector('.card-description');
@@ -439,6 +438,7 @@ const createCatalogCard = (catalog, clearLanguage)=>{
         const gifPreview = tryJsonParse(catalog.gifPreview, "video")
 
         vidOrGif.src = gifPreview;
+
 
         vidOrGif.loop = true;
         vidOrGif.muted = true;
@@ -510,6 +510,11 @@ const createServiceCard = (service, clearLanguage)=>{
     const cardButton = cardService.querySelector(".card-button");
     const title = tryJsonParse(service.title, "title")
     //const imgOrGif = cardService.querySelector('img.service-gif');
+
+    if (service.gifPreview) cardButton.setAttribute("data-gifSrc", tryJsonParse(service.gifPreview, "video"));
+    if (service.mainIconLink) cardButton.setAttribute("data-iconSrc", tryJsonParse(service.mainIconLink, "image"))
+    if (service.gifLink) cardButton.setAttribute("data-resSrc", tryJsonParse(service.gifLink, "resVideo"));
+
 
     if (!(clearLanguage)){
         const query = window.location.href;

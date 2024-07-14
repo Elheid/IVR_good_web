@@ -111,6 +111,7 @@ const createSendData = (state, listToAdd, type, title, image, video, resVideo, d
     let newCard, sendToBd;
     const language = window.localStorage.getItem("language");
     const isClear = language === "clear-language" ?true:false;
+
     //console.log(url)
    // const isClear = listToAdd.parentNode.classList.contains("clear-language");
     if (state === "info-cards") {
@@ -619,16 +620,78 @@ const showForm = ()=>{
     {
         updateFormBasedOnCardState(targetCard);
         changeParentOptions(targetCard);
+
+
+        if(targetCard.classList.contains("card-to-add")){
+            document.getElementById("parent-id").setAttribute("disabled","")
+            document.querySelectorAll(".parent-existence").forEach((item)=> item.classList.add("hidden"))
+        }
+
+        const res = document.getElementById("resVideo");
+        const resVid = targetCard.querySelector(".card-button").dataset.ressrc;
+        if (image && resVid){
+            res.value = resVid;
+        }
+        if(lastClickedButton.classList.contains("edit-button")){
+            const language = window.localStorage.getItem("language");
+            const isClear = language === "clear-language" ?true:false;
+    
+            const title = document.getElementById("title");
+            if (targetCard.querySelector(".card-title")){
+                title.value = targetCard.querySelector(".card-title").textContent;
+            }
+            else {
+                title.value = "";
+            }
+    
+            if (isClear){
+                const image = document.getElementById("image");
+                image.value = targetCard.querySelector(".card-button").dataset.iconsrc;
+                document.getElementById("video").value = targetCard.querySelector(".card-button").dataset.gifsrc;
+            }
+            else{
+                const video = document.getElementById("video");
+                video.value = targetCard.querySelector("video").src;
+                document.getElementById("image").value = targetCard.querySelector(".card-button").dataset.iconsrc;
+            }
+        }
+        else{
+            title.value = "";
+            image.value = "";
+            video.value = "";
+        }
+
     }
     else if(lastClickedButton.classList.contains("edit-button") ||
     lastClickedButton.classList.contains("edit-element-button")){
         setFormForEditCard(document.querySelector(".submit-form"));
         document.getElementById("parent-id").removeAttribute("disabled")
     }
-    if(targetCard.classList.contains("card-to-add")){
-        document.getElementById("parent-id").setAttribute("disabled","")
-        document.querySelectorAll(".parent-existence").forEach((item)=> item.classList.add("hidden"))
+    if (lastClickedButton.classList.contains("edit-element-button")){
+        const title = document.getElementById("title");
+        if (document.querySelector("h3.title")){
+            title.value = document.querySelector("h3.popup-title").textContent;
+        }
+        const resVid = document.getElementById("resVideo");
+        if (lastClickedButton.parentNode.querySelector("video")){
+            resVid.value = lastClickedButton.parentNode.querySelector("video").src;
+        }
     }
+
+    /*            const title = document.getElementById("title");
+            title.value = "";
+    
+            if (isClear){
+                const image = document.getElementById("image");
+                image.value = targetCard.querySelector(".card-button").dataset.iconsrc;
+                document.getElementById("video").value = targetCard.querySelector(".card-button").dataset.gifsrc;
+            }
+            else{
+                const video = document.getElementById("video");
+                video.value = targetCard.querySelector("video").src;
+                document.getElementById("image").value = targetCard.querySelector(".card-button").dataset.iconsrc;
+            }
+                 */
     console.log("show form")
     document.getElementById('card-form-container').classList.remove('hidden');
     document.addEventListener('click', closeFormOnExitBorders);
@@ -640,29 +703,28 @@ const showForm = ()=>{
 
 
     const uploadFile =()=> {
-        console.log("Не работает");
-       /* const fileInput = document.getElementById('fileInput');
+        const nonFileInput = document.querySelector('.can-upload input:not(#fileInput)');
+
+        const fileInput = document.getElementById('fileInput');
         const file = fileInput.files[0];
       
         if (file) {
 
           const formData = new FormData();
+          formData.append('folder', "videos");
           formData.append('file', file);
-      
-          for (let pair of formData.entries()) {
-            console.log(pair[0]+ ': ' + pair[1]);
-          }
           
           uploadToS3(formData)
             .then(response => {
-              console.log('File uploaded successfully:', response);
+              //console.log('File uploaded successfully:', response);
+              nonFileInput.value = response.link;
             })
             .catch(error => {
               console.error('Error uploading file:', error);
             });
         } else {
           console.error('No file selected');
-        }*/
+        }
     }
 
     const uploadButton = document.querySelector(".upload-file").addEventListener("click", uploadFile);
