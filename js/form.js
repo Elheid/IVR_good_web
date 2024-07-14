@@ -718,15 +718,22 @@ const showForm = ()=>{
 
 
     const uploadFile =()=> {
-        const nonFileInput = document.querySelector('.can-upload input:not(#fileInput)');
-
-        const fileInput = document.getElementById('fileInput');
-        const file = fileInput.files[0];
-      
+        const nonFileInput = event.target.parentNode.querySelector('.can-upload input:not(#fileInput)');
+        const fileLoader = event.target.parentNode.querySelector("#fileInput")
+        const file = fileLoader.files[0];
+        let type = "smth"
+        if (file) {
+          if (file.type.indexOf("video") >= 0) {
+            type = "videos";
+          } 
+          if (file.type.indexOf("image") >= 0) {
+            type = "icons";
+          }
+        }
         if (file) {
 
           const formData = new FormData();
-          formData.append('folder', "videos");
+          formData.append('folder', type);
           formData.append('file', file);
           
           uploadToS3(formData)
@@ -742,7 +749,9 @@ const showForm = ()=>{
         }
     }
 
-    const uploadButton = document.querySelector(".upload-file").addEventListener("click", uploadFile);
+    const uploadButton = document.querySelectorAll(".upload-file").forEach((button)=>{
+        button.addEventListener("click", uploadFile);
+    });
 
 }
 
