@@ -306,7 +306,7 @@ ul.res-text-parts.list {
     flex-direction: column;
 
     overflow-y: scroll;
-    max-height: 120px;
+    max-height: 600px;
 }
 
 li.res-text-parts.part {
