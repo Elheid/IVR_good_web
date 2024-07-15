@@ -232,7 +232,7 @@ const updateStyleButtonsClearCard = (container)=>{
     if (isClear){
         container.style.paddingBottom = "30px";
         container.style.paddingTop = "5px";
-        cardButton.style.height = "auto";
+        cardButton.style.height = "calc(100% - 3em)"//"auto";
     }
 }
 
