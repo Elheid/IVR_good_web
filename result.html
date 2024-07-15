@@ -77,7 +77,21 @@
             <section  class="common-card">
           
 
-              
+              <div class="hidden subCategory-create">
+                <label for="subCategory-create" id="subCategory-create-label">Создать подкатегорию</label>
+                <!--<select class="subCategory-create" id="subCategory-create" name="subCategory-create">
+                  <option value="no">Нет</option>
+                  <option value="yes">Да</option>
+                </select>-->
+                <div class="subCategory-create">
+                  <input class="noCreateSub" type="radio" id="subCategory-create" name="subCategory-create" value="no" name="type"/>
+                  <label for="subCategory-create">Нет</label>
+                </div>
+                <div class="subCategory-create">
+                  <input class="createSub" type="radio" id="subCategory-create" name="subCategory-create" value="yes" name="type"/>
+                  <label for="subCategory-create">Да</label>
+                </div>
+              </div>
   
               <label for="title" class="conditional">Название карточки:</label>
               <input type="text" id="title" name="title" class="conditional" required>

@@ -157,6 +157,8 @@ const updateCategoryGifPreview = (id, body) => loadById(Route.UPDATE_CATEGORY_GI
 const setCategoryParent = (categoryId, parentId) => loadById(Route.SET_CATEGORY_PARENT + categoryId + '/parent/set/', parentId, ErrorText.UPDATE_DATA, Method.PUT);
 const removeCategoryChild = (childId) => loadById(Route.REMOVE_CATEGORY_CHILD, childId, ErrorText.UPDATE_DATA, Method.PUT);
 
+
+
 //Методы для услуг
 const createService = (body) => fetchForm(Route.CREATE_SERVICE, ErrorText.SEND_DATA, Method.POST, body);
 const deleteService = (id) => loadById(Route.DELETE_SERVICE, id, ErrorText.DELETE_DATA, Method.DELETE);
@@ -186,9 +188,35 @@ const clearAdditionIcons = (id) => loadById(Route.CLEAR_ADDITION_ICONS + id + '/
 
 const uploadToS3 = (body) => loadFile(Route.S3_UPLOAD, ErrorText.SEND_DATA, Method.POST, body, {});
 
+
+const CHUNK_SIZE = 5 * 1024 * 1024; // 5MB
+
+const uploadToS3Chunked = async (file) => {
+  const totalChunks = Math.ceil(file.size / CHUNK_SIZE);
+  for (let i = 0; i < totalChunks; i++) {
+    const start = i * CHUNK_SIZE;
+    const end = Math.min(start + CHUNK_SIZE, file.size);
+    const chunk = file.slice(start, end);
+    
+    const formData = new FormData();
+    formData.append('chunk', chunk);
+    formData.append('chunkIndex', i);
+    formData.append('totalChunks', totalChunks);
+
+    try {
+      await loadFile(Route.S3_UPLOAD, ErrorText.SEND_DATA, Method.POST, formData, {});
+    } catch (error) {
+      console.error('Error uploading chunk:', error);
+      throw error;
+    }
+  }
+  console.log('All chunks uploaded successfully');
+};
+
+
 export { getCategories, getService, getInfoById, getServiceById, getServiceByTitle, getSimilarService, sendData,
   createCategory, deleteCategory, updateCategoryMainIcon, updateCategoryGif, updateCategoryGifPreview, setCategoryParent, removeCategoryChild,
   createService, deleteService, addServiceCategory, addServiceIcon, updateServiceMainIcon, updateServiceGifPreview, updateServiceGif, updateServiceDescription,removeServiceCategory, clearServiceIcons,
   createAddition, deleteAddition, updateAdditionTitle, addAdditionIcon, updateAdditionMainIcon, updateAdditionGifPreview, updateAdditionGif,  updateAdditionDescription,clearAdditionIcons,
-  uploadToS3,
+  uploadToS3,uploadToS3Chunked,
 };

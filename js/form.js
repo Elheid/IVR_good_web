@@ -1,10 +1,11 @@
 import { createCatalogCard, createServiceCard, createAndUpdateInfoCard } from "./main/createrObj.js";
-import { getCatalogId, getCellNameById, getCatalogsId, getCurState } from "./util.js";
+import { getCatalogId, getCellNameById, getCatalogsId, getCurState, getLastSubCatalog } from "./util.js";
 import { showInfoCard } from "./showInfo.js";
 import { createCategory, updateCategoryMainIcon, updateCategoryGifPreview,
     createService, addServiceCategory, removeServiceCategory,  addServiceIcon, updateServiceMainIcon, updateServiceGif, updateServiceDescription, updateServiceGifPreview, clearServiceIcons,
     createAddition, updateAdditionTitle, addAdditionIcon, updateAdditionMainIcon, updateAdditionGifPreview, updateAdditionGif,  updateAdditionDescription,
     uploadToS3, clearAdditionIcons,
+    setCategoryParent,
 } from "./api/api.js";
 
 
@@ -15,30 +16,34 @@ const showHideInputs = ()=>{
     const parentIdSelect = document.getElementById('parent-id');
 
     addExtra.addEventListener("click", ()=>{
-        if (addExtra.checked) {
-            //parentIdLabel.classList.remove('hidden');
-            //parentIdSelect.classList.remove('hidden');
-            document.getElementById("parent-id").setAttribute("disabled","")
-
-            document.querySelector(".common-card").classList.remove("hidden");
-            document.querySelector(".res-card").classList.remove("hidden");
-
-            //document.querySelectorAll(".reduced").forEach((item)=> item.classList.remove("hidden"))
-            //document.querySelectorAll(".conditional").forEach((item)=> item.classList.remove("hidden"))
-            //document.querySelectorAll(".parent-existence").forEach((item)=> item.classList.add("hidden"))
+        if (!document.querySelector(".parent-existence").classList.contains("hidden")){
+            if (addExtra.checked) {
+                //parentIdLabel.classList.remove('hidden');
+                //parentIdSelect.classList.remove('hidden');
+                document.getElementById("parent-id").setAttribute("disabled","")
+    
+                document.querySelector(".common-card").classList.remove("hidden");
+                document.querySelector(".res-card").classList.remove("hidden");
+    
+                //document.querySelectorAll(".reduced").forEach((item)=> item.classList.remove("hidden"))
+                //document.querySelectorAll(".conditional").forEach((item)=> item.classList.remove("hidden"))
+                //document.querySelectorAll(".parent-existence").forEach((item)=> item.classList.add("hidden"))
+            }
         }
     })
     hideExtra.addEventListener("click", ()=>{
-        if(hideExtra.checked){
-            document.getElementById("parent-id").removeAttribute("disabled")
+        if (!document.querySelector(".parent-existence").classList.contains("hidden")){
+            if(hideExtra.checked){
+                document.getElementById("parent-id").removeAttribute("disabled")
 
-            document.querySelector(".common-card").classList.add("hidden");
-            document.querySelector(".res-card").classList.add("hidden");
+                document.querySelector(".common-card").classList.add("hidden");
+                document.querySelector(".res-card").classList.add("hidden");
 
-            //document.querySelectorAll(".reduced").forEach((item)=> item.classList.add("hidden"))
-            //document.querySelectorAll(".conditional").forEach((item)=> item.classList.add("hidden"))
-           // parentIdLabel.classList.add('hidden');
-            //parentIdSelect.classList.add('hidden');
+                //document.querySelectorAll(".reduced").forEach((item)=> item.classList.add("hidden"))
+                //document.querySelectorAll(".conditional").forEach((item)=> item.classList.add("hidden"))
+                // parentIdLabel.classList.add('hidden');
+                //parentIdSelect.classList.add('hidden');
+            }
         }
     })
 }
@@ -83,6 +88,11 @@ const sendCardToBd = async (type, sendData, parentId, iconLinks) => {
     const actions = {
         [catalog]: async () => {
             const data = await createCategory(sendData);
+            setIdAfterAdd(catalog, data.id);
+        },
+        ["sub-catalog"]: async () => {
+            const data = await createCategory(sendData);
+            await setCategoryParent(data.id, parentId)
             setIdAfterAdd(catalog, data.id);
         },
         [service]: async () => {
@@ -281,7 +291,7 @@ const submitForm = async (event) => {
     const search = new URLSearchParams(window.location.search);
     let parentId = search.get("catalog") || search.get("serviceId");
     //const addExtra = document.querySelector(".add-extra");
-    const type = state === "services-list" ? 'service' : 'catalog';
+    let type = state === "services-list" ? 'service' : 'catalog';
     const title = document.getElementById('title').value;
     const image = document.getElementById('image').value;
     const video = document.getElementById('video').value;
@@ -291,10 +301,24 @@ const submitForm = async (event) => {
     const iconLinks = resText.iconLinks;
 
     if (action === 'add') {
+        if (isSubCatalog()){
+            state = "catalogs-list";
+            type = "catalog";
+        }
         const { newCard, sendToBd } = createSendData(state, listToAdd, type, title, image, video, resVideo, description, parentId);
         if (sendToBd) {
-            sendCardToBd(state, sendToBd, parentId, iconLinks);
-            
+            if (isSubCatalog()){
+                if (parentId){
+                    sendCardToBd("sub-catalog", sendToBd, parentId, iconLinks);
+                }
+                else{
+                    sendCardToBd("sub-catalog", sendToBd, getLastSubCatalog(), iconLinks);
+                }
+                
+            }
+            else{
+                sendCardToBd(state, sendToBd, parentId, iconLinks);
+            }            
         } else {
             console.error("Error: Invalid form data.");
         }
@@ -307,6 +331,12 @@ const submitForm = async (event) => {
         document.dispatchEvent(cardAddedEvent);
         console.log("should added: ", newCard);
     } else {
+
+        if (isSubCatalog()){
+            state = "catalogs-list";
+            type = "catalog";
+        }
+        
         const promises = [];
 
         const attribute = state === 'info-cards' ? 'info-id' : state === 'catalogs-list' ? "catalog-id" : "service-id";
@@ -477,6 +507,14 @@ const removeAllChildrenExceptFirst = (parentElement)=> {
     }
 }
 
+const isSubCatalog = ()=>{
+    if (!document.querySelector("div.subCategory-create").classList.contains("hidden")){
+        if(document.querySelector(".createSub").checked){
+            return true;
+        }
+    }
+    return false;
+}
 const changeParentOptions = (targetCard)=>{
     const state = getCurState();
 
@@ -485,7 +523,10 @@ const changeParentOptions = (targetCard)=>{
 
     const parentChoose = document.querySelector(".parent-choose");
 
+    document.querySelector(".createSub").checked = false;
+
     if (state === 'catalogs-list'){
+        document.querySelector("div.subCategory-create").classList.add("hidden");
         //resDivs.forEach((div)=> div.classList.add("hidden"))
         resDivs.classList.add("hidden");
 
@@ -497,7 +538,7 @@ const changeParentOptions = (targetCard)=>{
         document.querySelector(`label.parent-existence`).classList.add("hidden");*/
     }
     else if (state === 'info-cards'){
-
+        document.querySelector("div.subCategory-create").classList.add("hidden");
         /*const typeOfParent = document.querySelectorAll("div.parent-existence");
         typeOfParent.forEach(parent=>{
             parent.classList.add("hidden");
@@ -529,13 +570,15 @@ const changeParentOptions = (targetCard)=>{
     }
 
     if (state === "services-list"){
+        const parentsOption = document.getElementById("parent-id");
+        
 
         parentChoose.classList.remove("hidden");
 
         const addExtra = document.querySelector(".add-extra");
         addExtra.click();
         const catalogName = getCellNameById(getCatalogId())
-        const parentsOption = document.getElementById("parent-id");
+
         removeAllChildrenExceptFirst(parentsOption);
         const firstChild =  parentsOption.querySelectorAll("option")[0];
         if (firstChild){
@@ -568,6 +611,48 @@ const changeParentOptions = (targetCard)=>{
         //const hideExtra = document.querySelector(".hide-extra");
         //hideExtra.click();
     }
+
+    if (state === "services-list"){
+        const parentsOption = document.getElementById("parent-id");
+        const createSubCatalog =  document.querySelector(".createSub");
+        const noCreateSubCatalog = document.querySelector(".noCreateSub")
+
+
+
+            createSubCatalog.addEventListener("click", ()=>{
+                createSubCatalog.checked = true;
+                const value = createSubCatalog.checked;
+                if (value){
+                    resDivs.classList.add("hidden");
+                    document.querySelector("section.res-card").classList.add("hidden");
+                }
+            })
+            noCreateSubCatalog.addEventListener("click", ()=>{
+                noCreateSubCatalog.checked = true;
+                const value = createSubCatalog.checked;
+                if (!value){
+                    resDivs.classList.remove("hidden");
+                    document.querySelector("section.res-card").classList.remove("hidden");
+                }
+            });
+
+        if (targetCard.classList.contains("card-to-add") && !targetCard.parentNode.querySelector(".service-card") ){
+            document.querySelector("div.subCategory-create").classList.remove("hidden");
+
+        }
+        if (parentsOption.length > 0 && (parentsOption[0].value === "null" || parentsOption[0].value === "1")) {
+            noCreateSubCatalog.disabled = true;
+            createSubCatalog.checked = true;
+            createSubCatalog.click();
+            document.querySelector("section.res-card").classList.add("hidden");
+
+        }
+        if (createSubCatalog.checked){
+            document.querySelector(".parent-choose").classList.add("hidden");
+        }
+    }
+
+
 }
 
 // Функция для настройки формы для редактирования карточки
@@ -638,20 +723,28 @@ const showForm = ()=>{
         if(targetCard.classList.contains("card-to-add")){
             document.getElementById("parent-id").setAttribute("disabled","")
             document.querySelectorAll(".parent-existence").forEach((item)=> item.classList.add("hidden"))
+
+
         }
 
         const res = document.getElementById("resVideo");
-        if ( targetCard.querySelector(".card-button")){
-            const resVid = targetCard.querySelector(".card-button");
-            if (image && resVid){
-                res.value = resVid.dataset.ressrc;;
-            }
-        }
+        const title = document.getElementById("title");
+        const video = document.getElementById("video");
+        const image = document.getElementById("image");
+
+
         if(lastClickedButton.classList.contains("edit-button")){
+
+            if ( targetCard.querySelector(".card-button")){
+                const resVid = targetCard.querySelector(".card-button");
+                if (image && resVid){
+                    res.value = resVid.dataset.ressrc;;
+                }
+            }
+
             const language = window.localStorage.getItem("language");
             const isClear = language === "clear-language" ?true:false;
     
-            const title = document.getElementById("title");
             if (targetCard.querySelector(".card-title")){
                 title.value = targetCard.querySelector(".card-title").textContent;
             }
@@ -660,12 +753,12 @@ const showForm = ()=>{
             }
     
             if (isClear){
-                const image = document.getElementById("image");
+ 
                 image.value = targetCard.querySelector(".card-button").dataset.iconsrc;
                 document.getElementById("video").value = targetCard.querySelector(".card-button").dataset.gifsrc;
             }
             else{
-                const video = document.getElementById("video");
+
                 video.value = targetCard.querySelector("video").src;
                 document.getElementById("image").value = targetCard.querySelector(".card-button").dataset.iconsrc;
             }
@@ -674,6 +767,7 @@ const showForm = ()=>{
             title.value = "";
             image.value = "";
             video.value = "";
+            res.value  = "";    
         }
 
     }

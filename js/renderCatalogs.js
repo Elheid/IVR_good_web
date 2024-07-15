@@ -2,7 +2,7 @@
 import {  createCatalogCard } from "./main/createrObj.js";
 import { hideSkeletonsAndReplace } from './skeletons/skeleton.js';
 import { showServices } from "./services.js";
-import { getCellById, equalizeSubtitles, getLastSubCatalog, countSubCatalogs, getPreSubCatalog, getAllSubCatalogs } from "./util.js";
+import { getCellById, equalizeSubtitles, getLastSubCatalog, countSubCatalogs, getPreSubCatalog, getAllSubCatalogs, isAdmin, updateMargin } from "./util.js";
 
 import { addCadrdSample } from "./adminPanel.js";
 import { addHeader, addSubHeader } from "./headers.js";
@@ -133,6 +133,9 @@ const renderCatalogs = ()=>{
     const catalogCells = document.querySelectorAll('.catalog-card');
 
     catalogCells.forEach((cell) =>{
+      if (isAdmin() && cell.querySelector(".extended-container")){
+        updateMargin(cell, cell.querySelector(".extended-container"));
+      }
       replaceCardToSubCategory(cell);
       const button = cell.querySelector(".card-button");
       if (button){
