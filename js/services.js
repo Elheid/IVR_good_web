@@ -104,9 +104,10 @@ const updateURL = (query)=>{
 
 const showSearchedServices = (services, query)=>{
   removeSearchHeader();
-  addHeaderForSearch();
+  
   //history.pushState({ query: query }, '', `?query=${query}`);
   updateURL(query);
+  addHeaderForSearch();
   //console.log(services)
   displayServices(services, true);
   hideCatalogs();

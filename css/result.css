@@ -40,11 +40,11 @@
     padding-top: 24px;
     padding-bottom: 18px;
     padding-left: 50px;
-    text-align: left;
+
     font-size: 24px;
     white-space: break-spaces;
     padding-right: 50px;
-    text-align: justify;
+
     font-family: "Roboto", serif;
     flex-direction: column;
     align-items: flex-start;
