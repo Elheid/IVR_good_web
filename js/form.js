@@ -312,8 +312,9 @@ const submitForm = async (event) => {
                     sendCardToBd("sub-catalog", sendToBd, parentId, iconLinks);
                 }
                 else{
-                    sendCardToBd(type, sendToBd, getLastSubCatalog(), iconLinks);
+                    sendCardToBd("sub-catalog", sendToBd, getLastSubCatalog(), iconLinks);
                 }
+                
             }
             else{
                 sendCardToBd(state, sendToBd, parentId, iconLinks);
