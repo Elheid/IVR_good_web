@@ -229,7 +229,6 @@ const addCatalogButton = (searchResult)=>{
   document.addEventListener('DOMContentLoaded', renderCatalogs());
 };
 
-
 const initializeResults = (cards)=>{
     const categoties = cards.content;
     const catalogs = document.querySelector(".catalogs");

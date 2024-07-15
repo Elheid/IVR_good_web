@@ -516,3 +516,7 @@ aside.hidden{
     justify-content: space-around;
     height: 100%;
 }
+
+.upload-file{
+    cursor: pointer;
+}
