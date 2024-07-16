@@ -234,9 +234,15 @@ const updateStyleButtonsClearCard = (container)=>{
         container.style.paddingTop = "5px";
         if (isAdmin()){
             cardButton.style.height = "calc(100% - 3em)";//"auto";
+            if(cardButton.querySelector(".icon-container")){
+                cardButton.querySelector(".icon-container").style.marginTop = "20px";
+            } 
         }
         else{
             cardButton.style.height = "auto";
+            if(cardButton.querySelector(".icon-container")){
+                cardButton.querySelector(".icon-container").style.marginTop = ""  
+            } 
         }
 
     }
