@@ -241,7 +241,7 @@ const updateStyleButtonsClearCard = (container)=>{
         else{
             cardButton.style.height = "auto";
             if(cardButton.querySelector(".icon-container")){
-                cardButton.querySelector(".icon-container").style.marginTop = ""  
+                cardButton.querySelector(".icon-container").style.marginTop = "";
             } 
         }
 
