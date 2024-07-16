@@ -1,11 +1,12 @@
-import { createCatalogCard, createServiceCard, createAndUpdateInfoCard } from "./main/createrObj.js";
-import { getCatalogId, getCellNameById, getCatalogsId, getCurState, getLastSubCatalog } from "./util.js";
+import { createCatalogCard, createServiceCard, createAndUpdateInfoCard, extractSubstrings } from "./main/createrObj.js";
+import { getCatalogId, getCellNameById, getCatalogsId, getCurState, getLastSubCatalog, getLastParam, tryJsonParse } from "./util.js";
 import { showInfoCard } from "./showInfo.js";
 import { createCategory, updateCategoryMainIcon, updateCategoryGifPreview,
     createService, addServiceCategory, removeServiceCategory,  addServiceIcon, updateServiceMainIcon, updateServiceGif, updateServiceDescription, updateServiceGifPreview, clearServiceIcons,
     createAddition, updateAdditionTitle, addAdditionIcon, updateAdditionMainIcon, updateAdditionGifPreview, updateAdditionGif,  updateAdditionDescription,
     uploadToS3, clearAdditionIcons,
     setCategoryParent,
+    getServiceById,
 } from "./api/api.js";
 
 
@@ -88,18 +89,21 @@ const sendCardToBd = async (type, sendData, parentId, iconLinks) => {
     const actions = {
         [catalog]: async () => {
             const data = await createCategory(sendData);
-            setIdAfterAdd(catalog, data.id);
+            await setIdAfterAdd(catalog, data.id);
+            endFormWithLoader();
         },
         ["sub-catalog"]: async () => {
             const data = await createCategory(sendData);
             await setCategoryParent(data.id, parentId)
-            setIdAfterAdd(catalog, data.id);
+            await setIdAfterAdd(catalog, data.id);
+            endFormWithLoader();
         },
         [service]: async () => {
             const data = await createService(sendData);
             //await addServiceCategory(data.id, parentId);
-            addServiceCategory(data.id, parentId);
-            setIdAndAddIcons(service, data, iconLinks);
+            await addServiceCategory(data.id, parentId);
+            await setIdAndAddIcons(service, data, iconLinks);
+            endFormWithLoader();
             /*setIdAfterAdd(service, data.id);
             for (const link of iconLinks) {
                 await addServiceIcon(data.id, { link });
@@ -107,7 +111,8 @@ const sendCardToBd = async (type, sendData, parentId, iconLinks) => {
         },
         [info]: async () => {
             const data = await createAddition(sendData);
-            setIdAndAddIcons(info, data, iconLinks);
+            await setIdAndAddIcons(info, data, iconLinks);
+            endFormWithLoader();
             /*setIdAfterAdd(info, data.id);
             for (const link of iconLinks) {
                 await addAdditionIcon(data.id, { link });
@@ -164,10 +169,13 @@ const createSendData = (state, listToAdd, type, title, image, video, resVideo, d
 
     return { newCard, sendToBd };
 };
-/*
+
 const submitForm = async (event) => {
     event.preventDefault();
     event.stopPropagation();
+
+    showLoader();
+
 
     const form = document.getElementById('card-form');
 
@@ -182,112 +190,16 @@ const submitForm = async (event) => {
         action = targetCard.classList.contains("card-to-add") ? 'add' : 'edit';
         listToAdd = targetCard.parentNode;
     }
-    const search = new URLSearchParams(window.location.search);
-    let parentId = search.get("catalog") || search.get("serviceId");
-    const addExtra = document.querySelector(".add-extra");
-    const type = addExtra.checked ? 'service' : 'catalog';
-    const title = document.getElementById('title').value;
-    const image = document.getElementById('image').value;
-    const video = document.getElementById('video').value;
-    const resVideo = document.getElementById('resVideo').value;
-    const resText = assembleDescription();
-    const description = resText.description;
-    const iconLinks = resText.iconLinks;
 
+    
+    const attribute = state === 'info-cards' ? 'info-id' : state === 'catalogs-list' ? "catalog-id" : "service-id";
 
-        if (action === 'add') {
-            const { newCard, sendToBd } = createSendData(state, listToAdd, type, title, image, video, resVideo, description, parentId);
-            if (sendToBd) {
-                await sendCardToBd(state, sendToBd, parentId);
-            } else {
-                console.error("Error: Invalid form data.");
-            }
-            if (state === "info-cards") {
-                showInfoCard(sendToBd);
-            } else {
-                listToAdd.appendChild(newCard);
-            }
-            const cardAddedEvent = new CustomEvent('newCardCreated', { detail: { card: newCard } });
-            document.dispatchEvent(cardAddedEvent);
-            console.log("should added: ", newCard);
-        } else {
-            const attribute = state === 'info-cards' ? 'info-id' : state === 'catalogs-list' ? "catalog-id" : "service-id";
-
-            const url = new URLSearchParams(window.location.search);
-
-
-            let id = targetCard ? targetCard.getAttribute(attribute) : url.get("serviceId");
-            if (document.querySelector(".additional-info-res")){
-                id = document.querySelector(".additional-info-res").classList[1];
-            }
-
-            const selectElement = document.getElementById('parent-id');
-            const selectedValue = selectElement.value;
-            if (!selectElement.classList.contains("hidden") && selectedValue !== parentId){
-                removeServiceCategory(id).then(()=>{
-                    addServiceCategory(id, selectedValue);
-                })
-            } 
-                if (title && state === 'info-cards') updateAdditionTitle(id, { title });
-
-                if (image){
-                    if (state === 'catalogs-list')  updateCategoryMainIcon(id, { image });
-                    if (state === 'services-list')  updateServiceMainIcon(id, { image });
-                    if (state === 'info-cards')  updateAdditionMainIcon(id, { image });
-                }
-                if (video){
-                    if (state === 'catalogs-list')  updateCategoryGifPreview(id, { video });
-                    if (state === 'services-list')   updateServiceGifPreview(id, { video });
-                    if (state === 'info-cards')  updateAdditionGifPreview(id, { video });
-                }
-                if (resVideo){
-                    if (state === 'services-list') updateServiceGif(id, { resVideo });
-                    if (state === 'info-cards') updateAdditionGif(id, { resVideo });
-                }
-                if (description) { {
-                    if (state === 'services-list') {
-                        updateServiceDescription(id, { description });
-                    }
-                    if (state === 'info-cards') {
-                        updateAdditionDescription(id, { description });
-                    }
-                }
-                if (description && iconLinks.length !== 0) {
-                    clearServiceIcons(id).then(()=>{
-                        for (const link of iconLinks) {
-                            if (state === 'services-list') {
-                                addServiceIcon(id, { link });
-                            }
-                            if (state === 'info-cards') {
-                                addAdditionIcon(id, { link });
-                            }
-                        }
-                    });
-                }
-            }
-        }
-        
-    form.removeEventListener('submit', submitForm);
-    document.getElementById('card-form-container').classList.add('hidden');
-    form.reset();
-};*/
-const submitForm = async (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-
-    const form = document.getElementById('card-form');
-
-    let state = getCurState();
-    if (lastClickedButton.classList.contains("edit-element-button")){
-        state = form.classList.contains("inside-service") ? "services-list": 'info-cards';
+    if (isSubCatalog()){
+        state = "catalogs-list";
+        type = "catalog";
     }
-    const targetCard = lastClickedButton.closest("li");
-    let action  = "edit";
-    let listToAdd ;
-    if (targetCard){
-        action = targetCard.classList.contains("card-to-add") ? 'add' : 'edit';
-        listToAdd = targetCard.parentNode;
-    }
+
+
     const search = new URLSearchParams(window.location.search);
     let parentId = search.get("catalog") || search.get("serviceId");
     //const addExtra = document.querySelector(".add-extra");
@@ -301,10 +213,10 @@ const submitForm = async (event) => {
     const iconLinks = resText.iconLinks;
 
     if (action === 'add') {
-        if (isSubCatalog()){
+        /*if (isSubCatalog()){
             state = "catalogs-list";
             type = "catalog";
-        }
+        }*/
         const { newCard, sendToBd } = createSendData(state, listToAdd, type, title, image, video, resVideo, description, parentId);
         if (sendToBd) {
             if (isSubCatalog()){
@@ -331,16 +243,15 @@ const submitForm = async (event) => {
         document.dispatchEvent(cardAddedEvent);
         console.log("should added: ", newCard);
     } else {
-
+/*
         if (isSubCatalog()){
             state = "catalogs-list";
             type = "catalog";
-        }
+        }*/
         
         const promises = [];
 
-        const attribute = state === 'info-cards' ? 'info-id' : state === 'catalogs-list' ? "catalog-id" : "service-id";
-
+        
         const url = new URLSearchParams(window.location.search);
         let id = targetCard ? targetCard.getAttribute(attribute) : url.get("serviceId");
         if (document.querySelector(".additional-info-res") && document.querySelector(".additional-info-res").classList[1]){
@@ -403,9 +314,12 @@ const submitForm = async (event) => {
 
         // Ожидаем завершения всех промисов
         /* await*/ Promise.all(promises).then(()=>{
-        form.removeEventListener('submit', submitForm);
+        /*form.removeEventListener('submit', submitForm);
         document.getElementById('card-form-container').classList.add('hidden');
         form.reset();
+        
+        hideLoader();*/
+        endFormWithLoader();
 
         // Перезагрузка страницы после завершения всех запросов
         window.location.reload();
@@ -414,9 +328,9 @@ const submitForm = async (event) => {
     if (state === "info-cards"){
         document.querySelector(".close-info").click();
     }
-   form.removeEventListener('submit', submitForm);
+   /*form.removeEventListener('submit', submitForm);
    document.getElementById('card-form-container').classList.add('hidden');
-   form.reset();
+   form.reset();*/
 };
 
 
@@ -460,6 +374,28 @@ const addNewResBlockButton = ()=>{
     })
     list.appendChild(clone);
 }
+
+const addNewResBlockWithText = (blockOfText)=>{
+    const list = document.querySelector(".res-text-parts.list");
+    const first = list.children[0];
+    for (let i = 0; i < blockOfText.length; i++){
+        const block = splitString(blockOfText[i]);
+        const text = block.cleanedString;
+        const icon = block.extractedString;
+        const clone = document.importNode(first, true);
+        clone.querySelectorAll("textarea").forEach((input) => {
+            input.value = text;
+            input.textContent = text;
+        })
+        clone.querySelectorAll("input").forEach((input) => {
+            input.value = icon;
+            input.textContent = icon;
+        })
+        list.appendChild(clone);
+    }
+    first.remove();
+}
+
 
 const removeNewResBlocks = ()=>{
     const list = document.querySelector(".res-text-parts.list");
@@ -508,7 +444,9 @@ const removeAllChildrenExceptFirst = (parentElement)=> {
 }
 
 const isSubCatalog = ()=>{
-    if (!document.querySelector("div.subCategory-create").classList.contains("hidden")){
+const allSubCatalogs = document.querySelectorAll("div.subCategory-create");
+let allVisible = Array.from(allSubCatalogs).every(sub => !sub.classList.contains("hidden"));
+    if (!allVisible){
         if(document.querySelector(".createSub").checked){
             return true;
         }
@@ -697,8 +635,70 @@ const updateFormBasedOnCardState = (targetCard) => {
     }
 }
 
+const showLoader = ()=>{
+    const submitButton = document.querySelector(".submit-form");
+    submitButton.disabled = true; 
+    document.getElementById('loader').classList.remove('hidden');
+}
+const hideLoader = ()=>{
+    const submitButton = document.querySelector(".submit-form");
+    submitButton.disabled = false; 
+    document.getElementById('loader').classList.add('hidden');
+}
+
+const endFormWithLoader = ()=>{
+
+    form.removeEventListener('submit', submitForm);
+    document.getElementById('card-form-container').classList.add('hidden');
+    form.reset();
+    hideLoader();
+}
+
+const getDescription = (targetCard)=>{
+    let action  = "edit";
+    if (targetCard){
+        action = targetCard.classList.contains("card-to-add") ? 'add' : 'edit';
+    }
+    let state = getCurState();
+    const lastParam = getLastParam();
+    if (lastParam && lastParam.indexOf("sub-catalog")>=0){
+        state = "sub-catalogs-list";
+    }
+    if (action === "edit" && (state === "services-list" || state === "info-cards")){
+        showLoader()
+        const attribute = state === 'info-cards' ? 'info-id' : state === 'catalogs-list' ? "catalog-id" : "service-id";
+        const id = targetCard.getAttribute(attribute);
+        getServiceById(id).then((data)=>{
+            const description = tryJsonParse(data.description, "description");
+            const text = document.querySelector(".res-description")
+            //.res-description сами блоки текста
+            //res-text-parts list список блоков текста и иконок
+            const blocksOfText = extractSubstrings(description);
+            addNewResBlockWithText(blocksOfText)
+            console.log(blocksOfText)
+            hideLoader();
+        })
+    }
+}
+
+const splitString = (input)=> {
+    // Регулярное выражение для поиска подстроки \n\\iconЧисло
+    const regex = /\n\\icon\d+/g;
+    
+    // Строка, содержащая только подстроки \n\\iconЧисло
+    const extracted = input.match(regex)?.join('') || '';
+
+    // Строка без подстрок \n\\iconЧисло
+    const cleaned = input.replace(regex, '');
+    const strings = {cleanedString:cleaned, extractedString:extracted}
+    return strings;
+}
+
 
 const showForm = ()=>{
+
+
+
     event.stopPropagation();
     document.getElementById('title').addEventListener('keydown', function(event) {
         if (event.key === 'Enter') {
@@ -716,6 +716,10 @@ const showForm = ()=>{
 
     if (targetCard)
     {
+
+        getDescription(targetCard);
+
+
         updateFormBasedOnCardState(targetCard);
         changeParentOptions(targetCard);
 
@@ -801,6 +805,8 @@ const showForm = ()=>{
                 document.getElementById("image").value = targetCard.querySelector(".card-button").dataset.iconsrc;
             }
                  */
+
+
     console.log("show form")
     document.getElementById('card-form-container').classList.remove('hidden');
     document.addEventListener('click', closeFormOnExitBorders);

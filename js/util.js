@@ -125,6 +125,22 @@ const getAllSubCatalogs = () => {
     return subCatalogs;
 }
 
+const getLastParam = ()=>{
+    const searchParams = new URLSearchParams(window.location.search);
+  
+    // Переменные для хранения последнего ключа и значения параметра
+    let lastParamKey = null;
+    let lastParamValue = null;
+
+    // Получаем все параметры из запроса URL
+    for (const [key, value] of searchParams.entries()) {
+        // Обновляем последний найденный параметр ключ и значение
+        lastParamKey = key;
+        lastParamValue = value;
+    }
+    return lastParamKey;
+}
+
 const removeLastQueryParam = () => {
     const searchParams = new URLSearchParams(window.location.search);
   
@@ -378,4 +394,5 @@ export {/*createCatalog, createService, createInfo, getAllServices,*/
      getCellById, getCatalogId, getCellNameById,
     equalizeSubtitles, getParamFromURL, equalizeIconContainers, getCatalogsId,
     updateMargin, updateMarginButtonsOnList, getCurState, isAdmin, 
-    getLastSubCatalog, countSubCatalogs, getPreSubCatalog, getLastSubCatalogName, getAllSubCatalogs, findSubCatalogByValue, removeLastQueryParam};
+    getLastSubCatalog, countSubCatalogs, getPreSubCatalog, getLastSubCatalogName,
+     getAllSubCatalogs, findSubCatalogByValue, removeLastQueryParam, getLastParam};

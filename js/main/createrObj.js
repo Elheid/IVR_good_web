@@ -700,5 +700,5 @@ const createGastrualSkeleton = (count, isClear)=>{
 
 
 export {createRes, createGoButtons, createServiceCard, createGastrualSkeleton, createCatalogCard, createInfoCard, infoRes, loadHeaderData,
-    createAndUpdateInfoCard
+    createAndUpdateInfoCard, extractSubstrings,
 }
