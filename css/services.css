@@ -755,6 +755,11 @@ button#showPopup img{
     height: 100%;
     width: auto;
     text-wrap: balance;
+
+
+    height: fit-content;
+    margin-top: auto;
+    margin-bottom: auto
 }
 .clear-card .count-services{
     color: #FFFFFF;
