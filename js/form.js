@@ -647,7 +647,7 @@ const hideLoader = ()=>{
 }
 
 const endFormWithLoader = ()=>{
-
+    const form = document.getElementById('card-form');
     form.removeEventListener('submit', submitForm);
     document.getElementById('card-form-container').classList.add('hidden');
     form.reset();
