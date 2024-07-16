@@ -659,6 +659,20 @@ const getDescription = (targetCard)=>{
     if (targetCard){
         action = targetCard.classList.contains("card-to-add") ? 'add' : 'edit';
     }
+
+    if (action === "add"){
+        const list = document.querySelector(".res-text-parts.list");
+        const first = list.children[0];
+        first.querySelectorAll("textarea").forEach((input) => {
+            input.value = "";
+            input.textContent = "";
+        })
+        first.querySelectorAll("input").forEach((input) => {
+            input.value = "";
+            input.textContent = "";
+        })
+    }
+
     let state = getCurState();
     const lastParam = getLastParam();
     if (lastParam && lastParam.indexOf("sub-catalog")>=0){

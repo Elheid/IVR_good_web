@@ -317,6 +317,10 @@ li.res-text-parts.part {
     flex-direction: column;
 }
 
+textarea.res-parts{
+    max-width: 326px;
+}
+
 section.res-card {
     align-self: end;
     padding-left: 10px;
