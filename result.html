@@ -50,102 +50,127 @@
       </div>
 
       
-        <div id="card-form-container" class="hidden">
-          <form id="card-form">
-            <div class="close-form"><img src="img/close.jpg" width="32px" height="30px"></div>
-            <section class="parent-choose">
+      <div id="card-form-container" class="hidden">
+        <form id="card-form">
+          <div class="form-flex">
+          <div class="close-form"><img src="img/Close.svg" width="32px" height="30px"></div>
+          <article class="main-form">
+          <section class="parent-choose conditional">
 
-              <!--<select id="card-transfer" name="card-transfer" class="hidden">
-                <option value="service">Нет</option>
-                <option value="category">Да</option>
+            <!--<select id="card-transfer" name="card-transfer" class="hidden">
+              <option value="service">Нет</option>
+              <option value="category">Да</option>
+            </select>-->
+            
+            <!--<select id="type" name="type" required>
+                <option value="service">Есть</option>
+                <option value="category">Нет</option>
+            </select>-->
+            <label for="card-transfer" class="parent-existence reduced">Переместить карточку</label>
+            <div class="parent-existence reduced">
+              <input class="add-extra" type="radio" id="type" name="drone" value="service" name="type"/>
+              <label for="type">Нет</label>
+            </div>
+            <div class="parent-existence reduced">
+              <input class="hide-extra" type="radio" id="type" name="drone" value="category" name="type"/>
+              <label for="type">Да</label>
+            </div>
+
+            <label class="reduced" for="parent-id" id="parent-id-label" class="hidden">Родительская карточка:</label>
+            <select class="reduced" id="parent-id" name="parent-id" class="hidden">
+                <option value="1">Card Title 1</option>
+            </select>
+          </section>
+          <section  class="common-card conditional">
+        
+
+            <div class="hidden subCategory-create">
+              <label for="subCategory-create" id="subCategory-create-label">Создать подкатегорию</label>
+              <!--<select class="subCategory-create" id="subCategory-create" name="subCategory-create">
+                <option value="no">Нет</option>
+                <option value="yes">Да</option>
               </select>-->
-              
-              <!--<select id="type" name="type" required>
-                  <option value="service">Есть</option>
-                  <option value="category">Нет</option>
-              </select>-->
-              <label for="card-transfer" class="parent-existence reduced hidden">Переместить карточку</label>
-              <div class="parent-existence reduced">
-                <input class="add-extra" type="radio" id="type" name="drone" value="service" name="type"/>
-                <label for="type">Нет</label>
+              <div class="subCategory-create">
+                <input class="noCreateSub" type="radio" id="subCategory-create" name="subCategory-create" value="no" name="type"/>
+                <label for="subCategory-create">Нет</label>
               </div>
-              <div class="parent-existence reduced">
-                <input class="hide-extra" type="radio" id="type" name="drone" value="category" name="type"/>
-                <label for="type">Да</label>
+              <div class="subCategory-create">
+                <input class="createSub" type="radio" id="subCategory-create" name="subCategory-create" value="yes" name="type"/>
+                <label for="subCategory-create">Да</label>
               </div>
-  
-              <label class="reduced" for="parent-id" id="parent-id-label" class="hidden">Родительская карточка:</label>
-              <select class="reduced" id="parent-id" name="parent-id" class="hidden">
-                  <option value="1">Card Title 1</option>
-              </select>
-            </section>
-            <section  class="common-card">
-          
+            </div>
 
-              <div class="hidden subCategory-create">
-                <label for="subCategory-create" id="subCategory-create-label">Создать подкатегорию</label>
-                <!--<select class="subCategory-create" id="subCategory-create" name="subCategory-create">
-                  <option value="no">Нет</option>
-                  <option value="yes">Да</option>
-                </select>-->
-                <div class="subCategory-create">
-                  <input class="noCreateSub" type="radio" id="subCategory-create" name="subCategory-create" value="no" name="type"/>
-                  <label for="subCategory-create">Нет</label>
-                </div>
-                <div class="subCategory-create">
-                  <input class="createSub" type="radio" id="subCategory-create" name="subCategory-create" value="yes" name="type"/>
-                  <label for="subCategory-create">Да</label>
-                </div>
-              </div>
-  
-              <label for="title" class="conditional">Название карточки:</label>
-              <input type="text" id="title" name="title" class="conditional" required>
+            <label for="title" class="conditional">Название карточки:</label>
+            <input type="text" id="title" name="title" class="conditional" required>
 
-              <div class="can-upload">
-                <label class="reduced" for="image">Картинка для превью:</label>
-                <!--<input type="file" id="image" name="image" accept="image/*">-->
-                <input class="reduced" type="text" id="image" name="image" accept="image/*">
-
-                <input class="reduced" type="file" id="fileInput">
-                <div class="upload-file reduced">getLink</div>
-              </div>
-  
-              <div class="can-upload">
-                <label class="conditional" for="video" >Видео для превью:</label>
-                <input class="conditional" type="text" id="video" name="video" accept="video/*">
-
-                <input class="reduced" type="file" id="fileInput">
-                <div class="upload-file reduced">getLink</div>
-              </div>
-            </section>
-          <section class="res-card">
             <div class="can-upload">
-              <label class="conditional" for="resVideo" class="res-parts">Видео для описания:</label>
-              <input class="res-parts conditional" type="text" id="resVideo" name="resVideo" accept="video/*">
+              <label class="reduced" for="image">Картинка для превью:</label>
+              <!--<input type="file" id="image" name="image" accept="image/*">-->
+              <div class="icon-add-container main-icon">
+                <input class="reduced" type="text" id="image" name="image" accept="image/*">
+                <div class="icon-of-url">
+                  <img class="icons opacity" src="/img/empty.jpg" alt="icon">
+                </div>
+              </div>
 
-              <input class="reduced" type="file" id="fileInput">
+              <div class="file-input">
+                <label class="reduced file-lable" for="fileInput"><img class="download-img"src="/img/download.svg" alt="Загрузить видео"></label>
+                <input class="reduced hidden" type="file" id="fileInput" name="file">
+                <div class="upload-file reduced">getLink</div>
+              </div>
+            </div>
+            <div class="div-last"></div>
+
+            <div class="can-upload">
+              <label class="conditional" for="video" >Видео для превью:</label>
+              <input class="conditional" type="text" id="video" name="video" accept="video/*">
+
+              <div class="file-input">
+                <label class="reduced file-lable" for="fileInput"><img class="download-img"src="/img/download.svg" alt="Загрузить видео"></label>
+                <input class="reduced hidden" type="file" id="fileInput" name="file">
+                <div class="upload-file reduced">getLink</div>
+              </div>
+            </div>
+          </section>
+        </article>
+        <section class="res-card">
+          <div class="can-upload">
+            <label class="conditional" for="resVideo" class="res-parts">Видео для описания:</label>
+            <input class="res-parts conditional" type="text" id="resVideo" name="resVideo" accept="video/*">
+
+            <div class="file-input">
+              <label class="reduced file-lable" for="fileInput"><img class="download-img"src="/img/download.svg" alt="Загрузить видео"></label>
+              <input class="reduced hidden" type="file" id="fileInput" name="file">
               <div class="upload-file reduced">getLink</div>
             </div>
-              
+          </div>
+          <div class="div-last"></div>
+            
 
 
-              <!--<input type="file" id="video" name="video" accept="video/*">-->
+            <!--<input type="file" id="video" name="video" accept="video/*">-->
 
-              <aside class="res-text-parts conditional">
-                <ul class="res-text-parts list">
-                  <li class="res-text-parts part">
-                    <label for="res-description" class="res-parts">Текст в описании:</label>
-                    <textarea class="res-parts" type="text" id="res-description" name="res-description"></textarea>
-                    <label for="res-icon">Икнока в блоке текста:</label>
+            <aside class="res-text-parts conditional">
+              <ul class="res-text-parts list">
+                <li class="res-text-parts part">
+                  <label for="res-description" class="res-parts">Текст в описании:</label>
+                  <textarea class="res-parts" type="text" id="res-description" name="res-description"></textarea>
+                  <label for="res-icon">Икнока в блоке текста:</label>
+                  <div class="icon-add-container">
                     <input type="text" id="res-icon" name="res-icon" accept="image/*">
-                  </li>
-                </ul>
-                <div class="add-new-block"></div>
-              </aside>
-          </section>
-              <button class="submit-form" type="submit">Добавить карточку</button>
-          </form>
+                    <div class="icon-of-url">
+                      <img class="icons opacity" src="/img/empty.jpg" alt="icon">
+                    </div>
+                  </div>
+                </li>
+              </ul>
+              <div class="add-new-block"></div>
+            </aside>
+        </section>
       </div>
+            <button class="submit-form" type="submit">Добавить карточку</button>
+        </form>
+    </div>
       
           <div class="manual-strp true-manual hidden">
           </div>

@@ -9,11 +9,6 @@ const iconInsertion = (textFromBd, iconLinks)=>{
 
     const replacedText =  textFromBd.replace(iconRegex, (match, p1) => {
         let icon = iconLinks[Number(p1)];
-        /*try {
-            icon = JSON.parse(iconLinks[Number(p1)]).link;  // Попробуем распарсить как JSON
-        } catch (e) {
-            icon =  iconLinks[Number(p1)];  
-        }*/
        icon = tryJsonParse(icon, "link")
     
         return `<img class="icons" src="${icon}" alt="icon${p1}">`;
@@ -700,5 +695,5 @@ const createGastrualSkeleton = (count, isClear)=>{
 
 
 export {createRes, createGoButtons, createServiceCard, createGastrualSkeleton, createCatalogCard, createInfoCard, infoRes, loadHeaderData,
-    createAndUpdateInfoCard, extractSubstrings,
+    createAndUpdateInfoCard, extractSubstrings,iconInsertion,
 }

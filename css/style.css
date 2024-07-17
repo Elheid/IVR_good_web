@@ -309,7 +309,7 @@ ul.res-text-parts.list {
     flex-direction: column;
 
     overflow-y: scroll;
-    max-height: 600px;
+    max-height: 532px;
 }
 
 li.res-text-parts.part {
@@ -319,21 +319,34 @@ li.res-text-parts.part {
 
 textarea.res-parts{
     max-width: 326px;
+    margin-bottom: 10px;
 }
 
 section.res-card {
-    align-self: end;
-    padding-left: 10px;
+    /*align-self: end;
+    padding-left: 10px;*/
 
     display: flex;
     flex-direction: column;
+
+    padding-bottom: 20px;
 }
+.res-card .div-last {
+    margin-left: -20px;
+}
+
 section.parent-choose {
     width: min-content;
     align-self: center;
+    padding-bottom: 20px;
+}
+select#parent-id {
+    font-size: medium;
+    border-radius: 30px;
+    padding: 5px;
 }
 section.common-card {
-    width: min-content;
+   /* width: min-content;*/
     align-self: center;
 }
 
@@ -344,14 +357,18 @@ aside.res-text-parts {
     
 }
 
+
 .add-new-block::after {
     content: '+';
     font-size: 150%;
-    color: black;
+    /*color: black;*/
+    background-color: rgba(181, 146, 115, 1);
+    color:white;
     border: 1px solid black;
     margin-top: 5px;
-    padding-left: 2px;
-    padding-right: 2px;
+    padding-left: 9px;
+    padding-right: 9px;
+    border-radius: 30px;
 }
 
 .add-new-block {
@@ -363,30 +380,112 @@ aside.res-text-parts {
     padding-top: 2px;
 }
 
-form#card-form {
-    display: flex;
-    /*flex-direction: column;*/
-    align-items: flex-start;
-    gap: 20px
+
+#card-form label{
+    padding-left: 5px;
+    font-size: large;
 }
 
+#card-form input{
+    max-height: 2em;
+}
+
+#card-form input, #card-form textarea{
+    background: rgba(181, 146, 115, 0.4);
+    border: 1px solid rgba(0, 0, 0, 1);
+    border-radius: 20px;
+    padding-left: 10px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    padding-right: 10px;
+    font-size: medium;
+
+    width: -webkit-fill-available;
+    width: -moz-available;
+}
+#card-form textarea{
+    padding-top: 5px;
+    font-size: large;
+}
+
+#card-form input[type="file"]{
+    background: 0;
+    border: 0;
+    border-radius:0;
+    color:#000000;
+    position: absolute;
+    display: none;
+}
+.download-img{
+    background: rgba(181, 146, 115, 1);
+    padding: 5px;
+    border-radius: 5px;
+    max-width: 1.5em;
+}
+#card-form .file-lable{
+
+    cursor: pointer;
+}
+
+.can-upload {
+    display: flex;
+    flex-direction: column;
+}
+
+.file-input {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    justify-content: flex-start;
+    margin-top: 10px;
+}
+
+.form-flex {
+    display: flex;
+    /* flex-direction: column; */
+    align-items: flex-start;
+    gap: 20px;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+form#card-form {
+    display: grid;
+}
+/*
+form#card-form {
+    display: flex;
+
+    align-items: flex-start;
+    gap: 20px;
+    justify-content: space-between;
+    margin-top: 20px;
+    
+}*/
+
+
+
 #card-form-container {
-    width: 60%;
+
+    
+    background: rgba(248, 241, 235, 1);
+    border: 1.5px solid rgba(0, 0, 0, 1);
+
+    max-width: 60%;
     height: auto;
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: white;
+    /*background-color: white;*/
 
     padding: 20px;
-    border: 1px solid #ccc;
+    /*border: 1px solid #ccc;*/
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     z-index: 998;
 
     border-radius: 40px;
     box-shadow: 0px 0px 10px 10px rgba(0, 0, 0, 0.25);
-    border-color: #593C2F;
+    /*border-color: #593C2F;*/
 }
 #edit-form{
     position: fixed;
@@ -407,18 +506,59 @@ form#card-form {
 }
 
 .close-form {
-    
+    /*margin-top: -20px;*/
     cursor: pointer;
 }
+
+article.main-form {
+    border-right: 1px solid rgba(119, 119, 119, 1);
+    border-width: 2px;
+}
+
+.div-last 
+{
+   border-bottom: 1px solid rgba(119, 119, 119, 1);
+   top: 10px;
+   margin:0px;
+   margin-bottom: 10px;  
+   margin-top: 10px;  
+ 
+   border-width: 2px;
+   /*border-bottom: 2.5px #593C2F solid;*/
+   width: 100%;
+}
+
+.icon-add-container {
+    display: flex;
+}
+
+.icon-of-url {
+    background: #a7725980;
+    /* border-radius: 20px; */
+    /* box-shadow: inset -2px -3px 0px 0px black; */
+    border-block: 2px black;
+    border: double;
+    margin-left: 10px;
+    margin-right: 5px;
+}
+.icon-add-container {
+    display: flex;
+    align-content: center;
+    align-items: center;
+}
+
+
 button.submit-form {
     font-size: 1.15em;
-    background: #42b142;
+    background: rgba(73, 184, 80, 1);
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+
     border-radius: 30px;
     color: white;
-    padding: 8px;
+    padding: 10px;
 
     align-self: end;
-    margin-left: auto;
+    /* margin-left: auto;*/
 }
 
 .toggleCheckbox {

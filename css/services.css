@@ -736,7 +736,11 @@ button.search-popup {
 button#showPopup img{
     max-height:37px
 }*/
-
+img.icons {
+    width: 3em;
+    padding: 5px;
+    padding-top: 10px;
+}
     
 
 .service-button.clear-card .card-title{

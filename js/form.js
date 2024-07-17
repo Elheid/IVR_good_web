@@ -1,4 +1,4 @@
-import { createCatalogCard, createServiceCard, createAndUpdateInfoCard, extractSubstrings } from "./main/createrObj.js";
+import { createCatalogCard, createServiceCard, createAndUpdateInfoCard, extractSubstrings, iconInsertion } from "./main/createrObj.js";
 import { getCatalogId, getCellNameById, getCatalogsId, getCurState, getLastSubCatalog, getLastParam, tryJsonParse } from "./util.js";
 import { showInfoCard } from "./showInfo.js";
 import { createCategory, updateCategoryMainIcon, updateCategoryGifPreview,
@@ -7,6 +7,7 @@ import { createCategory, updateCategoryMainIcon, updateCategoryGifPreview,
     uploadToS3, clearAdditionIcons,
     setCategoryParent,
     getServiceById,
+    getInfoById,
 } from "./api/api.js";
 
 
@@ -17,7 +18,7 @@ const showHideInputs = ()=>{
     const parentIdSelect = document.getElementById('parent-id');
 
     addExtra.addEventListener("click", ()=>{
-        if (!document.querySelector(".parent-existence").classList.contains("hidden")){
+        if (!document.querySelector(".parent-choose").classList.contains("hidden")){
             if (addExtra.checked) {
                 //parentIdLabel.classList.remove('hidden');
                 //parentIdSelect.classList.remove('hidden');
@@ -33,7 +34,7 @@ const showHideInputs = ()=>{
         }
     })
     hideExtra.addEventListener("click", ()=>{
-        if (!document.querySelector(".parent-existence").classList.contains("hidden")){
+        if (!document.querySelector(".parent-choose").classList.contains("hidden")){
             if(hideExtra.checked){
                 document.getElementById("parent-id").removeAttribute("disabled")
 
@@ -241,7 +242,7 @@ const submitForm = async (event) => {
         }
         const cardAddedEvent = new CustomEvent('newCardCreated', { detail: { card: newCard } });
         document.dispatchEvent(cardAddedEvent);
-        console.log("should added: ", newCard);
+        //console.log("should added: ", newCard);
     } else {
 /*
         if (isSubCatalog()){
@@ -372,10 +373,43 @@ const addNewResBlockButton = ()=>{
         input.value = "";
         input.textContent = "";
     })
+    iconInsertAndChange(clone);
     list.appendChild(clone);
 }
 
-const addNewResBlockWithText = (blockOfText)=>{
+const isValidUrl = (string)=> {
+    try {
+        new URL(string);
+        return true;
+    } catch (_) {
+        return false;
+    }
+}
+
+const changeImgByInput =(container, input)=>{
+    const img = container.querySelector(".icons");
+    const url = input.value;
+    if (isValidUrl(url)) {
+        img.src = url;
+        img.classList.remove("opacity")
+    } else {
+        img.src = '/img/empty.jpg';
+        img.classList.add("opacity")
+    }
+}
+
+const iconInsertAndChange = (element)=>{
+    let input = element.querySelector('#res-icon');
+    if (!input){
+        input = element.querySelector('#image');
+    }
+
+    // Обработчик ввода
+    //input.addEventListener("DOMContentLoaded", changeImgByInput)
+    input.addEventListener('input', ()=>changeImgByInput(element, input));
+}
+
+const addNewResBlockWithText = (blockOfText, iconLinks = null)=>{
     const list = document.querySelector(".res-text-parts.list");
     const first = list.children[0];
     for (let i = 0; i < blockOfText.length; i++){
@@ -387,10 +421,29 @@ const addNewResBlockWithText = (blockOfText)=>{
             input.value = text;
             input.textContent = text;
         })
+        let divWithImg = clone.querySelector(".icon-add-container .icon-of-url");
+        //divWithImg.classList.add("icon-of-url")
         clone.querySelectorAll("input").forEach((input) => {
-            input.value = icon;
-            input.textContent = icon;
+            if (iconLinks && iconLinks.length > 0){
+                const img = iconInsertion(icon ,iconLinks);
+                if (img){
+                divWithImg.innerHTML = img;
+                const regex = /<img[^>]+src="([^">]+)"/;
+                const match = img.match(regex);
+                if (match && match[1]) {
+                    const srcValue = match[1];
+                    input.value = srcValue;
+                    input.textContent = srcValue;
+                }
+            }
+            }
+            else{
+                input.value = icon;
+                input.textContent = icon;
+            }
         })
+        //clone.querySelector(".icon-add-container .icon-of-url").appendChild(divWithImg);
+        iconInsertAndChange(clone);
         list.appendChild(clone);
     }
     first.remove();
@@ -413,7 +466,8 @@ const removeReducedForm = () => {
 
 const toggleClassToForm = (elemet)=>{
     const resTitle = elemet.classList.contains("res-title");
-    const manual = elemet.parentNode.classList.contains("manual") ;
+    let manual;
+    if (elemet.parentNode) manual = elemet.parentNode.classList.contains("manual") ;
     const trueManual = elemet.parentNode.classList.contains("true-manual");
     if (!resTitle && !manual && !trueManual){
         document.getElementById("card-form").classList.remove("inside-service");
@@ -423,6 +477,20 @@ const toggleClassToForm = (elemet)=>{
     }
 }
 
+const clearDescriptionBlock = ()=>{
+    const list = document.querySelector(".res-text-parts.list");
+    if (list){
+        const first = list.children[0];
+        first.querySelectorAll("textarea").forEach((input) => {
+            input.value = "";
+            input.textContent = "";
+        })
+        first.querySelectorAll("input").forEach((input) => {
+            input.value = "";
+            input.textContent = "";
+        })
+    }
+}
 
 
 const hideForm = ()=>{
@@ -433,6 +501,9 @@ const hideForm = ()=>{
     removeReducedForm();
 
     toggleClassToForm(lastClickedButton);
+
+    clearDescriptionBlock();
+
 }
 
 let lastClickedButton = null;
@@ -514,6 +585,7 @@ const changeParentOptions = (targetCard)=>{
         parentChoose.classList.remove("hidden");
 
         const addExtra = document.querySelector(".add-extra");
+        //addExtra.checked = true;
         addExtra.click();
         const catalogName = getCellNameById(getCatalogId())
 
@@ -654,7 +726,7 @@ const endFormWithLoader = ()=>{
     hideLoader();
 }
 
-const getDescription = (targetCard)=>{
+const getDescription = (targetCard = null)=>{
     let action  = "edit";
     if (targetCard){
         action = targetCard.classList.contains("card-to-add") ? 'add' : 'edit';
@@ -681,18 +753,24 @@ const getDescription = (targetCard)=>{
     if (action === "edit" && (state === "services-list" || state === "info-cards")){
         showLoader()
         const attribute = state === 'info-cards' ? 'info-id' : state === 'catalogs-list' ? "catalog-id" : "service-id";
-        const id = targetCard.getAttribute(attribute);
-        getServiceById(id).then((data)=>{
-            const description = tryJsonParse(data.description, "description");
-            const text = document.querySelector(".res-description")
-            //.res-description сами блоки текста
-            //res-text-parts list список блоков текста и иконок
-            const blocksOfText = extractSubstrings(description);
-            addNewResBlockWithText(blocksOfText)
-            console.log(blocksOfText)
-            hideLoader();
-        })
+        let id;
+        if (targetCard) id = targetCard.getAttribute(attribute);
+        else id = new URLSearchParams(window.location.search).get("serviceId");
+        if(state === "services-list") getServiceById(id).then((data)=>fillDescriptionInForm(data));
+        if (state === "info-cards") getInfoById(id).then((data)=>fillDescriptionInForm(data));
     }
+}
+
+const fillDescriptionInForm = (data)=>{
+    const description = tryJsonParse(data.description, "description");
+    //const text = document.querySelector(".res-description");
+    const iconLinks = data.iconLinks;
+    //.res-description сами блоки текста
+    //res-text-parts list список блоков текста и иконок
+    const blocksOfText = extractSubstrings(description);
+    addNewResBlockWithText(blocksOfText, iconLinks)
+    //console.log(blocksOfText)
+    hideLoader();
 }
 
 const splitString = (input)=> {
@@ -707,13 +785,24 @@ const splitString = (input)=> {
     const strings = {cleanedString:cleaned, extractedString:extracted}
     return strings;
 }
-
-
+/*
+document.addEventListener("DOMContentLoaded", ()=> {
+    const mainIcon = document.querySelector(".icon-add-container.main-icon");
+    if (mainIcon){
+        iconInsertAndChange(mainIcon);
+        changeImgByInput(mainIcon, mainIcon.querySelector("input"));
+    } 
+})
+*/
 const showForm = ()=>{
-
-
-
     event.stopPropagation();
+
+    const mainIcon = document.querySelector(".icon-add-container.main-icon");
+    if (mainIcon) iconInsertAndChange(mainIcon);
+
+    const list = document.querySelector("ul.res-text-parts");
+    if (list) iconInsertAndChange(list.children[0]);
+
     document.getElementById('title').addEventListener('keydown', function(event) {
         if (event.key === 'Enter') {
             event.preventDefault();
@@ -728,9 +817,9 @@ const showForm = ()=>{
     lastClickedButton = event.currentTarget;
     const targetCard = lastClickedButton.closest("li");
 
+    
     if (targetCard)
     {
-
         getDescription(targetCard);
 
 
@@ -749,6 +838,8 @@ const showForm = ()=>{
         const title = document.getElementById("title");
         const video = document.getElementById("video");
         const image = document.getElementById("image");
+        
+        const event = new Event('input');
 
 
         if(lastClickedButton.classList.contains("edit-button")){
@@ -774,15 +865,19 @@ const showForm = ()=>{
  
                 image.value = targetCard.querySelector(".card-button").dataset.iconsrc;
                 document.getElementById("video").value = targetCard.querySelector(".card-button").dataset.gifsrc;
+                image.dispatchEvent(event);
             }
             else{
 
                 video.value = targetCard.querySelector("video").src;
                 document.getElementById("image").value = targetCard.querySelector(".card-button").dataset.iconsrc;
+                
+                image.dispatchEvent(event);
             }
         }
         else{
             title.value = "";
+            image.dispatchEvent(event);
             image.value = "";
             video.value = "";
             res.value  = "";    
@@ -792,7 +887,8 @@ const showForm = ()=>{
     else if(lastClickedButton.classList.contains("edit-button") ||
     lastClickedButton.classList.contains("edit-element-button")){
         setFormForEditCard(document.querySelector(".submit-form"));
-        document.getElementById("parent-id").removeAttribute("disabled")
+        document.getElementById("parent-id").removeAttribute("disabled");
+        getDescription();
     }
     if (lastClickedButton.classList.contains("edit-element-button")){
         const title = document.getElementById("title");
@@ -821,7 +917,7 @@ const showForm = ()=>{
                  */
 
 
-    console.log("show form")
+    //console.log("show form")
     document.getElementById('card-form-container').classList.remove('hidden');
     document.addEventListener('click', closeFormOnExitBorders);
     
@@ -876,7 +972,7 @@ const closeFormOnExitBorders = (event)=> {
     const form = document.getElementById('card-form');
     if (event.target !== overlay && event.target !== form && !form.contains(event.target)) {
         hideForm();
-        //document.removeEventListener('click', closeFormWeb);
+        document.removeEventListener('click', closeFormOnExitBorders);
     }
 };
 

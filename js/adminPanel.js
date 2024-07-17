@@ -234,6 +234,7 @@ const updateStyleButtonsClearCard = (container)=>{
         container.style.paddingTop = "5px";
         if (isAdmin()){
             cardButton.style.height = "calc(100% - 3em)";//"auto";
+            if (cardButton.querySelector(".card-header")) cardButton.querySelector(".card-header").style.marginTop = "20px";
             if(cardButton.querySelector(".icon-container")){
                 cardButton.querySelector(".icon-container").style.marginTop = "20px";
             } 
@@ -243,6 +244,7 @@ const updateStyleButtonsClearCard = (container)=>{
             if(cardButton.querySelector(".icon-container")){
                 cardButton.querySelector(".icon-container").style.marginTop = "";
             } 
+            if (cardButton.querySelector(".card-header")) cardButton.querySelector(".card-header").style.marginTop = "";
         }
 
     }
@@ -610,7 +612,7 @@ const toggleElements = (name) => {
 
 
 const editResClick = (name)=>{
-    console.log("edit  " + name);
+    //console.log("edit  " + name);
     toggleElements(name);
     showForm();
 }
