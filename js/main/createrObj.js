@@ -2,17 +2,6 @@
 import { getCellNameById, getParamFromURL, tryJsonParse } from "../util.js";
 
 
-const tryJsonParse = (value, name)=>{
-    let res;
-    try {
-        res = JSON.parse(value)[name];  // Попробуем распарсить как JSON
-    } catch (e) {
-        res =  value;  
-    }
-    const undefindCheck = typeof res !== 'undefined';
-    return undefindCheck ? res:value;
-}
-
 const iconInsertion = (textFromBd, iconLinks)=>{
     const iconRegex = /\\icon(\d+)/g;
 
