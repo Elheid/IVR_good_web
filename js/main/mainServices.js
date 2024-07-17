@@ -29,7 +29,8 @@ if (document.querySelector(".catalogs").classList.contains("gestural-language"))
   document.querySelector(".view-choose").style.marginTop = "6%";
 }
 
-addAdminPanel();
+//Убрал админку для прода
+//addAdminPanel();
 
 document.querySelector(".services-list").classList.add("hidden");
 const loadCategories = async () => {

@@ -375,7 +375,12 @@ const getCurState = ()=>{
 }
 
 const isAdmin = ()=>{
-    return window.localStorage.getItem("isAdmin") === "true"
+    //Убрал админку для прода
+    if (window.location.hostname === 'good-web-ivr.netlify.app') {
+        return false; // Игнорируем параметр на продакшене
+    }
+
+    //return window.localStorage.getItem("isAdmin") === "true"
 }
 
 const tryJsonParse = (value, name)=>{
