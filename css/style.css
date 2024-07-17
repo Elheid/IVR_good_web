@@ -330,9 +330,10 @@ section.res-card {
     flex-direction: column;
 
     padding-bottom: 20px;
+
 }
 .res-card .div-last {
-    margin-left: -20px;
+    /*margin-left: -20px;*/
 }
 
 section.parent-choose {
@@ -406,6 +407,11 @@ input#subCategory-create {
     width: -webkit-fill-available;
     width: -moz-available;
 }
+
+input#type {
+    width: auto;
+}
+
 #card-form textarea{
     padding-top: 5px;
     font-size: large;
@@ -512,10 +518,16 @@ form#card-form {
     /*margin-top: -20px;*/
     cursor: pointer;
 }
-
+/*
 article.main-form {
     border-right: 1px solid rgba(119, 119, 119, 1);
     border-width: 2px;
+}*/
+
+section.res-card {
+    border-left: 1px solid rgba(119, 119, 119, 1);
+    border-width: 2px;
+    padding-left: 20px;
 }
 
 .div-last 

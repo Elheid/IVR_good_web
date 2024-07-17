@@ -361,6 +361,32 @@ const assembleDescription = ()=>{
     const res = {description:textRes, iconLinks:iconRes}
     return res;
 }
+
+let fileInputCounter = 2;
+
+const updateFileInputAttributes = (listItem)=> {
+    fileInputCounter++;
+    const uniqueId = `fileInputIcon${fileInputCounter}`;
+    
+    const fileInput = listItem.querySelector('input[type="file"]');
+    const fileLabel = listItem.querySelector('label[for="fileInputIcon1"]');
+
+    if (fileInput && fileLabel) {
+        fileInput.id = uniqueId;
+        fileLabel.setAttribute('for', uniqueId);
+    }
+
+    // Добавляем обработчик события change для нового input
+    fileInput.addEventListener('change', function(event) {
+        if (event.target.files.length > 0) {
+            console.log("Файл выбран:", event.target.files[0].name);
+        } else {
+            console.log("Файл не выбран");
+        }
+    });
+}
+
+
 const addNewResBlockButton = ()=>{
     const list = document.querySelector(".res-text-parts.list");
     const first = list.children[0];
@@ -375,6 +401,11 @@ const addNewResBlockButton = ()=>{
     })
     iconInsertAndChange(clone);
     list.appendChild(clone);
+
+    updateFileInputAttributes(clone);
+    const uploadButton = document.querySelectorAll(".upload-file").forEach((button)=>{
+        button.addEventListener("click", uploadFile);
+    });
 }
 
 const isValidUrl = (string)=> {
@@ -423,7 +454,7 @@ const addNewResBlockWithText = (blockOfText, iconLinks = null)=>{
         })
         let divWithImg = clone.querySelector(".icon-add-container .icon-of-url");
         //divWithImg.classList.add("icon-of-url")
-        clone.querySelectorAll("input").forEach((input) => {
+        clone.querySelectorAll("#res-icon").forEach((input) => {
             if (iconLinks && iconLinks.length > 0){
                 const img = iconInsertion(icon ,iconLinks);
                 if (img){
@@ -444,8 +475,13 @@ const addNewResBlockWithText = (blockOfText, iconLinks = null)=>{
         })
         //clone.querySelector(".icon-add-container .icon-of-url").appendChild(divWithImg);
         iconInsertAndChange(clone);
+        updateFileInputAttributes(clone);
         list.appendChild(clone);
     }
+    const uploadButton = document.querySelectorAll(".upload-file").forEach((button)=>{
+        button.addEventListener("click", uploadFile);
+    });
+
     first.remove();
 }
 
@@ -841,7 +877,6 @@ const showForm = ()=>{
         
         const event = new Event('input');
 
-
         if(lastClickedButton.classList.contains("edit-button")){
 
             if ( targetCard.querySelector(".card-button")){
@@ -927,43 +962,50 @@ const showForm = ()=>{
 
 
 
-    const uploadFile =()=> {
-        const nonFileInput = event.target.parentNode.querySelector('.can-upload input:not(#fileInput)');
-        const fileLoader = event.target.parentNode.querySelector("#fileInput")
-        const file = fileLoader.files[0];
-        let type = "smth"
-        if (file) {
-          if (file.type.indexOf("video") >= 0) {
-            type = "videos";
-          } 
-          if (file.type.indexOf("image") >= 0) {
-            type = "icons";
-          }
-        }
-        if (file) {
-
-          const formData = new FormData();
-          formData.append('folder', type);
-          formData.append('file', file);
-          
-          uploadToS3(formData)
-            .then(response => {
-              //console.log('File uploaded successfully:', response);
-              nonFileInput.value = response.link;
-            })
-            .catch(error => {
-              console.error('Error uploading file:', error);
-            });
-        } else {
-          console.error('No file selected');
-        }
-    }
-
     const uploadButton = document.querySelectorAll(".upload-file").forEach((button)=>{
         button.addEventListener("click", uploadFile);
     });
 
 }
+
+const uploadFile =()=> {
+    let nonFileInput = event.target.parentNode.parentNode.querySelector('.can-upload input:not(.fileInput)');
+    if (!nonFileInput){
+        nonFileInput = event.target.parentNode.parentNode.querySelector("#res-icon");
+    }
+    const fileLoader = event.target.parentNode.querySelector(".fileInput")
+    const file = fileLoader.files[0];
+    let type = "smth"
+    if (file) {
+      if (file.type.indexOf("video") >= 0) {
+        type = "videos";
+      } 
+      if (file.type.indexOf("image") >= 0) {
+        type = "icons";
+      }
+    }
+    if (file) {
+
+      const formData = new FormData();
+      formData.append('folder', type);
+      formData.append('file', file);
+      
+      uploadToS3(formData)
+        .then(response => {
+          //console.log('File uploaded successfully:', response);
+          nonFileInput.value = response.link;
+          const event = new Event('input');
+          nonFileInput.dispatchEvent(event);
+  
+        })
+        .catch(error => {
+          console.error('Error uploading file:', error);
+        });
+    } else {
+      console.error('No file selected');
+    }
+}
+
 
 const closeFormOnExitBorders = (event)=> {
     //const form = document.getElementById('card-form');
