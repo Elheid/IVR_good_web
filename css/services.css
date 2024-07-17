@@ -1,5 +1,6 @@
 main.main-content{
-    margin-top: 40px;
+    /*margin-top: 40px;*/
+    margin-top: 20px
 }
 .services, .catalogs{
     width: 100%;
@@ -381,9 +382,11 @@ button#showPopup img {
     height: 3vw;
     /*margin-right: 2vw;*/
 }
+
+/*
 input[type="text"] {
     border: 0;
-    /*border: 2px solid #00000066;*/
+    border: 2px solid #00000066;
     border-radius: 30px; 
     -webkit-border-radius: 20px; 
     -moz-border-radius: 20px; 
@@ -393,7 +396,7 @@ input[type="text"] {
     font-size: 1.5vw;
     font-family: "Roboto", serif;
     padding-left: 20px;
-}
+}*/
 
 input[type="search"] {
     border: 0;
@@ -677,7 +680,7 @@ button.search-popup {
 }
 
 .gestural-language .card-to-add {
-    margin-top: 20px;
+    /*margin-top: 20px;*/
     order: 10;
 }
 .card-to-add {
@@ -733,7 +736,11 @@ button.search-popup {
 button#showPopup img{
     max-height:37px
 }*/
-
+img.icons {
+    width: 3em;
+    padding: 5px;
+    padding-top: 10px;
+}
     
 
 .service-button.clear-card .card-title{
@@ -752,6 +759,11 @@ button#showPopup img{
     height: 100%;
     width: auto;
     text-wrap: balance;
+
+
+    height: fit-content;
+    margin-top: auto;
+    margin-bottom: auto
 }
 .clear-card .count-services{
     color: #FFFFFF;
@@ -895,7 +907,7 @@ div.gif {
     /*width: 570px;
     height: 428px;*/
     width: 29.3vw;
-    height: 23vw;
+    height: 37em;
     /*background-color: #c39367;*/
     /*background-color: #c19873;*/
     animation: loading 1.5s infinite;

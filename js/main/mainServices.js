@@ -10,10 +10,12 @@ import { addSkeletons, updateSkeletonElementCount } from '../skeletons/skeleton.
 //import { equalizeIconContainers } from '../util.js';
 import { createHomeReturner } from '../returnHome.js';
 
-import { addAdminPanel, addAdminButtonsToCards } from '../adminPanel.js';
+import { addAdminPanel, addAdminButtonsToCards, adminUpdate } from '../adminPanel.js';
 
 import { loadServices } from '../services.js';
 
+
+import { addAuth } from '../auth.js';
 
 addSkeletons("catalogs");
 
@@ -27,9 +29,9 @@ if (document.querySelector(".catalogs").classList.contains("gestural-language"))
   document.querySelector(".view-choose").style.marginTop = "6%";
 }
 
-//addAdminPanel();
+addAdminPanel();
 
-
+document.querySelector(".services-list").classList.add("hidden");
 const loadCategories = async () => {
     await getCategories()
       .then((data) => {
@@ -37,9 +39,10 @@ const loadCategories = async () => {
         initializeResults(data);
         addCatalogButton(searchResult);
         addPlayVidButton();
-        if (window.location.search.indexOf("admin=true") > 0){
+        adminUpdate();
+        /*if (localStorage.getItem("isAdmin") === "true"){
           addAdminButtonsToCards();
-      }
+        }*/
       })
       .catch((err)=> console.log(err));
 };
@@ -67,3 +70,5 @@ addWebcamPopupShow();
 createGoButtons();
 
 createHomeReturner();
+
+addAuth();

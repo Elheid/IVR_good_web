@@ -1,23 +1,28 @@
 
-import { hideCatalogs} from "./renderCatalogs.js";
+import { hideCatalogs, hideSubCategories} from "./renderCatalogs.js";
 import { createServiceCard } from "./main/createrObj.js";
 import { getService } from "./api/api.js";
 import { addHeader, addHeaderForSearch, removeSearchHeader} from "./headers.js";
-import { getCellById, getCatalogId, getCellNameById, equalizeSubtitles } from "./util.js";
+import { getCellById, getCatalogId, getCellNameById, equalizeSubtitles, isAdmin } from "./util.js";
 import { addPlayVidButton } from "./vidPlayButton.js";
 import { hideSkeletonsAndReplace, addSkeletons, updateSkeletonElementCount } from './skeletons/skeleton.js';
 
 import { addAdminButtonsToCards, addCadrdSample } from "./adminPanel.js";
 
+
 const blank = "";
 
 const displayServices = (services, searched = false)=> {
 
+
   const servicesContainer = document.querySelector('.services-list');
+  servicesContainer.classList.remove("hidden");
   //servicesContainer.innerHTML = ''; // Очищаем контейнер перед добавлением новых данных
   for(var i = 0; i < servicesContainer.children.length; i++){
     const service = servicesContainer.children[i];
-    service.classList.add("hidden");
+    if (!service.classList.contains("card-to-add")){
+      service.classList.add("hidden");
+    }
   }
 
   const titleCounts = {};
@@ -58,11 +63,16 @@ const loadServices = (catalogId)=>
         addPlayVidButton();
         
         addAdminButtonsToCards();
-        if (document.querySelector("body").classList.contains("admin")){
+        if (isAdmin()){
           addCadrdSample(document.querySelector('.services-list'));
         }
       })
-      .catch((err)=> console.log(err));
+      .catch((err)=>{ 
+        console.log("Ошибка загрузки услуг или их нет "+err);
+        if (isAdmin()){
+          addCadrdSample(document.querySelector('.services-list'));
+        }
+      });
 
 const showServices = ()=>{
   addHeader();
@@ -71,8 +81,14 @@ const showServices = ()=>{
   const id = getCatalogId();
   loadServices(id);
   //displayServices(cell);
+  document.querySelector(".services-list").classList.remove("hidden");
   hideCatalogs();
 }
+/*
+document.addEventListener('newCardCreated', (event)=>{
+  //loadServices(event.detail.card.getAttribute("catalog-id"))
+  showServices();
+});*/
 
 const updateURL = (query)=>{
 
@@ -88,16 +104,18 @@ const updateURL = (query)=>{
 
 const showSearchedServices = (services, query)=>{
   removeSearchHeader();
-  addHeaderForSearch();
+  
   //history.pushState({ query: query }, '', `?query=${query}`);
   updateURL(query);
+  addHeaderForSearch();
   //console.log(services)
   displayServices(services, true);
   hideCatalogs();
+  hideSubCategories();
   addPlayVidButton();
 
   addAdminButtonsToCards();
-  if (document.querySelector("body").classList.contains("admin")){
+  if (isAdmin()){
     addCadrdSample(document.querySelector('.services-list'));
   }
 }

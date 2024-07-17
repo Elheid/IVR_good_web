@@ -51,11 +51,11 @@ const titleCreator = idCreater();
 
 const emptyGifURL = "img/ratherGIF.jpg";
 const emptyForClear = "img/clear.jpg";
-
+/*
 const getTitles = ()=>{
     const id = titleCreator() - 1;
     return ARR_OF_TITLES[id];
-}
+}*//*
 
 const createCatalog = () => ({
     id: createIdForCatalog(), //любое число
@@ -78,33 +78,218 @@ const createInfo = (title) => ({
     title:title,
     img:"img/ratherGIF.jpg",
     additionalInfo:"сделай то, не знаю, что"
-});
+});*/
 
 const getCellById = (id)=>{
     const catalogs = document.querySelector(".catalogs:not(.sceleton)")
-    const catalogCells = catalogs.querySelectorAll('.catalog-card');
-    for (const cell of catalogCells){
-      const catalogId = cell.getAttribute('catalog-id');
-      if (catalogId == id){
-        return cell;
-      }
+    if (catalogs){
+        const catalogCells = catalogs.querySelectorAll('.catalog-card');
+        for (const cell of catalogCells){
+          const catalogId = cell.getAttribute('catalog-id');
+          if (catalogId == id){
+            return cell;
+          }
+        }
+    }
+    
+    const subcatalogs = document.querySelectorAll(".sub-catalogs");
+    for (const subcatalog of subcatalogs){
+        if(subcatalog){
+            const subcatalogCells = subcatalog.querySelectorAll('.catalog-card');
+            for (const cell of subcatalogCells){
+              const catalogId = cell.getAttribute('catalog-id');
+              if (catalogId == id){
+                return cell;
+              }
+            }
+        }
+    }
+    
+}
+
+const getAllSubCatalogs = () => {
+    const searchParams = new URLSearchParams(window.location.search);
+  
+    // Массив для хранения всех значений sub-catalog
+    const subCatalogs = [];
+  
+    // Получаем все параметры из запроса URL
+    for (const [key, value] of searchParams.entries()) {
+        // Проверяем ключ, чтобы убедиться, что это sub-catalog{i}
+        if (key.startsWith('sub-catalog')) {
+            // Добавляем значение sub-catalog в массив
+            subCatalogs.push(value);
+        }
+    }
+  
+    return subCatalogs;
+}
+
+const getLastParam = ()=>{
+    const searchParams = new URLSearchParams(window.location.search);
+  
+    // Переменные для хранения последнего ключа и значения параметра
+    let lastParamKey = null;
+    let lastParamValue = null;
+
+    // Получаем все параметры из запроса URL
+    for (const [key, value] of searchParams.entries()) {
+        // Обновляем последний найденный параметр ключ и значение
+        lastParamKey = key;
+        lastParamValue = value;
+    }
+    return lastParamKey;
+}
+
+const removeLastQueryParam = () => {
+    const searchParams = new URLSearchParams(window.location.search);
+  
+    // Переменные для хранения последнего ключа и значения параметра
+    let lastParamKey = null;
+    let lastParamValue = null;
+
+    // Получаем все параметры из запроса URL
+    for (const [key, value] of searchParams.entries()) {
+        // Обновляем последний найденный параметр ключ и значение
+        lastParamKey = key;
+        lastParamValue = value;
+    }
+
+    // Удаляем последний найденный параметр
+    if (lastParamKey) {
+        searchParams.delete(lastParamKey);
+
+        // Обновляем URL без перезагрузки страницы
+        const newUrl = `${window.location.pathname}?${searchParams.toString()}`;
+        return  newUrl;
     }
 }
 
+
+const findSubCatalogByValue = (valueToFind) => {
+    const searchParams = new URLSearchParams(window.location.search);
+  
+    // Перебираем все параметры в запросе URL
+    for (const [key, value] of searchParams.entries()) {
+        // Проверяем, является ли текущий ключ `sub-catalog` и соответствует ли его значение искомому
+        if (key.startsWith('sub-catalog') && value === valueToFind) {
+            return key;
+        }
+    }
+  
+    // Если значение не найдено, возвращаем null
+    return null;
+}
+
+
+
+const getLastSubCatalog = ()=>{
+    const searchParams = new URLSearchParams(window.location.search);
+  
+    // Переменная для хранения последнего значения sub-catalog
+    let lastSubCatalog = null;
+  
+    // Получаем все параметры из запроса URL
+    for (const [key, value] of searchParams.entries()) {
+      // Проверяем ключ, чтобы убедиться, что это sub-catalog{i}
+      if (key.startsWith('sub-catalog')) {
+          // Присваиваем значение последнего sub-catalog
+          lastSubCatalog = value;
+      }
+    }
+    return lastSubCatalog;
+}
+
+const getLastSubCatalogName = ()=>{
+    const searchParams = new URLSearchParams(window.location.search);
+  
+    // Переменная для хранения последнего значения sub-catalog
+    let lastSubCatalog = null;
+  
+    // Получаем все параметры из запроса URL
+    for (const [key, value] of searchParams.entries()) {
+      // Проверяем ключ, чтобы убедиться, что это sub-catalog{i}
+      if (key.startsWith('sub-catalog')) {
+          // Присваиваем значение последнего sub-catalog
+          lastSubCatalog = key;
+      }
+    }
+    return lastSubCatalog;
+}
+
+const getPreSubCatalog = () => {
+    const searchParams = new URLSearchParams(window.location.search);
+  
+    // Переменные для хранения последнего и предпоследнего значений sub-catalog
+    let lastSubCatalog = null;
+    let penultimateSubCatalog = null;
+  
+    // Получаем все параметры из запроса URL
+    for (const [key, value] of searchParams.entries()) {
+        // Проверяем ключ, чтобы убедиться, что это sub-catalog{i}
+        if (key.startsWith('sub-catalog')) {
+            // Обновляем предпоследнее значение на текущее последнее
+            penultimateSubCatalog = lastSubCatalog;
+            // Обновляем последнее значение на текущее значение параметра
+            lastSubCatalog = value;
+        }
+    }
+  
+    return penultimateSubCatalog;
+}
+
+  const countSubCatalogs = () => {
+    const searchParams = new URLSearchParams(window.location.search);
+    let count = 0;
+
+    // Итерируем по всем ключам в объекте URLSearchParams
+    for (const key of searchParams.keys()) {
+        // Проверяем, что ключ начинается с "sub-catalog"
+        if (key.startsWith('sub-catalog')) {
+            count++;
+        }
+    }
+
+    return count;
+}
+
+
 const getCellNameById = (id)=>{
-const cell = getCellById(id);
-const title = cell.querySelector(".card-title");
-return title.innerText;
+    const cell = getCellById(id);
+    if (cell){
+        const title = cell.querySelector(".card-title");
+        return title.innerText;
+    }
+    return "";
 }
 const getCatalogId = ()=>{
     const urlParams = window.location.search;
     return new URLSearchParams(urlParams).get('catalog');
 }
-
-const getServicesByCatalog = (cell)=>{
-const title = cell.innerText;
-return getAllServices(title);
+const getCatalogsNames = ()=>{
+    const catalogs = document.querySelector(".list-of-cards.catalogs-list").children;
+    const res = [];
+    for (let i = 0; i < catalogs.length; i++){
+        res.push(catalogs[i].querySelector(".card-title").textContent)
+    }
+    //catalogs.forEach(catalog=> res.push(catalog.querySelector(".card-title").textContent));
+    return res;
 }
+const getCatalogsId = ()=>{
+    const catalogs = document.querySelector(".list-of-cards.catalogs-list").children;
+    const res = [];
+    for (let i = 0; i < catalogs.length; i++){
+        res.push(catalogs[i].getAttribute("catalog-id"))
+    }
+    //catalogs.forEach(catalog=> res.push(catalog.querySelector(".card-title").textContent));
+    return res;
+}
+
+/*
+const getServicesByCatalog = (cell)=>{
+    const title = cell.innerText;
+    return getAllServices(title);
+}*/
 
 
 const equalizeSubtitles = ()=>{
@@ -117,9 +302,8 @@ const equalizeSubtitles = ()=>{
     maxHeight = card.offsetHeight;
     }
     });
-    
     cards.forEach(function(card) {
-    card.style.height = maxHeight + 'px';
+    card.style.height = maxHeight > 300 ? "fit-content" :maxHeight + 'px';;
     });
 }
 
@@ -158,6 +342,57 @@ const getParamFromURL = ()=>{
     return res;
 }
 
-export {createCatalog, createService, getAllServices,
-    createInfo, getCellById, getCatalogId, getCellNameById,
-    equalizeSubtitles, getParamFromURL, equalizeIconContainers};
+const updateMarginButtonsOnList = (list)=>{
+    const cards = list.children;
+    for (var i = 0; i< cards.length; i++){
+        updateMargin(cards[i], cards[i].querySelector(".extended-container"));
+    }
+}
+
+const updateMargin = (card, container) => {
+    if (container){
+        if (card.offsetWidth !== 0) {
+            const deleteButton = container.querySelector(".delete-button");
+            const editButton = container.querySelector(".edit-button");
+            const width = (card.offsetWidth - deleteButton.offsetWidth);
+            const leftMargin = width/28
+            deleteButton.style.marginLeft = `calc(${width - leftMargin}px)`;
+            editButton.style.marginLeft = `calc(${leftMargin}px)`;
+        }
+    }
+    const video = card.querySelector("video");
+    if (video){
+        video.addEventListener('loadeddata', () =>
+        {
+            updateMargin(card, container);
+        })
+    }
+};
+
+const getCurState = ()=>{
+    var urlParams = window.location.search;
+    return (urlParams.match('serviceId'))? 'info-cards' : (urlParams.match('catalog')) ? 'services-list' :  'catalogs-list';
+}
+
+const isAdmin = ()=>{
+    return window.localStorage.getItem("isAdmin") === "true"
+}
+
+const tryJsonParse = (value, name)=>{
+    let res = '';
+    try {
+        res = JSON.parse(value)[name];  // Попробуем распарсить как JSON
+    } catch (e) {
+        res =  value;  
+    }
+    const undefindCheck = typeof res !== 'undefined';
+    return undefindCheck ? res:value;
+}
+
+export {/*createCatalog, createService, createInfo, getAllServices,*/
+    tryJsonParse,
+     getCellById, getCatalogId, getCellNameById,
+    equalizeSubtitles, getParamFromURL, equalizeIconContainers, getCatalogsId,
+    updateMargin, updateMarginButtonsOnList, getCurState, isAdmin, 
+    getLastSubCatalog, countSubCatalogs, getPreSubCatalog, getLastSubCatalogName,
+     getAllSubCatalogs, findSubCatalogByValue, removeLastQueryParam, getLastParam};

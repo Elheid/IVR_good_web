@@ -1,13 +1,95 @@
-import { removeLastHeader} from "./headers.js";
-import { getCatalogId } from "./util.js";
+import { removeLastHeader,addHeader} from "./headers.js";
+import { countSubCatalogs, getCatalogId, getLastSubCatalog, getLastSubCatalogName, getPreSubCatalog, updateMarginButtonsOnList } from "./util.js";
 
 const goBackToCatalogs = ()=>{
-    const list = document.querySelector('.catalogs-list');
-    const services = document.querySelector('.services-list');
-    list.classList.remove("hidden");
-    services.innerHTML = "";
-    removeLastHeader();
+
+    const searchParams = new URLSearchParams(window.location.search);
+
+    // Обновляем или добавляем параметр admin
+
+    const subCatalogHref = localStorage.getItem("subCatalogHref");
+    //localStorage.removeItem("subCatalogHref");
+    //window.location.search = subCatalogHref;
+
+    const curId = new URLSearchParams(window.location.search).get("catalog");
+
+    const subCatalogs = document.querySelectorAll('.sub-catalogs');
+    let idCatalog = new URLSearchParams(window.location.search).get("catalog");
+    let idSubCatalog = getLastSubCatalog();
+
+    //const subCatalog = searchParams.get('sub-catalog');
+    const notQuery = !window.location.href.includes("query=");
+    if (!notQuery){
+        const list = document.querySelector('.catalogs-list');
+        const services = document.querySelector('.services-list');
+        list.classList.remove("hidden");
+        services.innerHTML = "";
+        const subCatalogs = document.querySelectorAll('.sub-catalogs');
+        subCatalogs.forEach((catalog)=>catalog.querySelector("ul").classList.add("hidden"))
+        removeLastHeader();
+        updateMarginButtonsOnList(list);
+
+        updateParamUrl('catalog');
+
+    }
+    else if (idCatalog !== "" && idCatalog && idSubCatalog !== '' && idSubCatalog){
+        const matchingElement = Array.from(subCatalogs).find(element =>element.getAttribute("parent-id") === idSubCatalog);
+        const listSubCategory = matchingElement.querySelector(".sub-catalogs-list")
+        listSubCategory.classList.remove("hidden");
+        const services = document.querySelector('.services-list');
+        services.innerHTML = "";
+        removeLastHeader();
+        const newSearch = new URLSearchParams(window.location.search);
+        newSearch.delete("catalog");
+        history.replaceState({}, '', window.location.pathname +"?"+ newSearch.toString());
+        addHeader()
+    }
+    else if(idSubCatalog !== '' && idSubCatalog && countSubCatalogs() > 1){
+
+        const preLastSub = getPreSubCatalog();
+        const subCatalogs = document.querySelectorAll('.sub-catalogs');
+        const matchingElement = Array.from(subCatalogs).find(element =>element.getAttribute("parent-id") === preLastSub);
+
+        subCatalogs.forEach((catalog)=>catalog.querySelector("ul").classList.add("hidden"))
+        const listSubCategory = matchingElement.querySelector(".sub-catalogs-list")
+        listSubCategory.classList.remove("hidden");
+
+        removeLastHeader();
+        updateMarginButtonsOnList(listSubCategory);
+
+        //console.log(getLastSubCatalogName())
+        //history.back();
+
+        updateParamUrl(getLastSubCatalogName())
+        
+    }
+    else if(idSubCatalog !== '' && idSubCatalog){
+        const list = document.querySelector('.catalogs-list');
+        const services = document.querySelector('.services-list');
+        list.classList.remove("hidden");
+        services.innerHTML = "";
+        const subCatalogs = document.querySelectorAll('.sub-catalogs');
+        subCatalogs.forEach((catalog)=>catalog.querySelector("ul").classList.add("hidden"))
+        removeLastHeader();
+        updateMarginButtonsOnList(list);
+
+
+        updateParamUrl("sub-catalog");
+        
+    }
+    else{
+        const list = document.querySelector('.catalogs-list');
+        const services = document.querySelector('.services-list');
+        list.classList.remove("hidden");
+        services.innerHTML = "";
+        const subCatalogs = document.querySelectorAll('.sub-catalogs');
+        subCatalogs.forEach((catalog)=>catalog.querySelector("ul").classList.add("hidden"))
+        removeLastHeader();
+        updateMarginButtonsOnList(list);
+        updateParamUrl('catalog');
+    }
 }
+
 const goBackToServices = ()=>{
     //const list = document.querySelector('.catalogs-list');
     const services = document.querySelector('.services-list');
@@ -57,9 +139,50 @@ const goBackToServices = ()=>{
 const backButton = document.querySelector(".return-button");
 
 
+const updateParamUrl = (paramName)=>{
+    const searchParams = new URLSearchParams(window.location.search);
+    //let paramName = 'catalog';
+    const paramState = searchParams.get(paramName);
+    
+    const search = new URLSearchParams(window.location.search)
+    // Проверка, содержит ли путь параметр
+    if (window.location.search.includes(paramName)) {
+        search.delete(paramName);
+        //console.log(`Параметр '${paramName}' уже существует в пути.`);
+        history.replaceState({}, '', window.location.pathname +"?" +search.toString());
+    } else {
+        //console.log(`Параметр '${paramName}' не существует в пути.`);
+        history.replaceState({}, '', window.location.pathname);
+        // Вы можете добавить ваш параметр здесь
+    } 
+}
+const backEvent = new CustomEvent('goBackEvent', { });
+/*window.addEventListener('DOMContentLoaded', () => {
+    // Шаг 5: Проверяем, нужно ли диспатчить событие
+    const shouldDispatchEvent = localStorage.getItem('dispatchGoBackEvent');
+    if (shouldDispatchEvent) {
+      // Шаг 6: Удаляем флаг из localStorage
+      localStorage.removeItem('dispatchGoBackEvent');
+      
+      // Шаг 7: Диспатчим событие
+
+      document.dispatchEvent(backEvent);
+    }
+  });*/
 const createBackButton = (displayServices)=>{
     backButton.addEventListener('click', ()=> {
         if (!window.location.href.includes("services")){
+
+            /*const preRes = localStorage.getItem("pre-res-search");
+            if (preRes){
+                window.location.href = "services.html" + preRes;
+            }
+            else{
+                history.back();
+            }*/
+           //localStorage.setItem('dispatchGoBackEvent', 'true');
+            //history.back();
+            
             var breadcrumbs = document.querySelectorAll('.breadcrumb-item a');
             if (breadcrumbs.length > 0) {
                 var lastBreadcrumb = breadcrumbs[breadcrumbs.length - 1];
@@ -67,7 +190,7 @@ const createBackButton = (displayServices)=>{
             } else {
                 history.back();
             }
-            //history.back();
+            
             //hideAlerts();
             //showServices();
         }
@@ -79,9 +202,15 @@ const createBackButton = (displayServices)=>{
                 if (catalogs.classList.contains("clear-language"))
                     {
                         window.location.href = "index.html";
+                        setTimeout(() => {
+                          document.dispatchEvent(backEvent);
+                        }, 0);
                     }
                 else{
                     window.location.href = "instruction.html";
+                    setTimeout(() => {
+                        document.dispatchEvent(backEvent);
+                      }, 0);
                 }
             } else {
                /* if (!notQuery && !notCatalogs){
@@ -104,21 +233,10 @@ const createBackButton = (displayServices)=>{
                 //else{
                     document.querySelector('.search-input').value = "";
                     goBackToCatalogs();
+                    setTimeout(() => {
+                        document.dispatchEvent(backEvent);
+                      }, 0);
                     
-                    const searchParams = new URLSearchParams(window.location.search);
-                    let paramName = 'admin';
-                    const paramState = searchParams.get(paramName);
-                    
-
-                    // Проверка, содержит ли путь параметр
-                    if (window.location.pathname.includes(paramName)) {
-                        console.log(`Параметр '${paramName}' уже существует в пути.`);
-                        history.replaceState({}, '', window.location.pathname);
-                    } else {
-                        console.log(`Параметр '${paramName}' не существует в пути.`);
-                        history.replaceState({}, '', window.location.pathname + `?${paramName}=${paramState}`);
-                        // Вы можете добавить ваш параметр здесь
-                    }
                     //history.back();
                     //hideAlerts();
                 //}

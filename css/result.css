@@ -40,11 +40,11 @@
     padding-top: 24px;
     padding-bottom: 18px;
     padding-left: 50px;
-    text-align: left;
+
     font-size: 24px;
     white-space: break-spaces;
     padding-right: 50px;
-    text-align: justify;
+
     font-family: "Roboto", serif;
     flex-direction: column;
     align-items: flex-start;
@@ -143,9 +143,8 @@ div.popup{
     /*padding-left: 40px;*/
 }
 .card-button{
-    height: auto;
+ 
     width: 100%;
-    height: auto;
     display: flex;
     flex-direction: column-reverse;
     align-items: center;
@@ -201,6 +200,7 @@ header.main-header {
     flex-direction: column-reverse;
     align-items: center;
     gap: 20px;
+    z-index: 996;
 }
 
 
@@ -235,6 +235,7 @@ div#popup{
     top: 0%;
     padding-top: 2vw;
     background: white;
+    z-index: 20;
 }
 
 .popup-title{
@@ -242,6 +243,7 @@ div#popup{
     margin-top: 0;
     padding-bottom: 28.8px;
     margin-bottom: 0;
+    font-size: 1.5em;
 }
 
 .popup #closePopup.close-info {
@@ -474,19 +476,29 @@ img.arrow{
     margin-bottom: auto;*/
   }
 
-  .current-page{
+.current-page{
     
     /*margin-top: auto;
     margin-bottom: auto;
     width: 100%;*/
-  }
-  .current-page a {
+}
+.current-page a {
     
     font-size: 1.5vw; /* Пример размера шрифта */
     text-align: center;
     width: 100%;
-  }
+}
 
+
+  button.edit-element-button {
+    pointer-events: auto;
+    position: absolute;
+    font-size: 30px;
+    color: black;
+    background: white;
+    border-radius: 50px;
+    z-index: 20;
+}
 
 
   @media screen and (min-width: 2180px) {
@@ -504,4 +516,12 @@ img.arrow{
     .breadcrumb-item a{
         font-size:2vw;
     }
+}
+
+div.overlay{
+    z-index: 997;
+}
+
+div.popup{
+    z-index: 997;
 }

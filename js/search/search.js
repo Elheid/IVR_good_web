@@ -70,7 +70,7 @@ const handleSearch = async (event) => {
     }
 
 
-    document.querySelector('.search-input').value = ''; 
+    //document.querySelector('.search-input').value = ''; 
   };
   
 const searchResult = (query)=>

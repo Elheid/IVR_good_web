@@ -1,6 +1,13 @@
 import { createGastrualSkeleton } from "./main/createrObj.js";
 import { createForm, showForm } from "./form.js";
 
+import { getCurState, updateMargin, isAdmin } from "./util.js";
+
+import { deleteCategory, deleteService, deleteAddition } from "./api/api.js";
+
+const body = document.querySelector("body");
+
+
 const createAdminButton = () => {
     /*      
     <input type="checkbox" id="toggle" class="toggleCheckbox" />
@@ -39,11 +46,27 @@ const createAdminButton = () => {
     label.appendChild(title1);
     label.appendChild(title2);
 
+
+    updateIsAdmin();
+
     // Возвращаем button и label
     return { button, label };
 }
 
-const body = document.querySelector("body");
+const updateIsAdmin = ()=>{
+    /*const searchUrl = window.location.search;
+    const curState = new URLSearchParams(searchUrl).get("admin");
+    if (curState === "true"){
+        if(!body.classList.contains("admin")){
+            body.classList.add("admin")
+        }
+    }
+    else{
+        if(body.classList.contains("admin")){
+            body.classList.remove("admin")
+        }
+    }*/
+}
 
 const updateURL = ()=>{
     const isAdmin = body.classList.contains("admin");
@@ -61,7 +84,7 @@ const updateURL = ()=>{
         searchParams.append('admin', isAdmin);
     }*/
     //searchParams.set('admin', isAdmin);
-    const curState = new URLSearchParams(searchUrl).get("admin");
+    /*const curState = new URLSearchParams(searchUrl).get("admin");
     if (window.location.search.includes(paramName)) {
         if (curState === isAdmin){
             history.replaceState({}, '', searchUrl);
@@ -72,7 +95,7 @@ const updateURL = ()=>{
     } else {
         history.pushState({}, '', window.location.pathname + searchUrl + `&${paramName}=${isAdmin}`);
         // Вы можете добавить ваш параметр здесь
-    }
+    }*/
     // Обновляем URL без перезаписи других параметров
     /*const newUrl = `${window.location.pathname}?${window.location.search}`;
     history.pushState({ admin: isAdmin }, '', newUrl);*/
@@ -83,45 +106,96 @@ const toggleButtonStateUpdate = ()=> {
     const toggleCheckbox = document.getElementById('toggle');
 
     // Устанавливаем начальное состояние чекбокса в зависимости от класса admin у body
-    if (body.classList.contains('admin')) {
+    //console.log("func"+isAdmin())
+    //console.log("actual" + localStorage.getItem("isAdmin"))
+    if (isAdmin()) {
         toggleCheckbox.checked = true;
     } else {
         toggleCheckbox.checked = false;
     }
 
     // Обработчик для изменения положения переключателя при изменении состояния чекбокса
-    toggleCheckbox.addEventListener('change', function() {
+    /*toggleCheckbox.addEventListener('change', ()=> {
         if (this.checked) {
             document.querySelector('.toggleContainer::before').style.left = '50%';
         } else {
             document.querySelector('.toggleContainer::before').style.left = '0%';
         }
-    });
+    });*/
 
-    // Запускаем событие change, чтобы применить начальное состояние
-    toggleCheckbox.dispatchEvent(new Event('change'));
+    //toggleCheckbox.dispatchEvent(new Event('change'));
+}
+
+const adminUpdate = ()=>{
+    const toggleCheckbox = document.getElementById('toggle');
+    
+    if (isAdmin()){
+        addAdminExtra();
+        resAddEditButtons();
+        toggleCheckbox.checked = true;
+    }
+    else{
+        removeAdminExtra();
+        toggleCheckbox.checked = false;
+        resDeleteEditButtons();
+    }
 }
 
 const adminButtonClick = ()=>{
-    body.classList.toggle("admin")
-    updateURL();
-    toggleAdminExtra();
-    toggleButtonStateUpdate();
-   /* if (!body.classList.contains("admin")){
-        deleteExtraButtons();
+    const admin = localStorage.getItem("isAdmin");
+    const undefindCheck = typeof admin !== 'undefined';
+    const toggleCheckbox = document.getElementById('toggle');
+
+    if (!undefindCheck && !toggleCheckbox.checked){
+        localStorage.setItem("isAdmin", false);
+    }
+    else if (undefindCheck && !isAdmin()){
+        localStorage.setItem("isAdmin", true);
     }
     else{
-        addAdminButtonsToCards();
-    }*/
-    
-    if (!body.classList.contains("admin")){
-        //document.removeEventListener('click', adminButtonClick);
+        localStorage.setItem("isAdmin", false);
     }
+    //console.log(localStorage.getItem("isAdmin"))
+    adminUpdate();
+    
+    /*if (!prevClickAddAdmin && !undefindCheck){
+        localStorage.setItem("isAdmin", true);
+        prevClickAddAdmin = true
+    }
+    else{
+        localStorage.setItem("isAdmin", false);
+        prevClickAddAdmin = false
+    }
+
+    if (localStorage.getItem("isAdmin")){
+        localStorage.setItem("isAdmin", true);
+        body.classList.add("admin")
+    }
+    else{
+        localStorage.setItem("isAdmin", false);
+        body.classList.remove("admin")
+    }*/
+    updateURL();
+    //toggleAdminExtra();
+    /*
+    if (localStorage.getItem("isAdmin") !== "true"){
+        addAdminExtra();
+        resAddEditButtons();
+        toggleCheckbox.checked = true;
+    }
+    else{
+        removeAdminExtra();
+        toggleCheckbox.checked = false;
+        resDeleteEditButtons();
+    }*/
+    //toggleButtonStateUpdate();
+    //toggleEditResButtons();
 }
 const deleteExtraButtons = (card)=>{
     const container = card.querySelector(".extended-container");
-    container.remove();
+    if (container) container.remove();
 }
+
 const addAdminButtonsEvent = (card)=>{
     const container = createExtraButtons();
     if (!card.querySelector(".extended-container")){
@@ -137,24 +211,49 @@ const addAdminButtonsEvent = (card)=>{
         }
     }
     const img = card.querySelector(".extended-button img");
+    const video = card.querySelector("video");
     if (img){
+        /*video.addEventListener('loadeddata', () =>
+        {
+            img.addEventListener('load', () => {
+                updateMargin(card, container);
+                updateStyleButtonsClearCard(container);
+            });
+        })*/
         img.addEventListener('load', () => {
             updateMargin(card, container);
+            updateStyleButtonsClearCard(container);
         });
     }
 }
+const updateStyleButtonsClearCard = (container)=>{
+    const isClear = container.closest("ul").parentNode.classList.contains("clear-language");
+    const cardButton = container.parentNode.querySelector(".card-button");
+    if (isClear){
+        container.style.paddingBottom = "30px";
+        container.style.paddingTop = "5px";
+        if (isAdmin()){
+            cardButton.style.height = "calc(100% - 3em)";//"auto";
+            if (cardButton.querySelector(".card-header")) cardButton.querySelector(".card-header").style.marginTop = "20px";
+            if(cardButton.querySelector(".icon-container")){
+                cardButton.querySelector(".icon-container").style.marginTop = "20px";
+            } 
+        }
+        else{
+            cardButton.style.height = "auto";
+            if(cardButton.querySelector(".icon-container")){
+                cardButton.querySelector(".icon-container").style.marginTop = "";
+            } 
+            if (cardButton.querySelector(".card-header")) cardButton.querySelector(".card-header").style.marginTop = "";
+        }
 
-const updateMargin = (card, container) => {
-    if (card.offsetWidth !== 0) {
-        const deleteButton = container.querySelector(".delete-button");
-        const width = (card.offsetWidth - deleteButton.offsetWidth);
-        deleteButton.style.marginLeft = `calc(${width}px)`;
     }
-};
+}
+
 
 
 const addAdminButtonsToCards = ()=>{
-    if(body.classList.contains("admin")){
+    if(isAdmin()){
         const lists = document.querySelectorAll(".list-of-cards:not(.sceleton-list)");
         for(var i = 0; i < lists.length; i++){
             const cards = lists[i].children;
@@ -167,11 +266,42 @@ const addAdminButtonsToCards = ()=>{
     }
 }
 
+const addAdminExtra = ()=>{
+    const lists = document.querySelectorAll(".list-of-cards:not(.sceleton-list)");
+    for(var i = 0; i < lists.length; i++){
+        const cards = lists[i].children;
+        if (isAdmin()){
+            addCadrdSample(lists[i]);
+        }
+        if (cards.length > 0){
+            for(var j = 0; j < cards.length; j++){
+                extraButtonsUpdate(cards[j])
+            }
+
+        }
+    }
+}
+const removeAdminExtra = ()=>{
+    const lists = document.querySelectorAll(".list-of-cards:not(.sceleton-list)");
+    for(var i = 0; i < lists.length; i++){
+        const cards = lists[i].children;
+        if (!isAdmin()){
+            deleteCadrdSample(lists[i]);
+        }
+        if (cards.length > 0){
+            for(var j = 0; j < cards.length; j++){
+                extraButtonsUpdate(cards[j])
+            }
+
+        }
+    }
+}
+/*
 const toggleAdminExtra = ()=>{
     const lists = document.querySelectorAll(".list-of-cards:not(.sceleton-list)");
     for(var i = 0; i < lists.length; i++){
         const cards = lists[i].children;
-        if (body.classList.contains("admin")){
+        if (localStorage.getItem("isAdmin") !== "true"){
             addCadrdSample(lists[i]);
         }
         else{
@@ -185,10 +315,10 @@ const toggleAdminExtra = ()=>{
         }
     }
     
-}
+}*/
 
 const extraButtonsUpdate = (card)=>{
-    if (!body.classList.contains("admin")){
+    if (!isAdmin()){
         deleteExtraButtons(card);
 
         //deleteCadrdSample(lists[i]);
@@ -219,21 +349,60 @@ const deleteButtonClick = (event)=>{
     confirmDelete(event);
 }
 
-const confirmDelete = (event)=> {
-    // Предотвращаем стандартное действие кнопки
-    event.preventDefault();
 
-    // Отображаем диалоговое окно с подтверждением
-    if (confirm("Вы действительно хотите удалить?")) {
-        // Если пользователь подтвердил, выполнить удаление (например, отправка формы)
-        // В данном примере просто выводим сообщение в консоль
-        console.log("Элемент удалён");
+const deleteCard = (type,id)=>{
+    switch(type) {
+        case 'catalog': 
+            deleteCategory(id)
+            break;
+      
+        case 'service':  
+            deleteService(id)
+            break;
+
+        case 'info':  
+            //console.log("C info card Ещё не сделано")
+            deleteAddition(id);
+            break;
+      
+        default:
+            console.log("Ошибка с созданием запроса удаления")
+            break;
+      }
+}
+const confirmDelete = (event)=> {
+        event.preventDefault();
         const target = event.target.closest('li');
-        target.remove();
-    } else {
-        // Если пользователь отменил, ничего не делаем
-        console.log("Удаление отменено");
-    }
+
+        let state = "catalog";
+
+        let id = event.target.closest('li').getAttribute("catalog-id");
+        if (!id){
+            id = event.target.closest('li').getAttribute("service-id");
+            state = "service";
+            if (!id){
+                id = event.target.closest('li').getAttribute("info-id");
+                state = "info";
+            }
+        }
+        const title = target.querySelector(".card-title").textContent;
+        console.log(title + "  id " + id)
+        // Отображаем диалоговое окно с подтверждением
+        if (confirm("Вы действительно хотите удалить?")) {
+            // Запрашиваем ввод текста для подтверждения
+            const input = prompt('Для подтверждения удаления введите название удаляемого объекта:');
+            if (input === title) {
+                console.log("Элемент " + title + " удалён");
+                target.remove();
+                deleteCard(state,id)
+            } else {
+                alert("Неверное слово. Удаление отменено.");
+                console.log("Удаление отменено");
+            }
+        } else {
+            // Если пользователь отменил, ничего не делаем
+            console.log("Удаление отменено");
+        }
 }
 
 
@@ -272,21 +441,89 @@ const createExtraButtons = ()=>{
     return  container;
 }
 
+const equalizeSampleHeight = ()=>{
+    let cards = document.querySelectorAll('.card');
+    if (cards.length > 1){
+            
+        
+        const cardToAdd = document.querySelector('.card-to-add').querySelector(".card-content");
+        let maxHeight = 0;
+        let maxWidth = 0;
+        
+        cards.forEach((cardInCards)=> {
+        const card = cardInCards.querySelector(".card-button");
+        if (card){
+            if (card.offsetHeight > maxHeight) {
+                maxHeight = card.offsetHeight;
+            }
+            if (card.offsetWidth > maxWidth) {
+                maxWidth = card.offsetWidth
+            }
+        }
+        });
+    
+
+        if (!cardToAdd.parentNode.parentNode.classList.contains("hidden")){
+            cardToAdd.style.height = maxHeight > 300 ? "fit-content" :maxHeight + 'px';
+            cardToAdd.style.width = maxHeight < 100 ? "fit-content" : maxWidth + 'px';
+            if (cardToAdd.querySelector(".gif")){
+                cardToAdd.querySelector(".gif").style.width = maxWidth + 'px';
+            }
+        }
+    }
+}
+
 const addCadrdSample = (list)=>{
-    var urlParams = window.location.search;
-    const state = (urlParams.match('serviceId'))? 'info-cards' : (urlParams.match('catalog')) ? 'services-list' :  'catalogs-list';
+    const state = getCurState();
+    /*
     if (list.children.length != 0){
         for (var i = 0; i < list.children.length; i++){
             if(list.children[i].classList.contains("card-to-add")){
                 return;
             }
         }
+    }*/
+
+    const alreadyHas = list.querySelector('.card-to-add') !== null;
+    const notInfoCards = (list.children.length === 0 && state !== "info-cards");
+    const hollowServicesWhileCatalogs = (list.children.length === 0 && state === "catalogs-list");
+    const hollowCategory = (list.children.length === 0 && state === "services-list");
+    const subCategory = document.querySelector(".sub-catalogs-list");
+    let subCategories = false;
+    if (subCategory){
+        subCategories = ((!subCategory.classList.contains("hidden")) && state === "services-list" && list.classList.contains(state))
     }
+    if (alreadyHas){
+        return;
+    }
+    if (hollowServicesWhileCatalogs){
+        return
+    }
+    const categoryId = new URLSearchParams(window.location.search).get("category");
+    const hiddenService = list.classList.contains("hidden") && list.classList.contains("services-list");
+    if (hiddenService){
+        return;
+    }
+    if (!hollowCategory && (notInfoCards)){
+        return;
+    }
+    if (subCategories){
+        return;
+    }
+    if (hollowCategory){
+        list.classList.remove("hidden");
+        list.parentNode.classList.remove("hidden");
+    }
+   /* if ((alreadyHas || (notInfoCards || notServicesWhileCatalogs)) && !hollowCategory){
+        return;
+    }*/
     const isClear = list.parentNode.classList.contains("clear-language");
     const fragmentToAppend = createGastrualSkeleton(1, isClear);
-    if (list.classList.contains(state)){
-        fragmentToAppend.firstElementChild.classList.add("card-to-add")
-        fragmentToAppend.firstElementChild.querySelector(".card-button").classList.remove("skeleton-substrate")
+    //if (list.classList.contains(state)){
+        fragmentToAppend.firstElementChild.classList.add("card-to-add");
+        fragmentToAppend.firstElementChild.removeAttribute("catalog-id");
+        fragmentToAppend.firstElementChild.querySelector(".card-button").classList.remove("skeleton-substrate");
+        fragmentToAppend.firstElementChild.querySelector(".card-button").classList.replace("card-button","cardButton-to-add")
         if(fragmentToAppend.firstElementChild.querySelector(".gif")){
             fragmentToAppend.firstElementChild.querySelector(".gif").style = "animation: none;"
         }
@@ -296,8 +533,36 @@ const addCadrdSample = (list)=>{
         //fragmentToAppend.firstElementChild.querySelector(".card-button").replaceWith(fragmentToAppend.firstElementChild.querySelector(".card-button").cloneNode(true));
         list.appendChild(fragmentToAppend);
 
+        const catalog = new URLSearchParams(window.location.search).get("catalog");
+        const subcatalog = new URLSearchParams(window.location.search).get("sub-catalog");
+        if (catalog && catalog !== "" || subcatalog && subcatalog !== ""){
+            document.querySelector(".catalogs-list").classList.add("hidden");
+        }
+        document.addEventListener("resize", equalizeSampleHeight)
+        equalizeSampleHeight();
+
         createForm();
-    }
+
+        let otherList;
+        if (state === "services-list"){
+            otherList = document.querySelector('.catalogs-list');
+            //for (var i = 0; i < otherList.children.length; i++){
+                addCadrdSample(otherList);
+                const cards = otherList.children;
+                for (var i = 0; i< cards.length; i++){
+                    updateMargin(cards[i], cards[i].querySelector(".extended-container"));
+                }
+
+                /*if(otherList.querySelector('.card-to-add') !== null){
+                    return;
+                }
+                else if(i === otherList.children.length - 1 ){
+                    addCadrdSample(otherList);
+                }*/
+            //}
+        }
+
+    //}
 }
 const deleteCadrdSample = (list)=>{
     var urlParams = window.location.search;
@@ -320,6 +585,91 @@ const deleteCadrdSample = (list)=>{
     })
 }*/
 
+const createEditElementBitton = ()=>{
+    const button = document.createElement('button');
+    button.classList.add("edit-element-button");
+    button.textContent = "edit";
+    return button;
+}
+
+const toggleElements = (name) => {
+    // Hide all conditional elements
+    document.querySelectorAll('.conditional').forEach(el => el.classList.add('hidden'));
+    document.querySelectorAll('.reduced').forEach(el => el.classList.add('hidden'));
+
+    
+    document.querySelectorAll('#type').forEach(el => el.removeAttribute("required"));
+    document.querySelectorAll('[for="title"], #title').forEach(el => el.removeAttribute("required"));
+    // Show elements based on name
+    if (name === 'title') {
+      document.querySelectorAll('[for="title"], #title').forEach(el => el.classList.remove('hidden'));
+    } else if (name === 'video') {
+      document.querySelectorAll('[for="resVideo"], #resVideo').forEach(el => el.classList.remove('hidden'));
+    } else if (name === 'description') {
+      document.querySelectorAll('aside.res-text-parts').forEach(el => el.classList.remove('hidden'));
+    }
+  }
+
+
+const editResClick = (name)=>{
+    //console.log("edit  " + name);
+    toggleElements(name);
+    showForm();
+}
+
+
+const editResElement = (elemet, name)=>{
+    const button = createEditElementBitton();
+    button.addEventListener("click", ()=>{
+        editResClick(name, elemet);
+    });
+    const resTitle = elemet.classList.contains("res-title");
+    if(resTitle){
+        //button.classList.add("hidden");
+        return;
+    }
+    if(elemet.classList.contains("title") && elemet.textContent.indexOf("Дополнительная информация")>0){
+        button.classList.add("hidden");
+        elemet.appendChild(button);
+    }
+    else if (elemet.classList.contains("title") && elemet.textContent.indexOf("Дополнительная информация") <=0){
+        if (elemet.parentNode.querySelector(".edit-element-button")){
+            elemet.parentNode.querySelector(".edit-element-button").classList.remove("hidden")
+        }
+        else{
+            elemet.appendChild(button);
+        }
+    }
+    else{
+        elemet.parentNode.insertBefore(button, elemet);
+    }
+}
+
+const resDeleteEditButtons = ()=>{
+    const buttons = document.querySelectorAll(".edit-element-button")
+    buttons.forEach((button)=>button.remove())
+}
+
+const resAddEditButtons = ()=>{
+    const titles = document.querySelectorAll(".title");
+    const descriptions = document.querySelectorAll(".manual-text:not(.skeleton .manual-text)");
+    const videos = document.querySelectorAll(".result-video");
+    const elementsToEdit = [];
+    titles.forEach((title)=> elementsToEdit.push({element:title, name:"title"}));
+    descriptions.forEach((description)=> elementsToEdit.push({element:description, name:"description"}));
+    videos.forEach((video)=> elementsToEdit.push({element:video, name:"video"}));
+    elementsToEdit.forEach((elemet)=>editResElement(elemet.element, elemet.name))
+}
+
+/*
+const toggleEditResButtons = ()=>{
+    if (localStorage.getItem("isAdmin") !== "true"){
+        resAddEditButtons();
+    }
+    else{
+        resDeleteEditButtons();
+    }
+}*/
 
 const addButtons = ()=>{
     let adminButton = document.querySelector(".admin-button");
@@ -337,11 +687,25 @@ const addAdminPanel = ()=>{
         header.appendChild(label);
         adminButton = document.querySelector(".admin-button");
     }
+    document.addEventListener('newCardCreated', (event)=>{
+        const card = event.detail.card;
+        addAdminButtonsEvent(card)
 
-    document.addEventListener("DOMContentLoaded", ()=>{
-        if (window.location.search.indexOf("admin=true") > 0){
-            adminButtonClick();
+        const video = card.querySelector("video");
+        const container = card.querySelector(".extended-container")
+        if (video){
+            video.addEventListener('loadeddata', () =>
+            {
+                updateMargin(card, container);
+                updateStyleButtonsClearCard(container);
+            })
         }
+    });
+    document.addEventListener("DOMContentLoaded", ()=>{
+        //if (localStorage.getItem("isAdmin") !== "true"){
+            //adminButtonClick();
+        //}
+        adminUpdate();
     })
 
 
@@ -353,4 +717,4 @@ const addAdminPanel = ()=>{
     }*/
 }
 
-export {addAdminPanel, addAdminButtonsToCards, addCadrdSample, extraButtonsUpdate}
+export {addAdminPanel, addAdminButtonsToCards, addCadrdSample, extraButtonsUpdate, adminButtonClick, resAddEditButtons,  adminUpdate}
