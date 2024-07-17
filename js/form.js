@@ -264,67 +264,74 @@ const submitForm = async (event) => {
 
         if (parentId){
             if (!selectElement.classList.contains("hidden") && selectedValue !== parentId && state !== "info-cards"){
-                promises.push(removeServiceCategory(id).then(() => promises.push(addServiceCategory(id, selectedValue))));
+                await removeServiceCategory(id).then(() =>{ 
+                    (addServiceCategory(id, selectedValue));
+                    endFormWithLoader();
+                    window.location.reload();
+                });
             }     
         }
-        if (title && state === 'info-cards') promises.push(updateAdditionTitle(id, { title }));
+        else{
+            if (title && state === 'info-cards') promises.push(updateAdditionTitle(id, { title }));
 
-        if (image){
-            if (state === 'catalogs-list') promises.push(updateCategoryMainIcon(id, { image }));
-            if (state === 'services-list') promises.push(updateServiceMainIcon(id, { image }));
-            if (state === 'info-cards') promises.push(updateAdditionMainIcon(id, { image }));
-        }
-
-        if (video){
-            if (state === 'catalogs-list') promises.push(updateCategoryGifPreview(id, { video }));
-            if (state === 'services-list') promises.push(updateServiceGifPreview(id, { video }));
-            if (state === 'info-cards') promises.push(updateAdditionGifPreview(id, { video }));
-        }
-
-        if (resVideo){
-            if (state === 'services-list') promises.push(updateServiceGif(id, { resVideo }));
-            if (state === 'info-cards') promises.push(updateAdditionGif(id, { resVideo }));
-        }
-
-        if (description) {
-            if (state === 'services-list') {
-                promises.push(updateServiceDescription(id, { description }));
+            if (image){
+                if (state === 'catalogs-list') promises.push(updateCategoryMainIcon(id, { image }));
+                if (state === 'services-list') promises.push(updateServiceMainIcon(id, { image }));
+                if (state === 'info-cards') promises.push(updateAdditionMainIcon(id, { image }));
             }
-            if (state === 'info-cards') {
-                promises.push(updateAdditionDescription(id, { description }));
+    
+            if (video){
+                if (state === 'catalogs-list') promises.push(updateCategoryGifPreview(id, { video }));
+                if (state === 'services-list') promises.push(updateServiceGifPreview(id, { video }));
+                if (state === 'info-cards') promises.push(updateAdditionGifPreview(id, { video }));
             }
+    
+            if (resVideo){
+                if (state === 'services-list') promises.push(updateServiceGif(id, { resVideo }));
+                if (state === 'info-cards') promises.push(updateAdditionGif(id, { resVideo }));
+            }
+    
+            if (description) {
+                if (state === 'services-list') {
+                    promises.push(updateServiceDescription(id, { description }));
+                }
+                if (state === 'info-cards') {
+                    promises.push(updateAdditionDescription(id, { description }));
+                }
+            }
+    
+            if (description && iconLinks.length !== 0) {
+                if (state === 'services-list') {
+                    promises.push(clearServiceIcons(id).then(() => {
+                        for (const link of iconLinks) {
+                            promises.push(addServiceIcon(id, { link }));
+                        }
+                    }));
+                }
+                if (state === 'info-cards') {
+                    promises.push(clearAdditionIcons(id).then(() => {
+                        for (const link of iconLinks) {
+                            promises.push(addAdditionIcon(id, { link }));
+                        }
+                    }));
+                }
+    
+            }
+                // Ожидаем завершения всех промисов
+                /* await*/ Promise.all(promises).then(()=>{
+                /*form.removeEventListener('submit', submitForm);
+                document.getElementById('card-form-container').classList.add('hidden');
+                form.reset();
+                
+                hideLoader();*/
+                endFormWithLoader();
+
+                // Перезагрузка страницы после завершения всех запросов
+                window.location.reload();
+            })
+
         }
 
-        if (description && iconLinks.length !== 0) {
-            if (state === 'services-list') {
-                promises.push(clearServiceIcons(id).then(() => {
-                    for (const link of iconLinks) {
-                        promises.push(addServiceIcon(id, { link }));
-                    }
-                }));
-            }
-            if (state === 'info-cards') {
-                promises.push(clearAdditionIcons(id).then(() => {
-                    for (const link of iconLinks) {
-                        promises.push(addAdditionIcon(id, { link }));
-                    }
-                }));
-            }
-
-        }
-
-        // Ожидаем завершения всех промисов
-        /* await*/ Promise.all(promises).then(()=>{
-        /*form.removeEventListener('submit', submitForm);
-        document.getElementById('card-form-container').classList.add('hidden');
-        form.reset();
-        
-        hideLoader();*/
-        endFormWithLoader();
-
-        // Перезагрузка страницы после завершения всех запросов
-        window.location.reload();
-    })
     }
     if (state === "info-cards"){
         document.querySelector(".close-info").click();

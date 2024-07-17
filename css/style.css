@@ -411,6 +411,13 @@ input#subCategory-create {
 input#type {
     width: auto;
 }
+input#subCategory-create {
+    width: auto;
+}
+input#subCategory-create {
+    width: auto;
+}
+
 
 #card-form textarea{
     padding-top: 5px;
