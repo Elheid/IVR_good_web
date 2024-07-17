@@ -2,6 +2,17 @@
 import { getCellNameById, getParamFromURL, tryJsonParse } from "../util.js";
 
 
+const tryJsonParse = (value, name)=>{
+    let res;
+    try {
+        res = JSON.parse(value)[name];  // Попробуем распарсить как JSON
+    } catch (e) {
+        res =  value;  
+    }
+    const undefindCheck = typeof res !== 'undefined';
+    return undefindCheck ? res:value;
+}
+
 const iconInsertion = (textFromBd, iconLinks)=>{
     const iconRegex = /\\icon(\d+)/g;
 
@@ -10,7 +21,7 @@ const iconInsertion = (textFromBd, iconLinks)=>{
     const replacedText =  textFromBd.replace(iconRegex, (match, p1) => {
         let icon = iconLinks[Number(p1)];
        icon = tryJsonParse(icon, "link")
-    
+
         return `<img class="icons" src="${icon}" alt="icon${p1}">`;
     });
     // Вставка результата в <pre> элемент
@@ -433,7 +444,6 @@ const createCatalogCard = (catalog, clearLanguage)=>{
         const gifPreview = tryJsonParse(catalog.gifPreview, "video")
 
         vidOrGif.src = gifPreview;
-
 
         vidOrGif.loop = true;
         vidOrGif.muted = true;

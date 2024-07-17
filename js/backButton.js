@@ -172,6 +172,7 @@ const backEvent = new CustomEvent('goBackEvent', { });
 const createBackButton = (displayServices)=>{
     backButton.addEventListener('click', ()=> {
         if (!window.location.href.includes("services")){
+
             /*const preRes = localStorage.getItem("pre-res-search");
             if (preRes){
                 window.location.href = "services.html" + preRes;
