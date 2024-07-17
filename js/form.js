@@ -262,15 +262,13 @@ const submitForm = async (event) => {
         const selectElement = document.getElementById('parent-id');
         const selectedValue = selectElement.value;
 
-        if (parentId){
-            if (!selectElement.classList.contains("hidden") && selectedValue !== parentId && state !== "info-cards"){
-                await removeServiceCategory(id).then(() =>{ 
-                    (addServiceCategory(id, selectedValue));
-                    endFormWithLoader();
-                    window.location.reload();
-                });
-            }     
-        }
+        if (parentId && !selectElement.classList.contains("hidden") && selectedValue !== parentId && state !== "info-cards"){
+            await removeServiceCategory(id).then(() =>{ 
+                (addServiceCategory(id, selectedValue));
+                endFormWithLoader();
+                window.location.reload();
+            });
+        }     
         else{
             if (title && state === 'info-cards') promises.push(updateAdditionTitle(id, { title }));
 
@@ -797,10 +795,18 @@ const getDescription = (targetCard = null)=>{
         showLoader()
         const attribute = state === 'info-cards' ? 'info-id' : state === 'catalogs-list' ? "catalog-id" : "service-id";
         let id;
-        if (targetCard) id = targetCard.getAttribute(attribute);
-        else id = new URLSearchParams(window.location.search).get("serviceId");
-        if(state === "services-list") getServiceById(id).then((data)=>fillDescriptionInForm(data));
-        if (state === "info-cards") getInfoById(id).then((data)=>fillDescriptionInForm(data));
+        if (targetCard){
+            id = targetCard.getAttribute(attribute);
+            if(state === "services-list") getServiceById(id).then((data)=>fillDescriptionInForm(data));
+            if (state === "info-cards") getInfoById(id).then((data)=>fillDescriptionInForm(data));
+        } 
+        else {
+            id = new URLSearchParams(window.location.search).get("serviceId");
+            getServiceById(id).then((data)=>fillDescriptionInForm(data));
+            //getInfoById(id).then((data)=>fillDescriptionInForm(data));
+        }
+        /*if(state === "services-list") getServiceById(id).then((data)=>fillDescriptionInForm(data));
+        if (state === "info-cards") getInfoById(id).then((data)=>fillDescriptionInForm(data));*/
     }
 }
 
