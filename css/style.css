@@ -318,7 +318,8 @@ li.res-text-parts.part {
 }
 
 textarea.res-parts{
-    max-width: 326px;
+    max-width: 25em;
+    max-height: 30em;
     margin-bottom: 10px;
 }
 
@@ -536,6 +537,13 @@ section.res-card {
     border-width: 2px;
     padding-left: 20px;
 }
+/*
+article.main-form {
+    border-right: 1px solid rgba(119, 119, 119, 1);
+    border-width: 2px;
+    padding-right: 20px;
+}
+*/
 
 .div-last 
 {

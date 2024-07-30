@@ -428,10 +428,30 @@ const changeImgByInput =(container, input)=>{
     if (isValidUrl(url)) {
         img.src = url;
         img.classList.remove("opacity")
+        img.classList.remove("hidden");
     } else {
         img.src = '/img/empty.jpg';
         img.classList.add("opacity")
     }
+}
+
+const clearIconInsert = (element)=>{
+    let input = element.querySelector('#res-icon');
+    if (!input){
+        input = element.querySelector('#image');
+    }
+
+    // Обработчик ввода
+    //input.addEventListener("DOMContentLoaded", changeImgByInput)
+    //input.addEventListener('input', ()=>changeImgByInput(element, input));
+    const imgs = element.querySelectorAll(".icons");
+    imgs.forEach((img, index)=>{
+        img.src = '/img/empty.jpg';
+        img.classList.add("opacity");
+        if (index > 0){
+            img.remove();
+        }
+    })
 }
 
 const iconInsertAndChange = (element)=>{
@@ -446,6 +466,7 @@ const iconInsertAndChange = (element)=>{
 }
 
 const addNewResBlockWithText = (blockOfText, iconLinks = null)=>{
+    const event = new Event('input-textarea');
     const list = document.querySelector(".res-text-parts.list");
     const first = list.children[0];
     for (let i = 0; i < blockOfText.length; i++){
@@ -456,7 +477,9 @@ const addNewResBlockWithText = (blockOfText, iconLinks = null)=>{
         clone.querySelectorAll("textarea").forEach((input) => {
             input.value = text;
             input.textContent = text;
+            document.dispatchEvent(event);
         })
+         //тут input event
         let divWithImg = clone.querySelector(".icon-add-container .icon-of-url");
         //divWithImg.classList.add("icon-of-url")
         clone.querySelectorAll("#res-icon").forEach((input) => {
@@ -482,6 +505,7 @@ const addNewResBlockWithText = (blockOfText, iconLinks = null)=>{
         iconInsertAndChange(clone);
         updateFileInputAttributes(clone);
         list.appendChild(clone);
+        autoResizeTextArea(clone.querySelector("textarea"))
     }
     const uploadButton = document.querySelectorAll(".upload-file").forEach((button)=>{
         button.addEventListener("click", uploadFile);
@@ -570,6 +594,9 @@ const changeParentOptions = (targetCard)=>{
 
     const parentDivs = document.querySelectorAll(".parent-existence");
     const resDivs = document.querySelector("section.res-card");
+    const mainForm = document.querySelector(".res-card");
+    const hiddenBorderStyle = "0px";
+    const showBorderStyle = '1px solid rgba(119, 119, 119, 1)';
 
     const parentChoose = document.querySelector(".parent-choose");
 
@@ -581,6 +608,9 @@ const changeParentOptions = (targetCard)=>{
         resDivs.classList.add("hidden");
 
         parentChoose.classList.add("hidden");
+
+        mainForm.style.borderLeft = hiddenBorderStyle;
+        
         /*const typeOfParent = document.querySelectorAll("div.parent-existence");
         typeOfParent.forEach(parent=>{
             parent.classList.add("hidden");
@@ -596,6 +626,7 @@ const changeParentOptions = (targetCard)=>{
         document.querySelector(`label.parent-existence`).classList.add("hidden");*/
         parentChoose.classList.add("hidden");
         parentDivs.forEach((div)=> div.classList.add("hidden"))
+        
     }
     else{
 
@@ -607,6 +638,7 @@ const changeParentOptions = (targetCard)=>{
 
 
         resDivs.classList.remove("hidden");
+        mainForm.style.borderLeft = showBorderStyle;
         /*resDivs.forEach((div)=>{ 
             if (div.classList.contains("hidden")){
                 div.classList.remove("hidden")
@@ -675,6 +707,7 @@ const changeParentOptions = (targetCard)=>{
                 const value = createSubCatalog.checked;
                 if (value){
                     resDivs.classList.add("hidden");
+                    mainForm.style.borderLeft = hiddenBorderStyle;
                     document.querySelector("section.res-card").classList.add("hidden");
                 }
             })
@@ -683,6 +716,7 @@ const changeParentOptions = (targetCard)=>{
                 const value = createSubCatalog.checked;
                 if (!value){
                     resDivs.classList.remove("hidden");
+                    mainForm.style.borderLeft = showBorderStyle;
                     document.querySelector("section.res-card").classList.remove("hidden");
                 }
             });
@@ -780,9 +814,12 @@ const getDescription = (targetCard = null)=>{
             input.value = "";
             input.textContent = "";
         })
+        //тут input event
+        const event = new Event('input-textarea');
         first.querySelectorAll("input").forEach((input) => {
             input.value = "";
             input.textContent = "";
+            document.dispatchEvent(event);
         })
     }
 
@@ -843,14 +880,35 @@ document.addEventListener("DOMContentLoaded", ()=> {
     } 
 })
 */
+const autoResizeTextArea = (textarea)=>{
+    textarea.style.height = 'auto'; // Сбрасываем высоту для правильного пересчета
+    textarea.style.height = textarea.scrollHeight + 'px'; // Устанавливаем высоту в соответствии с содержимым
+}
+
+const autoResizeTextAreas = ()=>{
+    const textareas = document.querySelectorAll("#card-form textarea");
+    textareas.forEach((textarea)=>autoResizeTextArea(textarea));
+}
 const showForm = ()=>{
     event.stopPropagation();
 
     const mainIcon = document.querySelector(".icon-add-container.main-icon");
+    clearIconInsert(mainIcon);
     if (mainIcon) iconInsertAndChange(mainIcon);
+    //else clearIconInsert(mainIcon);
+
 
     const list = document.querySelector("ul.res-text-parts");
+    clearIconInsert(list.children[0]);
     if (list) iconInsertAndChange(list.children[0]);
+    //else clearIconInsert(list.children[0]);
+
+    //const textareas = document.querySelectorAll("#card-form textarea");
+    //textareas.forEach((textarea)=>{
+        //console.log("зашел накинуть обработчик");
+        document.addEventListener('input-textarea', autoResizeTextAreas);
+        //textarea.addEventListener('resize', onTextareaResizeStart);
+    //})
 
     document.getElementById('title').addEventListener('keydown', function(event) {
         if (event.key === 'Enter') {
@@ -938,8 +996,12 @@ const showForm = ()=>{
         document.getElementById("parent-id").removeAttribute("disabled");
         getDescription();
     }
+    const mainForm = document.querySelector(".res-card");
+    const hiddenBorderStyle = "0px";
+    const showBorderStyle = '1px solid rgba(119, 119, 119, 1)';
     if (lastClickedButton.classList.contains("edit-element-button")){
         const title = document.getElementById("title");
+        mainForm.style.borderLeft = hiddenBorderStyle;
         if (document.querySelector("h3.title")){
             title.value = document.querySelector("h3.popup-title").textContent;
         }
@@ -947,6 +1009,9 @@ const showForm = ()=>{
         if (lastClickedButton.parentNode.querySelector("video")){
             resVid.value = lastClickedButton.parentNode.querySelector("video").src;
         }
+    }
+    else{
+        mainForm.style.borderLeft = showBorderStyle;
     }
 
     /*            const title = document.getElementById("title");
@@ -967,7 +1032,7 @@ const showForm = ()=>{
 
     //console.log("show form")
     document.getElementById('card-form-container').classList.remove('hidden');
-    document.addEventListener('click', closeFormOnExitBorders);
+    document.addEventListener('mousedown', closeFormOnExitBorders);
     
     document.querySelector(".add-new-block").addEventListener("click", addNewResBlockButton)
 
@@ -1030,6 +1095,18 @@ const closeFormOnExitBorders = (event)=> {
         document.removeEventListener('click', closeFormOnExitBorders);
     }
 };
+/*
+const onTextareaResizeStart = (event) => {
+    resizing = true;
+    console.log("resize start");
+    document.addEventListener('mouseup', onTextareaResizeEnd);
+};
+
+const onTextareaResizeEnd = (event) => {
+    resizing = false;
+    console.log("resize end");
+    document.removeEventListener('mouseup', onTextareaResizeEnd);
+};*/
 
 
 const createForm = ()=>{

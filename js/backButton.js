@@ -1,5 +1,5 @@
 import { removeLastHeader,addHeader} from "./headers.js";
-import { countSubCatalogs, getCatalogId, getLastSubCatalog, getLastSubCatalogName, getPreSubCatalog, updateMarginButtonsOnList } from "./util.js";
+import { countSubCatalogs, getCatalogId, getLastParam, getLastSubCatalog, getLastSubCatalogName, getPreSubCatalog, updateMarginButtonsOnList } from "./util.js";
 
 const goBackToCatalogs = ()=>{
 
@@ -29,7 +29,14 @@ const goBackToCatalogs = ()=>{
         removeLastHeader();
         updateMarginButtonsOnList(list);
 
-        updateParamUrl('catalog');
+        updateParamUrl(getLastParam());
+        let lastParam = getLastParam();
+        while (lastParam){
+            //if (lastParam){
+                updateParamUrl(lastParam);
+                lastParam = getLastParam();
+            //}
+        }
 
     }
     else if (idCatalog !== "" && idCatalog && idSubCatalog !== '' && idSubCatalog){
@@ -190,7 +197,6 @@ const createBackButton = (displayServices)=>{
             } else {
                 history.back();
             }
-            
             //hideAlerts();
             //showServices();
         }

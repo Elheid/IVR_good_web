@@ -9,8 +9,7 @@ const iconInsertion = (textFromBd, iconLinks)=>{
 
     const replacedText =  textFromBd.replace(iconRegex, (match, p1) => {
         let icon = iconLinks[Number(p1)];
-       icon = tryJsonParse(icon, "link")
-
+        icon = tryJsonParse(icon, "link")
         return `<img class="icons" src="${icon}" alt="icon${p1}">`;
     });
     // Вставка результата в <pre> элемент
@@ -518,6 +517,7 @@ const createServiceCard = (service, clearLanguage)=>{
             let categoryName = '';
             if (service.categoryId !== 0){
                 categoryName = getCellNameById(service.categoryId);
+                //if (service)
             }
            
             var categoryNameSpan = document.createElement('h3');
@@ -558,7 +558,26 @@ const createServiceCard = (service, clearLanguage)=>{
 
         const query = window.location.href;
         if (query.includes("query")){
-          const categoryName = getCellNameById(service.categoryId);
+          const subCatalogs = document.querySelectorAll("div.sub-catalogs");
+          let isSubCatalog = false;
+          let subParentId;
+          subCatalogs.forEach((subCatalog)=>{
+            const subWithSameId = subCatalog.querySelector(`[catalog-id="${service.categoryId}"]`);
+            if (subWithSameId){
+                isSubCatalog = true;
+                subParentId = subWithSameId.getAttribute("parent-id");
+            } 
+          });
+          let categoryName = "";
+          if (isSubCatalog){
+            categoryName = getCellNameById(subParentId);
+          }
+          const prevCellName = getCellNameById(service.categoryId);
+          if (prevCellName !== service.title){
+            categoryName += " " + prevCellName;
+          }
+
+
           var categoryNameSpan = document.createElement('h3');
           categoryNameSpan.classList.add("categoryName")
           categoryNameSpan.textContent = categoryName;
