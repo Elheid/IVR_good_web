@@ -379,6 +379,10 @@ input#subCategory-create {
 .add-new-block {
     margin-top: 5px;
     width: fit-content;
+
+    margin-left: auto;
+    margin-right: auto;
+    padding-right: 1em;
 }
 
 #card-form input{
@@ -386,9 +390,16 @@ input#subCategory-create {
 }
 
 
-#card-form label{
+
+
+
+label.reduced.label-main-icon {
+    /*margin-bottom: -1.2em;*/
+}
+#card-form label {
     padding-left: 5px;
-    font-size: large;
+    font-size: medium;
+    font-family: Jomolhari;
 }
 
 #card-form input{
@@ -449,12 +460,20 @@ input#subCategory-create {
     flex-direction: column;
 }
 
+.icon-and-label{
+    display: flex;
+
+}
+
 .file-input {
     display: flex;
     align-items: flex-start;
     gap: 15px;
     justify-content: flex-start;
     margin-top: 10px;
+
+    justify-content: space-between;
+    width: 100%;
 }
 
 .form-flex {
@@ -563,7 +582,9 @@ article.main-form {
 }
 
 .icon-of-url {
-    background: #a7725980;
+    /*background: #a7725980;*/
+    background: rgba(255, 255, 255, 0.5);
+
     /* border-radius: 20px; */
     /* box-shadow: inset -2px -3px 0px 0px black; */
     border-block: 2px black;
@@ -574,9 +595,14 @@ article.main-form {
 .icon-add-container {
     display: flex;
     align-content: center;
-    align-items: center;
+    /*align-items: center;*/
+    align-items: flex-end;
+    flex-direction: column;
+    padding-top: 8px;
 }
-
+.icon-add-container.main-icon {
+    flex-direction:row;
+}
 
 button.submit-form {
     font-size: 1.15em;
@@ -702,11 +728,24 @@ aside.hidden{
 
 .upload-file {
     cursor: pointer;
-    border: 1px solid;
+    /*border: 1px solid;*/
+    border-radius: 15px;
+    color: white;
     width: fit-content;
     padding: 5px;
     margin-top: 5px;
+    text-wrap: nowrap;
 }
+.upload-file {
+    font-family: Jomolhari;
+    font-size: medium;
+    font-weight: 400;
+    line-height: 17.62px;
+    text-align: left;
+    /*background: rgba(181, 146, 115, 1);*/
+    background:rgba(181, 146, 115, 1);
+}
+
 
 
 

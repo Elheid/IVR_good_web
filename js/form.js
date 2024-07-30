@@ -891,6 +891,7 @@ const autoResizeTextAreas = ()=>{
 }
 const showForm = ()=>{
     event.stopPropagation();
+    document.getElementById('card-form-container').classList.remove('hidden');
 
     const mainIcon = document.querySelector(".icon-add-container.main-icon");
     clearIconInsert(mainIcon);
@@ -983,10 +984,10 @@ const showForm = ()=>{
         }
         else{
             title.value = "";
-            image.dispatchEvent(event);
             image.value = "";
             video.value = "";
-            res.value  = "";    
+            res.value  = "";  
+            image.dispatchEvent(event);  
         }
 
     }
@@ -1031,7 +1032,7 @@ const showForm = ()=>{
 
 
     //console.log("show form")
-    document.getElementById('card-form-container').classList.remove('hidden');
+    //document.getElementById('card-form-container').classList.remove('hidden');
     document.addEventListener('mousedown', closeFormOnExitBorders);
     
     document.querySelector(".add-new-block").addEventListener("click", addNewResBlockButton)

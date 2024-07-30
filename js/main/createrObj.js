@@ -493,6 +493,32 @@ const createCatalogCard = (catalog, clearLanguage)=>{
     return cardCatalog;
 };
 
+const addNameIfQuery = (service)=>{
+    const subCatalogs = document.querySelectorAll("div.sub-catalogs");
+    let isSubCatalog = false;
+    let subParentId;
+    subCatalogs.forEach((subCatalog)=>{
+      const subWithSameId = subCatalog.querySelector(`[catalog-id="${service.categoryId}"]`);
+      if (subWithSameId){
+          isSubCatalog = true;
+          subParentId = subWithSameId.getAttribute("parent-id");
+      } 
+    });
+    let categoryName = "";
+    const prevCellName = getCellNameById(service.categoryId);
+    if (isSubCatalog){
+      categoryName = getCellNameById(subParentId);
+      if (prevCellName !== service.title){
+        categoryName += " : " + prevCellName;
+      }
+    }
+    else{
+      if (prevCellName !== service.title){
+        categoryName += " " + prevCellName;
+      }
+    }
+    return categoryName;
+}
 
 const createServiceCard = (service, clearLanguage)=>{
     const serviceTemplate = document.querySelector('#service-template').content.querySelector('li');
@@ -514,11 +540,7 @@ const createServiceCard = (service, clearLanguage)=>{
 
         cardButton.appendChild(createVidContainer());
         if (query.includes("query")){
-            let categoryName = '';
-            if (service.categoryId !== 0){
-                categoryName = getCellNameById(service.categoryId);
-                //if (service)
-            }
+            const categoryName = addNameIfQuery(service);
            
             var categoryNameSpan = document.createElement('h3');
             categoryNameSpan.classList.add("categoryName")
@@ -558,26 +580,7 @@ const createServiceCard = (service, clearLanguage)=>{
 
         const query = window.location.href;
         if (query.includes("query")){
-          const subCatalogs = document.querySelectorAll("div.sub-catalogs");
-          let isSubCatalog = false;
-          let subParentId;
-          subCatalogs.forEach((subCatalog)=>{
-            const subWithSameId = subCatalog.querySelector(`[catalog-id="${service.categoryId}"]`);
-            if (subWithSameId){
-                isSubCatalog = true;
-                subParentId = subWithSameId.getAttribute("parent-id");
-            } 
-          });
-          let categoryName = "";
-          if (isSubCatalog){
-            categoryName = getCellNameById(subParentId);
-          }
-          const prevCellName = getCellNameById(service.categoryId);
-          if (prevCellName !== service.title){
-            categoryName += " " + prevCellName;
-          }
-
-
+          const categoryName = addNameIfQuery(service);
           var categoryNameSpan = document.createElement('h3');
           categoryNameSpan.classList.add("categoryName")
           categoryNameSpan.textContent = categoryName;
