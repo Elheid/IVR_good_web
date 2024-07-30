@@ -219,6 +219,7 @@ const returnState = (searchResult)=>{
       var stateString = urlParams.split("=");
       var state = new URLSearchParams(urlParams).get('query');
       searchResult(state);
+      document.querySelector(".search-input").value = state;
     }
 };
 
