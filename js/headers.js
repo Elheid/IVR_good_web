@@ -113,6 +113,86 @@ const addSubHeader = (prevHeadId = null)=>{
 }
 
 
+let prevFontSizes = [];
+let iteration = 0;
+
+const removeFontSize = ()=>{
+    const breadcrumbs = document.querySelectorAll('.breadcrumb-item');
+    let filteredObjects = 0;
+    if (prevFontSizes.length > 0){
+        const targetIteration = iteration - 1 < 0 ? 0: iteration - 1;
+        filteredObjects = prevFontSizes.filter(obj => obj.iteration === targetIteration);
+        filteredObjects.shift();
+        prevFontSizes = prevFontSizes.filter(obj => obj.iteration !== targetIteration);
+    }
+    breadcrumbs.forEach(breadcrumb => {
+        const text = breadcrumb.querySelector("a");
+        if(filteredObjects !== 0){
+            const shift = filteredObjects.shift();
+            text.style.fontSize = shift.size + "px";
+        }
+        else{
+            text.style.fontSize = "";
+        }
+    });
+    iteration--;
+}
+
+const adjustBreadcrumbFontSize = ()=> {
+    const breadcrumbs = document.querySelectorAll('.breadcrumb-item');
+    const totalWidth = document.querySelector('.header-list').offsetWidth;
+    let availableWidth = totalWidth;
+
+
+    breadcrumbs.forEach(breadcrumb => {
+        availableWidth -= breadcrumb.offsetWidth;
+    });
+
+    const viewportWidth = window.innerWidth;
+
+    // Рассчитываем размер шрифта в пикселях для 1.2vw
+    const fontSizeInVW = 1.2;
+    const fontSizeInPixels = (fontSizeInVW / 100) * viewportWidth;
+
+
+    const fontSizeEm =  fontSizeInPixels;//16; // Assuming base font size is 16px
+    const minFontSizeEm = 10; // Minimum font size in em
+
+    const maxFontSizePrev = 20;
+    const maxFontSizeCurr = 32;
+    let resSize;
+    //if (availableWidth < 0) {
+        resSize = Math.max(minFontSizeEm, fontSizeEm + availableWidth / breadcrumbs.length);
+    //}
+    breadcrumbs.forEach(breadcrumb => {
+        const text = breadcrumb.querySelector("a");
+        if (breadcrumb.classList.contains("current-page")){
+            let size = text.style.fontSize;
+            if (size === ""){
+                size = "32";
+            }
+            const curFont = parseInt(size.match(/\d+/));
+            if (resSize > maxFontSizeCurr || curFont <= maxFontSizeCurr){
+                resSize = maxFontSizeCurr;
+            }
+        }
+        else{
+            if (resSize > maxFontSizePrev){
+                resSize =  maxFontSizePrev;
+            }
+        }
+        //if (curFontSize !== ""){
+            //const curFontSize = text.style.fontSize;
+            //const curFontNumber = parseInt(resSize.match(/\d+/));1
+            const resBread = {type:breadcrumb.classList.contains("current-page"), size:resSize, iteration:iteration}
+            prevFontSizes.push(resBread);
+        //}
+        
+        text.style.fontSize = resSize + 'px';
+    });
+    iteration++;
+}
+
 
 const addHeader = (prevHeadId = null)=>{
     const curURL = window.location.href;
@@ -157,7 +237,10 @@ const addHeader = (prevHeadId = null)=>{
 
     prevHeader.classList.replace("current-page", "prev-page");
     newHeader.appendChild(arrow);
+
     list.appendChild(newHeader);
+
+    adjustBreadcrumbFontSize();
 }
 
 const hasSimilar = (title)=>{
@@ -187,7 +270,10 @@ const addHeaderForSearch = ()=>{
 
     newHeader.querySelector("a").textContent = searchHeader;
     listChildren[listChildren.length-1].classList.replace("current-page", "prev-page");
+
     list.appendChild(newHeader);
+
+    adjustBreadcrumbFontSize();
 } 
 
 const getLastHeader = ()=>{
@@ -196,13 +282,14 @@ const getLastHeader = ()=>{
     const lastItem = items[items.length - 1];
     return lastItem;
 }
-  
+
 const removeSearchHeader = ()=>{
     let lastHeader = getLastHeader().innerText;
     const mainHeader = document.querySelector(".header-list").children[1].innerText;
     if (lastHeader === searchHeader){
         removeLastHeader();
     }
+    
     /*while (lastHeader !== mainHeader){
         lastHeader = getLastHeader().innerText;
         if (lastHeader === searchHeader){
@@ -213,6 +300,7 @@ const removeSearchHeader = ()=>{
             removeLastHeader();
         }
     }*/
+   //removeFontSize();
 }
 const removeLastHeader = ()=>{
 
@@ -226,6 +314,8 @@ const removeLastHeader = ()=>{
     hideArrows();
     prevHeader.classList.replace("prev-page", "current-page");
     }
+    //adjustBreadcrumbFontSize();
+    removeFontSize();
 }
 
 const changeButtonsArea = ()=>{

@@ -402,7 +402,9 @@ img.icon-in-card{
 .header-list{
     width: 100%;
     display: flex;   
-    flex-wrap: wrap;
+
+    /*flex-wrap: wrap;*/
+    
     /*height: 100%;*/
     min-height: 4vw;
     align-items: center;
