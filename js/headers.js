@@ -200,7 +200,10 @@ const getLastHeader = ()=>{
 const removeSearchHeader = ()=>{
     let lastHeader = getLastHeader().innerText;
     const mainHeader = document.querySelector(".header-list").children[1].innerText;
-    while (lastHeader !== mainHeader){
+    if (lastHeader === searchHeader){
+        removeLastHeader();
+    }
+    /*while (lastHeader !== mainHeader){
         lastHeader = getLastHeader().innerText;
         if (lastHeader === searchHeader){
             removeLastHeader();
@@ -209,7 +212,7 @@ const removeSearchHeader = ()=>{
         if(lastHeader !== mainHeader){
             removeLastHeader();
         }
-    }
+    }*/
 }
 const removeLastHeader = ()=>{
 
