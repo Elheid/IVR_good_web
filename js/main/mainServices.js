@@ -72,3 +72,21 @@ createGoButtons();
 createHomeReturner();
 
 addAuth();
+
+const switchLanguage = document.querySelector(".switch-language");
+switchLanguage.addEventListener("click", ()=>{
+  const allLists = document.querySelectorAll(`.${flag}:not(.skeleton)`);
+  if (flag === "clear-language"){
+    localStorage.setItem("language", "gestural-language");
+    allLists.forEach((list)=>{
+      list.classList.replace(flag, "gestural-language")
+    })
+  }
+  if (flag === "gestural-language"){
+    localStorage.setItem("language", "clear-language");
+    allLists.forEach((list)=>{
+      list.classList.replace(flag, "clear-language")
+    })
+  }
+  window.location.reload();
+})

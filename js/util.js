@@ -81,7 +81,7 @@ const createInfo = (title) => ({
 });*/
 
 const getCellById = (id)=>{
-    const catalogs = document.querySelector(".catalogs:not(.sceleton)")
+    const catalogs = document.querySelector(".catalogs:not(.skeleton)")
     if (catalogs){
         const catalogCells = catalogs.querySelectorAll('.catalog-card');
         for (const cell of catalogCells){
