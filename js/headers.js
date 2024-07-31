@@ -272,7 +272,7 @@ const addHeaderForSearch = ()=>{
     listChildren[listChildren.length-1].classList.replace("current-page", "prev-page");
 
     list.appendChild(newHeader);
-
+    //
     adjustBreadcrumbFontSize();
 } 
 
