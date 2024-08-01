@@ -426,12 +426,14 @@ const changeImgByInput =(container, input)=>{
     const img = container.querySelector(".icons");
     const url = input.value;
     if (isValidUrl(url)) {
+        clearIconInsert(container);
         img.src = url;
         img.classList.remove("opacity")
         img.classList.remove("hidden");
     } else {
-        img.src = '/img/empty.jpg';
-        img.classList.add("opacity")
+        /*img.src = '/img/empty.jpg';
+        img.classList.add("opacity")*/
+        clearIconInsert(container);
     }
 }
 
@@ -532,13 +534,15 @@ const removeReducedForm = () => {
 const toggleClassToForm = (elemet)=>{
     const resTitle = elemet.classList.contains("res-title");
     let manual;
-    if (elemet.parentNode) manual = elemet.parentNode.classList.contains("manual") ;
-    const trueManual = elemet.parentNode.classList.contains("true-manual");
-    if (!resTitle && !manual && !trueManual){
-        document.getElementById("card-form").classList.remove("inside-service");
-    }
-    else{
-        document.getElementById("card-form").classList.add("inside-service");
+    if (elemet.parentNode) manual = elemet.parentNode.classList.contains("manual");
+    if (elemet.parentNode){
+        const trueManual = elemet.parentNode.classList.contains("true-manual");
+        if (!resTitle && !manual && !trueManual){
+            document.getElementById("card-form").classList.remove("inside-service");
+        }
+        else{
+            document.getElementById("card-form").classList.add("inside-service");
+        }
     }
 }
 
@@ -830,16 +834,31 @@ const getDescription = (targetCard = null)=>{
     }
     if (action === "edit" && (state === "services-list" || state === "info-cards")){
         showLoader()
+
+        if (lastClickedButton.classList.contains("edit-element-button")){
+            const form = document.getElementById('card-form');
+            state = form.classList.contains("inside-service") ? "services-list": 'info-cards';
+        }
+
         const attribute = state === 'info-cards' ? 'info-id' : state === 'catalogs-list' ? "catalog-id" : "service-id";
         let id;
+        
         if (targetCard){
             id = targetCard.getAttribute(attribute);
             if(state === "services-list") getServiceById(id).then((data)=>fillDescriptionInForm(data));
             if (state === "info-cards") getInfoById(id).then((data)=>fillDescriptionInForm(data));
         } 
         else {
-            id = new URLSearchParams(window.location.search).get("serviceId");
-            getServiceById(id).then((data)=>fillDescriptionInForm(data));
+            
+            if(state === "services-list"){
+                id = new URLSearchParams(window.location.search).get("serviceId");
+                getServiceById(id).then((data)=>fillDescriptionInForm(data));
+            }
+            if (state === "info-cards"){
+                const id = parseInt(document.querySelector(".additional-info-res").classList[1]);
+                getInfoById(id).then((data)=>fillDescriptionInForm(data));
+            } 
+
             //getInfoById(id).then((data)=>fillDescriptionInForm(data));
         }
         /*if(state === "services-list") getServiceById(id).then((data)=>fillDescriptionInForm(data));
@@ -993,6 +1012,7 @@ const showForm = ()=>{
     }
     else if(lastClickedButton.classList.contains("edit-button") ||
     lastClickedButton.classList.contains("edit-element-button")){
+        toggleClassToForm(lastClickedButton);
         setFormForEditCard(document.querySelector(".submit-form"));
         document.getElementById("parent-id").removeAttribute("disabled");
         getDescription();
@@ -1005,6 +1025,12 @@ const showForm = ()=>{
         mainForm.style.borderLeft = hiddenBorderStyle;
         if (document.querySelector("h3.title")){
             title.value = document.querySelector("h3.popup-title").textContent;
+            if (lastClickedButton.parentNode.classList.contains("title")){
+                const inputElement = document.getElementById('title');
+                const labelElement = document.querySelector(`label[for="${inputElement.id}"]`);
+                showTitleInput(inputElement, labelElement)
+                //lastClickedButton.parentNode.querySelector("h3.title").classList.remove("hidden")
+            }
         }
         const resVid = document.getElementById("resVideo");
         if (lastClickedButton.parentNode.querySelector("video")){
@@ -1036,8 +1062,6 @@ const showForm = ()=>{
     document.addEventListener('mousedown', closeFormOnExitBorders);
     
     document.querySelector(".add-new-block").addEventListener("click", addNewResBlockButton)
-
-    toggleClassToForm(lastClickedButton);
 
 
 
