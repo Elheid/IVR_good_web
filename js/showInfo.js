@@ -1,4 +1,4 @@
-import { extraButtonsUpdate, resAddEditButtons } from "./adminPanel.js";
+import { extraButtonsUpdate, resAddEditButtons, resDeleteEditButtons } from "./adminPanel.js";
 import { createAndUpdateInfoCard, infoRes } from "./main/createrObj.js";
 
 
@@ -68,7 +68,12 @@ const showAdditionalInfo = (temp)=>{
             button.classList.remove("hidden");
         }
     })
-    resAddEditButtons();
+    if (isAdmin()){
+        resAddEditButtons();
+    }
+    else{
+        resDeleteEditButtons();
+    }
 
     /*const width = container.parentElement.offsetWidth;
     container.style = `width:calc(${width}px - 4%);`;// top:11%;*/
