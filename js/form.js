@@ -358,7 +358,14 @@ const assembleDescription = ()=>{
                 textRes += description + "\n";
             }
             else{
-                textRes += "\n- " + description + `\n\\icon${count}`;//'\n-sdgfdsgsdg\n\\icon1'
+                //textRes += "\n- " + description + `\n\\icon${count}`;//'\n-sdgfdsgsdg\n\\icon1'
+                if (description.startsWith("\n- ")) {
+                    textRes += description + `\n\\icon${count}`;
+                } else if (description.startsWith("- ")) {
+                    textRes += "\n" + description + `\n\\icon${count}`;
+                } else {
+                    textRes += "\n- " + description + `\n\\icon${count}`;
+                }
                 count++;
             }
         }
@@ -573,6 +580,8 @@ const hideForm = ()=>{
 
     clearDescriptionBlock();
 
+    hideInstruction();
+
 }
 
 let lastClickedButton = null;
@@ -599,6 +608,10 @@ const changeParentOptions = (targetCard)=>{
     const parentDivs = document.querySelectorAll(".parent-existence");
     const resDivs = document.querySelector("section.res-card");
     const mainForm = document.querySelector(".res-card");
+
+
+    const resVideo = document.querySelector(".can-upload.resVideo")
+
     const hiddenBorderStyle = "0px";
     const showBorderStyle = '1px solid rgba(119, 119, 119, 1)';
 
@@ -610,6 +623,7 @@ const changeParentOptions = (targetCard)=>{
         document.querySelector("div.subCategory-create").classList.add("hidden");
         //resDivs.forEach((div)=> div.classList.add("hidden"))
         resDivs.classList.add("hidden");
+        resVideo.classList.add("hidden");
 
         parentChoose.classList.add("hidden");
 
@@ -642,6 +656,7 @@ const changeParentOptions = (targetCard)=>{
 
 
         resDivs.classList.remove("hidden");
+        resVideo.classList.remove("hidden");
         mainForm.style.borderLeft = showBorderStyle;
         /*resDivs.forEach((div)=>{ 
             if (div.classList.contains("hidden")){
@@ -711,6 +726,7 @@ const changeParentOptions = (targetCard)=>{
                 const value = createSubCatalog.checked;
                 if (value){
                     resDivs.classList.add("hidden");
+                    resVideo.classList.add("hidden");
                     mainForm.style.borderLeft = hiddenBorderStyle;
                     document.querySelector("section.res-card").classList.add("hidden");
                 }
@@ -720,6 +736,7 @@ const changeParentOptions = (targetCard)=>{
                 const value = createSubCatalog.checked;
                 if (!value){
                     resDivs.classList.remove("hidden");
+                    resVideo.classList.remove("hidden");
                     mainForm.style.borderLeft = showBorderStyle;
                     document.querySelector("section.res-card").classList.remove("hidden");
                 }
@@ -908,6 +925,111 @@ const autoResizeTextAreas = ()=>{
     const textareas = document.querySelectorAll("#card-form textarea");
     textareas.forEach((textarea)=>autoResizeTextArea(textarea));
 }
+
+const changeTitleForm = (targetCard)=>{
+
+    const formTitle = document.querySelector(".form-title");
+
+    let state = getCurState();
+    const lastParam = getLastParam();
+    if (lastParam && lastParam.indexOf("sub-catalog")>=0){
+        state = "sub-catalogs-list";
+    }
+    if (lastClickedButton.classList.contains("edit-element-button")){
+        const form = document.getElementById('card-form');
+        state = form.classList.contains("inside-service") ? "services-list": 'info-cards';
+    }
+
+    let typeOperation = "";
+    let nameCard = "";
+    if (targetCard){
+        if (targetCard.classList.contains("card-to-add")){
+            typeOperation = "Добавление";
+        }
+        else{
+            typeOperation = "Редактирование";
+        }
+    }
+    else{
+        typeOperation = "Редактирование";
+    }
+
+    if (state === "catalogs-list") nameCard = "категории";
+    if (state === "sub-catalogs-list") nameCard = "подкатегории";
+    if (state === "services-list") nameCard = "услуги";
+    if (state === "info-cards") nameCard = "дополнительной информации";
+
+    formTitle.textContent = typeOperation + " " + nameCard;
+}
+
+const changeInstructionText = ()=>{
+    const formTitle = document.querySelector(".form-instruct-title");
+
+    const formText= document.querySelector(".instruction-text");
+
+    let text = "";
+    let title = "";
+    let state = getCurState();
+    const lastParam = getLastParam();
+    if (lastParam && lastParam.indexOf("sub-catalog")>=0){
+        state = "sub-catalogs-list";
+    }
+    if (lastClickedButton.classList.contains("edit-element-button")){
+        const form = document.getElementById('card-form');
+        state = form.classList.contains("inside-service") ? "services-list": 'info-cards';
+    }
+
+    if (state === "catalogs-list"){
+        title = "Инструкция для категории";
+        text = `Для добавления <span class="crossed-text">категории</span> выполните следующие шаги:`;
+    } 
+    if (state === "sub-catalogs-list"){
+        title = "Инструкция для подкатегории";
+        text = `Для добавления <span class="crossed-text">подкатегории</span> выполните следующие шаги:`;
+    }
+    if (state === "services-list"){
+        title = "Инструкция для услуги";
+        text = `Для добавления <span class="crossed-text">услуги</span> выполните следующие шаги:`;
+    }
+    if (state === "info-cards"){
+        title = "Инструкция для дополнительной информации";
+        text = `Для добавления <span class="crossed-text">дополнительной информации</span> выполните следующие шаги:`;
+    }
+
+    formText.innerHTML = text;
+    formTitle.textContent = title;
+}
+
+const showInstrucyion = ()=>{
+    const form = document.getElementById('card-form');
+    const instr = document.querySelector(".instruction");
+
+    form.classList.add("hidden");
+    instr.classList.remove("hidden");
+    changeInstructionText();
+}
+
+const hideInstruction = ()=>{
+    const form = document.getElementById('card-form');
+    const instr = document.querySelector(".instruction");
+
+    form.classList.remove("hidden");
+    instr.classList.add("hidden");
+}
+
+
+const createInstruction = ()=>{
+    const form = document.getElementById('card-form');
+    const instr = document.querySelector(".instruction");
+    
+    
+    const instButton = document.querySelector(".instruction-button");
+    instButton.addEventListener("click", showInstrucyion)
+
+    const backToForm = document.querySelector(".back-from-instruction-button");
+    backToForm.addEventListener("click", hideInstruction);
+}
+
 const showForm = ()=>{
     event.stopPropagation();
     document.getElementById('card-form-container').classList.remove('hidden');
@@ -944,7 +1066,8 @@ const showForm = ()=>{
     lastClickedButton = event.currentTarget;
     const targetCard = lastClickedButton.closest("li");
 
-    
+    changeTitleForm(targetCard);
+    createInstruction(targetCard);
     if (targetCard)
     {
         getDescription(targetCard);
@@ -1115,7 +1238,9 @@ const closeFormOnExitBorders = (event)=> {
     //event.stopPropagation();
     const overlay = document.getElementById('card-form-container');
     const form = document.getElementById('card-form');
-    if (event.target !== overlay && event.target !== form && !form.contains(event.target)) {
+    const instruct = document.querySelector("section.instruction");
+    if (event.target !== overlay && (event.target !== form && !form.contains(event.target) 
+    && event.target !== instruct && !instruct.contains(event.target))) {
         hideForm();
         document.removeEventListener('click', closeFormOnExitBorders);
     }

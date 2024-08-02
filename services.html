@@ -159,8 +159,25 @@
 
         <div id="card-form-container" class="hidden">
           <div class="close-form"><img src="img/Close.svg" width="32px" height="30px"></div>
+          <section class="instruction hidden">
+            <div class="form-instruct-header">
+              <h3 class="form-instruct-title">title</h3>
+
+              <!--<div class="back-from-instruction-button"> <img src="img/back.png" alt="Кнопка назад"></div>-->
+            </div>
+            <article class="instruction-text">
+
+            </article>
+
+            <button class="back-from-instruction-button  back-button">
+              Назад
+            </button>
+          </section>
           <form id="card-form">
-            
+            <div class="form-header">
+              <h3 class="form-title">title</h3>
+              <div class="instruction-button"> <img src="img/question.svg" alt="Кнопка инструкции"></div>
+            </div>
             <div class="form-flex">
             <article class="main-form">
             <section class="parent-choose">
@@ -244,20 +261,25 @@
                   <div class="upload-file reduced">Получить ссылку файла</div>
                 </div>
               </div>
+
+              
+              <div class="can-upload resVideo">
+                <div class="div-last conditional"></div>
+                <label class="conditional" for="resVideo" class="res-parts">Видео для описания:</label>
+                <input class="res-parts conditional" type="text" id="resVideo" name="resVideo" accept="video/*">
+  
+                <div class="file-input">
+                  <label class="reduced file-lable" for="fileInputResVideo">Загрузить файл<!--<img class="download-img"src="/img/download.svg" alt="Загрузить видео">--></label>
+                  <input class="reduced fileInput" type="file" id="fileInputResVideo" name="file">
+                  <div class="upload-file reduced">Получить ссылку файла</div>
+                </div>
+              </div>
+
             </section>
           </article>
           <section class="res-card">
-            <div class="can-upload">
-              <label class="conditional" for="resVideo" class="res-parts">Видео для описания:</label>
-              <input class="res-parts conditional" type="text" id="resVideo" name="resVideo" accept="video/*">
 
-              <div class="file-input">
-                <label class="reduced file-lable" for="fileInputResVideo">Загрузить файл<!--<img class="download-img"src="/img/download.svg" alt="Загрузить видео">--></label>
-                <input class="reduced fileInput" type="file" id="fileInputResVideo" name="file">
-                <div class="upload-file reduced">Получить ссылку файла</div>
-              </div>
-            </div>
-            <div class="div-last"></div>
+          
               
 
 
