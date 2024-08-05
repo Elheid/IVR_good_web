@@ -536,6 +536,26 @@ button.back-from-instruction-button.back-button {
 
 }
 
+button.back-from-instruction-button.back-button {
+    padding: 0.6vw 1.6vw;
+    color: white;
+    font-family: Jomolhari;
+    font-size: large;
+    font-weight: 400;
+    /* line-height: 25.63px; */
+    /* text-align: left; */
+    margin-left: auto;
+    margin-right: auto;
+}
+button.return-button, button.back-button {
+    /* background-color: #6f402a; */
+    background-color: #a77259;
+    border-radius: 30px;
+    /* margin: 0 10px; */
+    margin-right: 2vw;
+}
+
+
 h3.form-title, h3.form-instruct-title {
     margin: 0;
     color: rgba(0, 0, 0, 1);
@@ -550,6 +570,15 @@ h3.form-instruct-title{
     width: fit-content;
 }
 
+pre.instruction-text {
+    text-wrap: pretty;
+
+    font-family: Jomolhari;
+    /* font-size: medium; */
+    line-height: 1.2;
+}
+
+
 .instruction-text{
     padding: 10px;
     padding-top: 20px;
@@ -558,9 +587,13 @@ h3.form-instruct-title{
 .crossed-text{
     text-decoration: underline;
 }
+.red-text{
+    color:red;
+}
 form#card-form {
     display: grid;
 }
+
 /*
 form#card-form {
     display: flex;

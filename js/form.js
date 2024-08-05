@@ -1,5 +1,5 @@
 import { createCatalogCard, createServiceCard, createAndUpdateInfoCard, extractSubstrings, iconInsertion } from "./main/createrObj.js";
-import { getCatalogId, getCellNameById, getCatalogsId, getCurState, getLastSubCatalog, getLastParam, tryJsonParse } from "./util.js";
+import { getCatalogId, getCellNameById, getCatalogsId, getCurState, getLastSubCatalog, getLastParam, tryJsonParse, instructionCategory, instructionSubCategory, instructionService, instructionInfo, replaceWordsWithSpan } from "./util.js";
 import { showInfoCard } from "./showInfo.js";
 import { createCategory, updateCategoryMainIcon, updateCategoryGifPreview,
     createService, addServiceCategory, removeServiceCategory,  addServiceIcon, updateServiceMainIcon, updateServiceGif, updateServiceDescription, updateServiceGifPreview, clearServiceIcons,
@@ -9,6 +9,7 @@ import { createCategory, updateCategoryMainIcon, updateCategoryGifPreview,
     getServiceById,
     getInfoById,
 } from "./api/api.js";
+
 
 
 const showHideInputs = ()=>{
@@ -938,6 +939,8 @@ const changeTitleForm = (targetCard)=>{
     if (lastClickedButton.classList.contains("edit-element-button")){
         const form = document.getElementById('card-form');
         state = form.classList.contains("inside-service") ? "services-list": 'info-cards';
+        if (document.querySelector(".popup").classList.contains("popup-opened")) state = 'info-cards';
+        else state = "services-list";
     }
 
     let typeOperation = "";
@@ -966,7 +969,15 @@ const changeInstructionText = ()=>{
     const formTitle = document.querySelector(".form-instruct-title");
 
     const formText= document.querySelector(".instruction-text");
-
+    let pre;
+    if (!formText.querySelector("pre.instruction-text")){
+        pre = document.createElement('pre');
+        pre.classList.add("instruction-text")
+        formText.appendChild(pre);
+    }
+    else{
+        pre = formText.querySelector("pre.instruction-text");
+    }
     let text = "";
     let title = "";
     let state = getCurState();
@@ -981,26 +992,30 @@ const changeInstructionText = ()=>{
 
     if (state === "catalogs-list"){
         title = "Инструкция для категории";
-        text = `Для добавления <span class="crossed-text">категории</span> выполните следующие шаги:`;
+        text = `Для добавления/изменения <span class="crossed-text">категории</span> выполните следующие шаги:\n` + replaceWordsWithSpan(instructionCategory);
+        //text = instructionCategory;
     } 
     if (state === "sub-catalogs-list"){
         title = "Инструкция для подкатегории";
-        text = `Для добавления <span class="crossed-text">подкатегории</span> выполните следующие шаги:`;
+        text = `Для добавления/изменения <span class="crossed-text">подкатегории</span> выполните следующие шаги:\n` + replaceWordsWithSpan(instructionSubCategory);
+        //text = instructionSubCategory;
     }
     if (state === "services-list"){
         title = "Инструкция для услуги";
-        text = `Для добавления <span class="crossed-text">услуги</span> выполните следующие шаги:`;
+        text = `Для добавления/изменения <span class="crossed-text">услуги</span> выполните следующие шаги:\n` + replaceWordsWithSpan(instructionService);
+        //text = instructionService;
     }
     if (state === "info-cards"){
         title = "Инструкция для дополнительной информации";
-        text = `Для добавления <span class="crossed-text">дополнительной информации</span> выполните следующие шаги:`;
+        text = `Для добавления/изменения <span class="crossed-text">дополнительной информации</span> выполните следующие шаги:\n` + replaceWordsWithSpan(instructionInfo);
+        //text = instructionInfo;
     }
-
-    formText.innerHTML = text;
+    
+    pre.innerHTML = text;
     formTitle.textContent = title;
 }
 
-const showInstrucyion = ()=>{
+const showInstruction = ()=>{
     const form = document.getElementById('card-form');
     const instr = document.querySelector(".instruction");
 
@@ -1024,7 +1039,7 @@ const createInstruction = ()=>{
     
     
     const instButton = document.querySelector(".instruction-button");
-    instButton.addEventListener("click", showInstrucyion)
+    instButton.addEventListener("click", showInstruction)
 
     const backToForm = document.querySelector(".back-from-instruction-button");
     backToForm.addEventListener("click", hideInstruction);
@@ -1066,8 +1081,9 @@ const showForm = ()=>{
     lastClickedButton = event.currentTarget;
     const targetCard = lastClickedButton.closest("li");
 
-    changeTitleForm(targetCard);
+    
     createInstruction(targetCard);
+    changeTitleForm(targetCard);
     if (targetCard)
     {
         getDescription(targetCard);
