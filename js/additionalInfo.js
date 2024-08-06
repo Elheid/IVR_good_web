@@ -83,7 +83,8 @@ const showInfoCards = ()=>{
         const list = document.querySelector(".info-cards");
         const div = document.createElement("div");
         div.innerText = "Дополнительной информации нет";
-        list.parentElement.appendChild(div);
+        div.classList.add("no-info");
+        if (!list.parentElement.querySelector(".no-info"))list.parentElement.appendChild(div);
     }
 }
 
