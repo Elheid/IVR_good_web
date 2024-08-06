@@ -9,5 +9,5 @@ set ADMIN="adminPanelv2"
 
 
 start cmd /k "cd /d %cd% && git checkout %MAIN% && timeout /t 1 /nobreak >nul && npx http-server -p %PORT_MAIN%"
-timeout /t 1 /nobreak >nul
+timeout /t 10 /nobreak >nul
 start cmd /k "cd /d %cd% && git checkout %ADMIN% && timeout /t 1 /nobreak >nul && npx http-server -p %PORT_ADMIN%"
