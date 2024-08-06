@@ -4,8 +4,8 @@ set PORT_MAIN=3000
 set PORT_ADMIN=3001
 
 REM Переменные для веток
-set MAIN="deploy"
-set ADMIN="deploy2"
+set MAIN="main"
+set ADMIN="adminPanelv2"
 
 start cmd /k "cd /d %cd% && git checkout %MAIN% && npx http-server -p %PORT_MAIN%"
 timeout /t 0.5 /nobreak >nul
