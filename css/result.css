@@ -359,6 +359,8 @@ video{
     align-items: center;
     padding: 10px;
     gap:10px;
+
+    text-align: left;
 }
 img.icons {
     max-width: 4vw;

@@ -487,6 +487,8 @@ input#subCategory-create {
     justify-content: flex-start;
     margin-top: 10px;
 
+    margin-bottom: 10px;
+
     justify-content: space-between;
     width: 100%;
 }
@@ -512,6 +514,9 @@ input#subCategory-create {
 section.instruction {
     display: flex;
     flex-direction: column;
+
+    max-height: 40em;
+    overflow-y: auto;
 }
 
 .instruction-button img{
@@ -592,6 +597,9 @@ pre.instruction-text {
 }
 form#card-form {
     display: grid;
+
+    max-height: 40em;
+    overflow-y: auto;
 }
 
 /*
