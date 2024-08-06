@@ -515,8 +515,8 @@ section.instruction {
     display: flex;
     flex-direction: column;
 
-    max-height: 40em;
-    overflow-y: auto;
+    /*max-height: 40em;
+    overflow-y: auto;*/
 }
 
 .instruction-button img{
@@ -598,8 +598,8 @@ pre.instruction-text {
 form#card-form {
     display: grid;
 
-    max-height: 40em;
-    overflow-y: auto;
+   /* max-height: 40em;
+    overflow-y: auto;*/
 }
 
 /*
@@ -637,6 +637,10 @@ form#card-form {
     border-radius: 40px;
     box-shadow: 0px 0px 10px 10px rgba(0, 0, 0, 0.25);
     /*border-color: #593C2F;*/
+
+    max-height: 85%;
+    overflow-y: auto;
+    
 }
 #edit-form{
     position: fixed;

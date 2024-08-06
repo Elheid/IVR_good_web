@@ -51,6 +51,8 @@
     flex-direction: column;
     align-items: flex-start;
 
+    text-align: left;
+
 }
 /*.result-text{
     background-color: #C3936773;
