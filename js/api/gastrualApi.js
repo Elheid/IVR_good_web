@@ -3,7 +3,9 @@ import { addNewTags } from "../keyWords.js";
 const interval = 30;
 let intervalId;
 let keyWords = [];
-const socketURL = 'wss://pincode-dev.ru';//'wss://pincode-dev.ru'//wss://pincode-dev.ru/rsl-filter
+import { config } from "../../config.js";
+const socketURL = config.apiGesturalUrl;//'wss://pincode-dev.ru';//'wss://pincode-dev.ru'//wss://pincode-dev.ru/rsl-filter
+
 
 /*const socket = io(socketURL, {
     autoConnect: false,
@@ -14,7 +16,7 @@ const socketURL = 'wss://pincode-dev.ru';//'wss://pincode-dev.ru'//wss://pincode
         "ngrok-skip-browser-warning": "true"
     }
 });*/
-const socket = io('wss://pincode-dev.ru', {
+const socket = io(socketURL, {
     path: '/rsl-filter/socket.io/',
     autoConnect: false,
     'reconnection': true,
