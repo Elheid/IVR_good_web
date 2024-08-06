@@ -1,4 +1,5 @@
-const defaultTimer = 600000;
+import { config } from "../../config.js";
+const defaultTimer = config.defaultGoHomeTimer;
 let idleTimer;
 const createHomeReturner = (idleTime = defaultTimer)=>{
     //const idleTime = 5000;

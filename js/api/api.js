@@ -1,5 +1,6 @@
 //const BASE_URL = 'http://localhost:8080/';
-const BASE_URL = 'https://pincode-dev.ru/ivr-good/';
+import { config } from "../../config.js";
+const BASE_URL = config.apiBackEndUrl;//'https://pincode-dev.ru/ivr-good/';
 const Route = {
   GET_CATEGORY: 'categories',
   GET_SERVICES: 'items/search/byCategory?categoryId=',
