@@ -201,38 +201,43 @@ const closeModal = () => {
 const addAuth = () => {
     const params = new URLSearchParams(window.location.search);
 
-    if (params.has('username') && params.has('password')) {
-        const username = params.get('username');
-        const password = params.get('password');
-        login(username, password);
-    } else {
-        if (window.location.href.indexOf("authorize") > 0) {
-            openModal();
+    if (document.querySelector(".authModal")){
+        if (params.has('username') && params.has('password')) {
+            const username = params.get('username');
+            const password = params.get('password');
+            login(username, password);
+        } else {
+            if (window.location.href.indexOf("authorize") > 0) {
+                openModal();
+            }
         }
-    }
-    checkAdmin();
-};
-
-// Обработчики событий для модального окна
-document.getElementById('loginButton').onclick = () => {
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
-    if (username && password) {
-        login(username, password);
+        checkAdmin();
     }
 };
 
-document.getElementById('forgotPasswordButton').onclick = () => {
-    alert('Функция "Забыл пароль" пока не реализована.');
-};
+if (document.querySelector(".authModal")){
+    // Обработчики событий для модального окна
+    document.getElementById('loginButton').onclick = () => {
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+        if (username && password) {
+            login(username, password);
+        }
+    };
 
-document.querySelector('.close').onclick = closeModal;
+    document.getElementById('forgotPasswordButton').onclick = () => {
+        alert('Функция "Забыл пароль" пока не реализована.');
+    };
 
-window.onclick = (event) => {
-    if (event.target == document.getElementById('authModal')) {
-        closeModal();
-    }
-};
+    document.querySelector('.close').onclick = closeModal;
+
+    window.onclick = (event) => {
+        if (event.target == document.getElementById('authModal')) {
+            closeModal();
+        }
+    };
+
+}
+
 
 export { addAuth };
-
