@@ -47,13 +47,15 @@ const showRes = (obj, isClear=false)=>{
 
     addPrevListHeader();
 
-
-    addAdminPanel();
+    //Убрал админку для прода
+    /*addAdminPanel();
     adminUpdate();
+    createForm();*/
+
     //toggleEditResButtons();
     //toggleButtonStateUpdate();
 
-    createForm();
+
     /*moveInfoButton();   
     window.addEventListener('resize', moveInfoButton);*/
 

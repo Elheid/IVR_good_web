@@ -132,11 +132,11 @@ const adminUpdate = ()=>{
     if (isAdmin()){
         addAdminExtra();
         resAddEditButtons();
-        toggleCheckbox.checked = true;
+        if (toggleCheckbox) toggleCheckbox.checked = true;
     }
     else{
         removeAdminExtra();
-        toggleCheckbox.checked = false;
+        if (toggleCheckbox) toggleCheckbox.checked = false;
         resDeleteEditButtons();
     }
 }
@@ -716,5 +716,6 @@ const addAdminPanel = ()=>{
         addCadrdSample();
     }*/
 }
+
 
 export {addAdminPanel, addAdminButtonsToCards, addCadrdSample, extraButtonsUpdate, adminButtonClick, resAddEditButtons, resDeleteEditButtons, adminUpdate}
