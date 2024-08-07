@@ -379,6 +379,7 @@ const isAdmin = ()=>{
     if (window.location.hostname === 'good-web-ivr.netlify.app') {
         return false; // Игнорируем параметр на продакшене
     }
+    return false;
 
     //return window.localStorage.getItem("isAdmin") === "true"
 }
