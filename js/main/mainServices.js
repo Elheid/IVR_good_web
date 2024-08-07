@@ -16,6 +16,8 @@ import { loadServices } from '../services.js';
 
 
 import { addAuth } from '../auth.js';
+import { config } from '../../config.js';
+
 
 addSkeletons("catalogs");
 
@@ -29,7 +31,9 @@ if (document.querySelector(".catalogs").classList.contains("gestural-language"))
   document.querySelector(".view-choose").style.marginTop = "6%";
 }
 
-addAdminPanel();
+if (config.adminPanelOn){
+  addAdminPanel();
+}
 
 document.querySelector(".services-list").classList.add("hidden");
 const loadCategories = async () => {

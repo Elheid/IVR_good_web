@@ -1,12 +1,9 @@
 @echo off
-REM Переменные для портов
-set PORT_MAIN=3000
-set PORT_ADMIN=3001
 
-REM Переменные для веток
-set MAIN="main"
-set ADMIN="adminPanelv2"
+REM Запуск первого сервера с adminPanelOn: true
+copy /Y configAdmin.js config.js
+start cmd /k "npx http-server -p 8080"
 
-start cmd /k "cd /d %cd% && git checkout %MAIN% && timeout /t 1 /nobreak >nul && npx http-server -p %PORT_ADMIN%"
-timeout /t 5 /nobreak >nul
-start cmd /k "cd /d %cd% && git checkout %ADMIN% && timeout /t 1 /nobreak >nul && npx http-server -p %PORT_MAIN%"
+REM Запуск второго сервера с adminPanelOn: false
+copy /Y configMain.js config.js
+start cmd /k "npx http-server -p 8081"

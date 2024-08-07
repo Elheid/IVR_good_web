@@ -1,3 +1,6 @@
+import { config } from "../config.js";
+
+
 //const ARR_OF_TITLES = ["Паспорт", "Снилс", "ИНН","Судимость"];
 const ARR_OF_SERVICES= {
     "Паспорт":[
@@ -441,6 +444,9 @@ const getCurState = ()=>{
 }
 
 const isAdmin = ()=>{
+    if (!config.adminPanelOn){
+        return false;
+    }
     return window.localStorage.getItem("isAdmin") === "true"
 }
 
