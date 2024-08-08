@@ -8,6 +8,7 @@ let keyWords = [];
 import { config } from "../../config.js";
 const socketURL = config.apiGesturalUrl;//'wss://pincode-dev.ru';//'wss://pincode-dev.ru'//wss://pincode-dev.ru/rsl-filter
 
+
 /*const socket = io(socketURL, {
     autoConnect: false,
     'reconnection': true,

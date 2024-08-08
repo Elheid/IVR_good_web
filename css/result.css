@@ -23,6 +23,8 @@
 
 .manual{
     max-width: 1000px;
+    min-width: 70%;
+
     margin-top: 15px;/*15px*/
     margin-bottom: 32px;
     /*box-shadow: 0px 4px 4px 0px #00000040;*/
@@ -48,6 +50,8 @@
     font-family: "Roboto", serif;
     flex-direction: column;
     align-items: flex-start;
+
+    text-align: left;
 
 }
 /*.result-text{
@@ -357,6 +361,8 @@ video{
     align-items: center;
     padding: 10px;
     gap:10px;
+
+    text-align: left;
 }
 img.icons {
     max-width: 4vw;
@@ -402,7 +408,9 @@ img.icon-in-card{
 .header-list{
     width: 100%;
     display: flex;   
-    flex-wrap: wrap;
+
+    /*flex-wrap: wrap;*/
+    
     /*height: 100%;*/
     min-height: 4vw;
     align-items: center;

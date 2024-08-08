@@ -3,6 +3,8 @@ import { hideSkeletonAndReplace } from "./skeletons/skeletonResult.js";
 
 import { addAdminPanel, adminUpdate } from "./adminPanel.js";
 import { createForm } from "./form.js";
+import { config } from "../config.js";
+
 
 const addPrevListHeader = ()=>{
     const headerHTML =  JSON.parse(loadHeaderData());
@@ -47,17 +49,18 @@ const showRes = (obj, isClear=false)=>{
 
     addPrevListHeader();
 
-    //Убрал админку для прода
-    /*addAdminPanel();
-    adminUpdate();
-    createForm();*/
 
-    //toggleEditResButtons();
-    //toggleButtonStateUpdate();
+    if (config.adminPanelOn){
+        addAdminPanel();
+        adminUpdate();
+        //toggleEditResButtons();
+        //toggleButtonStateUpdate();
+    
+        createForm();
+        /*moveInfoButton();   
+        window.addEventListener('resize', moveInfoButton);*/
+    }
 
-
-    /*moveInfoButton();   
-    window.addEventListener('resize', moveInfoButton);*/
 
 }
 

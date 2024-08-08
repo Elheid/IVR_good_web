@@ -51,9 +51,29 @@
 
       
       <div id="card-form-container" class="hidden">
+        <div class="close-form"><img src="img/Close.svg" width="32px" height="30px"></div>
+        <section class="instruction hidden">
+          <div class="form-instruct-header">
+            <h3 class="form-instruct-title">title</h3>
+
+            <!--<div class="back-from-instruction-button"> <img src="img/back.png" alt="Кнопка назад"></div>-->
+          </div>
+          <article class="instruction-text">
+
+          </article>
+
+          <button class="back-from-instruction-button  back-button">
+            Назад
+          </button>
+        </section>
+
         <form id="card-form">
+          <div class="form-header">
+            <h3 class="form-title">title</h3>
+            <div class="instruction-button"> <img src="img/question.svg" alt="Кнопка инструкции"></div>
+          </div>
           <div class="form-flex">
-          <div class="close-form"><img src="img/Close.svg" width="32px" height="30px"></div>
+        
           <article class="main-form">
           <section class="parent-choose conditional">
 
@@ -81,7 +101,7 @@
                 <option value="1">Card Title 1</option>
             </select>
           </section>
-          <section  class="common-card conditional">
+          <section  class="common-card">
         
 
             <div class="hidden subCategory-create">
@@ -103,48 +123,55 @@
             <label for="title" class="conditional">Название карточки:</label>
             <input type="text" id="title" name="title" class="conditional" required>
 
-            <div class="can-upload">
-              <label class="reduced" for="image">Картинка для превью:</label>
+            <div class="can-upload conditional">
               <!--<input type="file" id="image" name="image" accept="image/*">-->
               <div class="icon-add-container main-icon">
-                <input class="reduced" type="text" id="image" name="image" accept="image/*">
+                <div class="label-main-icon">
+                  <label class="reduced label-main-icon" for="image">Картинка для превью:</label>
+                  <input class="reduced" type="text" id="image" name="image" accept="image/*">
+                </div>
                 <div class="icon-of-url">
                   <img class="icons opacity" src="/img/empty.jpg" alt="icon">
                 </div>
               </div>
 
               <div class="file-input">
-                <label class="reduced file-lable" for="fileInputImg"><img class="download-img"src="/img/download.svg" alt="Загрузить видео"></label>
+                <label class="reduced file-lable" for="fileInputImg">Загрузить файл<!--<img class="download-img"src="/img/download.svg" alt="Загрузить видео">--></label>
                 <input class="reduced fileInput" type="file" id="fileInputImg" name="file">
-                <div class="upload-file reduced">getLink</div>
+                <div class="upload-file reduced">Получить ссылку файла</div>
               </div>
+              <div class="div-last conditional"></div>
             </div>
-            <div class="div-last"></div>
+            
 
             <div class="can-upload">
               <label class="conditional" for="video" >Видео для превью:</label>
               <input class="conditional" type="text" id="video" name="video" accept="video/*">
 
               <div class="file-input">
-                <label class="reduced file-lable" for="fileInputVideo"><img class="download-img"src="/img/download.svg" alt="Загрузить видео"></label>
+                <label class="reduced file-lable" for="fileInputVideo">Загрузить файл<!--<img class="download-img"src="/img/download.svg" alt="Загрузить видео">--></label>
                 <input class="reduced fileInput" type="file" id="fileInputVideo" name="file">
-                <div class="upload-file reduced">getLink</div>
+                <div class="upload-file reduced">Получить ссылку файла</div>
               </div>
             </div>
+
+            <div class="div-last conditional"></div>
+            <div class="can-upload resVideo">
+              <label class="conditional" for="resVideo" class="res-parts">Видео для описания:</label>
+              <input class="res-parts conditional" type="text" id="resVideo" name="resVideo" accept="video/*">
+
+              <div class="file-input">
+                <label class="reduced file-lable" for="fileInputResVideo">Загрузить файл<!--<img class="download-img"src="/img/download.svg" alt="Загрузить видео">--></label>
+                <input class="reduced fileInput" type="file" id="fileInputResVideo" name="file">
+                <div class="upload-file reduced">Получить ссылку файла</div>
+              </div>
+            </div>
+
           </section>
         </article>
-        <section class="res-card">
-          <div class="can-upload">
-            <label class="conditional" for="resVideo" class="res-parts">Видео для описания:</label>
-            <input class="res-parts conditional" type="text" id="resVideo" name="resVideo" accept="video/*">
+        <section class="res-card ">
 
-            <div class="file-input">
-              <label class="reduced file-lable" for="fileInputResVideo"><img class="download-img"src="/img/download.svg" alt="Загрузить видео"></label>
-              <input class="reduced fileInput" type="file" id="fileInputResVideo" name="file">
-              <div class="upload-file reduced">getLink</div>
-            </div>
-          </div>
-          <div class="div-last"></div>
+      
             
 
 
@@ -155,13 +182,15 @@
                 <li class="res-text-parts part">
                   <label for="res-description" class="res-parts">Текст в описании:</label>
                   <textarea class="res-parts" type="text" id="res-description" name="res-description"></textarea>
-                  <label for="res-icon">Икнока в блоке текста:</label>
                   <div class="icon-add-container">
-                    <input type="text" id="res-icon" name="res-icon" accept="image/*">
+                    <div class="label-res-icon">
+                      <label for="res-icon">Икнока в блоке текста:</label>
+                      <input type="text" id="res-icon" name="res-icon" accept="image/*">
+                    </div>
                     <div class="file-input">
-                      <label class="reduced file-lable" for="fileInputIcon1"><img class="download-img"src="/img/download.svg" alt="Загрузить видео"></label>
-                      <input class="reduced fileInput" type="file" id="fileInputIcon1" name="file">
-                      <div class="upload-file reduced">getLink</div>
+                      <label class=" file-lable" for="fileInputIcon1">Загрузить файл<!--<img class="download-img"src="/img/download.svg" alt="Загрузить видео">--></label>
+                      <input class=" fileInput" type="file" id="fileInputIcon1" name="file">
+                      <div class="upload-file ">Получить ссылку файла</div>
                     </div>
                     <div class="icon-of-url">
                       <img class="icons opacity" src="/img/empty.jpg" alt="icon">

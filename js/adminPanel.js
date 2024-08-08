@@ -717,4 +717,5 @@ const addAdminPanel = ()=>{
     }*/
 }
 
-export {addAdminPanel, addAdminButtonsToCards, addCadrdSample, extraButtonsUpdate, adminButtonClick, resAddEditButtons,  resDeleteEditButtons, adminUpdate}
+
+export {addAdminPanel, addAdminButtonsToCards, addCadrdSample, extraButtonsUpdate, adminButtonClick, resAddEditButtons, resDeleteEditButtons, adminUpdate}

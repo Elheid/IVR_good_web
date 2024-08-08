@@ -16,6 +16,8 @@ import { loadServices } from '../services.js';
 
 
 import { addAuth } from '../auth.js';
+import { config } from '../../config.js';
+
 
 addSkeletons("catalogs");
 
@@ -29,8 +31,11 @@ if (document.querySelector(".catalogs").classList.contains("gestural-language"))
   document.querySelector(".view-choose").style.marginTop = "6%";
 }
 
-//Убрал админку для прода
-//addAdminPanel();
+
+if (config.adminPanelOn){
+  addAdminPanel();
+}
+
 
 document.querySelector(".services-list").classList.add("hidden");
 const loadCategories = async () => {
@@ -73,3 +78,21 @@ createGoButtons();
 createHomeReturner();
 
 addAuth();
+
+const switchLanguage = document.querySelector(".switch-language");
+switchLanguage.addEventListener("click", ()=>{
+  const allLists = document.querySelectorAll(`.${flag}:not(.skeleton)`);
+  if (flag === "clear-language"){
+    localStorage.setItem("language", "gestural-language");
+    allLists.forEach((list)=>{
+      list.classList.replace(flag, "gestural-language")
+    })
+  }
+  if (flag === "gestural-language"){
+    localStorage.setItem("language", "clear-language");
+    allLists.forEach((list)=>{
+      list.classList.replace(flag, "clear-language")
+    })
+  }
+  window.location.reload();
+})

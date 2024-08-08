@@ -1,5 +1,5 @@
 import { removeLastHeader,addHeader} from "./headers.js";
-import { countSubCatalogs, getCatalogId, getLastSubCatalog, getLastSubCatalogName, getPreSubCatalog, updateMarginButtonsOnList } from "./util.js";
+import { countSubCatalogs, getCatalogId, getLastParam, getLastSubCatalog, getLastSubCatalogName, getPreSubCatalog, updateMarginButtonsOnList } from "./util.js";
 
 const goBackToCatalogs = ()=>{
 
@@ -20,7 +20,7 @@ const goBackToCatalogs = ()=>{
     //const subCatalog = searchParams.get('sub-catalog');
     const notQuery = !window.location.href.includes("query=");
     if (!notQuery){
-        const list = document.querySelector('.catalogs-list');
+        /*const list = document.querySelector('.catalogs-list');
         const services = document.querySelector('.services-list');
         list.classList.remove("hidden");
         services.innerHTML = "";
@@ -29,7 +29,31 @@ const goBackToCatalogs = ()=>{
         removeLastHeader();
         updateMarginButtonsOnList(list);
 
-        updateParamUrl('catalog');
+        updateParamUrl(getLastParam());
+        let lastParam = getLastParam();
+        while (lastParam){
+            //if (lastParam){
+                updateParamUrl(lastParam);
+                lastParam = getLastParam();
+            //}
+        }*/
+
+            var breadcrumbs = document.querySelectorAll('.breadcrumb-item a');
+            if (breadcrumbs.length > 0) {
+                var preLastBreadcrumb = breadcrumbs[breadcrumbs.length - 2];
+                if (window.location.href !== preLastBreadcrumb.href){
+                    window.location.href = preLastBreadcrumb.href;
+                }
+                else{
+                    /*const urlParams = window.location.search;
+                    const searchParams  = new URLSearchParams(urlParams)
+                    searchParams.get("query");*/
+                    updateParamUrl("query")
+                } 
+            } else {
+                history.back();
+            }
+
 
     }
     else if (idCatalog !== "" && idCatalog && idSubCatalog !== '' && idSubCatalog){
@@ -190,7 +214,6 @@ const createBackButton = (displayServices)=>{
             } else {
                 history.back();
             }
-            
             //hideAlerts();
             //showServices();
         }

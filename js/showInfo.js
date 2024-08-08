@@ -1,5 +1,6 @@
 import { extraButtonsUpdate, resAddEditButtons, resDeleteEditButtons } from "./adminPanel.js";
 import { createAndUpdateInfoCard, infoRes } from "./main/createrObj.js";
+import { isAdmin } from "./util.js";
 
 
 const changeColorOfAddCard = ()=>{

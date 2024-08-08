@@ -1,5 +1,5 @@
 import { createCatalogCard, createServiceCard, createAndUpdateInfoCard, extractSubstrings, iconInsertion } from "./main/createrObj.js";
-import { getCatalogId, getCellNameById, getCatalogsId, getCurState, getLastSubCatalog, getLastParam, tryJsonParse } from "./util.js";
+import { getCatalogId, getCellNameById, getCatalogsId, getCurState, getLastSubCatalog, getLastParam, tryJsonParse, instructionCategory, instructionSubCategory, instructionService, instructionInfo, replaceWordsWithSpan } from "./util.js";
 import { showInfoCard } from "./showInfo.js";
 import { createCategory, updateCategoryMainIcon, updateCategoryGifPreview,
     createService, addServiceCategory, removeServiceCategory,  addServiceIcon, updateServiceMainIcon, updateServiceGif, updateServiceDescription, updateServiceGifPreview, clearServiceIcons,
@@ -9,6 +9,7 @@ import { createCategory, updateCategoryMainIcon, updateCategoryGifPreview,
     getServiceById,
     getInfoById,
 } from "./api/api.js";
+
 
 
 const showHideInputs = ()=>{
@@ -358,7 +359,14 @@ const assembleDescription = ()=>{
                 textRes += description + "\n";
             }
             else{
-                textRes += "\n- " + description + `\n\\icon${count}`;//'\n-sdgfdsgsdg\n\\icon1'
+                //textRes += "\n- " + description + `\n\\icon${count}`;//'\n-sdgfdsgsdg\n\\icon1'
+                if (description.startsWith("\n- ")) {
+                    textRes += description + `\n\\icon${count}`;
+                } else if (description.startsWith("- ")) {
+                    textRes += "\n" + description + `\n\\icon${count}`;
+                } else {
+                    textRes += "\n- " + description + `\n\\icon${count}`;
+                }
                 count++;
             }
         }
@@ -426,12 +434,34 @@ const changeImgByInput =(container, input)=>{
     const img = container.querySelector(".icons");
     const url = input.value;
     if (isValidUrl(url)) {
+        clearIconInsert(container);
         img.src = url;
         img.classList.remove("opacity")
+        img.classList.remove("hidden");
     } else {
-        img.src = '/img/empty.jpg';
-        img.classList.add("opacity")
+        /*img.src = '/img/empty.jpg';
+        img.classList.add("opacity")*/
+        clearIconInsert(container);
     }
+}
+
+const clearIconInsert = (element)=>{
+    let input = element.querySelector('#res-icon');
+    if (!input){
+        input = element.querySelector('#image');
+    }
+
+    // Обработчик ввода
+    //input.addEventListener("DOMContentLoaded", changeImgByInput)
+    //input.addEventListener('input', ()=>changeImgByInput(element, input));
+    const imgs = element.querySelectorAll(".icons");
+    imgs.forEach((img, index)=>{
+        img.src = '/img/empty.jpg';
+        img.classList.add("opacity");
+        if (index > 0){
+            img.remove();
+        }
+    })
 }
 
 const iconInsertAndChange = (element)=>{
@@ -446,6 +476,7 @@ const iconInsertAndChange = (element)=>{
 }
 
 const addNewResBlockWithText = (blockOfText, iconLinks = null)=>{
+    const event = new Event('input-textarea');
     const list = document.querySelector(".res-text-parts.list");
     const first = list.children[0];
     for (let i = 0; i < blockOfText.length; i++){
@@ -456,7 +487,9 @@ const addNewResBlockWithText = (blockOfText, iconLinks = null)=>{
         clone.querySelectorAll("textarea").forEach((input) => {
             input.value = text;
             input.textContent = text;
+            document.dispatchEvent(event);
         })
+         //тут input event
         let divWithImg = clone.querySelector(".icon-add-container .icon-of-url");
         //divWithImg.classList.add("icon-of-url")
         clone.querySelectorAll("#res-icon").forEach((input) => {
@@ -482,6 +515,7 @@ const addNewResBlockWithText = (blockOfText, iconLinks = null)=>{
         iconInsertAndChange(clone);
         updateFileInputAttributes(clone);
         list.appendChild(clone);
+        autoResizeTextArea(clone.querySelector("textarea"))
     }
     const uploadButton = document.querySelectorAll(".upload-file").forEach((button)=>{
         button.addEventListener("click", uploadFile);
@@ -508,13 +542,15 @@ const removeReducedForm = () => {
 const toggleClassToForm = (elemet)=>{
     const resTitle = elemet.classList.contains("res-title");
     let manual;
-    if (elemet.parentNode) manual = elemet.parentNode.classList.contains("manual") ;
-    const trueManual = elemet.parentNode.classList.contains("true-manual");
-    if (!resTitle && !manual && !trueManual){
-        document.getElementById("card-form").classList.remove("inside-service");
-    }
-    else{
-        document.getElementById("card-form").classList.add("inside-service");
+    if (elemet.parentNode) manual = elemet.parentNode.classList.contains("manual");
+    if (elemet.parentNode){
+        const trueManual = elemet.parentNode.classList.contains("true-manual");
+        if (!resTitle && !manual && !trueManual){
+            document.getElementById("card-form").classList.remove("inside-service");
+        }
+        else{
+            document.getElementById("card-form").classList.add("inside-service");
+        }
     }
 }
 
@@ -545,6 +581,8 @@ const hideForm = ()=>{
 
     clearDescriptionBlock();
 
+    hideInstruction();
+
 }
 
 let lastClickedButton = null;
@@ -570,6 +608,13 @@ const changeParentOptions = (targetCard)=>{
 
     const parentDivs = document.querySelectorAll(".parent-existence");
     const resDivs = document.querySelector("section.res-card");
+    const mainForm = document.querySelector(".res-card");
+
+
+    const resVideo = document.querySelector(".can-upload.resVideo")
+
+    const hiddenBorderStyle = "0px";
+    const showBorderStyle = '1px solid rgba(119, 119, 119, 1)';
 
     const parentChoose = document.querySelector(".parent-choose");
 
@@ -579,8 +624,12 @@ const changeParentOptions = (targetCard)=>{
         document.querySelector("div.subCategory-create").classList.add("hidden");
         //resDivs.forEach((div)=> div.classList.add("hidden"))
         resDivs.classList.add("hidden");
+        resVideo.classList.add("hidden");
 
         parentChoose.classList.add("hidden");
+
+        mainForm.style.borderLeft = hiddenBorderStyle;
+        
         /*const typeOfParent = document.querySelectorAll("div.parent-existence");
         typeOfParent.forEach(parent=>{
             parent.classList.add("hidden");
@@ -596,6 +645,7 @@ const changeParentOptions = (targetCard)=>{
         document.querySelector(`label.parent-existence`).classList.add("hidden");*/
         parentChoose.classList.add("hidden");
         parentDivs.forEach((div)=> div.classList.add("hidden"))
+        
     }
     else{
 
@@ -607,6 +657,8 @@ const changeParentOptions = (targetCard)=>{
 
 
         resDivs.classList.remove("hidden");
+        resVideo.classList.remove("hidden");
+        mainForm.style.borderLeft = showBorderStyle;
         /*resDivs.forEach((div)=>{ 
             if (div.classList.contains("hidden")){
                 div.classList.remove("hidden")
@@ -675,6 +727,8 @@ const changeParentOptions = (targetCard)=>{
                 const value = createSubCatalog.checked;
                 if (value){
                     resDivs.classList.add("hidden");
+                    resVideo.classList.add("hidden");
+                    mainForm.style.borderLeft = hiddenBorderStyle;
                     document.querySelector("section.res-card").classList.add("hidden");
                 }
             })
@@ -683,6 +737,8 @@ const changeParentOptions = (targetCard)=>{
                 const value = createSubCatalog.checked;
                 if (!value){
                     resDivs.classList.remove("hidden");
+                    resVideo.classList.remove("hidden");
+                    mainForm.style.borderLeft = showBorderStyle;
                     document.querySelector("section.res-card").classList.remove("hidden");
                 }
             });
@@ -780,9 +836,12 @@ const getDescription = (targetCard = null)=>{
             input.value = "";
             input.textContent = "";
         })
+        //тут input event
+        const event = new Event('input-textarea');
         first.querySelectorAll("input").forEach((input) => {
             input.value = "";
             input.textContent = "";
+            document.dispatchEvent(event);
         })
     }
 
@@ -793,16 +852,31 @@ const getDescription = (targetCard = null)=>{
     }
     if (action === "edit" && (state === "services-list" || state === "info-cards")){
         showLoader()
+
+        if (lastClickedButton.classList.contains("edit-element-button")){
+            const form = document.getElementById('card-form');
+            state = form.classList.contains("inside-service") ? "services-list": 'info-cards';
+        }
+
         const attribute = state === 'info-cards' ? 'info-id' : state === 'catalogs-list' ? "catalog-id" : "service-id";
         let id;
+        
         if (targetCard){
             id = targetCard.getAttribute(attribute);
             if(state === "services-list") getServiceById(id).then((data)=>fillDescriptionInForm(data));
             if (state === "info-cards") getInfoById(id).then((data)=>fillDescriptionInForm(data));
         } 
         else {
-            id = new URLSearchParams(window.location.search).get("serviceId");
-            getServiceById(id).then((data)=>fillDescriptionInForm(data));
+            
+            if(state === "services-list"){
+                id = new URLSearchParams(window.location.search).get("serviceId");
+                getServiceById(id).then((data)=>fillDescriptionInForm(data));
+            }
+            if (state === "info-cards"){
+                const id = parseInt(document.querySelector(".additional-info-res").classList[1]);
+                getInfoById(id).then((data)=>fillDescriptionInForm(data));
+            } 
+
             //getInfoById(id).then((data)=>fillDescriptionInForm(data));
         }
         /*if(state === "services-list") getServiceById(id).then((data)=>fillDescriptionInForm(data));
@@ -843,14 +917,155 @@ document.addEventListener("DOMContentLoaded", ()=> {
     } 
 })
 */
+const autoResizeTextArea = (textarea)=>{
+    textarea.style.height = 'auto'; // Сбрасываем высоту для правильного пересчета
+    textarea.style.height = textarea.scrollHeight + 'px'; // Устанавливаем высоту в соответствии с содержимым
+}
+
+const autoResizeTextAreas = ()=>{
+    const textareas = document.querySelectorAll("#card-form textarea");
+    textareas.forEach((textarea)=>autoResizeTextArea(textarea));
+}
+
+const changeTitleForm = (targetCard)=>{
+
+    const formTitle = document.querySelector(".form-title");
+
+    let state = getCurState();
+    const lastParam = getLastParam();
+    if (lastParam && lastParam.indexOf("sub-catalog")>=0){
+        state = "sub-catalogs-list";
+    }
+    if (lastClickedButton.classList.contains("edit-element-button")){
+        const form = document.getElementById('card-form');
+        state = form.classList.contains("inside-service") ? "services-list": 'info-cards';
+        if (document.querySelector(".popup").classList.contains("popup-opened")) state = 'info-cards';
+        else state = "services-list";
+    }
+
+    let typeOperation = "";
+    let nameCard = "";
+    if (targetCard){
+        if (targetCard.classList.contains("card-to-add")){
+            typeOperation = "Добавление";
+        }
+        else{
+            typeOperation = "Редактирование";
+        }
+    }
+    else{
+        typeOperation = "Редактирование";
+    }
+
+    if (state === "catalogs-list") nameCard = "категории";
+    if (state === "sub-catalogs-list") nameCard = "подкатегории";
+    if (state === "services-list") nameCard = "услуги";
+    if (state === "info-cards") nameCard = "дополнительной информации";
+
+    formTitle.textContent = typeOperation + " " + nameCard;
+}
+
+const changeInstructionText = ()=>{
+    const formTitle = document.querySelector(".form-instruct-title");
+
+    const formText= document.querySelector(".instruction-text");
+    let pre;
+    if (!formText.querySelector("pre.instruction-text")){
+        pre = document.createElement('pre');
+        pre.classList.add("instruction-text")
+        formText.appendChild(pre);
+    }
+    else{
+        pre = formText.querySelector("pre.instruction-text");
+    }
+    let text = "";
+    let title = "";
+    let state = getCurState();
+    const lastParam = getLastParam();
+    if (lastParam && lastParam.indexOf("sub-catalog")>=0){
+        state = "sub-catalogs-list";
+    }
+    if (lastClickedButton.classList.contains("edit-element-button")){
+        const form = document.getElementById('card-form');
+        state = form.classList.contains("inside-service") ? "services-list": 'info-cards';
+    }
+
+    if (state === "catalogs-list"){
+        title = "Инструкция для категории";
+        text = `Для добавления/изменения <span class="crossed-text">категории</span> выполните следующие шаги:\n` + replaceWordsWithSpan(instructionCategory);
+        //text = instructionCategory;
+    } 
+    if (state === "sub-catalogs-list"){
+        title = "Инструкция для подкатегории";
+        text = `Для добавления/изменения <span class="crossed-text">подкатегории</span> выполните следующие шаги:\n` + replaceWordsWithSpan(instructionSubCategory);
+        //text = instructionSubCategory;
+    }
+    if (state === "services-list"){
+        title = "Инструкция для услуги";
+        text = `Для добавления/изменения <span class="crossed-text">услуги</span> выполните следующие шаги:\n` + replaceWordsWithSpan(instructionService);
+        //text = instructionService;
+    }
+    if (state === "info-cards"){
+        title = "Инструкция для дополнительной информации";
+        text = `Для добавления/изменения <span class="crossed-text">дополнительной информации</span> выполните следующие шаги:\n` + replaceWordsWithSpan(instructionInfo);
+        //text = instructionInfo;
+    }
+    
+    pre.innerHTML = text;
+    formTitle.textContent = title;
+}
+
+const showInstruction = ()=>{
+    const form = document.getElementById('card-form');
+    const instr = document.querySelector(".instruction");
+
+    form.classList.add("hidden");
+    instr.classList.remove("hidden");
+    changeInstructionText();
+}
+
+const hideInstruction = ()=>{
+    const form = document.getElementById('card-form');
+    const instr = document.querySelector(".instruction");
+
+    form.classList.remove("hidden");
+    instr.classList.add("hidden");
+}
+
+
+const createInstruction = ()=>{
+    const form = document.getElementById('card-form');
+    const instr = document.querySelector(".instruction");
+    
+    
+    const instButton = document.querySelector(".instruction-button");
+    instButton.addEventListener("click", showInstruction)
+
+    const backToForm = document.querySelector(".back-from-instruction-button");
+    backToForm.addEventListener("click", hideInstruction);
+}
+
 const showForm = ()=>{
     event.stopPropagation();
+    document.getElementById('card-form-container').classList.remove('hidden');
 
     const mainIcon = document.querySelector(".icon-add-container.main-icon");
+    clearIconInsert(mainIcon);
     if (mainIcon) iconInsertAndChange(mainIcon);
+    //else clearIconInsert(mainIcon);
+
 
     const list = document.querySelector("ul.res-text-parts");
+    clearIconInsert(list.children[0]);
     if (list) iconInsertAndChange(list.children[0]);
+    //else clearIconInsert(list.children[0]);
+
+    //const textareas = document.querySelectorAll("#card-form textarea");
+    //textareas.forEach((textarea)=>{
+        //console.log("зашел накинуть обработчик");
+        document.addEventListener('input-textarea', autoResizeTextAreas);
+        //textarea.addEventListener('resize', onTextareaResizeStart);
+    //})
 
     document.getElementById('title').addEventListener('keydown', function(event) {
         if (event.key === 'Enter') {
@@ -867,6 +1082,8 @@ const showForm = ()=>{
     const targetCard = lastClickedButton.closest("li");
 
     
+    createInstruction(targetCard);
+    changeTitleForm(targetCard);
     if (targetCard)
     {
         getDescription(targetCard);
@@ -925,28 +1142,42 @@ const showForm = ()=>{
         }
         else{
             title.value = "";
-            image.dispatchEvent(event);
             image.value = "";
             video.value = "";
-            res.value  = "";    
+            res.value  = "";  
+            image.dispatchEvent(event);  
         }
 
     }
     else if(lastClickedButton.classList.contains("edit-button") ||
     lastClickedButton.classList.contains("edit-element-button")){
+        toggleClassToForm(lastClickedButton);
         setFormForEditCard(document.querySelector(".submit-form"));
         document.getElementById("parent-id").removeAttribute("disabled");
         getDescription();
     }
+    const mainForm = document.querySelector(".res-card");
+    const hiddenBorderStyle = "0px";
+    const showBorderStyle = '1px solid rgba(119, 119, 119, 1)';
     if (lastClickedButton.classList.contains("edit-element-button")){
         const title = document.getElementById("title");
+        mainForm.style.borderLeft = hiddenBorderStyle;
         if (document.querySelector("h3.title")){
             title.value = document.querySelector("h3.popup-title").textContent;
+            if (lastClickedButton.parentNode.classList.contains("title")){
+                const inputElement = document.getElementById('title');
+                const labelElement = document.querySelector(`label[for="${inputElement.id}"]`);
+                showTitleInput(inputElement, labelElement)
+                //lastClickedButton.parentNode.querySelector("h3.title").classList.remove("hidden")
+            }
         }
         const resVid = document.getElementById("resVideo");
         if (lastClickedButton.parentNode.querySelector("video")){
             resVid.value = lastClickedButton.parentNode.querySelector("video").src;
         }
+    }
+    else{
+        mainForm.style.borderLeft = showBorderStyle;
     }
 
     /*            const title = document.getElementById("title");
@@ -966,12 +1197,10 @@ const showForm = ()=>{
 
 
     //console.log("show form")
-    document.getElementById('card-form-container').classList.remove('hidden');
-    document.addEventListener('click', closeFormOnExitBorders);
+    //document.getElementById('card-form-container').classList.remove('hidden');
+    document.addEventListener('mousedown', closeFormOnExitBorders);
     
     document.querySelector(".add-new-block").addEventListener("click", addNewResBlockButton)
-
-    toggleClassToForm(lastClickedButton);
 
 
 
@@ -1025,11 +1254,25 @@ const closeFormOnExitBorders = (event)=> {
     //event.stopPropagation();
     const overlay = document.getElementById('card-form-container');
     const form = document.getElementById('card-form');
-    if (event.target !== overlay && event.target !== form && !form.contains(event.target)) {
+    const instruct = document.querySelector("section.instruction");
+    if (event.target !== overlay && (event.target !== form && !form.contains(event.target) 
+    && event.target !== instruct && !instruct.contains(event.target))) {
         hideForm();
         document.removeEventListener('click', closeFormOnExitBorders);
     }
 };
+/*
+const onTextareaResizeStart = (event) => {
+    resizing = true;
+    console.log("resize start");
+    document.addEventListener('mouseup', onTextareaResizeEnd);
+};
+
+const onTextareaResizeEnd = (event) => {
+    resizing = false;
+    console.log("resize end");
+    document.removeEventListener('mouseup', onTextareaResizeEnd);
+};*/
 
 
 const createForm = ()=>{
