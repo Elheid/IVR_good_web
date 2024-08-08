@@ -201,7 +201,7 @@ const closeModal = () => {
 const addAuth = () => {
     const params = new URLSearchParams(window.location.search);
 
-    if (document.querySelector(".authModal")){
+    if (document.querySelector("#authModal")){
         if (params.has('username') && params.has('password')) {
             const username = params.get('username');
             const password = params.get('password');
