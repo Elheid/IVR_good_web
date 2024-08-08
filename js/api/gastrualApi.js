@@ -1,8 +1,10 @@
+
 import { addNewTags } from "../keyWords.js";
 
 const interval = 30;
 let intervalId;
 let keyWords = [];
+
 import { config } from "../../config.js";
 const socketURL = config.apiGesturalUrl;//'wss://pincode-dev.ru';//'wss://pincode-dev.ru'//wss://pincode-dev.ru/rsl-filter
 
