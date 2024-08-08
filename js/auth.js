@@ -163,6 +163,7 @@ const login = (username, password) => {
         }
     })
     .catch((error) => {
+        alert('Login failed ' + error);
         throw new Error(error);
   });;
 };
@@ -201,10 +202,11 @@ const closeModal = () => {
 const addAuth = () => {
     const params = new URLSearchParams(window.location.search);
 
-    if (document.querySelector("#authModal")){
+    const authModal = document.querySelector("#authModal");
+    if (authModal){
         if (params.has('username') && params.has('password')) {
-            const username = params.get('username');
-            const password = params.get('password');
+            const username = authModal.querySelector("#username");//params.get('username');
+            const password =authModal.querySelector("#password"); //params.get('password');
             login(username, password);
         } else {
             if (window.location.href.indexOf("authorize") > 0) {
@@ -215,15 +217,15 @@ const addAuth = () => {
     }
 };
 
-if (document.querySelector(".authModal")){
+if (document.querySelector("#authModal")){
     // Обработчики событий для модального окна
-    document.getElementById('loginButton').onclick = () => {
+    document.getElementById('loginButton').addEventListener("click", () => {
         const username = document.getElementById('username').value;
         const password = document.getElementById('password').value;
         if (username && password) {
             login(username, password);
         }
-    };
+    });
 
     document.getElementById('forgotPasswordButton').onclick = () => {
         alert('Функция "Забыл пароль" пока не реализована.');
