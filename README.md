@@ -14,10 +14,12 @@ https://drive.google.com/drive/folders/1WAWBW0wDGL2G-4056en-ILrMGzWWSy_f?usp=sha
    - Убедитесь, что у вас установлен Python. Если Python не установлен, скачайте и установите его с [официального сайта Python](https://www.python.org/).
    - Откройте терминал, перейдите в папку с проектом и выполните команды:
      ```bash
+     //Если файлы еще не являются исполняемыми, вы должны сделать их таковыми:
      chmod +x deployAdmin.sh
+      chmod +x deployMain.sh
+     //А потом запустить их
      ./deployAdmin.sh
      
-     chmod +x deployMain.sh
      ./deployMain.sh
      
      ```
