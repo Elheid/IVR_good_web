@@ -13,7 +13,7 @@ REM Запуск сервера на порту 8081
 start cmd /k python -m http.server 8001
 
 REM Открываем браузер
-start http://localhost:8081
+start http://localhost:8001
 
 REM Удаляем временный файл конфигурации
 del config_admin_off.js
