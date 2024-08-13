@@ -1,7 +1,7 @@
 Веб приложение c двумя ветками: на РЖЯ и на простом языке.
 https://good-web-ivr.netlify.app/services.html
 
-Ссылка на папку с последней сборкой 06.08.2024:
+Ссылка на папку с последней сборкой 13.08.2024:
 https://drive.google.com/drive/folders/1WAWBW0wDGL2G-4056en-ILrMGzWWSy_f?usp=sharing
 
 Инструкция по развертыванию:
