@@ -138,13 +138,18 @@ const authUrl = "https://pincode-dev.ru/ivr-good/login";
 const checkAdminUrl = authUrl;
 
 const login = (username, password) => {
+    const params = new URLSearchParams();
+    params.append('username', username);
+    params.append('password', password);
+
     fetch(authUrl, {
         method: 'POST',
         headers: {
             //'Content-Type': 'application/json'
             'Content-Type': 'application/x-www-form-urlencoded'
         },
-        body: JSON.stringify({ username, password })
+        //body: JSON.stringify({ username, password })
+        body: params.toString()
     })
     .then(response =>
         { 
