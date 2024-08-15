@@ -2,16 +2,18 @@ FROM nginx:latest
 
 WORKDIR /ivr-front
 
-# Копируем все файлы IVR, кроме оригинального config.js
+
+#  Этап  1:  Создаем  образ  с  config.admin.js
 COPY . /ivr-front
 COPY config.js /ivr-front
 
-# Копируем config.dev.js в контейнер
-COPY config.admin.js /ivr-front/config.js 
+# Меняем adminPanelOn на true т.е. включаем админ панель
+RUN sed -i 's/adminPanelOn:\s*false/adminPanelOn:\ttrue/g' /ivr-front/config.js
 
-# Изменяем конфигурацию Nginx
+#  Изменяем  конфигурацию  Nginx (если нужно)
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Перезапускаем Nginx, чтобы изменения вступили в силу
-CMD ["nginx", "-g", "daemon off;"] 
+RUN cat /ivr-front/config.js
 
+#  Перезапускаем  Nginx,  чтобы  изменения  вступили  в  силу
+CMD ["nginx", "-g", "daemon off;"] 

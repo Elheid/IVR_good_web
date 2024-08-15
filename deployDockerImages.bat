@@ -1,31 +1,27 @@
 @echo off
 
-::  Создаем  копию  config.js  для  adminPanelOn=false
-copy config.js config.prod.js
+set PORT_ADMIN=8080
+set PORT_MAIN=8081
 
-::  Изменяем  config.prod.js  для  adminPanelOn=false
-powershell -Command "(Get-Content config.prod.js) -replace 'adminPanelOn:\s*true', 'adminPanelOn: false' | Set-Content config.prod.js"
+REM Перемещение в директорию с Dockerfile
+cd /d "%~dp0"
 
-REM Создаем временный конфигурационный файл для adminPanelOn=true
-copy config.js config.admin.js
+REM Сборка образа для админ-приложения с флагом --no-cache
+echo Building ivr-app-admin image...
+docker build --no-cache -t ivr-app-admin -f Dockerfile.admin .
 
-REM Изменяем config.admin.js для adminPanelOn=true
-powershell -Command "(Get-Content config.admin.js) -replace 'adminPanelOn:\s*false', 'adminPanelOn: true' | Set-Content config.admin.js"
+REM Сборка образа для prod-приложения с флагом --no-cache
+echo Building ivr-app-prod image...
+docker build --no-cache -t ivr-app-prod -f Dockerfile.prod .
 
+REM Запуск контейнера для админ-приложения
+echo Running ivr-app-admin container...
+docker run -d -p %PORT_ADMIN%:80 --name ivr-app-admin ivr-app-admin
 
-::  Сборка  образа  dev
-docker build -t ivr-app-dev -f Dockerfile.admin .
+REM Запуск контейнера для prod-приложения
+echo Running ivr-app-prod container...
+docker run -d -p %PORT_MAIN%:80 --name ivr-app-prod ivr-app-prod
 
-::  Сборка  образа  prod
-docker build -t ivr-app-prod -f Dockerfile.prod .
-
-
-echo  Образы  Docker  собраны  успешно!
-
-::  Удаляем  временный  файл  config.prod.js
-del config.prod.js
-::  Удаляем  временный  файл  config.prod.js
-del config.admin.js
-
-
+echo All containers are up and running.
 pause
+
