@@ -133,8 +133,10 @@ const addAuth = ()=>
     //});
 }
 export {addAuth}*/
+import { config } from "../../config.js";
+const BASE_URL = config.apiBackEndUrl
 
-const authUrl = "https://pincode-dev.ru/ivr-good/login";
+const authUrl = `${BASE_URL}/login`;
 const checkAdminUrl = authUrl;
 
 const login = (username, password) => {
