@@ -1,5 +1,5 @@
 export const config = {
-    apiBackEndUrl: 'https://ivr.ds-hub.ru/backend/',
+    apiBackEndUrl: 'https://ivr-back.ds-hub.ru/',
     apiGesturalUrl: 'wss://pincode-dev.ru',
     defaultGoHomeTimer:600000,
     adminPanelOn: false,
