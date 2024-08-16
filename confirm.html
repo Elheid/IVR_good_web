@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Подтверждение электронной почты</title>
+
+    <link href="css/confirm.css" rel="stylesheet">    
+    <link href="css/style.css" rel="stylesheet">
+
+</head>
+<body>
+
+    <div class="inner-box box-of-content box central-box" id="confirmation-message" style="display: none;">
+        <h2>Подтверждение электронной почты</h2>
+        <p id="confirmation-text"></p>
+    </div>
+
+    <script>
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const token = urlParams.get('token');
+
+        fetch('/confirm-email', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ token: token })
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+           }/* else {
+                throw new Error('Ошибка подтверждения');
+            }*/
+        })
+        .then(data => {
+            document.getElementById('confirmation-text').textContent = "test-message token: " + token//data.message;
+            document.getElementById('confirmation-message').style.display = 'block';
+            // Возможно, перенаправление на другую страницу
+            // window.location.href = '/login';
+        })
+        .catch(error => {
+            document.getElementById('confirmation-text').textContent = 'Произошла ошибка. Пожалуйста, попробуйте еще раз.';
+            document.getElementById('confirmation-message').style.display = 'block';
+        });
+    </script>
+
+</body>
+</html>

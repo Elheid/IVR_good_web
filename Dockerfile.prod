@@ -1,0 +1,19 @@
+FROM nginx:latest
+
+WORKDIR /ivr-front
+
+
+# Копируем все файлы IVR, кроме оригинального config.js
+COPY . /ivr-front
+COPY config.js /ivr-front
+
+# Меняем adminPanelOn на false т.е. отключаем админ панель
+RUN sed -i 's/adminPanelOn:\s*true/adminPanelOn:\tfalse/g' /ivr-front/config.js
+
+# Изменяем конфигурацию Nginx
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+RUN cat /ivr-front/config.js
+
+# Перезапускаем Nginx, чтобы изменения вступили в силу
+CMD ["nginx", "-g", "daemon off;"] 

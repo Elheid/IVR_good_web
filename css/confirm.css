@@ -1,0 +1,21 @@
+.box{
+    width: fit-content;
+}
+
+.central-box{
+    margin: 10vh auto;
+}
+
+.box-of-content,
+.boxOfContent {
+  padding: 10px;
+  border-radius: 5px 5px 0 0;
+  border: 1px  #91644f solid;
+  background: white;
+}
+
+
+.inner-box {
+  /*border: 5px #edf2f6 solid;*/
+  box-shadow: 0 0 8px 8px #beb9a5;
+}
