@@ -25,3 +25,4 @@ docker run -d -p $PORT_MAIN:80 --name ivr-app-prod ivr-app-prod
 
 echo "All containers are up and running."
 exit
+
