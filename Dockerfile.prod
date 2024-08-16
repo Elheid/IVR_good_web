@@ -17,3 +17,4 @@ RUN cat /ivr-front/config.js
 
 # Перезапускаем Nginx, чтобы изменения вступили в силу
 CMD ["nginx", "-g", "daemon off;"] 
+
