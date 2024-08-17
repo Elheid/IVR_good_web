@@ -160,6 +160,7 @@ const login = (username, password) => {
         if (!response.ok) {
             throw new Error(response.statusText);
         }
+        console.log(response)
         return response.json()
     })
     .then(data => {
@@ -174,7 +175,7 @@ const login = (username, password) => {
     .catch((error) => {
         alert('Login failed ' + error);
         throw new Error(error);
-  });;
+  });
 };
 
 const checkAdmin = () => {
