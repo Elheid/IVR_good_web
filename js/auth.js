@@ -149,8 +149,8 @@ const login = (username, password) => {
     fetch(authUrl, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
-            //'Content-Type': 'application/x-www-form-urlencoded'
+            //'Content-Type': 'application/json'
+            'Content-Type': 'application/x-www-form-urlencoded'
         },
         //body: JSON.stringify({ username, password })
         body: params.toString()
@@ -160,6 +160,7 @@ const login = (username, password) => {
         if (!response.ok) {
             throw new Error(response.statusText);
         }
+        console.log(response)
         return response.json()
     })
     .then(data => {
