@@ -138,7 +138,7 @@ export {addAuth}*/
 import { config } from "../../config.js";
 const BASE_URL = config.apiBackEndUrl
 
-const authUrl = `${BASE_URL}login`;
+const authUrl = 'https://ivr-back.ds-hub.ru';
 const checkAdminUrl = authUrl;
 
 const login = (username, password) => {
@@ -149,8 +149,8 @@ const login = (username, password) => {
     fetch(authUrl, {
         method: 'POST',
         headers: {
-            //'Content-Type': 'application/json'
-            'Content-Type': 'application/x-www-form-urlencoded'
+            'Content-Type': 'application/json'
+            //'Content-Type': 'application/x-www-form-urlencoded'
         },
         //body: JSON.stringify({ username, password })
         body: params.toString()
@@ -174,7 +174,7 @@ const login = (username, password) => {
     .catch((error) => {
         alert('Login failed ' + error);
         throw new Error(error);
-  });;
+  });
 };
 
 const checkAdmin = () => {
