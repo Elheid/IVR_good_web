@@ -138,7 +138,7 @@ export {addAuth}*/
 import { config } from "../../config.js";
 const BASE_URL = config.apiBackEndUrl
 
-const authUrl = 'https://ivr-back.ds-hub.ru/login';
+const authUrl = `${BASE_URL}login`;
 const checkAdminUrl = authUrl;
 
 const login = (username, password) => {
