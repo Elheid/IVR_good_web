@@ -326,7 +326,7 @@ const submitForm = async (event) => {
                 setTimeout(function(){
                     endFormWithLoader();
                     window.location.reload();
-                    },1000);
+                },1000);
 
                 //endFormWithLoader();
                 //window.location.reload();

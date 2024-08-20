@@ -78,7 +78,6 @@ createGoButtons();
 createHomeReturner();
 
 addAuth();
-
 const switchLanguage = document.querySelector(".switch-language");
 switchLanguage.addEventListener("click", ()=>{
   const allLists = document.querySelectorAll(`.${flag}:not(.skeleton)`);

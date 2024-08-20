@@ -1,5 +1,5 @@
 // это должно быть временная штука ддля проверки идеи
-import { getCellNameById, getParamFromURL, tryJsonParse } from "../util.js";
+import { getCellNameById, getParamFromURL, isAdmin, tryJsonParse } from "../util.js";
 
 
 const iconInsertion = (textFromBd, iconLinks)=>{
@@ -652,7 +652,8 @@ const rowButtonEvent = (listOfCards, remove ,marginTop, marginTop2)=>{
     const list = listOfCards.children;
     for (var i = 0; i < list.length; i++){
         const card = list[i];
-        card.querySelector(".card-button").style.marginTop = marginTop;
+        
+        if (card.querySelector(".card-button"))card.querySelector(".card-button").style.marginTop = marginTop;
         document.querySelector(".view-choose").style.marginTop = marginTop2;
     };
 }
@@ -668,6 +669,13 @@ const returnVidLists = (lists)=>{
     }
 }
 
+const adminButtonsCrutch = ()=>{
+    if (isAdmin()){
+        document.querySelector(".toggleContainer").click();
+        document.querySelector(".toggleContainer").click();
+    }
+}
+
 const createEventsButtons = (listOfCards)=>{
     const catalog = document.querySelector(".catalogs");
     const twoInRow = document.querySelector(".two-in-row");
@@ -677,10 +685,13 @@ const createEventsButtons = (listOfCards)=>{
         oneInRow.addEventListener("click", ()=>{
             changeVidLists(listOfCards);
             rowButtonEvent(listOfCards, false,"20px", "8.6%");
+            adminButtonsCrutch();
+
         })
         twoInRow.addEventListener("click", ()=>{
             returnVidLists(listOfCards);
             rowButtonEvent(listOfCards, true, "0", "6%");
+            adminButtonsCrutch();
         })
 
     }else{
