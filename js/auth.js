@@ -138,7 +138,7 @@ export {addAuth}*/
 import { config } from "../../config.js";
 const BASE_URL = config.apiBackEndUrl
 
-const authUrl = `${BASE_URL}login`;
+const authUrl = `${BASE_URL}auth/sign-in`;
 const checkAdminUrl = authUrl;
 
 const login = (username, password) => {
