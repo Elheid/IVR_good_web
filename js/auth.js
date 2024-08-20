@@ -174,13 +174,9 @@ const login = (username, password) => {
         return response.json()
     })
     .then(data => {
-        if (data.success) {
-            localStorage.setItem('token', data.token);
-            checkAdmin();
-            closeModal();
-        } else {
-            alert('Login failed');
-        }
+        localStorage.setItem('token', data.token);
+        checkAdmin();
+        closeModal();
     })
     .catch((error) => {
         alert('Login failed ' + error);
