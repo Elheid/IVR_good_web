@@ -146,7 +146,7 @@ const login = (username, password) => {
     params.append('username', username);
     params.append('password', password);
 
-    fetch(authUrl, {
+    /*fetch(authUrl, {
         method: 'POST',
         headers: {
             //'Content-Type': 'application/json'
@@ -154,9 +154,19 @@ const login = (username, password) => {
         },
         //body: JSON.stringify({ username, password })
         body: params.toString()
+    })*/
+    fetch(authUrl, {
+        method: 'POST',
+        headers: {
+            'Accept': '*/*',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            username: username,
+            password: password,
+        }),
     })
-    .then(response =>
-        { 
+    .then(response => {
         if (!response.ok) {
             throw new Error(response.statusText);
         }
@@ -175,7 +185,7 @@ const login = (username, password) => {
     .catch((error) => {
         alert('Login failed ' + error);
         throw new Error(error);
-  });
+    });
 };
 
 const checkAdmin = () => {
@@ -187,12 +197,12 @@ const checkAdmin = () => {
                 'Authorization': `Bearer ${token}`
             }
         })
-        .then(response => response.json())
-        .then(data => {
-            if (data.isAdmin) {
-                showAdminFunctions();
-            }
-        });
+            .then(response => response.json())
+            .then(data => {
+                if (data.isAdmin) {
+                    showAdminFunctions();
+                }
+            });
     }
 };
 
@@ -212,10 +222,10 @@ const closeModal = () => {
 const addAuth = () => {
     const params = new URLSearchParams(window.location.search);
     const authModal = document.querySelector("#authModal");
-    if (authModal){
+    if (authModal) {
         if (params.has('username') && params.has('password')) {
             const username = authModal.querySelector("#username");//params.get('username');
-            const password =authModal.querySelector("#password"); //params.get('password');
+            const password = authModal.querySelector("#password"); //params.get('password');
             login(username, password);
         } else {
             if (window.location.href.indexOf("authorize") > 0) {
@@ -226,7 +236,7 @@ const addAuth = () => {
     }
 };
 
-if (document.querySelector("#authModal")){
+if (document.querySelector("#authModal")) {
     // Обработчики событий для модального окна
     document.getElementById('loginButton').addEventListener("click", () => {
         const username = document.getElementById('username').value;
