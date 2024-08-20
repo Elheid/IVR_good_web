@@ -175,7 +175,7 @@ const login = (username, password) => {
     })
     .then(data => {
         localStorage.setItem('token', data.token);
-        checkAdmin();
+        //checkAdmin();
         closeModal();
     })
     .catch((error) => {
@@ -224,7 +224,8 @@ const addAuth = () => {
             const password = authModal.querySelector("#password"); //params.get('password');
             login(username, password);
         } else {
-            if (window.location.href.indexOf("authorize") > 0) {
+            const token = localStorage.getItem('token');
+            if (window.location.href.indexOf("authorize") > 0 && !token) {
                 openModal();
             }
         }
