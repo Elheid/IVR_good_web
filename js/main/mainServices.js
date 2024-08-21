@@ -94,4 +94,16 @@ switchLanguage.addEventListener("click", ()=>{
     })
   }
   window.location.reload();
+
+
 })
+
+//fetch(`https://ivr-back.ds-hub.ru/qdrant/sync`, {
+//  method: 'POST',
+//  body:null,
+//  headers: {
+//    'Content-Type': 'application/json',
+//    'accept': '*/*',
+//    'Authorization': localStorage.getItem("token") ? `Bearer ${localStorage.getItem("token") }` : undefined, 
+//  },
+//}).then(response=> console.log(response)).catch((error)=>alert(error))

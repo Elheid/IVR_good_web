@@ -183,7 +183,7 @@ const login = (username, password) => {
         throw new Error(error);
     });
 };
-
+/*
 const checkAdmin = () => {
     const token = localStorage.getItem('token');
     if (token) {
@@ -200,7 +200,7 @@ const checkAdmin = () => {
                 }
             });
     }
-};
+};*/
 
 const showAdminFunctions = () => {
     const adminPanel = document.createElement('div');
@@ -225,11 +225,11 @@ const addAuth = () => {
             login(username, password);
         } else {
             const token = localStorage.getItem('token');
-            if (window.location.href.indexOf("authorize") > 0 && !token) {
+            if (window.location.href.indexOf("authorize") > 0 || ( !token || token === "1")) {
                 openModal();
             }
         }
-        checkAdmin();
+        //checkAdmin();
     }
 };
 
