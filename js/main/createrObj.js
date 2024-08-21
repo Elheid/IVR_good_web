@@ -258,16 +258,6 @@ const getCurList = () => {
     }
 }
 
-const repairSvgs = () => {
-    const list = getCurList();
-    list.forEach((card) => {
-        const svg = card.querySelector("svg");
-        const id = svg.getAttribute("id");
-        const repair = () => changeSvgAttributes(id);
-        svg.addEventListener('loadeddata', repair)
-    })
-}
-
 
 const createClarLangCard = (cardParent, title, count, iconGif, word = "услуг: ") => {
 
