@@ -43,7 +43,6 @@ const loadCategories = async () => {
       .then((data) => {
         updateSkeletonElementCount(data.content.length);
         initializeResults({content:data.content.filter((obj)=> obj.id === 2)});
-        console.log(data.content.filter((obj)=> obj.id === 2))
         addCatalogButton(searchResult);
         addPlayVidButton();
         adminUpdate();

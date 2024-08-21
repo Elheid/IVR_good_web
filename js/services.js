@@ -49,6 +49,12 @@ const displayServices = (services, searched = false)=> {
         card.querySelector(".categoryName").remove();
     }}
   });
+  if (servicesContainer.querySelector(".card")){
+    const span =  document.createElement('span');
+    span.classList("zero-search");
+    span.textContent = "По вашему запросу ничего не найдено";
+    servicesContainer.appendChild(span)
+  }
   
   hideSkeletonsAndReplace("services");
   equalizeSubtitles();
