@@ -232,6 +232,7 @@ const addAuth = () => {
         //checkAdmin();
     }
 };
+//
 
 if (document.querySelector("#authModal")) {
     // Обработчики событий для модального окна
