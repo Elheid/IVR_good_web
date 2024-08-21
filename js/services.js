@@ -51,7 +51,7 @@ const displayServices = (services, searched = false)=> {
   });
   if (servicesContainer.querySelector(".card")){
     const span =  document.createElement('span');
-    span.classList("zero-search");
+    span.classList.add("zero-search");
     span.textContent = "По вашему запросу ничего не найдено";
     servicesContainer.appendChild(span)
   }
