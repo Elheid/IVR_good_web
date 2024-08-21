@@ -297,39 +297,71 @@ const createClarLangCard = (cardParent, title, count, iconGif, word = "услу�
     }
     async function loadSVG(svgUrl) {
         try {
+            /* const response = await fetch(svgUrl);
+             const svgText = await response.text();
+     
+             const parser = new DOMParser();
+             const svgDoc = parser.parseFromString(svgText, 'image/svg+xml');
+     
+             const fillElements = svgDoc.querySelectorAll('[fill]');
+             fillElements.forEach(el => {
+                 el.setAttribute('fill', '#ffffff');
+             });
+             let id = cardParent.getAttribute("catalog-id");
+             if (window.location.href.includes("catalog") || window.location.href.includes("query")){
+                 id = cardParent.getAttribute("service-id");
+             }
+             else{
+                 id = cardParent.getAttribute("catalog-id");
+             }
+             svgDoc.documentElement.setAttribute("id", id);
+             svgDoc.documentElement.style = "fill:white;"
+             iconContainer.appendChild(svgDoc.documentElement);
+             /*const img = document.createElement('img');
+             img.src = URL.createObjectURL(svgDoc.documentElement); 
+             iconContainer.appendChild(img);*/
+            //changeSvgAttributes(id);
             const response = await fetch(svgUrl);
             const svgText = await response.text();
-    
+
             const parser = new DOMParser();
             const svgDoc = parser.parseFromString(svgText, 'image/svg+xml');
-    
+
+            // Изменяем цвет
             const fillElements = svgDoc.querySelectorAll('[fill]');
             fillElements.forEach(el => {
                 el.setAttribute('fill', '#ffffff');
             });
+
+            // Изменяем ID
             let id = cardParent.getAttribute("catalog-id");
-            if (window.location.href.includes("catalog") || window.location.href.includes("query")){
+            if (window.location.href.includes("catalog") || window.location.href.includes("query")) {
                 id = cardParent.getAttribute("service-id");
             }
-            else{
-                id = cardParent.getAttribute("catalog-id");
-            }
             svgDoc.documentElement.setAttribute("id", id);
-            iconContainer.appendChild(svgDoc.documentElement);
+            svgDoc.documentElement.style = "fill:white;"
+            // Создаем новый URL для модифицированного SVG
+            const modifiedSvgUrl = URL.createObjectURL(new Blob([svgDoc.documentElement.outerHTML], { type: 'image/svg+xml' }));
+
+            // Создаем <img>
+            const img = document.createElement('img');
+            img.src = modifiedSvgUrl;
+            iconContainer.appendChild(img);
+
             changeSvgAttributes(id);
+
         } catch (error) {
             console.error('Ошибка при загрузке или изменении SVG:', error);
             console.error('svg -> ', iconGif);
             var icon = document.createElement('img');
             icon.classList.add("icon");
             icon.src = iconGif;
-            if (!window.location.href.includes("catalog")){
+            if (!window.location.href.includes("catalog")) {
                 card.appendChild(icon);
-            } 
+            }
         }
     }
-    if (iconGif){
-        //card.setAttribute("data-iconSrc", iconGif)
+    if (iconGif) {
         loadSVG(svgUrl);
     }
     card.appendChild(iconContainer);
