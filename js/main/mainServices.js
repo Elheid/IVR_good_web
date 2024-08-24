@@ -48,7 +48,7 @@ const loadCategories = async () => {
         adminUpdate();
         /*if (localStorage.getItem("isAdmin") === "true"){
           addAdminButtonsToCards();
-        }*/
+        }*///
       })
       .catch((err)=> console.log(err));
 };
