@@ -39,7 +39,7 @@ const displayServices = (services, searched = false)=> {
     /*if (titleCounts[service.title] > 1) {
       service.title = getCellNameById(service.categoryId) + " " + service.title;
     }*/
-    //if (service.categoryId === 2){
+ 
     
     const services = document.querySelector(".services");
     const card = createServiceCard(service, services.classList.contains("clear-language"));
@@ -47,7 +47,7 @@ const displayServices = (services, searched = false)=> {
     if (!searched){
       if(card.querySelector(".categoryName"))
         card.querySelector(".categoryName").remove();
-    }//}
+    }
   });
 
   /* Если ничего не нашлось поиском */
