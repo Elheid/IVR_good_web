@@ -79,7 +79,9 @@ const loadFile = (route, errorText, method = Method.POST, body = null, headers =
   fetch(`${BASE_URL}${route}`, {
     method,
     body,
-    headers
+    headers: {
+      'Authorization': localStorage.getItem("token") ? `Bearer ${localStorage.getItem("token") }` : undefined, // Добавляем Authorization, если есть токен
+    },
   })
   .then((response) => {
     if (!response.ok) {
@@ -94,28 +96,52 @@ const loadFile = (route, errorText, method = Method.POST, body = null, headers =
     throw new Error(errorText);
   });
 
-const fetchForm = (route, errorText, method = Method.GET, body = null) =>
-  fetch(`${BASE_URL}${route}`, { 
+const fetchForm = (route, errorText, method = Method.GET, body = null) =>{
+  const token = localStorage.getItem("token");
+  console.log('Токен:', token); // Проверка токена
+
+return fetch(`${BASE_URL}${route}`, {
+  method,
+  body: body ? JSON.stringify(body) : null,
+  headers: {
+    'Content-Type': 'application/json',
+    'accept': '*/*',
+    'Authorization': token ? `Bearer ${token}` : undefined, 
+  },
+})
+  
+  /*fetch(`${BASE_URL}${route}`, { 
     method, 
     body: body ? JSON.stringify(body) : null,
-    headers: body ? { 'Content-Type': 'application/json','accept': '*/*' } : {} 
-  })
+    //headers: body ? { 'Content-Type': 'application/json','accept': '' } : {}  
+    headers: {
+      'Content-Type': 'application/json',
+      'accept': '',
+      'Authorization': localStorage.getItem("token") ? `Bearer ${localStorage.getItem("token") }` : undefined, // Добавляем Authorization, если есть токен
+    },
+  })*/
     .then((response) => {
       if (!response.ok) {
+        if (response.status == "403") alert("Ошибка: недостаточно прав для данного действия, проверьте авторизаваны ли вы")
         throw new Error();
       }
       const json = response.json();
       return json;
     })
-    .catch(() => {
-      throw new Error(errorText);
-});
+    .catch((error) => {
+      throw new Error(errorText + " " + error);
+});}
 
 const loadById = (route, id, errorText, method = Method.GET, body = null) =>
   fetch(`${BASE_URL}${route}${id}`, { 
     method, 
     body: body ? JSON.stringify(body) : null,
-    headers: body ? { 'Content-Type': 'application/json','accept': '*/*' } : {} 
+    //headers: body ? { 'Content-Type': 'application/json','accept': '*/*' } : {} 
+    headers: {
+      'Content-Type': 'application/json',
+      'accept': '*/*',
+      'Authorization': localStorage.getItem("token") ? `Bearer ${localStorage.getItem("token") }` : undefined, // Добавляем Authorization, если есть токен
+    },
   })
     .then((response) => {
       if (!response.ok) {

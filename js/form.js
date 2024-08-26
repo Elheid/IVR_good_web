@@ -323,10 +323,13 @@ const submitForm = async (event) => {
                 form.reset();
                 
                 hideLoader();*/
-                endFormWithLoader();
+                setTimeout(function(){
+                    endFormWithLoader();
+                    window.location.reload();
+                },1000);
 
-                // Перезагрузка страницы после завершения всех запросов
-                window.location.reload();
+                //endFormWithLoader();
+                //window.location.reload();
             })
 
         }

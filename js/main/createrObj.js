@@ -1,5 +1,5 @@
 // это должно быть временная штука ддля проверки идеи
-import { getCellNameById, getParamFromURL, tryJsonParse } from "../util.js";
+import { getCellNameById, getParamFromURL, isAdmin, tryJsonParse } from "../util.js";
 
 
 const iconInsertion = (textFromBd, iconLinks)=>{
@@ -297,39 +297,71 @@ const createClarLangCard = (cardParent, title, count, iconGif, word = "услу�
     }
     async function loadSVG(svgUrl) {
         try {
+            /* const response = await fetch(svgUrl);
+             const svgText = await response.text();
+     
+             const parser = new DOMParser();
+             const svgDoc = parser.parseFromString(svgText, 'image/svg+xml');
+     
+             const fillElements = svgDoc.querySelectorAll('[fill]');
+             fillElements.forEach(el => {
+                 el.setAttribute('fill', '#ffffff');
+             });
+             let id = cardParent.getAttribute("catalog-id");
+             if (window.location.href.includes("catalog") || window.location.href.includes("query")){
+                 id = cardParent.getAttribute("service-id");
+             }
+             else{
+                 id = cardParent.getAttribute("catalog-id");
+             }
+             svgDoc.documentElement.setAttribute("id", id);
+             svgDoc.documentElement.style = "fill:white;"
+             iconContainer.appendChild(svgDoc.documentElement);
+             /*const img = document.createElement('img');
+             img.src = URL.createObjectURL(svgDoc.documentElement); 
+             iconContainer.appendChild(img);*/
+            //changeSvgAttributes(id);
             const response = await fetch(svgUrl);
             const svgText = await response.text();
-    
+
             const parser = new DOMParser();
             const svgDoc = parser.parseFromString(svgText, 'image/svg+xml');
-    
+
+            // Изменяем цвет
             const fillElements = svgDoc.querySelectorAll('[fill]');
             fillElements.forEach(el => {
                 el.setAttribute('fill', '#ffffff');
             });
+
+            // Изменяем ID
             let id = cardParent.getAttribute("catalog-id");
-            if (window.location.href.includes("catalog") || window.location.href.includes("query")){
+            if (window.location.href.includes("catalog") || window.location.href.includes("query")) {
                 id = cardParent.getAttribute("service-id");
             }
-            else{
-                id = cardParent.getAttribute("catalog-id");
-            }
             svgDoc.documentElement.setAttribute("id", id);
-            iconContainer.appendChild(svgDoc.documentElement);
+            svgDoc.documentElement.style = "fill:white;"
+            // Создаем новый URL для модифицированного SVG
+            const modifiedSvgUrl = URL.createObjectURL(new Blob([svgDoc.documentElement.outerHTML], { type: 'image/svg+xml' }));
+
+            // Создаем <img>
+            const img = document.createElement('img');
+            img.src = modifiedSvgUrl;
+            iconContainer.appendChild(img);
+
             changeSvgAttributes(id);
+
         } catch (error) {
             console.error('Ошибка при загрузке или изменении SVG:', error);
             console.error('svg -> ', iconGif);
             var icon = document.createElement('img');
             icon.classList.add("icon");
             icon.src = iconGif;
-            if (!window.location.href.includes("catalog")){
+            if (!window.location.href.includes("catalog")) {
                 card.appendChild(icon);
-            } 
+            }
         }
     }
-    if (iconGif){
-        //card.setAttribute("data-iconSrc", iconGif)
+    if (iconGif) {
         loadSVG(svgUrl);
     }
     card.appendChild(iconContainer);
@@ -652,7 +684,8 @@ const rowButtonEvent = (listOfCards, remove ,marginTop, marginTop2)=>{
     const list = listOfCards.children;
     for (var i = 0; i < list.length; i++){
         const card = list[i];
-        card.querySelector(".card-button").style.marginTop = marginTop;
+        
+        if (card.querySelector(".card-button"))card.querySelector(".card-button").style.marginTop = marginTop;
         document.querySelector(".view-choose").style.marginTop = marginTop2;
     };
 }
@@ -668,6 +701,13 @@ const returnVidLists = (lists)=>{
     }
 }
 
+const adminButtonsCrutch = ()=>{
+    if (isAdmin()){
+        document.querySelector(".toggleContainer").click();
+        document.querySelector(".toggleContainer").click();
+    }
+}
+
 const createEventsButtons = (listOfCards)=>{
     const catalog = document.querySelector(".catalogs");
     const twoInRow = document.querySelector(".two-in-row");
@@ -677,10 +717,13 @@ const createEventsButtons = (listOfCards)=>{
         oneInRow.addEventListener("click", ()=>{
             changeVidLists(listOfCards);
             rowButtonEvent(listOfCards, false,"20px", "8.6%");
+            adminButtonsCrutch();
+
         })
         twoInRow.addEventListener("click", ()=>{
             returnVidLists(listOfCards);
             rowButtonEvent(listOfCards, true, "0", "6%");
+            adminButtonsCrutch();
         })
 
     }else{

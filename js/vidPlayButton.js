@@ -19,7 +19,7 @@ const vidPlayIfIntersect = ()=> {
   
   const observerOptions = {
   root: null,
-  rootMargin: "0px",
+  rootMargin: "50px",
   threshold: 1.0
   };
   
