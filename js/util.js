@@ -442,7 +442,7 @@ const getCurState = ()=>{
     var urlParams = window.location.search;
     return (urlParams.match('serviceId'))? 'info-cards' : (urlParams.match('catalog')) ? 'services-list' :  'catalogs-list';
 }
-
+//
 const isAdmin = ()=>{
     if (!config.adminPanelOn){
         return false;
