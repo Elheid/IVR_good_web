@@ -2,6 +2,28 @@
 import { getCellNameById, getParamFromURL, isAdmin, tryJsonParse } from "../util.js";
 
 
+
+const createLogo = ()=>{
+    const div = document.createElement("div");
+    div.classList.add("logo-container");
+    div.classList.add("inner-box");
+    div.classList.add("box-of-content");
+
+    const logo = document.createElement("img");
+    logo.classList.add("logo");
+    logo.src = "/img/logoWhite.svg";
+
+    const text = document.createElement("span");
+    text.classList.add("logo-text");
+    text.textContent = "Модель распознования русского жестового языка разработанна командой:";
+
+
+    div.appendChild(text);
+    div.appendChild(logo);
+
+    return div;
+}
+
 const iconInsertion = (textFromBd, iconLinks) => {
     const iconRegex = /\\icon(\d+)/g;
 
@@ -777,5 +799,5 @@ const createGastrualSkeleton = (count, isClear) => {
 
 export {
     createRes, createGoButtons, createServiceCard, createGastrualSkeleton, createCatalogCard, createInfoCard, infoRes, loadHeaderData,
-    createAndUpdateInfoCard, extractSubstrings, iconInsertion,
+    createAndUpdateInfoCard, extractSubstrings, iconInsertion, createLogo
 }

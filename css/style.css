@@ -920,3 +920,50 @@ section.instruction.hidden{
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
+
+
+
+img.logo {
+    width: 18vh;
+    height: 100%;
+}
+
+.logo-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    width: fit-content;
+    margin: 20px auto;
+}
+
+.box-of-content{
+  border-radius: 50px;
+  border: 0.5px solid rgba(0, 0, 0, 1);
+  background-color: rgb(150, 103, 81);
+  max-width: 25vw;
+}
+
+span.logo-text {
+    text-align: center;
+    padding: 10px;
+    color: white;
+    font-size: 0.85em;
+}
+
+.inner-box {
+  /*box-shadow: 0 0 10px 10px rgb(200 186 173 / 80%)//#edf2f6;*/
+  padding: 5px;
+}
+/*
+.box-of-content{
+  border-radius: 5px 5px 0 0;
+  border: 1.5px rgb(200 186 173 / 30%) solid;
+  background-color: rgb(200 186 173 / 30%) ;
+}
+
+.inner-box {
+  
+  padding: 10px;
+} */
