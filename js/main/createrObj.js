@@ -481,6 +481,7 @@ const createCatalogCard = (catalog, clearLanguage) => {
     var cardCatalog = document.importNode(catalogTemplate, true);
 
     cardCatalog.setAttribute("catalog-id", catalog.id);
+    cardCatalog.setAttribute("children-count", catalog.itemsInCategoryIds.length);
 
     const cardButton = cardCatalog.querySelector(".card-button");
 

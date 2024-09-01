@@ -45,6 +45,9 @@ const loadSkeletons = ()=>{
         }*/
     }
 }
+
+
+
 const addSkeletons = ()=>{
     document.addEventListener('DOMContentLoaded', loadSkeletons);
     let typeContent = document.querySelectorAll('video');
@@ -61,6 +64,10 @@ const addSkeletons = ()=>{
         });
     }
 }
+
+document.addEventListener("catalog-click", addSkeletons);
+document.addEventListener("catalog-click", (event)=> updateSkeletonElementCount(event.detail.children))
+
 
 const hideSkeletonsAndReplace = (classToReplace)=>{
     const skeleton = determineSkeleton();
