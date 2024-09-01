@@ -47,6 +47,8 @@ const loadSkeletons = ()=>{
 }
 const addSkeletons = ()=>{
     document.addEventListener('DOMContentLoaded', loadSkeletons);
+    let typeContent = document.querySelectorAll('video');
+    if (!typeContent) typeContent = document.querySelectorAll('img');
     const videos = document.querySelectorAll('.video');
     if(videos){
         videos.forEach(video => {
