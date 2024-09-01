@@ -5,6 +5,7 @@ import { getParamFromURL} from '../util.js';
 import { getServiceById } from '../api/api.js';
 import { createHomeReturner } from '../returnHome.js';
 import { addSkeletonRes } from '../skeletons/skeletonResult.js';
+import { createLogo } from './createrObj.js';
 
 
 
@@ -42,3 +43,8 @@ loadResult();
 createBackButton();
 
 createHomeReturner();
+
+
+
+const main = document.querySelector("main");
+main.appendChild(createLogo());
