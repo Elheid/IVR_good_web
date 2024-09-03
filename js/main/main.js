@@ -1,3 +1,5 @@
+import { createLogo } from "./createrObj.js";
+
 var flag = "";
 const destinationGestural = "instruction.html";
 const destinationClear = "services.html";
@@ -33,6 +35,10 @@ const loadSavedData = () => {
 if (!window.location.href.includes("services") || window.location.href.includes("result")){
     createButtons();
 }
+
+const main = document.querySelector(".main-footer");//.main-content
+main.appendChild(createLogo());
+main.querySelector(".logo-container").classList.add("logo-main");
 
 
 export{loadSavedData};

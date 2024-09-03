@@ -504,7 +504,7 @@ input[type="search"] {
     background-color: rgba(111, 64, 42, 0.1);
 }
 .start-record span, .stop-record span{
-    font-size:1vw;
+
     color:rgba(111, 64, 42, 1);
     text-wrap: nowrap;
     padding-left: 6px;
@@ -518,6 +518,7 @@ input[type="search"] {
 
 .stop-record img, .start-record img{
     min-width: 20px;
+    max-width: 1vw;
     width: 100%;
     height: auto;
 }
@@ -1059,3 +1060,4 @@ div.gif {
 #showPopup.hidden {
     display: none;
 }
+
