@@ -17,12 +17,26 @@ const socket = io(socketURL, {
     }
 });
 
+let canvas = null;
+let context = null;
+
+const frames_arr = [];  // Array to collect frames
+const frames_pac = 4;   // Number of frames to batch before sending
+
 const startWebcam = () => {
     navigator.mediaDevices.getUserMedia({ video: true })
         .then(stream => {
             const videoInst = document.getElementById("videoInst");
             videoInst.srcObject = stream;
             videoInst.classList.add("stream");
+
+            // Initialize canvas once for reusability
+            if (!canvas) {
+                canvas = document.createElement('canvas');
+                context = canvas.getContext('2d');
+                canvas.width = 224;
+                canvas.height = 224;
+            }
         })
         .catch(err => {
             console.error('Error accessing webcam:', err);
@@ -85,18 +99,7 @@ const startRecord = () => {
 };
 
 const addFrameSender = (videoElement) => {
-    const canvas = document.createElement('canvas');
-    const context = canvas.getContext('2d');
-    const frames_arr = [];
-    const frames_pac = 4;
-
-    const newWidth = 224;
-    const newHeight = 224;
-
-    canvas.width = newWidth;
-    canvas.height = newHeight;
-
-    context.drawImage(videoElement, 0, 0, newWidth, newHeight);
+    context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
     const data = canvas.toDataURL('image/jpeg', 0.5);
     frames_arr.push(data);
 
@@ -105,7 +108,7 @@ const addFrameSender = (videoElement) => {
         frames_arr.length = 0;  // Clear the array
     }
 
-    context.clearRect(0, 0, newWidth, newHeight);
+    context.clearRect(0, 0, canvas.width, canvas.height);
 };
 
 const connectToSocket = () => {
