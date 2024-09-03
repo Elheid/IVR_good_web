@@ -77,6 +77,10 @@ const processMessage = (text) => {
     addNewTags(keyWords);
 };
 
+const onReceiveText = (text)=>{
+    processMessage(text);
+}
+
 const startSendingData = (videoElement) => {
     if (intervalId) clearInterval(intervalId);
 
