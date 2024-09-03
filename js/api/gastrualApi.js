@@ -1,23 +1,13 @@
 
 import { addNewTags } from "../keyWords.js";
 
-const interval = 30;
+const interval = 1000 / 16; //было 30
 let intervalId;
 let keyWords = [];
 
 import { config } from "../../config.js";
 const socketURL = config.apiGesturalUrl;//'wss://pincode-dev.ru';//'wss://pincode-dev.ru'//wss://pincode-dev.ru/rsl-filter
 
-
-/*const socket = io(socketURL, {
-    autoConnect: false,
-    'reconnection': true,
-    'reconnectionDelay': 500,
-    'reconnectionAttempts': 10,
-    extraHeaders: {
-        "ngrok-skip-browser-warning": "true"
-    }
-});*/
 const socket = io(socketURL, {
     path: '/rsl-filter/socket.io/',
     autoConnect: false,
@@ -27,7 +17,8 @@ const socket = io(socketURL, {
     extraHeaders: {
     "ngrok-skip-browser-warning": "true"
     }
-    });
+});
+
 const startWebcam = ()=>{
     navigator.mediaDevices.getUserMedia({ video: true })
     .then(((stream) =>{
@@ -92,8 +83,7 @@ const startSendingData =(videoElement)=>{
         if (socket.connected){
             addFrameSender(videoElement);
         }
-    }, interval);
-    
+    }, interval); 
 }
 
 const stopSendingData = () => {

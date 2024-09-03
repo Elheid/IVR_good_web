@@ -6,6 +6,8 @@ import { getCellNameById, getParamFromURL, isAdmin, tryJsonParse } from "../util
 const createLogo = ()=>{
     const div = document.createElement("div");
     div.classList.add("logo-container");
+    if (localStorage.getItem("language") === "clear-language" && window.location.href.indexOf("services")>=0 || (window.location.href.indexOf("instruction")>=0)) div.classList.add("logo-in-clear");
+    else div.classList.remove("logo-in-clear");
     div.classList.add("inner-box");
     div.classList.add("box-of-content");
 
@@ -15,7 +17,7 @@ const createLogo = ()=>{
 
     const text = document.createElement("span");
     text.classList.add("logo-text");
-    text.textContent = "Модель распознования русского жестового языка разработанна командой:";
+    text.textContent = "Модель распознавания русского жестового языка разработана командой:";
 
 
     div.appendChild(text);

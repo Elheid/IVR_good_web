@@ -57,6 +57,7 @@ const updateURLSubCatalog = (subCatalogId)=>{
 
 
 const catalogClick = (cell) =>{
+  if (document.querySelector(".logo-main") )document.querySelector(".logo-main").classList.remove("logo-main")
   const catalogClickEvent = new CustomEvent('catalog-click', { detail: { card: cell, children:cell.getAttribute("children-count") } });
   document.dispatchEvent(catalogClickEvent);
   const catalogId = cell.getAttribute('catalog-id');

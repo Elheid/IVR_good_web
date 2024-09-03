@@ -46,5 +46,5 @@ createHomeReturner();
 
 
 
-const main = document.querySelector("main");
+const main = document.querySelector(".main-footer");
 main.appendChild(createLogo());

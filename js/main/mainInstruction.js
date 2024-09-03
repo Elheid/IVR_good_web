@@ -43,5 +43,6 @@ giveLessButton.addEventListener("click", ()=>{
     giveMoreButton.style.display = '';
 })*/
 
-const main = document.querySelector("main");
+const main = document.querySelector("main");//main
 main.appendChild(createLogo());
+main.querySelector(".logo-container").classList.add("logo-instruction");
