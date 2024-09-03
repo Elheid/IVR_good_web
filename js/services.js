@@ -50,6 +50,7 @@ const displayServices = (services, searched = false)=> {
     }
   });
 
+  if (document.querySelector(".logo-main"))document.querySelector(".logo-main").classList.remove("logo-main");
   /* Если ничего не нашлось поиском */
   if (!servicesContainer.querySelector(".card") && searched){
     const span =  document.createElement('span');
