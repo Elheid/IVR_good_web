@@ -114,14 +114,9 @@ const addFrameSender = (videoElement) => {
     const data = canvas.toDataURL('image/jpeg', 0.5);
     frames_arr.push(data);
 
-    // Log the current size of the frames_arr
-    console.log(`Current size of frames_arr: ${frames_arr.length}`);
-
     if (frames_arr.length === frames_pac) {
-        console.log(`Emitting ${frames_arr.length} frames to the server.`);
         socket.emit('data', frames_arr);
         frames_arr.length = 0;  // Clear the array
-        console.log("frames_arr has been cleared after emitting.");
     }
 
     context.clearRect(0, 0, canvas.width, canvas.height);
