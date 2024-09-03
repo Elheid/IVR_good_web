@@ -93,7 +93,7 @@ const startSendingData =(videoElement)=>{
             addFrameSender(videoElement);
         }
     }, interval);
-    
+
 }
 
 const stopSendingData = () => {
@@ -109,7 +109,7 @@ const startRecord = ()=> {
             //const videoInst = document.getElementById("videoInst");
             //videoInst.srcObject = stream;
            // videoInst.style = "width:552px; height:345px;";
-            
+
             //videoInst.classList.add("hidden")
             videoInst.play();
             startSendingData(videoInst);
@@ -121,6 +121,9 @@ const startRecord = ()=> {
 
 const addFrameSender=(videoElement)=> {
     console.log("Send frame")
+    var frames_arr = [];
+    const frames_pac = 4;
+
     const canvas = document.createElement('canvas');
     const context = canvas.getContext('2d');
 
@@ -135,8 +138,14 @@ const addFrameSender=(videoElement)=> {
     canvas.height = 224;
 
     context?.drawImage(videoElement, 0, (224 - newHeight) / 2, newWidth, newHeight);
-    const image = canvas.toDataURL('image/jpeg');
-    socket.emit("data", image);
+    var data = canvas.toDataURL('image/jpeg', 0.5);
+    frames_arr.push(data);
+    context.clearRect(0, 0, width, height);
+
+    if (frames_arr.length == frames_pac) {
+        socket.emit('data', frames_arr);
+        frames_arr = [];
+    }
 
         /*console.log("Send frame");
         const canvas = document.createElement('canvas');
