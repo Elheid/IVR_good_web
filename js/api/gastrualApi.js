@@ -65,19 +65,24 @@ const onDisconnectToModal = () => {
 
 let prevWords = [];
 let prevResults = [];
-const processMessage = (text) => {
-    const results = Object.values(JSON.parse(text));
-    if (!prevResults.includes(text)) {
+const processMessage = (text)=>{
+    keyWords = [];
+    console.log(text);
+    const results = Object.values(JSON.parse(text))
+    console.log(results)
+    if(!(prevResults.indexOf(text) >= 0))
+    {
         prevResults.push(text);
-        results.forEach(result => {
-            if (!prevWords.includes(result)) {
-                keyWords.push(result);
-                prevWords.push(result);
+        for (var i=0; i < results.length; i++){
+            if (!(prevWords.indexOf(results[0]) >= 0)){
+                keyWords.push(results[0]);
+                prevWords.push(results[0]);
+                break;
             }
-        });
+        }
     }
     addNewTags(keyWords);
-};
+}
 
 const onReceiveText = (text)=>{
     processMessage(text);
