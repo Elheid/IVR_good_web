@@ -63,6 +63,8 @@ const onDisconnectToModal = () => {
     console.log("Disconnected from socket");
 };
 
+let prevWords = [];
+let prevResults = [];
 const processMessage = (text) => {
     const results = Object.values(JSON.parse(text));
     if (!prevResults.includes(text)) {
