@@ -103,6 +103,7 @@ switchLanguage.addEventListener("click", ()=>{
 const toggleLogoLocation = ()=>{
   if (getCurState() !=="catalogs-list") document.querySelector(".logo-main").classList.remove("logo-main")
     else document.querySelector(".logo-container").classList.add("logo-main")
+  if (window.location.href.indexOf("query")>=0) document.querySelector(".logo-main").classList.remove("logo-main");
 }
 
 
