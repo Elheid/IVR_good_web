@@ -1,53 +1,70 @@
-
 import { addNewTags } from "../keyWords.js";
+import { config } from "../../config.js";
 
-const interval = 1000 / 16; //было 30
+
+const interval = 1000 / 30;
 let intervalId;
 let keyWords = [];
 
-import { config } from "../../config.js";
-const socketURL = config.apiGesturalUrl;//'wss://pincode-dev.ru';//'wss://pincode-dev.ru'//wss://pincode-dev.ru/rsl-filter
+const socketURL = config.apiGesturalUrl;
 
 const socket = io(socketURL, {
     path: '/rsl-filter/socket.io/',
     autoConnect: false,
-    'reconnection': true,
-    'reconnectionDelay': 500,
-    'reconnectionAttempts': 10,
+    reconnection: true,
+    reconnectionDelay: 500,
+    reconnectionAttempts: 10,
     extraHeaders: {
-    "ngrok-skip-browser-warning": "true"
+        "ngrok-skip-browser-warning": "true"
     }
 });
 
-const startWebcam = ()=>{
-    navigator.mediaDevices.getUserMedia({ video: true })
-    .then(((stream) =>{
-    const videoInst = document.getElementById("videoInst");
-    videoInst.srcObject = stream;
-    videoInst.classList.add("stream");
-    })).catch((err)=> {
-        console.error('Error accessing webcam:', err);
-    });;
-}
+let canvas = null;
+let context = null;
 
-const stopWebcam = ()=>{
+const frames_arr = [];  // Array to collect frames
+const frames_pac = 4;   // Number of frames to batch before sending
+
+const startWebcam = () => {
+    navigator.mediaDevices.getUserMedia({ video: true })
+        .then(stream => {
+            const videoInst = document.getElementById("videoInst");
+            videoInst.srcObject = stream;
+            videoInst.classList.add("stream");
+
+            // Initialize canvas once for reusability
+            if (!canvas) {
+                canvas = document.createElement('canvas');
+                context = canvas.getContext('2d');
+                canvas.width = 224;
+                canvas.height = 224;
+            }
+        })
+        .catch(err => {
+            console.error('Error accessing webcam:', err);
+        });
+};
+
+const stopWebcam = () => {
     const videoInst = document.getElementById("videoInst");
+    const stream = videoInst.srcObject;
+    if (stream) {
+        stream.getTracks().forEach(track => track.stop());
+    }
     videoInst.pause();
     videoInst.srcObject = null;
-    navigator.mediaDevices.getUserMedia({ video: true })
-    .then(((stream) =>{stream.getTracks()[0].stop();}));
-    //videoInst.src = "/img/long.mp4";
-    videoInst.classList.remove("stream")
-}
+    videoInst.classList.remove("stream");
+};
 
-const onConnectToModal = ()=>{
-    console.log("connect");
+const onConnectToModal = () => {
+    console.log("Connected to socket");
     keyWords = [];
-}
+};
 
-const onDisconnectToModal = ()=>{
-    console.log("disconnect");
-}
+const onDisconnectToModal = () => {
+    console.log("Disconnected from socket");
+};
+
 let prevWords = [];
 let prevResults = [];
 const processMessage = (text)=>{
@@ -70,96 +87,53 @@ const processMessage = (text)=>{
 }
 
 const onReceiveText = (text)=>{
-        processMessage(text);
+    processMessage(text);
 }
 
-const getKeyWords = ()=>{
-    return keyWords;
-}
+const startSendingData = (videoElement) => {
+    if (intervalId) clearInterval(intervalId);
 
-
-const startSendingData =(videoElement)=>{
-    intervalId = setInterval(function() {
-        if (socket.connected){
+    intervalId = setInterval(() => {
+        if (socket.connected) {
             addFrameSender(videoElement);
         }
-    }, interval); 
-}
+    }, interval);
+};
+
 
 const stopSendingData = () => {
     clearInterval(intervalId);
 };
 
+const startRecord = () => {
+    connectToSocket();
+    const videoInst = document.getElementById("videoInst");
+    videoInst.play();
+    startSendingData(videoInst);
+};
 
-const startRecord = ()=> {
-    //navigator.mediaDevices.getUserMedia({ video: true })
-        //.then(((stream) =>{
-            connectToSocket();
-            //const videoElement = document.getElementById("videoElement");
-            //const videoInst = document.getElementById("videoInst");
-            //videoInst.srcObject = stream;
-           // videoInst.style = "width:552px; height:345px;";
-            
-            //videoInst.classList.add("hidden")
-            videoInst.play();
-            startSendingData(videoInst);
-        //}))
-        //.catch((err)=> {
-        //    console.error('Error accessing webcam:', err);
-        //});
-}
+const addFrameSender = (videoElement) => {
+    context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+    const data = canvas.toDataURL('image/jpeg', 0.5);
+    frames_arr.push(data);
 
-const addFrameSender=(videoElement)=> {
-    console.log("Send frame")
-    const canvas = document.createElement('canvas');
-    const context = canvas.getContext('2d');
+    if (frames_arr.length === frames_pac) {
+        socket.emit('data', frames_arr);
+        frames_arr.length = 0;  // Clear the array
+    }
 
-    const originalWidth = videoElement.videoWidth;
-    const originalHeight = videoElement.videoHeight;
-    const aspectRatio = originalWidth / originalHeight;
-    let newWidth = 224;
-    // let newHeight = newWidth / aspectRatio;
-    let newHeight = 224;
+    context.clearRect(0, 0, canvas.width, canvas.height);
+};
 
-    canvas.width = 224;
-    canvas.height = 224;
-
-    context?.drawImage(videoElement, 0, (224 - newHeight) / 2, newWidth, newHeight);
-    const image = canvas.toDataURL('image/jpeg');
-    socket.emit("data", image);
-
-        /*console.log("Send frame");
-        const canvas = document.createElement('canvas');
-        const context = canvas.getContext('2d');
-
-        let newWidth = 224;
-
-        canvas.width = 224;
-        canvas.height = 224;
-
-        if (context) {
-        context.drawImage(videoElement, 0, (0), newWidth, 160);
-        context.fillStyle = '#727272';
-        context.fillRect(0, 160, newWidth, 224-160); // Нижняя часть
-        const image = canvas.toDataURL('image/jpeg');
-        socket.emit("data", image);
-    }*/
-}
-
-
-
-const connectToSocket= ()=> {
-
+const connectToSocket = () => {
     socket.on("send_not_normalize_text", onReceiveText);
     socket.on("message", onReceiveText);
     socket.on("connect", onConnectToModal);
     socket.on("disconnect", onDisconnectToModal);
-    socket.connect()
-}
+    socket.connect();
+};
 
-
-
-const disconnectFromSocket= ()=> {
+const disconnectFromSocket = () => {
     socket.disconnect();
 
     socket.off("connect", onConnectToModal);
@@ -167,15 +141,12 @@ const disconnectFromSocket= ()=> {
     socket.off("message", onReceiveText);
     socket.removeAllListeners();
 
-    //const videoElement = document.getElementById("videoElement");
-
-    prevWords = [];
-    prevResults = [];
-    //videoElement.classList.add("hidden");
-    //videoInst.classList.remove("hidden");
+    prevWords.length = 0;
+    prevResults.length = 0;
 
     stopSendingData();
-}
+};
 
+const getKeyWords = () => keyWords;
 
-export {startRecord, startWebcam, stopWebcam, disconnectFromSocket, getKeyWords}
+export { startRecord, startWebcam, stopWebcam, disconnectFromSocket, getKeyWords };
