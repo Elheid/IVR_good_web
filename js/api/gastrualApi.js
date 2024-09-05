@@ -1,11 +1,13 @@
 import { addNewTags } from "../keyWords.js";
 import { config } from "../../config.js";
 
+
 const interval = 1000 / 30;
 let intervalId;
 let keyWords = [];
 
 const socketURL = config.apiGesturalUrl;
+
 const socket = io(socketURL, {
     path: '/rsl-filter/socket.io/',
     autoConnect: false,
@@ -97,6 +99,7 @@ const startSendingData = (videoElement) => {
         }
     }, interval);
 };
+
 
 const stopSendingData = () => {
     clearInterval(intervalId);

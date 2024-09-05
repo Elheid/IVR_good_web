@@ -69,6 +69,9 @@ document.addEventListener("catalog-click", addSkeletons);
 document.addEventListener("catalog-click", (event)=> updateSkeletonElementCount(event.detail.children))
 
 
+document.addEventListener("DOMContentLoaded", addSkeletons);
+document.addEventListener("DOMContentLoaded", (event)=> updateSkeletonElementCount(6))
+
 const hideSkeletonsAndReplace = (classToReplace)=>{
     const skeleton = determineSkeleton();
     const elementToReplace = document.querySelector(`.${classToReplace}`);
