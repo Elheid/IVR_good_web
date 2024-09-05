@@ -1,4 +1,5 @@
 import { createHomeReturner } from "../returnHome.js";
+import { createLogo } from "./createrObj.js";
 
 const nextButton = document.querySelector(".next-button");
 const prevButton = document.querySelector(".prev-button");
@@ -41,3 +42,7 @@ giveLessButton.addEventListener("click", ()=>{
     giveLessButton.style.display = 'none';
     giveMoreButton.style.display = '';
 })*/
+
+//const main = document.querySelector("main");//main
+//main.appendChild(createLogo());
+//main.querySelector(".logo-container").classList.add("logo-instruction");

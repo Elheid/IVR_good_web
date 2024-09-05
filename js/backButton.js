@@ -207,6 +207,11 @@ const createBackButton = (displayServices)=>{
            //localStorage.setItem('dispatchGoBackEvent', 'true');
             //history.back();
             
+            
+            setTimeout(() => {
+                document.dispatchEvent(backEvent);
+              }, 0);
+
             var breadcrumbs = document.querySelectorAll('.breadcrumb-item a');
             if (breadcrumbs.length > 0) {
                 var lastBreadcrumb = breadcrumbs[breadcrumbs.length - 1];

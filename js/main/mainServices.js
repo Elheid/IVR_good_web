@@ -17,6 +17,7 @@ import { loadServices } from '../services.js';
 
 import { addAuth } from '../auth.js';
 import { config } from '../../config.js';
+import { getCurState } from '../util.js';
 
 
 addSkeletons("catalogs");
@@ -42,13 +43,13 @@ const loadCategories = async () => {
     await getCategories()
       .then((data) => {
         updateSkeletonElementCount(data.content.length);
-        initializeResults(data);
+        initializeResults(data);//{content:data.content.filter((obj)=> obj.id === 2)}
         addCatalogButton(searchResult);
         addPlayVidButton();
         adminUpdate();
         /*if (localStorage.getItem("isAdmin") === "true"){
           addAdminButtonsToCards();
-        }*/
+        }*///
       })
       .catch((err)=> console.log(err));
 };
@@ -98,6 +99,17 @@ switchLanguage.addEventListener("click", ()=>{
 
 })
 
+
+const toggleLogoLocation = ()=>{
+  if (getCurState() !=="catalogs-list") document.querySelector(".logo-main").classList.remove("logo-main")
+    else document.querySelector(".logo-container").classList.add("logo-main")
+  if (window.location.href.indexOf("query")>=0) document.querySelector(".logo-main").classList.remove("logo-main");
+}
+
+
+//document.addEventListener('DOMContentLoaded', toggleLogoLocation)
+//document.addEventListener('popstate', toggleLogoLocation);
+//document.addEventListener('goBackEvent', toggleLogoLocation);
 //fetch(`https://ivr-back.ds-hub.ru/qdrant/sync`, {
 //  method: 'POST',
 //  body:null,

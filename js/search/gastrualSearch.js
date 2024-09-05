@@ -14,14 +14,14 @@ let tagNames = [];
 }*/
 
 const changeRecognitionText = ()=>{
-    const span = document.querySelector(".recognition-text");
+    /*const span = document.querySelector(".recognition-text");
     if (span.classList.contains("loading")){
         span.textContent = "Распознаные жесты:"
         span.classList.remove("loading");
     }else{
         span.textContent = "Идет распознавание..."
         span.classList.add("loading");
-    }
+    }*/
 }
 
 const changeIndicator = (buttonName)=>{
@@ -67,8 +67,8 @@ const removeGastrualSearch = ()=>{
 }
 
 const removeAllTags = ()=>{
-    const tagList = document.querySelector(".tag-list");
-    tagList.innerHTML = "";
+    /*const tagList = document.querySelector(".tag-list");
+    tagList.innerHTML = "";*/
 }
 
 

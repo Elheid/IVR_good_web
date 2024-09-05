@@ -39,7 +39,8 @@ const displayServices = (services, searched = false)=> {
     /*if (titleCounts[service.title] > 1) {
       service.title = getCellNameById(service.categoryId) + " " + service.title;
     }*/
-
+ 
+    
     const services = document.querySelector(".services");
     const card = createServiceCard(service, services.classList.contains("clear-language"));
     servicesContainer.appendChild(card);
@@ -47,7 +48,18 @@ const displayServices = (services, searched = false)=> {
       if(card.querySelector(".categoryName"))
         card.querySelector(".categoryName").remove();
     }
+
   });
+
+  if (document.querySelector(".logo-main"))document.querySelector(".logo-main").classList.remove("logo-main");
+
+  /* Если ничего не нашлось поиском */
+  if (!servicesContainer.querySelector(".card") && searched){
+    const span =  document.createElement('span');
+    span.classList.add("zero-search");
+    span.textContent = "По вашему запросу ничего не найдено";
+    servicesContainer.appendChild(span)
+  }
   
   hideSkeletonsAndReplace("services");
   equalizeSubtitles();

@@ -445,7 +445,7 @@ const getCurState = ()=>{
 //
 const isAdmin = ()=>{
     if (!config.adminPanelOn){
-        localStorage.removeItem("token");
+        localStorage.removeItem("token")
         return false;
     }
     return window.localStorage.getItem("isAdmin") === "true"

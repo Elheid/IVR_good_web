@@ -443,6 +443,7 @@ const createExtraButtons = ()=>{
 
 const equalizeSampleHeight = ()=>{
     let cards = document.querySelectorAll('.card');
+
     if (cards.length > 1){
             
         
@@ -539,7 +540,7 @@ const addCadrdSample = (list)=>{
             document.querySelector(".catalogs-list").classList.add("hidden");
         }
         document.addEventListener("resize", equalizeSampleHeight)
-        equalizeSampleHeight();
+
 
         createForm();
 
