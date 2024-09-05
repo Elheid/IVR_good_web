@@ -1,14 +1,25 @@
 version: '3.8'
 
 services:
-  ivr-app-testbrunch:
+  ivr-app-prod:
     build:
       context: .
-      dockerfile: Dockerfile
-    container_name: ivr-app-testbrunch
+      dockerfile: Dockerfile.prod
+    container_name: ivr-app-prod
     restart: always
     ports:
-      - "8082:80"
+      - "8081:80"
+    networks:
+      - ivr-app
+    
+  ivr-app-admin:
+    build:
+      context: .
+      dockerfile: Dockerfile.admin
+    container_name: ivr-app-admin
+    restart: always
+    ports:
+      - "8080:80"
     networks:
       - ivr-app
 
