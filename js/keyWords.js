@@ -1,15 +1,15 @@
 
 
 const createTag = (name)=>{
-    /*const tagTemplate = document.getElementById("tag");
+    const tagTemplate = document.getElementById("tag");
     const newTag = document.importNode(tagTemplate.content.querySelector("li"), true);
     const title = newTag.querySelector(".tag-name");
     title.textContent = name;
-    return newTag;*/
+    return newTag;
 }
 
 const addDeleteTagButton = ()=>{
-    /*const input = document.querySelector('.search-input');
+    const input = document.querySelector('.search-input');
     const deliteTags = document.querySelectorAll(".delete-tag");
 
     deliteTags.forEach((deleteButton)=>{
@@ -21,27 +21,27 @@ const addDeleteTagButton = ()=>{
         input.value = newValue;
         tagList.removeChild(tag);
       })
-    })*/
+    })
 }
 
 const addNewTags =  (keyWords)=>{
     const input = document.querySelector('.search-input');
-    //const tagList = document.querySelector(".tag-list");
+    const tagList = document.querySelector(".tag-list");
     keyWords.forEach((name) => {
-       // const tag =createTag(name);
-        //tagList.appendChild(tag);
+        const tag =createTag(name);
+        tagList.appendChild(tag);
         input.value += name + " ";
     })
-    //addDeleteTagButton();
+    addDeleteTagButton();
 };
 
 const removeAllTags =  (keyWords)=>{
-    /*const tagList = document.querySelector(".tag-list");
-    tagList.value = "";*/
+    const tagList = document.querySelector(".tag-list");
+    tagList.value = "";
 };
 
 const removeGastrualSearch = ()=>{
-    //document.removeEventListener('click', addNewTags);
+    document.removeEventListener('click', addNewTags);
 }
 
 export {addNewTags, removeAllTags, removeGastrualSearch}

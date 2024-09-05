@@ -107,9 +107,9 @@ const toggleLogoLocation = ()=>{
 }
 
 
-document.addEventListener('DOMContentLoaded', toggleLogoLocation)
-document.addEventListener('popstate', toggleLogoLocation);
-document.addEventListener('goBackEvent', toggleLogoLocation);
+//document.addEventListener('DOMContentLoaded', toggleLogoLocation)
+//document.addEventListener('popstate', toggleLogoLocation);
+//document.addEventListener('goBackEvent', toggleLogoLocation);
 //fetch(`https://ivr-back.ds-hub.ru/qdrant/sync`, {
 //  method: 'POST',
 //  body:null,

@@ -19,10 +19,21 @@ const updateSkeletonElementCount  =(count)=>{
         const skeletonCount = skeleton.querySelector("ul").children.length;
         const countOfReplace = count - skeletonCount;
         const isClear = skeleton.classList.contains("clear-language");
+        if (countOfReplace >= 0){
         const fragmentToAppend = createGastrualSkeleton(countOfReplace, isClear);
         skeleton.querySelector("ul").appendChild(fragmentToAppend);
         // Симулируем загрузку данных с помощью setTimeout
         // Скрываем скелетон и показываем настоящий контент
+        }
+        else {
+            const absQuantity = Math.abs(countOfReplace);
+            const ul = skeleton.querySelector("ul");
+            for (let i = 0; i < absQuantity; i++) {
+              if (ul.children.length > 0) {
+                ul.removeChild(ul.lastElementChild);
+              }
+            }
+        }
 }
 
 const loadSkeletons = ()=>{

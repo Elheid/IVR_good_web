@@ -36,9 +36,9 @@ if (!window.location.href.includes("services") || window.location.href.includes(
     createButtons();
 }
 
-const main = document.querySelector(".main-footer");//.main-content
-main.appendChild(createLogo());
-main.querySelector(".logo-container").classList.add("logo-main");
+//const main = document.querySelector(".main-footer");//.main-content
+//main.appendChild(createLogo());
+//main.querySelector(".logo-container").classList.add("logo-main");
 
 
 export{loadSavedData};
