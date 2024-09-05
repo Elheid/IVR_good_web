@@ -2,12 +2,36 @@
 import { getCellNameById, getParamFromURL, isAdmin, tryJsonParse } from "../util.js";
 
 
-const iconInsertion = (textFromBd, iconLinks)=>{
+
+const createLogo = ()=>{
+    const div = document.createElement("div");
+    div.classList.add("logo-container");
+    if (localStorage.getItem("language") === "clear-language" && window.location.href.indexOf("services")>=0 || (window.location.href.indexOf("instruction")>=0)) div.classList.add("logo-in-clear");
+    else div.classList.remove("logo-in-clear");
+    div.classList.add("inner-box");
+    div.classList.add("box-of-content");
+
+    const logo = document.createElement("img");
+    logo.classList.add("logo");
+    logo.src = "/img/logoWhite.svg";
+
+    const text = document.createElement("span");
+    text.classList.add("logo-text");
+    text.textContent = "Модель распознавания русского жестового языка разработана командой:";
+
+
+    div.appendChild(text);
+    div.appendChild(logo);
+
+    return div;
+}
+
+const iconInsertion = (textFromBd, iconLinks) => {
     const iconRegex = /\\icon(\d+)/g;
 
     // Массив для сохранения найденных значений
 
-    const replacedText =  textFromBd.replace(iconRegex, (match, p1) => {
+    const replacedText = textFromBd.replace(iconRegex, (match, p1) => {
         let icon = iconLinks[Number(p1)];
         icon = tryJsonParse(icon, "link")
         return `<img class="icons" src="${icon}" alt="icon${p1}">`;
@@ -16,26 +40,26 @@ const iconInsertion = (textFromBd, iconLinks)=>{
     return replacedText;
 }
 
-const insertBlocks = (text, textFromBd, icons)=>{
+const insertBlocks = (text, textFromBd, icons) => {
     let textOfBlocks = extractSubstrings(textFromBd)
-    if (!textFromBd.includes("\n-")){
+    if (!textFromBd.includes("\n-")) {
         textOfBlocks = extractSubstringsInfo(textFromBd);
     }
-    if (!textFromBd.includes("\icon")){
+    if (!textFromBd.includes("\icon")) {
         textOfBlocks = textFromBd;
         text.innerHTML = (textOfBlocks);
     }
-    else{
+    else {
         const blocks = partingByBlocks(textOfBlocks, icons);
-        for (var i = 0; i < blocks.length; i++){
+        for (var i = 0; i < blocks.length; i++) {
             text.appendChild(blocks[i]);
         }
     }
 }
 
-const partingByBlocks = (blocksOfText, icons)=>{
+const partingByBlocks = (blocksOfText, icons) => {
     const blocks = [];
-    for (var i = 0; i < blocksOfText.length; i++){
+    for (var i = 0; i < blocksOfText.length; i++) {
         let text = blocksOfText[i];
         const block = document.createElement('span');
         block.classList.add("text-icon-block")
@@ -45,7 +69,7 @@ const partingByBlocks = (blocksOfText, icons)=>{
     return blocks;
 }
 
-const extractSubstrings = (input)=>{
+const extractSubstrings = (input) => {
     const regex = /\n-.*?\n\\icon\d+/gs;
     const blocks = [];
     let lastIndex = 0;
@@ -53,21 +77,21 @@ const extractSubstrings = (input)=>{
     const matches = input.matchAll(regex);
 
     for (const match of matches) {
-    // Добавляем текст перед блоком с иконкой как отдельный блок
-    if (match.index > lastIndex) {
-        blocks.push(input.slice(lastIndex, match.index).trim());
-    }
+        // Добавляем текст перед блоком с иконкой как отдельный блок
+        if (match.index > lastIndex) {
+            blocks.push(input.slice(lastIndex, match.index).trim());
+        }
 
-    // Добавляем найденный блок с иконкой
-    blocks.push(match[0].trimStart());
+        // Добавляем найденный блок с иконкой
+        blocks.push(match[0].trimStart());
 
-    // Обновляем индекс для следующего поиска
-    lastIndex = match.index + match[0].length;
+        // Обновляем индекс для следующего поиска
+        lastIndex = match.index + match[0].length;
     }
 
     // Добавляем оставшийся текст как отдельный блок
     if (lastIndex < input.length) {
-    blocks.push(input.slice(lastIndex).trim());
+        blocks.push(input.slice(lastIndex).trim());
     }
 
     //console.log(blocks);
@@ -75,7 +99,7 @@ const extractSubstrings = (input)=>{
 }
 
 
-const extractSubstringsInfo = (input)=>{
+const extractSubstringsInfo = (input) => {
     // Регулярное выражение для поиска блоков
     const regex = /.*?\n\\icon\d+/gs;
 
@@ -87,7 +111,7 @@ const extractSubstringsInfo = (input)=>{
 }
 
 
-const createRes = (result, clear)=>{
+const createRes = (result, clear) => {
     const template = document.querySelector('#result').content;
     const res = document.importNode(template, true);
     const gif = res.querySelector("video");
@@ -96,23 +120,23 @@ const createRes = (result, clear)=>{
     const description = tryJsonParse(result.description, "description");
     const gifLink = tryJsonParse(result.gifLink, "resVideo");
 
-    if (clear !== "true"){
+    if (clear !== "true") {
         gif.src = gifLink;//"img/gastrual2.jpg";
-        gif.setAttribute("type","video/mp4")
+        gif.setAttribute("type", "video/mp4")
         gif.muted = true;
         gif.classList.add("result-video");
         gif.play().catch(error => {
             console.log('Autoplay failed:', error);
         });
     }
-    else{
+    else {
         gif.classList.add("hidden");
     }
     const text = res.querySelector(".manual-text");
     const cardTitle = document.querySelector(".res-title");
     //cardTitle.classList.remove("card-title");
     cardTitle.classList.add("card-title");
-    cardTitle.textContent = title; 
+    cardTitle.textContent = title;
 
     //const textFromBd = iconInsertion(result.description, result.iconLinks);
     const textFromBd = description;
@@ -121,19 +145,18 @@ const createRes = (result, clear)=>{
 
 
     const popup = document.getElementById("popup");
-    if (result.additionIds !== null)
-    {
+    if (result.additionIds !== null) {
         popup.setAttribute("addition-info-id", result.additionIds);
 
     }
-    else{
+    else {
         popup.setAttribute("addition-info-id", null);
     }
 
     return res;
 }
 
-const infoRes = (info)=>{
+const infoRes = (info) => {
     const template = document.querySelector('#result-info').content;
     const res = document.importNode(template, true);
     const gif = res.querySelector("video");
@@ -156,24 +179,24 @@ const infoRes = (info)=>{
     const cardTitle = document.querySelector(".popup-title");
     /*const button = res.querySelector("button");
     button.innerHTML = "";*/
-    
-    cardTitle.textContent = title; 
-    if (getParamFromURL()[1] == "true"){
+
+    cardTitle.textContent = title;
+    if (getParamFromURL()[1] == "true") {
         gif.classList.add("hidden");
-    }else{
+    } else {
         gif.src = gifLink;
     }
-    
+
     //text.innerHTML = iconInsertion(info.description, info.iconLinks);
     const undefindCheck = typeof description !== 'undefined';
     const emptyString = description !== "";
-    if ( emptyString && undefindCheck){
+    if (emptyString && undefindCheck) {
         insertBlocks(text, description, info.iconLinks);
     }
     return res;
 }
 
-const createInfoCard = (info)=>{
+const createInfoCard = (info) => {
     const infoTemplate = document.querySelector('#additional-info').content.querySelector('li');
 
     const title = tryJsonParse(info.title, "title")
@@ -198,11 +221,11 @@ const createInfoCard = (info)=>{
     return infoCard;
 };
 
-const createAndUpdateInfoCard = (data)=>{
+const createAndUpdateInfoCard = (data) => {
     const card = createInfoCard(data);
 
     const clear = getParamFromURL()[1];
-    if (clear === "true"){
+    if (clear === "true") {
         card.classList.add("clear-card")
         var img = document.createElement('img');
         img.classList.add('icon-in-card');
@@ -215,14 +238,14 @@ const createAndUpdateInfoCard = (data)=>{
 }
 
 
-const createPlayButton = ()=>{
+const createPlayButton = () => {
     var playButton = document.createElement('img');
     playButton.classList.add('play-button');
     playButton.src = 'img/play2.svg';
     return playButton;
 }
 
-const createVidContainer = ()=>{
+const createVidContainer = () => {
     var videoOverlay = document.createElement('div');
     videoOverlay.classList.add('video-overlay');
 
@@ -232,7 +255,7 @@ const createVidContainer = ()=>{
     // Создаем video элемент
     var videoElement = document.createElement('video');
     videoElement.classList.add('gif');
-    videoElement.src = ''; 
+    videoElement.src = '';
 
     // Добавляем атрибут playsinline
     videoElement.setAttribute('playsinline', true);
@@ -244,7 +267,23 @@ const createVidContainer = ()=>{
     return videoOverlay;
 }
 
-const createClarLangCard = (cardParent, title, count, iconGif, word = "услуг: ")=>{
+const getCurList = () => {
+    const viewChooseSection = document.querySelector('.view-choose');
+
+    if (viewChooseSection) {
+        const divs = viewChooseSection.querySelectorAll('div:not(.hidden)');
+
+        divs.forEach(div => {
+            const ul = div.querySelector('ul');
+            if (ul && ul.children.length > 0 && !ul.classList.contains('hidden')) {
+                return ul;
+            }
+        });
+    }
+}
+
+
+const createClarLangCard = (cardParent, title, count, iconGif, word = "услуг: ") => {
 
     title = tryJsonParse(title, "title")
     iconGif = tryJsonParse(iconGif, "image")
@@ -269,23 +308,23 @@ const createClarLangCard = (cardParent, title, count, iconGif, word = "услу�
         svgUrl = 'https://storage.yandexcloud.net/akhidov-ivr/icon6.svg';
     }*/
 
-    const changeSvgAttributes = (id)=>{
+    const changeSvgAttributes = (id) => {
         //const svgElement = document.querySelector('svg');
         let svgElement = document.getElementById(id)
-        if (svgElement){
+        if (svgElement) {
             let width = svgElement.getAttribute("width");
             let height = svgElement.getAttribute("height");
-            if (width.indexOf("%")>0){
-                width = width.slice(0, width.length-1)
+            if (width.indexOf("%") > 0) {
+                width = width.slice(0, width.length - 1)
             }
-            if (height.indexOf("%")>0){
-                height = height.slice(0, height.length-1)
+            if (height.indexOf("%") > 0) {
+                height = height.slice(0, height.length - 1)
             }
 
             svgElement.setAttribute("viewBox", `0 0 ${width} ${height}`)
             svgElement.removeAttribute("width");
             svgElement.removeAttribute("width");
-        
+
             svgElement.setAttribute("width", "100%");
             svgElement.setAttribute("height", "100%")
         }
@@ -362,10 +401,12 @@ const createClarLangCard = (cardParent, title, count, iconGif, word = "услу�
         }
     }
     if (iconGif) {
+        //card.setAttribute("data-iconSrc", iconGif)
         loadSVG(svgUrl);
+        //repairSvgs();
     }
     card.appendChild(iconContainer);
-    
+
     //loadAndModifySVG(svgUrl);
 
 
@@ -390,7 +431,7 @@ const createClarLangCard = (cardParent, title, count, iconGif, word = "услу�
 
     var arrow = document.createElement('img');
     arrow.classList.add('arrow-img');
-    arrow.src = "/img/arrow.svg"; 
+    arrow.src = "/img/arrow.svg";
 
 
     //cardFooter.appendChild(icon);
@@ -401,7 +442,7 @@ const createClarLangCard = (cardParent, title, count, iconGif, word = "услу�
     var cardFooter = document.createElement('div');
     cardFooter.classList.add("card-footer");
 
-    if(cardParent.classList.contains("catalog-card")){
+    if (cardParent.classList.contains("catalog-card")) {
         var countServices = document.createElement('p');
         countServices.classList.add('count-services');
         countServices.textContent = word + count;
@@ -414,13 +455,13 @@ const createClarLangCard = (cardParent, title, count, iconGif, word = "услу�
     return cardParent;
 }
 
-const createSubstrate = ()=>{
-   /* <div class="substrate">
-    <h3 class="card-title card-description">Зашлушка</h3>
-    <img src="/img/arrow-right.svg">
-  </div>*/
+const createSubstrate = () => {
+    /* <div class="substrate">
+     <h3 class="card-title card-description">Зашлушка</h3>
+     <img src="/img/arrow-right.svg">
+   </div>*/
 
-  
+
     var container = document.createElement('div');
     container.classList.add('substrate');
 
@@ -429,35 +470,36 @@ const createSubstrate = ()=>{
     title.classList.add('card-description');
 
     var arrow = document.createElement('img');
-    arrow.src = "/img/arrow-right.svg"; 
+    arrow.src = "/img/arrow-right.svg";
 
     container.appendChild(title);
     container.appendChild(arrow);
     return container;
 }
 
-const createCatalogCard = (catalog, clearLanguage)=>{
+const createCatalogCard = (catalog, clearLanguage) => {
 
     const catalogTemplate = document.querySelector('#catalog-template').content.querySelector('li');
     var cardCatalog = document.importNode(catalogTemplate, true);
 
     cardCatalog.setAttribute("catalog-id", catalog.id);
+    cardCatalog.setAttribute("children-count", catalog.itemsInCategoryIds.length);
 
     const cardButton = cardCatalog.querySelector(".card-button");
-    
+
     //const imgOrGif = cardCatalog.querySelector('img.catalog-gif');
 
     const title = tryJsonParse(catalog.title, "title");
-   
+
     if (catalog.gifPreview) cardButton.setAttribute("data-gifSrc", tryJsonParse(catalog.gifPreview, "video"));
     if (catalog.mainIconLink) cardButton.setAttribute("data-iconSrc", tryJsonParse(catalog.mainIconLink, "image"))
 
-    if (!(clearLanguage)){
+    if (!(clearLanguage)) {
         //imgOrGif.classList.add("hidden");
         cardButton.appendChild(createVidContainer());
         cardButton.appendChild(createSubstrate());
-        
-       // cardCatalog.appendChild(createVidContainer());
+
+        // cardCatalog.appendChild(createVidContainer());
         const vidOrGif = cardCatalog.querySelector('video.gif');
         const cardTitle = cardCatalog.querySelector('.card-description');
 
@@ -468,25 +510,25 @@ const createCatalogCard = (catalog, clearLanguage)=>{
         vidOrGif.loop = true;
         vidOrGif.muted = true;
         vidOrGif.autoplay = true;
-        
+
 
         cardTitle.textContent = title;
     }
-    else{
+    else {
         const mainIcon = tryJsonParse(catalog.mainIconLink, "image")
-        if (!mainIcon){
+        if (!mainIcon) {
             mainIcon = "/img/close.jpg"
         }
-        if (mainIcon.length != 0){
-            if (catalog.childrenCategoryIds && catalog.childrenCategoryIds .length !== 0){
+        if (mainIcon.length != 0) {
+            if (catalog.childrenCategoryIds && catalog.childrenCategoryIds.length !== 0) {
                 var clearCard = createClarLangCard(cardCatalog, title, catalog.childrenCategoryIds.length, mainIcon, "подкатегорий: ");
                 cardCatalog = (clearCard);
-            }else{
+            } else {
                 var clearCard = createClarLangCard(cardCatalog, title, catalog.itemsInCategoryIds.length, mainIcon);
                 cardCatalog = (clearCard);
             }
         }
-        else{
+        else {
             var clearCard = createClarLangCard(cardCatalog, title, catalog.itemsInCategoryIds.length);
             cardCatalog = (clearCard);
         }
@@ -494,10 +536,10 @@ const createCatalogCard = (catalog, clearLanguage)=>{
         //imgOrGif.src = "img/clear.jpg";
     }
 
-    if (catalog.childrenCategoryIds){
-        if (catalog.childrenCategoryIds.length !== 0){
+    if (catalog.childrenCategoryIds) {
+        if (catalog.childrenCategoryIds.length !== 0) {
             //console.log("У " + title +" - есть подкатегории");
-    
+
             const subCategoryContainer = document.createElement('div');
             subCategoryContainer.classList.add("sub-catalogs");
             const language = localStorage.getItem("language");
@@ -509,13 +551,13 @@ const createCatalogCard = (catalog, clearLanguage)=>{
             listSubCategory.classList.add("hidden");
             subCategoryContainer.appendChild(listSubCategory);
             document.querySelector(".view-choose").insertBefore(subCategoryContainer, document.getElementById("card-form-container"))
-    
+
             cardCatalog.classList.add("has-sub-catalogs");
             subCategoryContainer.setAttribute("parent-id", catalog.id);
         }
     }
-    if(catalog.parentCategoryId){
-        if (catalog.parentCategoryId !== 0){
+    if (catalog.parentCategoryId) {
+        if (catalog.parentCategoryId !== 0) {
             //console.log( title +" -подкатегория");
             cardCatalog.classList.add("sub-catalog-card")
             cardCatalog.setAttribute("parent-id", catalog.parentCategoryId);
@@ -525,34 +567,34 @@ const createCatalogCard = (catalog, clearLanguage)=>{
     return cardCatalog;
 };
 
-const addNameIfQuery = (service)=>{
+const addNameIfQuery = (service) => {
     const subCatalogs = document.querySelectorAll("div.sub-catalogs");
     let isSubCatalog = false;
     let subParentId;
-    subCatalogs.forEach((subCatalog)=>{
-      const subWithSameId = subCatalog.querySelector(`[catalog-id="${service.categoryId}"]`);
-      if (subWithSameId){
-          isSubCatalog = true;
-          subParentId = subWithSameId.getAttribute("parent-id");
-      } 
+    subCatalogs.forEach((subCatalog) => {
+        const subWithSameId = subCatalog.querySelector(`[catalog-id="${service.categoryId}"]`);
+        if (subWithSameId) {
+            isSubCatalog = true;
+            subParentId = subWithSameId.getAttribute("parent-id");
+        }
     });
     let categoryName = "";
     const prevCellName = getCellNameById(service.categoryId);
-    if (isSubCatalog){
-      categoryName = getCellNameById(subParentId);
-      if (prevCellName !== service.title){
-        categoryName += " : " + prevCellName;
-      }
+    if (isSubCatalog) {
+        categoryName = getCellNameById(subParentId);
+        if (prevCellName !== service.title) {
+            categoryName += " : " + prevCellName;
+        }
     }
-    else{
-      if (prevCellName !== service.title){
-        categoryName += " " + prevCellName;
-      }
+    else {
+        if (prevCellName !== service.title) {
+            categoryName += " " + prevCellName;
+        }
     }
     return categoryName;
 }
 
-const createServiceCard = (service, clearLanguage)=>{
+const createServiceCard = (service, clearLanguage) => {
     const serviceTemplate = document.querySelector('#service-template').content.querySelector('li');
     var cardService = document.importNode(serviceTemplate, true);
 
@@ -567,16 +609,16 @@ const createServiceCard = (service, clearLanguage)=>{
     if (service.gifLink) cardButton.setAttribute("data-resSrc", tryJsonParse(service.gifLink, "resVideo"));
 
 
-    if (!(clearLanguage)){
+    if (!(clearLanguage)) {
         const query = window.location.href;
 
         cardButton.appendChild(createVidContainer());
-        if (query.includes("query")){
+        if (query.includes("query")) {
             const categoryName = addNameIfQuery(service);
-           
+
             var categoryNameSpan = document.createElement('h3');
             categoryNameSpan.classList.add("categoryName")
-            categoryNameSpan.textContent = categoryName ;
+            categoryNameSpan.textContent = categoryName;
             cardButton.append(categoryNameSpan);
             //service.title = categoryName + " -> " + service.title;
         }
@@ -589,35 +631,35 @@ const createServiceCard = (service, clearLanguage)=>{
         vidOrGif.loop = true;
         vidOrGif.muted = true;
         vidOrGif.autoplay = true;
-        
+
 
     }
-    else{
+    else {
 
         //imgOrGif.src = "img/clear.jpg";
         //var clearCard = createClarLangCard(cardService, service.title, 
-            //service.itemsInCategoryIds ? service.itemsInCategoryIds.length : 0);
+        //service.itemsInCategoryIds ? service.itemsInCategoryIds.length : 0);
         const mainIcon = tryJsonParse(service.mainIconLink, "image")
-        if (!mainIcon){
+        if (!mainIcon) {
             service.mainIconLink = "/img/close.jpg"
         }
-        if (mainIcon.length != 0){
+        if (mainIcon.length != 0) {
             var clearCard = createClarLangCard(cardService, title, service.itemsInCategoryIds ? service.itemsInCategoryIds.length : 0, mainIcon);
             cardService = (clearCard);
-            }
-        else{
+        }
+        else {
             var clearCard = createClarLangCard(cardService, title, service.itemsInCategoryIds ? service.itemsInCategoryIds.length : 0);
             cardService = (clearCard);
         }
 
         const query = window.location.href;
-        if (query.includes("query")){
-          const categoryName = addNameIfQuery(service);
-          var categoryNameSpan = document.createElement('h3');
-          categoryNameSpan.classList.add("categoryName")
-          categoryNameSpan.textContent = categoryName;
-          cardService.querySelector(".card-header").append(categoryNameSpan);
-          //service.title = categoryName + " -> " + service.title;
+        if (query.includes("query")) {
+            const categoryName = addNameIfQuery(service);
+            var categoryNameSpan = document.createElement('h3');
+            categoryNameSpan.classList.add("categoryName")
+            categoryNameSpan.textContent = categoryName;
+            cardService.querySelector(".card-header").append(categoryNameSpan);
+            //service.title = categoryName + " -> " + service.title;
         }
 
 
@@ -633,25 +675,25 @@ const createServiceCard = (service, clearLanguage)=>{
 
     const nextButton = cardService.querySelector(".service-button");
 
-    nextButton.addEventListener("click", (evt)=>{
-    //const serviceName = evt.target.parentNode.querySelector(".card-description").textContent;
-    const liEl = evt.target.closest('li');
-    const serviceId = liEl.getAttribute("service-id");
-    const language = document.querySelector(".services");
+    nextButton.addEventListener("click", (evt) => {
+        //const serviceName = evt.target.parentNode.querySelector(".card-description").textContent;
+        const liEl = evt.target.closest('li');
+        const serviceId = liEl.getAttribute("service-id");
+        const language = document.querySelector(".services");
         //header save
-    const saveData = (data)=>{
-        localStorage.setItem("header", JSON.stringify(data));
-    }
-        
-    const data = document.querySelector(".header-list")
-    //window.location.href = destinationClear;
-    const detaHTML = data.outerHTML;
-    saveData(detaHTML);
+        const saveData = (data) => {
+            localStorage.setItem("header", JSON.stringify(data));
+        }
 
-    localStorage.setItem("pre-res-search", window.location.search)
+        const data = document.querySelector(".header-list")
+        //window.location.href = destinationClear;
+        const detaHTML = data.outerHTML;
+        saveData(detaHTML);
 
-    window.location.href = `result.html?serviceId=${encodeURIComponent(serviceId)}&language=${encodeURIComponent(
-    language.classList.contains('clear-language'))}&`;
+        localStorage.setItem("pre-res-search", window.location.search)
+
+        window.location.href = `result.html?serviceId=${encodeURIComponent(serviceId)}&language=${encodeURIComponent(
+            language.classList.contains('clear-language'))}&`;
 
     })
 
@@ -661,72 +703,72 @@ const createServiceCard = (service, clearLanguage)=>{
 
 const loadHeaderData = () => {
     const savedData = localStorage.getItem("header");
-      if (savedData != null){
+    if (savedData != null) {
         return savedData;
-      }
+    }
 }
-    
 
-const rowButtonEvent = (listOfCards, remove ,marginTop, marginTop2)=>{
-    if(listOfCards[1].children.length === 0){
+
+const rowButtonEvent = (listOfCards, remove, marginTop, marginTop2) => {
+    if (listOfCards[1].children.length === 0) {
         listOfCards = listOfCards[0];
     }
-    else{
+    else {
         listOfCards = listOfCards[1];
     }
-    if (remove){
+    if (remove) {
         listOfCards.classList.remove("list");
     }
-    else{
+    else {
         listOfCards.classList.add("list");
     }
-    
+
     const list = listOfCards.children;
-    for (var i = 0; i < list.length; i++){
+    for (var i = 0; i < list.length; i++) {
         const card = list[i];
-        
-        if (card.querySelector(".card-button"))card.querySelector(".card-button").style.marginTop = marginTop;
+
+        if (card.querySelector(".card-button")) card.querySelector(".card-button").style.marginTop = marginTop;
         document.querySelector(".view-choose").style.marginTop = marginTop2;
     };
 }
 
-const changeVidLists = (lists)=>{
-    for (var i = 0; i < lists.length; i++){
+const changeVidLists = (lists) => {
+    for (var i = 0; i < lists.length; i++) {
         lists[i].style = "width: 80%; margin-left: auto; margin-right: auto;";
     }
 }
-const returnVidLists = (lists)=>{
-    for (var i = 0; i < lists.length; i++){
+const returnVidLists = (lists) => {
+    for (var i = 0; i < lists.length; i++) {
         lists[i].style = "";
     }
 }
 
-const adminButtonsCrutch = ()=>{
-    if (isAdmin()){
+const adminButtonsCrutch = () => {
+    if (isAdmin()) {
         document.querySelector(".toggleContainer").click();
         document.querySelector(".toggleContainer").click();
     }
 }
 
-const createEventsButtons = (listOfCards)=>{
+const createEventsButtons = (listOfCards) => {
     const catalog = document.querySelector(".catalogs");
     const twoInRow = document.querySelector(".two-in-row");
     const oneInRow = document.querySelector(".one-in-row");
 
-    if (!catalog.classList.contains("clear-language")){
-        oneInRow.addEventListener("click", ()=>{
+    if (!catalog.classList.contains("clear-language")) {
+        oneInRow.addEventListener("click", () => {
             changeVidLists(listOfCards);
-            rowButtonEvent(listOfCards, false,"20px", "8.6%");
+            rowButtonEvent(listOfCards, false, "20px", "8.6%");
             adminButtonsCrutch();
 
         })
-        twoInRow.addEventListener("click", ()=>{
+        twoInRow.addEventListener("click", () => {
             returnVidLists(listOfCards);
             rowButtonEvent(listOfCards, true, "0", "6%");
             adminButtonsCrutch();
         })
 
-    }else{
+    } else {
         twoInRow.classList.add("opacity");
         oneInRow.classList.add("opacity");
     }
@@ -737,19 +779,19 @@ const createEventsButtons = (listOfCards)=>{
     margin-right: auto;*/
 }
 
-const createGoButtons = ()=>{
+const createGoButtons = () => {
     const lists = document.querySelectorAll(".list-of-cards:not(.sceleton-list)");
     createEventsButtons(lists);
 }
 
-const createGastrualSkeleton = (count, isClear)=>{
+const createGastrualSkeleton = (count, isClear) => {
     let template = document.querySelector('#gastrual-skeleton').content;
-    if (isClear){
+    if (isClear) {
         template = document.querySelector('#clear-skeleton').content;
     }
     var fragment = document.createDocumentFragment();
 
-    for(var i = 0; i < count; i++){
+    for (var i = 0; i < count; i++) {
         const skeleton = document.importNode(template, true);
         fragment.appendChild(skeleton);
     }
@@ -758,6 +800,7 @@ const createGastrualSkeleton = (count, isClear)=>{
 
 
 
-export {createRes, createGoButtons, createServiceCard, createGastrualSkeleton, createCatalogCard, createInfoCard, infoRes, loadHeaderData,
-    createAndUpdateInfoCard, extractSubstrings,iconInsertion,
+export {
+    createRes, createGoButtons, createServiceCard, createGastrualSkeleton, createCatalogCard, createInfoCard, infoRes, loadHeaderData,
+    createAndUpdateInfoCard, extractSubstrings, iconInsertion, createLogo
 }

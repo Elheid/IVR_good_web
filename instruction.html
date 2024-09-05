@@ -19,7 +19,7 @@
           <img src="img/arrow-left-white.svg">
       </button>
       <button class="go-button next-button">
-          <img src="img/arrow-left-white.svg">
+          <img class="next-button-img" src="img/arrow-left-white.svg">
       </button>
   </div>
     <header class="main-header">
@@ -32,14 +32,11 @@
             </h3>   
             <!--<video src="img/long.mp4" autoplay loop muted> </video>-->
             <div class="text-container">
-              <pre class="instruction">
-    Для ввода запросов с использованием жестового языка вам нужно:
-  
-    1. Перейти дальше, на страницу выбор категорий
-  
-    2. Выбрать кнопку со знаком камеры (📸)
-  
-    3. Затем нажать кнопку запись видео (▶)
+            <pre class="instruction"><span>Для ввода запросов с использованием жестового языка вам нужно:</span>
+
+   <span>1. Перейти дальше, на страницу выбор категорий, нажав кнопку далее <button class="go-button next-button instruct-sample"><img class="next-button-img" src="img/arrow-left-white.svg"></button></span>
+   <span>2. Выбрать кнопку со знаком камеры <button id="showPopup" type="button"><span class="button-title">Поиск по РЖЯ</span><img src="img/record.svg" alt="Кнопка поиска жестами"></button></span>
+   <span class="play-span">3. Затем нажать кнопку запись видео <button class="start-record"><img src="img/playSimple.svg" width="32px" height="30px"><span class="button-title back-title">Начать запись</span></button></span>
               </pre>
             </div>
             <!--<button class="more" type="button">Читать дальше</button>

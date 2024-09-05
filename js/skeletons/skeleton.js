@@ -45,8 +45,13 @@ const loadSkeletons = ()=>{
         }*/
     }
 }
+
+
+
 const addSkeletons = ()=>{
     document.addEventListener('DOMContentLoaded', loadSkeletons);
+    let typeContent = document.querySelectorAll('video');
+    if (!typeContent) typeContent = document.querySelectorAll('img');
     const videos = document.querySelectorAll('.video');
     if(videos){
         videos.forEach(video => {
@@ -59,6 +64,10 @@ const addSkeletons = ()=>{
         });
     }
 }
+
+document.addEventListener("catalog-click", addSkeletons);
+document.addEventListener("catalog-click", (event)=> updateSkeletonElementCount(event.detail.children))
+
 
 const hideSkeletonsAndReplace = (classToReplace)=>{
     const skeleton = determineSkeleton();
