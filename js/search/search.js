@@ -81,7 +81,7 @@ const searchResult = (query)=>
         })
         .catch((err)=> {
             throw new Error(err);
-        });
+});
 
 const searchSimilarResult = (query)=>
     getSimilarService(query)
