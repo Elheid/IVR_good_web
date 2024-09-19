@@ -4,3 +4,5 @@ export const config = {
     defaultGoHomeTimer:600000,
     adminPanelOn: true,
 };
+
+
