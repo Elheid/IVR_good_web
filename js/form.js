@@ -1,5 +1,5 @@
 import { createCatalogCard, createServiceCard, createAndUpdateInfoCard, extractSubstrings, iconInsertion } from "./main/createrObj.js";
-import { getCatalogId, getCellNameById, getCatalogsId, getCurState, getLastSubCatalog, getLastParam, tryJsonParse, instructionCategory, instructionSubCategory, instructionService, instructionInfo, replaceWordsWithSpan } from "./util.js";
+import { idCreater, getCatalogId, getCellNameById, getCatalogsId, getCurState, getLastSubCatalog, getLastParam, tryJsonParse, instructionCategory, instructionSubCategory, instructionService, instructionInfo, replaceWordsWithSpan } from "./util.js";
 import { showInfoCard } from "./showInfo.js";
 import { createCategory, updateCategoryMainIcon, updateCategoryGifPreview,
     createService, addServiceCategory, removeServiceCategory,  addServiceIcon, updateServiceMainIcon, updateServiceGif, updateServiceDescription, updateServiceGifPreview, clearServiceIcons,
@@ -78,9 +78,12 @@ const handleUpdate =  (condition, updateFunc, updateEvent) => {
 const setIdAndAddIcons = async(type, data, iconLinks)=>{
     setIdAfterAdd(type, data.id);
     for (const link of iconLinks) {
-        if (type === "services-list") await addServiceIcon(data.id, { link });
-        if (type === "info-cards") await addAdditionIcon(data.id, { link });
-        window.location.reload();
+        if (type === "services-list") {
+            await addServiceIcon(data.id, { link });
+        }
+        if (type === "info-cards") {
+            await addAdditionIcon(data.id, { link });
+        }
     }
 }
 
@@ -301,11 +304,11 @@ const submitForm = async (event) => {
     
             if (description && iconLinks.length !== 0) {
                 if (state === 'services-list') {
-                    promises.push(clearServiceIcons(id).then(() => {
+                    await clearServiceIcons(id).then(() => {
                         for (const link of iconLinks) {
                             promises.push(addServiceIcon(id, { link }));
                         }
-                    }));
+                    });
                 }
                 if (state === 'info-cards') {
                     promises.push(clearAdditionIcons(id).then(() => {
@@ -317,7 +320,7 @@ const submitForm = async (event) => {
     
             }
                 // Ожидаем завершения всех промисов
-                /* await*/ Promise.all(promises).then(()=>{
+                /* await*/ Promise.allSettled(promises).then(()=>{
                 /*form.removeEventListener('submit', submitForm);
                 document.getElementById('card-form-container').classList.add('hidden');
                 form.reset();
@@ -378,11 +381,12 @@ const assembleDescription = ()=>{
     return res;
 }
 
-let fileInputCounter = 2;
-
+let fileInputCounter = idCreater();
 const updateFileInputAttributes = (listItem)=> {
-    fileInputCounter++;
-    const uniqueId = `fileInputIcon${fileInputCounter}`;
+    //fileInputCounter++;
+    
+    const id = fileInputCounter() + 1;
+    const uniqueId = `fileInputIcon${id}`;
     
     const fileInput = listItem.querySelector('input[type="file"]');
     let fileLabel = listItem.querySelector('label.file-lable');

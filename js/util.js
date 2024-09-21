@@ -470,4 +470,4 @@ export {/*createCatalog, createService, createInfo, getAllServices,*/
     updateMargin, updateMarginButtonsOnList, getCurState, isAdmin, 
     getLastSubCatalog, countSubCatalogs, getPreSubCatalog, getLastSubCatalogName,
      getAllSubCatalogs, findSubCatalogByValue, removeLastQueryParam, getLastParam,
-     instructionCategory, instructionSubCategory, instructionService, instructionInfo, replaceWordsWithSpan};
+     instructionCategory, instructionSubCategory, instructionService, instructionInfo, replaceWordsWithSpan, idCreater};
