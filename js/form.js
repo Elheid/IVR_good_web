@@ -389,7 +389,8 @@ const updateFileInputAttributes = (listItem)=> {
     const uniqueId = `fileInputIcon${id}`;
     
     const fileInput = listItem.querySelector('input[type="file"]');
-    const fileLabel = listItem.querySelector('label[for="fileInputIcon1"]');
+    let fileLabel = listItem.querySelector('label.file-lable');
+    if (!fileLabel) fileLabel = listItem.querySelector('label[for="fileInputIcon2"]');
 
     if (fileInput && fileLabel) {
         fileInput.id = uniqueId;
