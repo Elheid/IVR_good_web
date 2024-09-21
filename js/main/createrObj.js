@@ -334,7 +334,7 @@ const createClarLangCard = (cardParent, title, count, iconGif, word = "услу�
 
         //svgElement.classList.add('icon');
     }
-    async function loadSVG(svgUrl) {
+    async function loadSVG(svgUrl, noColorize) {
         try {
             /* const response = await fetch(svgUrl);
              const svgText = await response.text();
@@ -365,20 +365,22 @@ const createClarLangCard = (cardParent, title, count, iconGif, word = "услу�
 
             const parser = new DOMParser();
             const svgDoc = parser.parseFromString(svgText, 'image/svg+xml');
-
-            // Изменяем цвет
-            const fillElements = svgDoc.querySelectorAll('[fill]');
-            fillElements.forEach(el => {
-                el.setAttribute('fill', '#ffffff');
-            });
-
-            // Изменяем ID
             let id = cardParent.getAttribute("catalog-id");
+            // Изменяем цвет
+            if (!noColorize)
+            {   
+                const fillElements = svgDoc.querySelectorAll('[fill]');
+                fillElements.forEach(el => {
+                    el.setAttribute('fill', '#ffffff');
+                });
+                svgDoc.documentElement.setAttribute("id", id);
+                svgDoc.documentElement.style = "fill:white;"
+            }
+            // Изменяем ID
+
             if (window.location.href.includes("catalog") || window.location.href.includes("query")) {
                 id = cardParent.getAttribute("service-id");
             }
-            svgDoc.documentElement.setAttribute("id", id);
-            svgDoc.documentElement.style = "fill:white;"
             // Создаем новый URL для модифицированного SVG
             const modifiedSvgUrl = URL.createObjectURL(new Blob([svgDoc.documentElement.outerHTML], { type: 'image/svg+xml' }));
 
@@ -402,7 +404,18 @@ const createClarLangCard = (cardParent, title, count, iconGif, word = "услу�
     }
     if (iconGif) {
         //card.setAttribute("data-iconSrc", iconGif)
-        loadSVG(svgUrl);
+        let noColorize = false;
+        if (title === "Консультация по СНИЛС"){
+            noColorize = true;
+            svgUrl = "/img/SNILS.svg"
+        } 
+        if (title ===  "Непригодность паспорта"){
+            noColorize = true;
+        }
+        if (title ===  "Невозможность проставления отметок, а также невозможность изменения сведений о детях, не достигших 14-летнего возраста,отметки о которых ранее были внесены в паспорта родителей"){
+            noColorize = true;
+        }
+        loadSVG(svgUrl, noColorize);
         //repairSvgs();
     }
     card.appendChild(iconContainer);
