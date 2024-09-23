@@ -415,6 +415,15 @@ const createClarLangCard = (cardParent, title, count, iconGif, word = "услу�
         if (title ===  "Невозможность проставления отметок, а также невозможность изменения сведений о детях, не достигших 14-летнего возраста,отметки о которых ранее были внесены в паспорта родителей"){
             noColorize = true;
         }
+        const serviceCard = cardParent.classList.contains("service-card");
+        const idServicesExceptions = [92, 91, 93, 89, 95, 121, 90]
+        if (serviceCard){
+            const serviceId = cardParent.getAttribute("service-id");
+            const isException = idServicesExceptions.includes(parseInt(serviceId));
+            if (isException){
+                noColorize = true;
+            }
+        }
         loadSVG(svgUrl, noColorize);
         //repairSvgs();
     }
