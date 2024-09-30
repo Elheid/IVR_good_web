@@ -197,18 +197,20 @@ const submitForm = async (event) => {
     }
 
     
-    const attribute = state === 'info-cards' ? 'info-id' : state === 'catalogs-list' ? "catalog-id" : "service-id";
-
+    
+    let type = state === "services-list" ? 'service' : 'catalog';
     if (isSubCatalog()){
         state = "catalogs-list";
         type = "catalog";
     }
 
+    const attribute = state === 'info-cards' ? 'info-id' : state === 'catalogs-list' ? "catalog-id" : "service-id";
+
 
     const search = new URLSearchParams(window.location.search);
     let parentId = search.get("catalog") || search.get("serviceId");
     //const addExtra = document.querySelector(".add-extra");
-    let type = state === "services-list" ? 'service' : 'catalog';
+
     const title = document.getElementById('title').value;
     const image = document.getElementById('image').value;
     const video = document.getElementById('video').value;
@@ -248,11 +250,10 @@ const submitForm = async (event) => {
         document.dispatchEvent(cardAddedEvent);
         //console.log("should added: ", newCard);
     } else {
-/*
         if (isSubCatalog()){
             state = "catalogs-list";
             type = "catalog";
-        }*/
+        }
         
         const promises = [];
 
@@ -304,16 +305,18 @@ const submitForm = async (event) => {
     
             if (description && iconLinks.length !== 0) {
                 if (state === 'services-list') {
-                    await clearServiceIcons(id).then(() => {
+                    await clearServiceIcons(id).then(async() => {
                         for (const link of iconLinks) {
-                            promises.push(addServiceIcon(id, { link }));
+                            //promises.push(addServiceIcon(id, { link }));
+                            await addAdditionIcon(id, { link });
                         }
                     });
                 }
                 if (state === 'info-cards') {
-                    promises.push(clearAdditionIcons(id).then(() => {
+                    promises.push(clearAdditionIcons(id).then(async() => {
                         for (const link of iconLinks) {
-                            promises.push(addAdditionIcon(id, { link }));
+                            //promises.push(addAdditionIcon(id, { link }));
+                            await addAdditionIcon(id, { link });
                         }
                     }));
                 }
