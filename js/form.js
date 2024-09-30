@@ -174,7 +174,7 @@ const createSendData = (state, listToAdd, type, title, image, video, resVideo, d
 
     return { newCard, sendToBd };
 };
-
+/*
 const submitForm = async (event) => {
     event.preventDefault();
     event.stopPropagation();
@@ -220,10 +220,6 @@ const submitForm = async (event) => {
     const iconLinks = resText.iconLinks;
 
     if (action === 'add') {
-        /*if (isSubCatalog()){
-            state = "catalogs-list";
-            type = "catalog";
-        }*/
         const { newCard, sendToBd } = createSendData(state, listToAdd, type, title, image, video, resVideo, description, parentId);
         if (sendToBd) {
             if (isSubCatalog()){
@@ -303,36 +299,36 @@ const submitForm = async (event) => {
                 }
             }
     
-            if (description && iconLinks.length !== 0) {
-                if (state === 'services-list') {
-                    await clearServiceIcons(id).then(async() => {
-                        for (const link of iconLinks) {
-                            //promises.push(addServiceIcon(id, { link }));
-                            await addAdditionIcon(id, { link });
-                        }
-                    });
+                if (description && iconLinks.length !== 0) {
+                    if (state === 'services-list') {
+                        const sequentialPromise = clearServiceIcons(id).then(async () => {
+                            // Выполнение функций последовательно
+                            for (const link of iconLinks) {
+                                await addServiceIcon(id, { link });
+                            }
+                        });
+                        promises.push(sequentialPromise);
+                    }
+                    
+                    if (state === 'info-cards') {
+                        const sequentialPromise = clearAdditionIcons(id).then(async () => {
+                            // Выполнение функций последовательно
+                            for (const link of iconLinks) {
+                                await addAdditionIcon(id, { link });
+                            }
+                        });
+                        promises.push(sequentialPromise);
+                    }
                 }
-                if (state === 'info-cards') {
-                    promises.push(clearAdditionIcons(id).then(async() => {
-                        for (const link of iconLinks) {
-                            //promises.push(addAdditionIcon(id, { link }));
-                            await addAdditionIcon(id, { link });
-                        }
-                    }));
-                }
-    
-            }
+
                 // Ожидаем завершения всех промисов
-                /* await*/ Promise.allSettled(promises).then(()=>{
-                /*form.removeEventListener('submit', submitForm);
-                document.getElementById('card-form-container').classList.add('hidden');
-                form.reset();
-                
-                hideLoader();*/
+                 Promise.allSettled(promises).then(()=>{
+
+                promises;
                 setTimeout(function(){
                     endFormWithLoader();
-                    window.location.reload();
-                },1000);
+                    //window.location.reload();
+                }, 1500);
 
                 //endFormWithLoader();
                 //window.location.reload();
@@ -344,9 +340,137 @@ const submitForm = async (event) => {
     if (state === "info-cards"){
         document.querySelector(".close-info").click();
     }
-   /*form.removeEventListener('submit', submitForm);
-   document.getElementById('card-form-container').classList.add('hidden');
-   form.reset();*/
+};
+
+*/
+
+const submitForm = async (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    showLoader();
+
+    const form = document.getElementById('card-form');
+    let state = getCurState();
+
+    // Определяем состояние на основе типа действия
+    if (lastClickedButton.classList.contains("edit-element-button")) {
+        state = form.classList.contains("inside-service") ? "services-list" : 'info-cards';
+    }
+
+    const targetCard = lastClickedButton.closest("li");
+    let action = targetCard?.classList.contains("card-to-add") ? 'add' : 'edit';
+    let listToAdd = targetCard?.parentNode;
+
+    let type = state === "services-list" ? 'service' : 'catalog';
+    if (isSubCatalog()) {
+        state = "catalogs-list";
+        type = "catalog";
+    }
+
+    const attribute = state === 'info-cards' ? 'info-id' : state === 'catalogs-list' ? "catalog-id" : "service-id";
+    const search = new URLSearchParams(window.location.search);
+    let parentId = search.get("catalog") || search.get("serviceId");
+
+    const title = document.getElementById('title').value;
+    const image = document.getElementById('image').value;
+    const video = document.getElementById('video').value;
+    const resVideo = document.getElementById('resVideo').value;
+    const resText = assembleDescription();
+    const description = resText.description;
+    const iconLinks = resText.iconLinks;
+
+    if (action === 'add') {
+        const { newCard, sendToBd } = createSendData(state, listToAdd, type, title, image, video, resVideo, description, parentId);
+        if (sendToBd) {
+            const currentParentId = parentId || getLastSubCatalog();
+            sendCardToBd(isSubCatalog() ? "sub-catalog" : state, sendToBd, currentParentId, iconLinks);
+        } else {
+            console.error("Error: Invalid form data.");
+        }
+        if (state === "info-cards") {
+            showInfoCard(sendToBd);
+        } else {
+            listToAdd?.appendChild(newCard);
+        }
+
+        const cardAddedEvent = new CustomEvent('newCardCreated', { detail: { card: newCard } });
+        document.dispatchEvent(cardAddedEvent);
+    } else {
+        const id = targetCard?.getAttribute(attribute) || search.get("serviceId") || document.querySelector(".additional-info-res")?.classList[1];
+        const promises = [];
+
+        const selectElement = document.getElementById('parent-id');
+        const selectedValue = selectElement?.value;
+
+        if (parentId && !selectElement.classList.contains("hidden") && selectedValue !== parentId && state !== "info-cards") {
+            await removeServiceCategory(id).then(() => {
+                addServiceCategory(id, selectedValue);
+                endFormWithLoader();
+                window.location.reload();
+            });
+        } else {
+            if (title && state === 'info-cards') promises.push(updateAdditionTitle(id, { title }));
+
+            if (image) {
+                if (state === 'catalogs-list') promises.push(updateCategoryMainIcon(id, { image }));
+                if (state === 'services-list') promises.push(updateServiceMainIcon(id, { image }));
+                if (state === 'info-cards') promises.push(updateAdditionMainIcon(id, { image }));
+            }
+
+            if (video) {
+                if (state === 'catalogs-list') promises.push(updateCategoryGifPreview(id, { video }));
+                if (state === 'services-list') promises.push(updateServiceGifPreview(id, { video }));
+                if (state === 'info-cards') promises.push(updateAdditionGifPreview(id, { video }));
+            }
+
+            if (resVideo) {
+                if (state === 'services-list') promises.push(updateServiceGif(id, { resVideo }));
+                if (state === 'info-cards') promises.push(updateAdditionGif(id, { resVideo }));
+            }
+
+            if (description) {
+                if (state === 'services-list') promises.push(updateServiceDescription(id, { description }));
+                if (state === 'info-cards') promises.push(updateAdditionDescription(id, { description }));
+            }
+
+            if (description && iconLinks.length !== 0) {
+                if (state === 'services-list') {
+                    promises.push(
+                        clearServiceIcons(id).then(async () => {
+                            for (const link of iconLinks) {
+                                await addServiceIcon(id, { link }); // Гарантируем последовательное выполнение
+                            }
+                        })
+                    );
+                }
+
+                if (state === 'info-cards') {
+                    promises.push(
+                        clearAdditionIcons(id).then(async () => {
+                            for (const link of iconLinks) {
+                                await addAdditionIcon(id, { link });
+                            }
+                        })
+                    );
+                }
+            }
+
+            await Promise.all(promises).then(() => {
+                setTimeout(() => {
+                    endFormWithLoader();
+                    form.reset();
+                    form.removeEventListener('submit', submitForm);
+
+                    setTimeout(200 ,window.location.reload());
+                }, 1500);
+            });
+        }
+    }
+
+    if (state === "info-cards") {
+        document.querySelector(".close-info").click();
+    }
 };
 
 
@@ -489,6 +613,10 @@ const iconInsertAndChange = (element)=>{
 const addNewResBlockWithText = (blockOfText, iconLinks = null)=>{
     const event = new Event('input-textarea');
     const list = document.querySelector(".res-text-parts.list");
+    if (list.childNodes.length > blockOfText.length){
+        console.log(list.childNodes.length, blockOfText.length)
+        return;
+    }
     const first = list.children[0];
     for (let i = 0; i < blockOfText.length; i++){
         const block = splitString(blockOfText[i]);

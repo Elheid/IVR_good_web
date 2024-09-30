@@ -144,7 +144,7 @@ const loadById = (route, id, errorText, method = Method.GET, body = null) =>
     },
   })
     .then((response) => {
-      if (!response.ok) {
+      if (!response.  ok) {
         throw new Error();
       }
       //return response.json();
