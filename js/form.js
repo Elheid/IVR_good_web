@@ -305,16 +305,18 @@ const submitForm = async (event) => {
     
             if (description && iconLinks.length !== 0) {
                 if (state === 'services-list') {
-                    await clearServiceIcons(id).then(() => {
+                    await clearServiceIcons(id).then(async() => {
                         for (const link of iconLinks) {
-                            promises.push(addServiceIcon(id, { link }));
+                            //promises.push(addServiceIcon(id, { link }));
+                            await addAdditionIcon(id, { link });
                         }
                     });
                 }
                 if (state === 'info-cards') {
-                    promises.push(clearAdditionIcons(id).then(() => {
+                    promises.push(clearAdditionIcons(id).then(async() => {
                         for (const link of iconLinks) {
-                            promises.push(addAdditionIcon(id, { link }));
+                            //promises.push(addAdditionIcon(id, { link }));
+                            await addAdditionIcon(id, { link });
                         }
                     }));
                 }
