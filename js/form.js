@@ -343,7 +343,7 @@ const submitForm = async (event) => {
                         promises.push(sequentialPromise);
                     }
                 }
-                
+
                 // Ожидаем завершения всех промисов
                 /* await*/ Promise.allSettled(promises).then(()=>{
                 /*form.removeEventListener('submit', submitForm);
@@ -354,7 +354,7 @@ const submitForm = async (event) => {
                 setTimeout(function(){
                     endFormWithLoader();
                     window.location.reload();
-                },1000);
+                }, 1500);
 
                 //endFormWithLoader();
                 //window.location.reload();
