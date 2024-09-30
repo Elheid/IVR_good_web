@@ -303,25 +303,47 @@ const submitForm = async (event) => {
                 }
             }
     
-            if (description && iconLinks.length !== 0) {
+            /*if (description && iconLinks.length !== 0) {
                 if (state === 'services-list') {
-                    await clearServiceIcons(id).then(async() => {
+                    clearServiceIcons(id).then(async() => {
                         for (const link of iconLinks) {
-                            //promises.push(addServiceIcon(id, { link }));
-                            await addAdditionIcon(id, { link });
+                            promises.push(addServiceIcon(id, { link }));
+                            //await addAdditionIcon(id, { link });
                         }
                     });
                 }
                 if (state === 'info-cards') {
                     promises.push(clearAdditionIcons(id).then(async() => {
                         for (const link of iconLinks) {
-                            //promises.push(addAdditionIcon(id, { link }));
-                            await addAdditionIcon(id, { link });
+                            promises.push(addAdditionIcon(id, { link }));
+                            //await addAdditionIcon(id, { link });
                         }
                     }));
                 }
     
-            }
+            }*/
+                if (description && iconLinks.length !== 0) {
+                    if (state === 'services-list') {
+                        const sequentialPromise = clearServiceIcons(id).then(async () => {
+                            // Выполнение функций последовательно
+                            for (const link of iconLinks) {
+                                await addServiceIcon(id, { link });
+                            }
+                        });
+                        promises.push(sequentialPromise);
+                    }
+                    
+                    if (state === 'info-cards') {
+                        const sequentialPromise = clearAdditionIcons(id).then(async () => {
+                            // Выполнение функций последовательно
+                            for (const link of iconLinks) {
+                                await addAdditionIcon(id, { link });
+                            }
+                        });
+                        promises.push(sequentialPromise);
+                    }
+                }
+                
                 // Ожидаем завершения всех промисов
                 /* await*/ Promise.allSettled(promises).then(()=>{
                 /*form.removeEventListener('submit', submitForm);
