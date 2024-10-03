@@ -24,7 +24,11 @@ const refreshToken = (methodName = "POST") => {
             return response.json();
         })
         .catch((error) => {
-            console.error('Error details:', error);
+            //console.error('Error details:', error);
+            localStorage.removeItem('token');
+            localStorage.removeItem('refresh-token');
+            alert("Время истекло, перезайдите в аккаунт " + err);
+
             throw new Error(error);
         });
 }
