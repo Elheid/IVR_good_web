@@ -44,8 +44,7 @@
     padding-left: 50px;
 
     font-size: 24px;
-    /*white-space: break-spaces;*/
-    white-space: nowrap;
+    white-space: break-spaces;
     padding-right: 50px;
 
     font-family: "Roboto", serif;
@@ -240,7 +239,7 @@ div#popup{
     top: 0%;
     padding-top: 2vw;
     background: white;
-    z-index: 20;
+    z-index: 920;
 }
 
 .popup-title{
@@ -364,6 +363,8 @@ video{
     gap:10px;
 
     text-align: left;
+    width: 100%;
+    justify-content: flex-end;
 }
 img.icons {
     max-width: 4vw;

@@ -403,7 +403,7 @@ const submitForm = async (event) => {
         if (document.querySelector(".additional-info-res") && document.querySelector(".additional-info-res").classList[1]) {
             id = document.querySelector(".additional-info-res").classList[1];
         }
-
+        console.log(title + id);
         const promises = [];
 
         const selectElement = document.getElementById('parent-id');
@@ -468,14 +468,10 @@ const submitForm = async (event) => {
                     form.reset();
                     form.removeEventListener('submit', submitForm);
 
-                    setTimeout(200, window.location.reload());
-                }, 1500);
+                    window.location.reload();
+                }, 2000);
             });
         }
-    }
-
-    if (state === "info-cards") {
-        document.querySelector(".close-info").click();
     }
 };
 
@@ -966,6 +962,11 @@ const endFormWithLoader = () => {
     document.getElementById('card-form-container').classList.add('hidden');
     form.reset();
     hideLoader();
+
+    setTimeout(function(){
+        window.location.reload();
+    }, 150);
+
 }
 
 const getDescription = (targetCard = null) => {
