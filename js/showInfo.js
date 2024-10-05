@@ -82,6 +82,11 @@ const showAdditionalInfo = (temp)=>{
 
 const removeAdditionalInfo = ()=>{
     const container = document.querySelector(".additional-info-res");
+    container.classList.forEach(className => {
+        if (className !== "additional-info-res") {
+            container.classList.remove(className);
+        }
+    });
     container.innerHTML = "";
 }
 

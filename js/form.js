@@ -403,7 +403,7 @@ const submitForm = async (event) => {
         if (document.querySelector(".additional-info-res") && document.querySelector(".additional-info-res").classList[1]) {
             id = document.querySelector(".additional-info-res").classList[1];
         }
-        console.log(title + id);
+        console.log(title + " " + id);
         const promises = [];
 
         const selectElement = document.getElementById('parent-id');
