@@ -1,4 +1,5 @@
 import { createGastrualSkeleton } from "../main/createrObj.js";
+import { getCurState } from "../util.js";
 
 const determineSkeleton = ()=>{
     const catalog = document.querySelector(".catalogs")
@@ -79,6 +80,12 @@ const addSkeletons = ()=>{
 document.addEventListener("catalog-click", addSkeletons);
 document.addEventListener("catalog-click", (event)=> updateSkeletonElementCount(event.detail.children))
 
+
+document.addEventListener("DOMContentLoaded", addSkeletons);
+document.addEventListener("DOMContentLoaded", (event)=> {
+    if (getCurState()=='catalogs-list') updateSkeletonElementCount(1)
+    else updateSkeletonElementCount(6)
+})
 
 const hideSkeletonsAndReplace = (classToReplace)=>{
     const skeleton = determineSkeleton();
